@@ -1,45 +1,27 @@
-# Extend the default sub-set of linter/analyzer rules used in google3.
-include: package:pedantic/analysis_options.yaml
+include: package:lints/recommended.yaml
 
 analyzer:
-  strong-mode:
-    implicit-casts: false
-  language:
-    strict-raw-types: true
+  # language:
+  #   strict-casts: true
+  #   strict-inference: true
+  #   strict-raw-types: true
   errors:
-    # Permanent inclusions: These are optional hints that are not default on.
-    unused_element: warning
-    unused_field: warning
-    unused_local_variable: warning
-
-    # Permanent exclusions: Unlikely to removed.
-    # =====================
-    # Allow importing .template.dart files without an [explicit] analyzer error.
-    uri_has_not_been_generated: ignore
-    # Ignore our own deprecated symbols (too noisy).
-    deprecated_member_use_from_same_package: ignore
-    # Allow having TODOs in the code (too noisy).
     todo: ignore
-
-    # Security exclusions: We are security reviewed separate from these lints.
-    # =====================
-    unsafe_html: ignore
-
-    # Temporary exclusions: Can be removed in the future.
-    # =====================
-    # Re-enable once we no longer have 200+ analyzer related deprecations.
-    deprecated_member_use: ignore
-    # Re-enable this once unused parameters are exempted (e.g. callback(_) {}).
-    inference_failure_on_untyped_parameter: ignore
+  # strong-mode:
+  #   implicit-casts: false
+  #   implicit-dynamic: false
 
 linter:
   rules:
-    # Permanent inclusions: These are optional lints that are not default true.
-    - hash_and_equals
-    - iterable_contains_unrelated_type
-    - list_remove_unrelated_type
-    - overridden_fields
-    - prefer_function_declarations_over_variables
-    - prefer_initializing_formals
-    - prefer_void_to_null
-    - unnecessary_statements
+    - always_declare_return_types
+    - always_put_control_body_on_new_line
+    - avoid_dynamic_calls
+    - avoid_escaping_inner_quotes
+    - avoid_print
+    - avoid_void_async
+    - directives_ordering
+    - prefer_single_quotes
+    - unnecessary_final
+    - unnecessary_lambdas
+    - unnecessary_parenthesis
+    - unnecessary_raw_strings

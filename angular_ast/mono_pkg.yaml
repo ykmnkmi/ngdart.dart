@@ -1,12 +1,9 @@
-dart:
-#- 2.12.0
-- dev
+sdk:
+  - 2.14.4
 
 stages:
-- analyze:
-  # Not running with --fatal-infos on dev due to some weird null checks
-  - analyze
-- build:
-  - command: pub run build_runner build --fail-on-severe
-- unit_test:
-  - command: pub run build_runner test --fail-on-severe -- -P ci
+  - analyze:
+      - group:
+          - analyze
+  - unit_test:
+      - command: dart test -P ci

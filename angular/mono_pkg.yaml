@@ -1,0 +1,7 @@
+sdk:
+  - 2.14.4
+
+stages:
+  - analyze:
+      - group:
+          - analyze

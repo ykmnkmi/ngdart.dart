@@ -1,9 +1,9 @@
-dart:
-- dev
+sdk:
+  - 2.14.4
 
 stages:
-- build:
-  - command: pub run build_runner build --fail-on-severe
-- unit_test:
-  - command: pub run test -P vm
-  - command: pub run build_runner test --fail-on-severe -- -P browser
+  - build:
+      - command: dart run build_runner build --fail-on-severe
+  - unit_test:
+      - command: dart test -P vm
+      - command: dart run build_runner test --fail-on-severe -- -P browser

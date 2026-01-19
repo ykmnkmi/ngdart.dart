@@ -1,5 +1,5 @@
 #!/bin/bash
-# Created with package:mono_repo v5.0.2
+# Created with package:mono_repo v6.2.2
 
 # Support built in commands on windows out of the box.
 # When it is a flutter repo (check the pubspec.yaml for "sdk: flutter")
@@ -67,13 +67,9 @@ for PKG in ${PKGS}; do
       echo
       echo -e "\033[1mPKG: ${PKG}; TASK: ${TASK}\033[22m"
       case ${TASK} in
-      analyze_0)
+      analyze)
         echo 'dart analyze'
         dart analyze || EXIT_CODE=$?
-        ;;
-      analyze_1)
-        echo 'dart analyze --fatal-infos'
-        dart analyze --fatal-infos || EXIT_CODE=$?
         ;;
       command_0)
         echo 'pub run build_runner build --fail-on-severe'
@@ -88,6 +84,10 @@ for PKG in ${PKGS}; do
         pub run build_runner test --fail-on-severe -- -P browser || EXIT_CODE=$?
         ;;
       command_3)
+        echo 'dart test -P ci'
+        dart test -P ci || EXIT_CODE=$?
+        ;;
+      command_4)
         echo 'pub run build_runner test --fail-on-severe -- -P ci'
         pub run build_runner test --fail-on-severe -- -P ci || EXIT_CODE=$?
         ;;
