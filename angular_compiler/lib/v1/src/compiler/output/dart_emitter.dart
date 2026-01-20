@@ -301,7 +301,7 @@ class _DartEmitterVisitor extends AbstractEmitterVisitor
     } else {
       context.println(' {');
       context.incIndent();
-      visitAllStatements(ctorStmts as List<o.Statement>, context);
+      visitAllStatements(ctorStmts, context);
       context.decIndent();
       context.println('}');
     }
@@ -321,7 +321,7 @@ class _DartEmitterVisitor extends AbstractEmitterVisitor
     _visitParams(method.params, context);
     context.println(') {');
     context.incIndent();
-    visitAllStatements(method.body as List<o.Statement>, context);
+    visitAllStatements(method.body, context);
     context.decIndent();
     context.println('}');
   }

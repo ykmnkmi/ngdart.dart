@@ -930,7 +930,7 @@ class Constructor extends ClassMethod {
 class ClassMethod extends AbstractClassPart {
   String? name;
   List<FnParam> params;
-  List<Statement?> body;
+  List<Statement> body;
   ClassMethod(
     this.name,
     this.params,
