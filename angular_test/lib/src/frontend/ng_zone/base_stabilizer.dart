@@ -1,9 +1,8 @@
 import 'dart:async';
 
+import 'package:angular/angular.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
-import 'package:pedantic/pedantic.dart';
-import 'package:angular/angular.dart';
 
 import '../stabilizer.dart';
 
