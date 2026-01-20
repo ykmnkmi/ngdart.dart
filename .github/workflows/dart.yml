@@ -1,4 +1,4 @@
-# Created with package:mono_repo v6.2.2
+# Created with package:mono_repo v5.0.5
 name: Dart CI
 on:
   push:
@@ -21,10 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:stable"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:stable"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
@@ -32,30 +32,30 @@ jobs:
         with:
           sdk: stable
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - name: mono_repo self validate
-        run: dart pub global activate mono_repo 6.2.2
+        run: dart pub global activate mono_repo 5.0.5
       - name: mono_repo self validate
         run: dart pub global run mono_repo generate --validate
   job_002:
-    name: "analyze; PKGS: angular, angular_ast, angular_compiler, angular_forms, angular_router, angular_test, examples\\hello_world; `dart analyze`"
+    name: "analyze; PKGS: angular, angular_ast, angular_compiler, angular_forms, angular_router, angular_test; `dart analyze`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-examples\\hello_world;commands:analyze"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test;commands:analyze"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-examples\hello_world
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_pub_upgrade
         name: angular; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -110,34 +110,25 @@ jobs:
         if: "always() && steps.angular_test_pub_upgrade.conclusion == 'success'"
         working-directory: angular_test
         run: dart analyze
-      - id: "examples\\hello_world_pub_upgrade"
-        name: "examples\\hello_world; dart pub upgrade"
-        if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: "examples\\hello_world"
-        run: dart pub upgrade
-      - name: "examples\\hello_world; dart analyze"
-        if: "always() && steps.examples\\hello_world_pub_upgrade.conclusion == 'success'"
-        working-directory: "examples\\hello_world"
-        run: dart analyze
   job_003:
     name: "build; PKG: _tests; `dart run build_runner build --fail-on-severe`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:_tests;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:_tests;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: _tests_pub_upgrade
         name: _tests; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -155,20 +146,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_compiler;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_compiler;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_compiler
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_compiler
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_compiler_pub_upgrade
         name: angular_compiler; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -186,20 +177,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_forms;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_forms;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_forms_pub_upgrade
         name: angular_forms; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -217,20 +208,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_router;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_router;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_router_pub_upgrade
         name: angular_router; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -248,20 +239,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_test;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_test;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_test_pub_upgrade
         name: angular_test; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -275,55 +266,24 @@ jobs:
       - job_001
       - job_002
   job_008:
-    name: "build; PKG: examples\\hello_world; `pub run build_runner build --fail-on-severe`"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
-        with:
-          path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:examples\\hello_world;commands:command_5"
-          restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:examples\hello_world
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
-            os:ubuntu-latest;pub-cache-hosted
-            os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
-        with:
-          sdk: "2.14.4"
-      - id: checkout
-        uses: actions/checkout@v3
-      - id: "examples\\hello_world_pub_upgrade"
-        name: "examples\\hello_world; dart pub upgrade"
-        if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: "examples\\hello_world"
-        run: dart pub upgrade
-      - name: "examples\\hello_world; pub run build_runner build --fail-on-severe"
-        if: "always() && steps.examples\\hello_world_pub_upgrade.conclusion == 'success'"
-        working-directory: "examples\\hello_world"
-        run: pub run build_runner build --fail-on-severe
-    needs:
-      - job_001
-      - job_002
-  job_009:
     name: "unit_test; PKG: _tests; `dart run build_runner test --fail-on-severe -- -P browser`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:_tests;commands:command_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:_tests;commands:command_2"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: _tests_pub_upgrade
         name: _tests; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -341,26 +301,25 @@ jobs:
       - job_005
       - job_006
       - job_007
-      - job_008
-  job_010:
+  job_009:
     name: "unit_test; PKG: _tests; `dart test -P vm`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:_tests;commands:command_1"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:_tests;commands:command_1"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: _tests_pub_upgrade
         name: _tests; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -378,26 +337,25 @@ jobs:
       - job_005
       - job_006
       - job_007
-      - job_008
-  job_011:
+  job_010:
     name: "unit_test; PKG: angular_ast; `dart test -P ci`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_ast;commands:command_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_ast;commands:command_3"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_ast
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_ast
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_ast_pub_upgrade
         name: angular_ast; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -415,26 +373,25 @@ jobs:
       - job_005
       - job_006
       - job_007
-      - job_008
-  job_012:
+  job_011:
     name: "unit_test; PKG: angular_compiler; `dart run build_runner test --fail-on-severe -- -P ci`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_compiler;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_compiler;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_compiler
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_compiler
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_compiler_pub_upgrade
         name: angular_compiler; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -452,26 +409,25 @@ jobs:
       - job_005
       - job_006
       - job_007
-      - job_008
-  job_013:
+  job_012:
     name: "unit_test; PKG: angular_forms; `dart run build_runner test --fail-on-severe -- -P ci`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_forms;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_forms;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_forms_pub_upgrade
         name: angular_forms; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -489,26 +445,25 @@ jobs:
       - job_005
       - job_006
       - job_007
-      - job_008
-  job_014:
+  job_013:
     name: "unit_test; PKG: angular_router; `dart run build_runner test --fail-on-severe -- -P ci`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_router;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_router;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_router_pub_upgrade
         name: angular_router; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -526,26 +481,25 @@ jobs:
       - job_005
       - job_006
       - job_007
-      - job_008
-  job_015:
+  job_014:
     name: "unit_test; PKG: angular_test; `dart run build_runner test --fail-on-severe -- -P ci`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_test;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_test;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.14.4
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;dart:2.14.4
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: "2.14.4"
       - id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2.4.0
       - id: angular_test_pub_upgrade
         name: angular_test; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -563,4 +517,3 @@ jobs:
       - job_005
       - job_006
       - job_007
-      - job_008

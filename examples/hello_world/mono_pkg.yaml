@@ -1,9 +1,0 @@
-sdk:
-  - 2.14.4
-
-stages:
-  - analyze:
-      - group:
-          - analyze
-  - build:
-      - command: pub run build_runner build --fail-on-severe
