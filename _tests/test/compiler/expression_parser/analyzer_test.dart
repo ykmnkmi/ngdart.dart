@@ -9,7 +9,7 @@ import 'package:angular_compiler/v1/src/compiler/expression_parser/parser.dart';
 import 'unparser.dart';
 
 const _isParseException = TypeMatcher<ParseException>();
-const _throwsParseException = Throws(_isParseException);
+final _throwsParseException = throwsA(_isParseException);
 
 void main() {
   final parser = AnalyzerExpressionParser();

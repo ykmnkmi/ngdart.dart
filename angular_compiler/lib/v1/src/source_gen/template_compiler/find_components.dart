@@ -441,7 +441,7 @@ class _ComponentVisitor
   PropertyAccessorElement? _setterFor(Element element) {
     // Resolves specified generic type parameters.
     final setter = _directiveClassElement!.thisType
-        .lookUpInheritedSetter(element.displayName)!;
+        .lookUpSetter2(element.displayName, element.library!)!;
     if (setter.parameters.isEmpty) {
       CompileContext.current.reportAndRecover(
         BuildError.forElement(

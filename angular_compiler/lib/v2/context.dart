@@ -161,8 +161,7 @@ abstract class CompileContext {
     return context as CompileContext;
   }
 
-  @alwaysThrows
-  static void _failNoCompileContextConfigured() {
+  static Never _failNoCompileContextConfigured() {
     var errorMessage = 'No CompileContext configured.';
     if (isDevMode) {
       errorMessage = ''

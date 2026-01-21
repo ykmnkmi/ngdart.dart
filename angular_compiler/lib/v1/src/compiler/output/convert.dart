@@ -60,7 +60,7 @@ o.OutputType? fromDartType(DartType? dartType, {bool resolveBounds = true}) {
   }
   var outputType = o.ExternalType(
     CompileIdentifierMetadata(
-      name: dartType.name!,
+      name: dartType.element!.name!,
       moduleUrl: moduleUrl(dartType.element!),
       // Most o.ExternalTypes are not created, but those that are (like
       // OpaqueToken<...> need this generic type.

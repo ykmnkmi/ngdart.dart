@@ -180,9 +180,9 @@ void main() {
       return result.map((o) {
         var value = o.toTypeValue();
         if (value != null) {
-          return value.name;
+          return value.element!.name!;
         }
-        return o.getField('token')!.toTypeValue()!.name;
+        return o.getField('token')!.toTypeValue()!.element!.name!;
       }).join(', ');
     }
 
