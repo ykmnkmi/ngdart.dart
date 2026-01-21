@@ -21,8 +21,9 @@ abstract class RecursiveTemplateVisitor<C>
     return results;
   }
 
-  T? visit<T extends TemplateAst>(T? astNode, [C? context]) =>
-      astNode?.visit(this, context) as T;
+  T? visit<T extends TemplateAst>(T? astNode, [C? context]) {
+    return astNode?.visit(this, context) as T?;
+  }
 
   @override
   @mustCallSuper
