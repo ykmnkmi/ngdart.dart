@@ -1,6 +1,7 @@
 import 'dart:io';
 
-final packageEntryRe = RegExp('^  (\\w+): (.+)\$', multiLine: true);
+final packageEntryRe = RegExp('^  (\\w+): (.+)', multiLine: true);
+final versionEntryRe = RegExp('^(\\w+): ([^#]+)?', multiLine: true);
 
 void main() {
   var versionsUri = Uri(path: 'tool/package_versions.yaml');
@@ -14,8 +15,11 @@ void main() {
       continue;
     }
 
-    var parts = version.split(':');
-    versions[parts[0]] = parts[1].trimLeft();
+    var match = versionEntryRe.firstMatch(version);
+
+    if (match != null) {
+      versions[match[1]!] = match[2]!.trim();
+    }
   }
 
   var entities = Directory.current.listSync();

@@ -14,7 +14,7 @@ dependencies:
   built_collection: ^5.1.1
   built_value: ^8.8.0
   collection: ^1.17.0
-  intl: ^0.17.0
+  intl: ^0.18.1
   js: ^0.6.3
   lints: ^1.0.1
   meta: ">=1.9.1 <1.10.0"

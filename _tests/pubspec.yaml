@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   analyzer: ^3.4.1
   angular_forms: ^4.0.1
-  build_runner: ^2.2.0
+  build_runner: ">=2.2.0 <2.2.1"
   build_test: ^2.1.5
   build_web_compilers:
   lints: ^1.0.1
