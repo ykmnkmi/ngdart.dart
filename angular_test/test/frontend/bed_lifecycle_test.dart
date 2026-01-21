@@ -22,7 +22,7 @@ void main() {
     // We are going to verify that the document root has a new node created (our
     // component), the node is updated (after change detection), and after
     // destroying the test the document root has been cleared.
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<AngularLifecycle>(
       ng.createAngularLifecycleFactory(),
       host: testRoot,
     );
@@ -36,7 +36,7 @@ void main() {
   });
 
   test('should invoke ngAfterChanges, then ngOnInit', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<NgAfterChangesInitOrder>(
       ng.createNgAfterChangesInitOrderFactory(),
     ).create(
       beforeChangeDetection: (root) => root.name = 'Hello',
@@ -50,7 +50,7 @@ void main() {
   test(
       'should invoke ngAfterChanges with asynchronous beforeChangeDetection,'
       ' then ngOnInit', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<NgAfterChangesInitOrder>(
       ng.createNgAfterChangesInitOrderFactory(),
     ).create(
       beforeChangeDetection: (root) async => root.name = 'Hello',

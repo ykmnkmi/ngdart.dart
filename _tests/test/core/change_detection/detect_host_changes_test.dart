@@ -16,7 +16,7 @@ void main() {
   tearDown(() => disposeAnyRunningTest());
 
   test('Should update bound properties when setState is called', () async {
-    var testBed = NgTestBed(ng.createTestContainerFactory());
+    var testBed = NgTestBed<TestContainer>(ng.createTestContainerFactory());
     var testRoot = await testBed.create();
     var targetElement = testRoot.rootElement.querySelector('.mytarget')!;
     expect(targetElement.firstChild!.text, 'ChildHello');

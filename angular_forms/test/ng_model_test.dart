@@ -13,7 +13,7 @@ void main() {
     late NgTestFixture<NgModelTest> fixture;
 
     setUp(() async {
-      final testBed = NgTestBed(ng.createNgModelTestFactory());
+      final testBed = NgTestBed<NgModelTest>(ng.createNgModelTestFactory());
       fixture = await testBed.create();
     });
 
@@ -47,8 +47,8 @@ void main() {
     late NgModelWithNgDisabledTestComponent component;
 
     setUp(() async {
-      final testBed =
-          NgTestBed(ng.createNgModelWithNgDisabledTestComponentFactory());
+      final testBed = NgTestBed<NgModelWithNgDisabledTestComponent>(
+          ng.createNgModelWithNgDisabledTestComponentFactory());
       fixture = await testBed.create();
       component = fixture.assertOnlyInstance;
     });
@@ -66,7 +66,7 @@ void main() {
   });
 
   test('throws when violating the checkBinding contract', () async {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<NgModelWithCheckBindingTest>(
       ng.createNgModelWithCheckBindingTestFactory(),
     );
 

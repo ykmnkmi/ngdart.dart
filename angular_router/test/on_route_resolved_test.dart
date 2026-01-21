@@ -13,9 +13,7 @@ void main() {
 
   group('Router.onRouteResolved', () {
     test('fires on navigation', () async {
-      final testBed = NgTestBed(
-        ng.createTestComponentFactory(),
-      );
+      final testBed = NgTestBed<TestComponent>(ng.createTestComponentFactory());
       final testFixture = await testBed.create();
       final router = testFixture.assertOnlyInstance.router;
       await expectLater(
@@ -28,7 +26,7 @@ void main() {
     });
 
     test("doesn't fire when navigation is prohibited", () async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<TestComponent>(
         ng.createTestComponentFactory(),
       ).addInjector((i) => Injector.map({canNavigateToken: false}, i));
       final testFixture = await testBed.create();
@@ -40,7 +38,7 @@ void main() {
     });
 
     test('fires when deactivation is prohibited', () async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<TestComponent>(
         ng.createTestComponentFactory(),
       ).addInjector((i) => Injector.map({canDeactivateToken: false}, i));
       final testFixture = await testBed.create();
@@ -55,9 +53,7 @@ void main() {
     });
 
     test('fires on popstate', () async {
-      final testBed = NgTestBed(
-        ng.createTestComponentFactory(),
-      );
+      final testBed = NgTestBed<TestComponent>(ng.createTestComponentFactory());
       final testFixture = await testBed.create();
       final router = testFixture.assertOnlyInstance.router;
       final locationStrategy = testFixture.assertOnlyInstance.locationStrategy;
@@ -68,9 +64,7 @@ void main() {
     });
 
     test('fires only once on redirect', () async {
-      final testBed = NgTestBed(
-        ng.createTestComponentFactory(),
-      );
+      final testBed = NgTestBed<TestComponent>(ng.createTestComponentFactory());
       final testFixture = await testBed.create();
       final router = testFixture.assertOnlyInstance.router;
       await expectLater(

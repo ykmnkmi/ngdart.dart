@@ -14,7 +14,7 @@ void main() {
 
   group('Event handler', () {
     setUp(() async {
-      final testBed = NgTestBed(ng.createClickHandlerFactory());
+      final testBed = NgTestBed<ClickHandler>(ng.createClickHandlerFactory());
       fixture = await testBed.create();
     });
 
@@ -184,8 +184,8 @@ void main() {
 
   // All exceptions thrown in event listeners should be caught for logging.
   test('should be able to catch a thrown event listener error', () async {
-    final testBed =
-        NgTestBed(ng.createComponentWithHostEventThatThrowsFactory());
+    final testBed = NgTestBed<ComponentWithHostEventThatThrows>(
+        ng.createComponentWithHostEventThatThrowsFactory());
     final fixture = await testBed.create();
     expect(
       fixture.update((_) => fixture.rootElement.click()),

@@ -39,7 +39,7 @@ void main() {
 
     setUp(() {
       testService = null;
-      testBed = NgTestBed(
+      testBed = NgTestBed<AngularInjector>(
         ng.createAngularInjectorFactory(),
         host: testRoot,
         rootInjector: (i) => Injector.map({TestService: TestService()}, i),

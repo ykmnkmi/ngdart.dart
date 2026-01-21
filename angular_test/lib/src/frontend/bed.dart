@@ -146,7 +146,7 @@ class NgTestBed<T extends Object> {
   ///
   /// ```dart
   /// void main() {
-  ///   final ngTestBed = NgTestBed(
+  ///   final ngTestBed = NgTestBed<SomeComponent>(
   ///     SomeComponentNgFactory,
   ///     rootInjector: ([parent]) => new Injector.map({
   ///       Service: new Service(),

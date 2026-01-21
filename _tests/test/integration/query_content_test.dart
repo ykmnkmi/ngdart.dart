@@ -11,7 +11,9 @@ void main() {
   group('List', () {
     testContentChildren(
       contentChildren: TestCase(
-        NgTestBed(ng.createTestContentChildrenListFactory()),
+        NgTestBed<TestContentChildrenList>(
+          ng.createTestContentChildrenListFactory(),
+        ),
         [1, 2, 3],
       ),
     );

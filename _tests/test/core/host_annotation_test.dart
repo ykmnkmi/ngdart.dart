@@ -13,7 +13,7 @@ void main() {
   Future<Element> rootElementOf<T extends Object>(
     ComponentFactory<T> component,
   ) {
-    final testBed = NgTestBed(component);
+    final testBed = NgTestBed<T>(component);
     return testBed.create().then((fixture) => fixture.rootElement);
   }
 
@@ -83,7 +83,7 @@ void main() {
     });
 
     test('should support conditional attributes', () async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<HostBindingConditionalAttribute>(
         ng.createHostBindingConditionalAttributeFactory(),
       );
       final fixture = await testBed.create();
@@ -101,7 +101,7 @@ void main() {
     });
 
     test('should support conditional attributes on static members', () async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<HostBindingConditionalStatics>(
         ng.createHostBindingConditionalStaticsFactory(),
       );
       final fixture = await testBed.create();
@@ -111,7 +111,7 @@ void main() {
     });
 
     test('should support conditional classes', () async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<HostBindingConditionalClass>(
         ng.createHostBindingConditionalClassFactory(),
       );
       final fixture = await testBed.create();
@@ -134,7 +134,7 @@ void main() {
 
   group('@HostListener', () {
     test('should support click', () async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<HostListenerClick>(
         ng.createHostListenerClickFactory(),
       );
       final fixture = await testBed.create();
@@ -143,7 +143,7 @@ void main() {
     });
 
     test('should support click through inheritance', () async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<HostListenerInheritedClick>(
         ng.createHostListenerInheritedClickFactory(),
       );
       final fixture = await testBed.create();
@@ -152,7 +152,7 @@ void main() {
     });
 
     test('should support multiple annotations on a single field', () async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<HostListenerMulti>(
         ng.createHostListenerMultiFactory(),
       );
       final fixture = await testBed.create();

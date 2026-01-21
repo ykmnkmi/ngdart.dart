@@ -18,7 +18,7 @@ void main() {
     Future<void> testComponent(
       ComponentFactory<Object> componentFactory,
     ) async {
-      final testBed = NgTestBed(
+      final testBed = NgTestBed<Object>(
         componentFactory,
         rootInjector: (parent) {
           return Injector.map({MutableState: state}, parent);

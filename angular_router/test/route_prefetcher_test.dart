@@ -12,8 +12,9 @@ void main() {
   late NgTestBed<AppComponent> testBed;
 
   setUp(() {
-    testBed =
-        NgTestBed(ng.createAppComponentFactory()).addInjector(appInjector);
+    testBed = NgTestBed<AppComponent>(
+      ng.createAppComponentFactory(),
+    ).addInjector(appInjector);
   });
 
   tearDown(disposeAnyRunningTest);

@@ -10,7 +10,7 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should call ngDoCheck initially', () async {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<TestDoCheckHook>(
       ng.createTestDoCheckHookFactory(),
     );
     final fixture = await testBed.create(
@@ -20,7 +20,7 @@ void main() {
   });
 
   test('should call input setters initially', () async {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<TestDoCheckSetter>(
       ng.createTestDoCheckSetterFactory(),
     );
     final fixture = await testBed.create(
@@ -30,7 +30,7 @@ void main() {
   });
 
   test('should call ngDoCheck after each update', () async {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<TestDoCheckHook>(
       ng.createTestDoCheckHookFactory(),
     );
     final fixture = await testBed.create(
@@ -43,7 +43,7 @@ void main() {
   });
 
   test('should call input setters only when changed', () async {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<TestDoCheckSetter>(
       ng.createTestDoCheckSetterFactory(),
     );
     final fixture = await testBed.create(

@@ -14,7 +14,7 @@ void main() {
   late NgTestBed<TestComponent> testBed;
 
   setUp(() {
-    testBed = NgTestBed(ng.createTestComponentFactory());
+    testBed = NgTestBed<TestComponent>(ng.createTestComponentFactory());
   });
 
   tearDown(disposeAnyRunningTest);

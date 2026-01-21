@@ -12,7 +12,7 @@ void main() {
 
   // Regression test for https://github.com/angulardart/angular/issues/164.
   test('should update an NgForm without throwing an NPE', () async {
-    final testBed = NgTestBed(ng.createAppComponentFactory());
+    final testBed = NgTestBed<AppComponent>(ng.createAppComponentFactory());
     expect(
       (await testBed.create()).rootElement.innerHtml,
       contains(r'<input title="Input #0:true">'),

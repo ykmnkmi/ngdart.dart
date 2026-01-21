@@ -29,7 +29,7 @@ Future<void> expectTextFontStyle(
   ComponentFactory<Object> componentFactory,
   String fontStyle,
 ) async {
-  final testBed = NgTestBed(componentFactory);
+  final testBed = NgTestBed<Object>(componentFactory);
   final testFixture = await testBed.create();
   final text = testFixture.rootElement.querySelector('.text');
   expect(text!.getComputedStyle().getPropertyValue('font-style'), fontStyle);

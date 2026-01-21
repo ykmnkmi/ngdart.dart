@@ -8,8 +8,9 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should support overriding providers', () async {
-    final fixture =
-        await NgTestBed(ng.createTestViewComponentFactory()).create();
+    final fixture = await NgTestBed<TestViewComponent>(
+      ng.createTestViewComponentFactory(),
+    ).create();
     expect(fixture.text, 'Hello World');
   });
 }

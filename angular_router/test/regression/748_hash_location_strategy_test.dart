@@ -20,8 +20,10 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('browser location should match clicked href', () async {
-    final testBed = NgTestBed(ng.createAppComponentFactory(),
-        rootInjector: injectorFactory);
+    final testBed = NgTestBed<AppComponent>(
+      ng.createAppComponentFactory(),
+      rootInjector: injectorFactory,
+    );
     final testFixture = await testBed.create();
     expect(testFixture.assertOnlyInstance.anchor.getAttribute('href'), '#/foo');
     await testFixture.update((c) {

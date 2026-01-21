@@ -75,7 +75,7 @@ void main() {
     });
     group('integration', () {
       test('should work with mutable arrays', () async {
-        var testBed = NgTestBed(ng.createTestCompFactory());
+        var testBed = NgTestBed<TestComp>(ng.createTestCompFactory());
         var testFixture = await testBed.create();
         var el = testFixture.rootElement;
         var mutable = <num>[1, 2];

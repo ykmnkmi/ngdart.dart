@@ -9,7 +9,7 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should use the proper provider bindings in a hierarchy', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<TestParent>(
       ng.createTestParentFactory(),
     ).create();
     late final B serviceB;
@@ -31,7 +31,7 @@ void main() {
   });
 
   test('should consider Provider(T) as Provider(T, useClass: T)', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<SupportsImplicitClass>(
       ng.createSupportsImplicitClassFactory(),
     ).create();
     final injector = fixture.assertOnlyInstance.injector;
@@ -42,7 +42,7 @@ void main() {
   });
 
   test('should use user-default value on ElementInjector.get', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<UsingElementInjector>(
       ng.createUsingElementInjectorFactory(),
     ).create();
     await fixture.update((comp) {
@@ -52,7 +52,7 @@ void main() {
   });
 
   test('should support MultiToken', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<SupportsMultiToken>(
       ng.createSupportsMultiTokenFactory(),
     ).create();
     expect(
@@ -62,7 +62,7 @@ void main() {
   });
 
   test('should support custom MultiToken', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<SupportsCustomMultiToken>(
       ng.createSupportsCustomMultiTokenFactory(),
     ).create();
     expect(
@@ -72,7 +72,7 @@ void main() {
   });
 
   test('should not consider Opaque/MultiToken the same token', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<NoClashTokens>(
       ng.createNoClashTokensFactory(),
     ).create();
     expect(
@@ -82,7 +82,7 @@ void main() {
   });
 
   test('should not consider tokens with different types the same', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<SupportsTypedToken>(
       ng.createSupportsTypedTokenFactory(),
     ).create();
     final value1 = fixture.assertOnlyInstance.injector.get(barTypedToken1);
@@ -94,11 +94,9 @@ void main() {
   group('should support optional values', () {
     late NgTestBed<UsingInjectAndOptional> testBed;
 
-    setUp(
-      () => testBed = NgTestBed(
-        ng.createUsingInjectAndOptionalFactory(),
-      ),
-    );
+    setUp(() => testBed = NgTestBed<UsingInjectAndOptional>(
+          ng.createUsingInjectAndOptionalFactory(),
+        ));
 
     test('when provided', () async {
       testBed = testBed.addInjector(
@@ -123,7 +121,7 @@ void main() {
   });
 
   test('should treat tokens with different names as different', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<ProperTokenIdentity>(
       ng.createProperTokenIdentityFactory(),
     ).create();
     final injector = fixture.assertOnlyInstance.injector;
@@ -132,7 +130,7 @@ void main() {
   });
 
   test('should treat unnamed tokens as acceptable', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<SupportsUnnamedToken>(
       ng.createSupportsUnnamedTokenFactory(),
     ).create();
     final injector = fixture.assertOnlyInstance.injector;
@@ -141,7 +139,7 @@ void main() {
   });
 
   test('should support nested views with typed tokens', () async {
-    var testBed = NgTestBed(
+    var testBed = NgTestBed<SupportsTypedTokenInNestedViews>(
       ng.createSupportsTypedTokenInNestedViewsFactory(),
     );
     testBed = testBed.addInjector(
@@ -154,7 +152,7 @@ void main() {
   });
 
   test('should throw a readable error message on a 1-node failure', () {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<WillFailInjecting1Node>(
       ng.createWillFailInjecting1NodeFactory(),
     );
     expect(
@@ -168,7 +166,7 @@ void main() {
   });
 
   test('should throw a readable error message on a 2-node failure', () {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<WillFailInjecting2Node>(
       ng.createWillFailInjecting2NodeFactory(),
     );
     expect(
@@ -183,7 +181,7 @@ void main() {
   });
 
   test('should throw a readable error message on a child directive', () {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<WillFailCreatingChild>(
       ng.createWillFailCreatingChildFactory(),
     );
     expect(
@@ -198,7 +196,7 @@ void main() {
   });
 
   test('should throw a readable error message in an embedded template', () {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<WillFailCreatingChildInTemplate>(
       ng.createWillFailCreatingChildInTemplateFactory(),
     );
     expect(
@@ -213,7 +211,7 @@ void main() {
   });
 
   test('should throw a readable error message when quering a child', () {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<WillFailQueryingServiceInTemplate>(
       ng.createWillFailQueryingServiceInTemplateFactory(),
     );
     expect(
@@ -228,7 +226,7 @@ void main() {
   });
 
   test('should throw a readable error message following a factory', () {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<WillFailFollowingFactoryProvider>(
       ng.createWillFailFollowingFactoryProviderFactory(),
     );
     expect(
@@ -243,7 +241,7 @@ void main() {
   });
 
   test('should throw a readable error message following $ExistingProvider', () {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<WillFailFollowingExistingProvider>(
       ng.createWillFailFollowingExistingProviderFactory(),
     );
     expect(
@@ -258,7 +256,7 @@ void main() {
   });
 
   test('should throw a readable error message on a 2-node/parent failure', () {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<WillFailInjecting2NodeParent>(
       ng.createWillFailInjecting2NodeParentFactory(),
     ).addInjector(
       (i) => ReflectiveInjector.resolveStaticAndCreate([
@@ -285,7 +283,7 @@ void main() {
   });
 
   test('should treat an OpaqueToken identical to @Inject', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<InjectsBaseUrl>(
       ng.createInjectsBaseUrlFactory(),
     ).create();
     final service = fixture.assertOnlyInstance;
@@ -293,7 +291,7 @@ void main() {
   });
 
   test('should support a custom OpaqueToken', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<InjectsXsrfToken>(
       ng.createInjectsXsrfTokenFactory(),
     ).create();
     final service = fixture.assertOnlyInstance;
@@ -301,7 +299,7 @@ void main() {
   });
 
   test('should support modules in providers: const [ ... ]', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<SupportsModules>(
       ng.createSupportsModulesFactory(),
     ).create();
     final injector = fixture.assertOnlyInstance.injector;
@@ -310,7 +308,7 @@ void main() {
   });
 
   test('should support arbitrary const values in ValueProvider', () async {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<SupportsValueProviderWithArbitraryConst>(
       ng.createSupportsValueProviderWithArbitraryConstFactory(),
     );
     final fixture = await testBed.create();
@@ -326,7 +324,7 @@ void main() {
 
   group('should support void and Null', () {
     test('in a @Component', () async {
-      final fixture = await NgTestBed(
+      final fixture = await NgTestBed<ComponentInjector>(
         ng.createComponentInjectorFactory(),
       ).create();
       expect(
@@ -370,7 +368,7 @@ void main() {
     List<Object> interfaces;
 
     test('implicit', () async {
-      testBed = NgTestBed(
+      testBed = NgTestBed<CompProvidesImplicitTypes>(
         ng.createCompProvidesImplicitTypesFactory(),
       );
       fixture = await testBed.create();
@@ -385,7 +383,7 @@ void main() {
     });
 
     test('explicit', () async {
-      testBed = NgTestBed(
+      testBed = NgTestBed<CompProvidesExplicitTypes>(
         ng.createCompProvidesExplicitTypesFactory(),
       );
       fixture = await testBed.create();
@@ -401,7 +399,7 @@ void main() {
   });
 
   test('should use the provided type with component providers', () async {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<CompProvidesUsPresidents>(
       ng.createCompProvidesUsPresidentsFactory(),
     );
     final fixture = await testBed.create();

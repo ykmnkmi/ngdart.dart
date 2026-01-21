@@ -133,8 +133,8 @@ class _GetValue<T extends ValueTest> {
   const _GetValue(this._factory);
 
   Future<void> runTest() async {
-    final fixture = await NgTestBed(_factory).create();
-    await fixture.update(expectAsync1((ValueTest comp) {
+    final fixture = await NgTestBed<T>(_factory).create();
+    await fixture.update(expectAsync1((comp) {
       expect(comp.child!.value, comp.expected);
     }));
   }

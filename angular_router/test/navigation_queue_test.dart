@@ -23,7 +23,7 @@ void main() {
     final secondCompleter = Completer<void>();
     final thirdCompleter = Completer<void>();
 
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<TestComponent>(
       ng.createTestComponentFactory(),
     ).addInjector(
       (i) => ReflectiveInjector.resolveStaticAndCreate([

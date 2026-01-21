@@ -27,7 +27,7 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should add/remove a CSS class as a route is activated', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<TestRouterLinkActive>(
       ng.createTestRouterLinkActiveFactory(),
     ).addInjector(addInjector).create(beforeChangeDetection: (component) {
       component.link = '/user/bob';
@@ -42,7 +42,7 @@ void main() {
   });
 
   test('should validate queryParams and fragment', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<TestRouterLinkActive>(
       ng.createTestRouterLinkActiveFactory(),
     ).addInjector(addInjector).create(beforeChangeDetection: (component) {
       component.link = '/user/bob?param=1#frag';
@@ -70,7 +70,7 @@ void main() {
   test(
       'should ignore the current urls queryParams and fragment if not '
       'specified in the routerLinks', () async {
-    final fixture = await NgTestBed(
+    final fixture = await NgTestBed<TestRouterLinkActive>(
       ng.createTestRouterLinkActiveFactory(),
     ).addInjector(addInjector).create(beforeChangeDetection: (component) {
       component.link = '/user/bob';

@@ -12,7 +12,7 @@ void main() {
   late NgTestFixture<AppComponent> testFixture;
 
   setUp(() async {
-    final testBed = NgTestBed(
+    final testBed = NgTestBed<AppComponent>(
       ng.createAppComponentFactory(),
       rootInjector: createInjector,
     );

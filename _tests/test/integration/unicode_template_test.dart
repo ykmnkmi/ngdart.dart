@@ -7,7 +7,7 @@ import 'unicode_template_test.template.dart' as ng;
 // Source: https://github.com/angulardart/angular/issues/233.
 void main() {
   test('should be able to compile templates with unicode', () async {
-    final testBed = NgTestBed(ng.createAppFactory());
+    final testBed = NgTestBed<App>(ng.createAppFactory());
     final fixture = await testBed.create();
     expect(
       fixture.text,

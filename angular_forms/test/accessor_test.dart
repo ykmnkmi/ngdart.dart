@@ -13,7 +13,8 @@ void main() {
     tearDown(disposeAnyRunningTest);
 
     test('should have error on invalid input', () async {
-      var testBed = NgTestBed(ng.createAccessorTestComponentFactory());
+      var testBed = NgTestBed<AccessorTestComponent>(
+          ng.createAccessorTestComponentFactory());
       var fixture = await testBed.create();
 
       await fixture.update((AccessorTestComponent c) {
@@ -28,7 +29,8 @@ void main() {
     });
 
     test('shouldn\'t have error on valid input', () async {
-      var testBed = NgTestBed(ng.createAccessorTestComponentFactory());
+      var testBed = NgTestBed<AccessorTestComponent>(
+          ng.createAccessorTestComponentFactory());
       var fixture = await testBed.create();
 
       await fixture.update((AccessorTestComponent c) {

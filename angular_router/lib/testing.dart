@@ -43,7 +43,7 @@ const routerProvidersTest = [
 /// @GenerateInjector.fromModules([routerTestModule])
 /// final InjectorFactory testInjector = ng.testInjector$Injector;
 /// ...
-/// final testBed = NgTestBed(
+/// final testBed = NgTestBed<TestComponent>(
 ///     ng.TestComponentNgFactory,
 ///     rootInjector: testInjector);
 /// ```

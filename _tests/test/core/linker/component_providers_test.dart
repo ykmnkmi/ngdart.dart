@@ -8,7 +8,7 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should only inject providers from a matched component', () async {
-    final testBed = NgTestBed(ng.createTestFactory());
+    final testBed = NgTestBed<Test>(ng.createTestFactory());
     final testFixture = await testBed.create();
     expect(testFixture.assertOnlyInstance.bar!.foo, TypeMatcher<Foo1>());
   });

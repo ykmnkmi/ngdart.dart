@@ -12,12 +12,14 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should support null @Output if mock-like', () async {
-    final testBed = NgTestBed(ng.createTestMockNotificationComponentFactory());
+    final testBed = NgTestBed<TestMockNotificationComponent>(
+        ng.createTestMockNotificationComponentFactory());
     await testBed.create();
   });
 
   test("shouldn't support null @Output if not mock-like", () async {
-    final testBed = NgTestBed(ng.createTestFakeNotificationComponentFactory());
+    final testBed = NgTestBed<TestFakeNotificationComponent>(
+        ng.createTestFakeNotificationComponentFactory());
     expect(testBed.create(), throwsA(const TypeMatcher<NoSuchMethodError>()));
   });
 }
