@@ -2,12 +2,12 @@ github:
   on:
     push:
       branches:
+        - v8html
         - master
-        - v8-html
     pull_request:
       branches:
+        - v8html
         - master
-        - v8-html
 
 self_validate: analyze
 
