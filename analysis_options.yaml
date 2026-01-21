@@ -7,6 +7,7 @@ analyzer:
   #   strict-raw-types: true
   errors:
     todo: ignore
+    uri_has_not_been_generated: info
   # strong-mode:
   #   implicit-casts: false
   #   implicit-dynamic: false
