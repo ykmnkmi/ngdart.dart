@@ -460,7 +460,7 @@ class _ComponentVisitor
     var selector = getField(value, 'selector');
     if (isNull(selector)) {
       _exceptionHandler.handle(ErrorMessageForAnnotation(annotationInfo,
-          'Missing selector argument for "@${value!.type!.name}"'));
+          'Missing selector argument for "@${value!.type!.element!.name!}"'));
       return [];
     }
     var selectorString = selector?.toStringValue();
@@ -475,14 +475,14 @@ class _ComponentVisitor
       // NOTE(deboer): This code is untested and probably unreachable.
       _exceptionHandler.handle(ErrorMessageForAnnotation(
           annotationInfo,
-          'Only a value of `String` or `Type` for "@${value!.type!.name}" is '
+          'Only a value of `String` or `Type` for "@${value!.type!.element!.name!}" is '
           'supported'));
       return [];
     }
     return [
       CompileTokenMetadata(
         identifier: CompileIdentifierMetadata(
-          name: selectorType.name!,
+          name: selectorType.element!.name!,
           moduleUrl: moduleUrl(selectorType.element!),
         ),
       ),
@@ -514,7 +514,7 @@ class _ComponentVisitor
       read: readType != null
           ? CompileTokenMetadata(
               identifier: CompileIdentifierMetadata(
-                name: readType.displayName,
+                name: readType.getDisplayString(withNullability: false),
                 moduleUrl: moduleUrl(readType.element!),
               ),
             )
