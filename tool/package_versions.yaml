@@ -1,4 +1,4 @@
-sdk: 2.14.4
+sdk: 2.15.1
 
 analyzer: ^2.8.0
 angular: ^7.0.2

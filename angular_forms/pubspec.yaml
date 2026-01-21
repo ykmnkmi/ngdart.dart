@@ -4,7 +4,7 @@ repository: https://github.com/angulardart/angular
 version: 4.0.1
 
 environment:
-  sdk: 2.14.4
+  sdk: 2.15.1
 
 dependencies:
   angular: ^7.0.2

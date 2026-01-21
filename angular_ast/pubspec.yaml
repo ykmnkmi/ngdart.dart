@@ -4,7 +4,7 @@ version: 2.0.1
 repository: https://github.com/angulardart/angular
 
 environment:
-  sdk: 2.14.4
+  sdk: 2.15.1
 
 dependencies:
   analyzer: ^2.8.0
