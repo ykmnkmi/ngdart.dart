@@ -37,8 +37,7 @@ o.OutputType? fromDartType(DartType? dartType, {bool resolveBounds = true}) {
   }
   if (dartType is TypeParameterType && resolveBounds) {
     // Resolve generic type to its bound or dynamic if it has none.
-    final dynamicType = dartType.element.library!.typeProvider.dynamicType;
-    dartType = dartType.resolveToBound(dynamicType);
+    dartType = dartType.element.library!.typeSystem.resolveToBound(dartType);
   }
   // Note this check for dynamic should come after the check for a type
   // parameter, since a type parameter could resolve to dynamic.
