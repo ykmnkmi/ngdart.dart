@@ -2,7 +2,7 @@ name: _tests
 description: Tests for AngularDart.
 
 environment:
-  sdk: 2.15.1
+  sdk: 2.16.2
 
 dependencies:
   angular: ^7.0.2

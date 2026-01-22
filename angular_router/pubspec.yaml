@@ -4,12 +4,12 @@ description: Router for AngularDart.
 version: 3.0.1
 
 environment:
-  sdk: 2.15.1
+  sdk: 2.16.2
 
 dependencies:
   angular: ^7.0.2
   collection: ^1.17.0
-  js: ^0.6.3
+  js: ^0.6.5
   meta: ">=1.9.1 <1.10.0"
 
 dev_dependencies:

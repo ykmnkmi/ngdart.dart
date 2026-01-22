@@ -4,7 +4,7 @@ description: Compiler for AngularDart.
 version: 2.0.2
 
 environment:
-  sdk: 2.15.1
+  sdk: 2.16.2
 
 dependencies:
   analyzer: ^4.1.0

@@ -45,15 +45,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test;commands:analyze"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test;commands:analyze"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_pub_upgrade
@@ -118,15 +118,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:_tests;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:_tests;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: _tests_pub_upgrade
@@ -149,15 +149,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_compiler;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_compiler;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_compiler
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_compiler
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_compiler_pub_upgrade
@@ -180,15 +180,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_forms;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_forms;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_forms_pub_upgrade
@@ -211,15 +211,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_router;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_router;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_router_pub_upgrade
@@ -242,15 +242,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_test;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_test;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_test_pub_upgrade
@@ -273,15 +273,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:_tests;commands:command_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:_tests;commands:command_2"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: _tests_pub_upgrade
@@ -309,15 +309,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:_tests;commands:command_1"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:_tests;commands:command_1"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: _tests_pub_upgrade
@@ -345,15 +345,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_ast;commands:command_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_ast;commands:command_3"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_ast
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_ast
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_ast_pub_upgrade
@@ -381,15 +381,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_compiler;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_compiler;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_compiler
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_compiler
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_compiler_pub_upgrade
@@ -417,15 +417,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_forms;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_forms;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_forms_pub_upgrade
@@ -453,15 +453,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_router;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_router;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_router_pub_upgrade
@@ -489,15 +489,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_test;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_test;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.15.1
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.16.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: "2.15.1"
+          sdk: "2.16.2"
       - id: checkout
         uses: actions/checkout@v3
       - id: angular_test_pub_upgrade
