@@ -6,6 +6,7 @@ analyzer:
   #   strict-inference: true
   #   strict-raw-types: true
   errors:
+    # deprecated_member_use: warning
     todo: ignore
     uri_has_not_been_generated: info
   # strong-mode:
