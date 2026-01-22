@@ -7,7 +7,7 @@ environment:
   sdk: 2.15.1
 
 dependencies:
-  analyzer: ^3.4.1
+  analyzer: ^4.1.0
   angular: ^7.0.2
   angular_ast: ^2.0.1
   args: ^2.3.1
