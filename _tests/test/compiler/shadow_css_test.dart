@@ -418,7 +418,7 @@ void main() {
 
   test('should shim rules after @import', () {
     var css = '@import url("a"); div {}';
-    shimAndExpect(css, '@import url("a");div.$content {}');
+    shimAndExpect(css, '@import url("a"); div.$content {}');
   });
 
   test('should leave calc() unchanged', () {

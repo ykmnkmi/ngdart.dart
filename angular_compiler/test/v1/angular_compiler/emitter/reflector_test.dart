@@ -48,6 +48,7 @@ void main() {
     expect(
       dartfmt(emitter.emitInitReflector()),
       dartfmt(r'''
+        // ignore_for_file: no_leading_underscores_for_library_prefixes
         var _visited = false;
         void initReflector() {
           if (_visited) {
@@ -100,6 +101,7 @@ void main() {
     expect(
       dartfmt(emitter.emitInitReflector()),
       dartfmt(r'''
+        // ignore_for_file: no_leading_underscores_for_library_prefixes
         var _visited = false;
         void initReflector() {
           if (_visited) {
@@ -109,55 +111,69 @@ void main() {
 
           _ngRef.registerFactory(
             ExampleServiceNoDeps,
-            () => ExampleServiceNoDeps()
+            () => ExampleServiceNoDeps(),
           );
           _ngRef.registerFactory(
             ExampleServiceWithDeps,
-            (A p0, B p1, C p2) => ExampleServiceWithDeps(p0, p1, p2)
+            (
+              A p0,
+              B p1,
+              C p2,
+            ) =>
+                ExampleServiceWithDeps(
+              p0,
+              p1,
+              p2,
+            ),
           );
           _ngRef.registerDependencies(
             ExampleServiceWithDeps,
             const [
               [A],
               [B],
-              [C]
-            ]
+              [C],
+            ],
           );
           _ngRef.registerFactory(
             ExampleServiceWithNamedConstructor,
-            (A p0, B p1, C p2) => ExampleServiceWithNamedConstructor.namedConstructor(p0, p1, p2)
+            (
+              A p0,
+              B p1,
+              C p2,
+            ) =>
+                ExampleServiceWithNamedConstructor.namedConstructor(
+              p0,
+              p1,
+              p2,
+            ),
           );
           _ngRef.registerDependencies(
             ExampleServiceWithNamedConstructor,
             const [
               [A],
               [B],
-              [C]
-            ]
+              [C],
+            ],
           );
           _ngRef.registerFactory(
             ExampleServiceWithDynamicDeps,
-            (dynamic p0) => ExampleServiceWithDynamicDeps(p0)
+            (dynamic p0) => ExampleServiceWithDynamicDeps(p0),
           );
           _ngRef.registerDependencies(
             ExampleServiceWithDynamicDeps,
             const [
-              [
-                _ngRef.Inject(OpaqueToken<Object>('someToken'))
-              ]
-            ]
+              [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
+            ],
           );
           _ngRef.registerFactory(
             ExampleServiceWithDynamicDeps2,
-            (dynamic p0) => ExampleServiceWithDynamicDeps2(p0)
+            (dynamic p0) => ExampleServiceWithDynamicDeps2(p0),
           );
           _ngRef.registerDependencies(
             ExampleServiceWithDynamicDeps2,
             const [
-              [
-                _ngRef.Inject(OpaqueToken<Object>('someToken'))
-              ]
-            ]
+              [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
+            ],
           );
         }
       '''),
@@ -209,6 +225,7 @@ void main() {
     expect(
       dartfmt(emitter.emitInitReflector()),
       dartfmt(r'''
+        // ignore_for_file: no_leading_underscores_for_library_prefixes
         var _visited = false;
         void initReflector() {
           if (_visited) {
@@ -216,24 +233,51 @@ void main() {
           }
           _visited = true;
 
-          _ngRef.registerDependencies(createB, const [
-            [SomeDependency]
-          ]);
-          _ngRef.registerDependencies(createC, const [
-            [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
-          ]);
-          _ngRef.registerDependencies(createD, const [
-            [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
-          ]);
-          _ngRef.registerDependencies(createE, const [
-            [SomeDependency, _ngRef.Optional()]
-          ]);
-          _ngRef.registerDependencies(createF, const [
-            [SomeDependency, _ngRef.SkipSelf()]
-          ]);
-          _ngRef.registerDependencies(createG, const [
-            [SomeDependency, _ngRef.Host()]
-          ]);
+          _ngRef.registerDependencies(
+            createB,
+            const [
+              [SomeDependency]
+            ],
+          );
+          _ngRef.registerDependencies(
+            createC,
+            const [
+              [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
+            ],
+          );
+          _ngRef.registerDependencies(
+            createD,
+            const [
+              [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
+            ],
+          );
+          _ngRef.registerDependencies(
+            createE,
+            const [
+              [
+                SomeDependency,
+                _ngRef.Optional(),
+              ]
+            ],
+          );
+          _ngRef.registerDependencies(
+            createF,
+            const [
+              [
+                SomeDependency,
+                _ngRef.SkipSelf(),
+              ]
+            ],
+          );
+          _ngRef.registerDependencies(
+            createG,
+            const [
+              [
+                SomeDependency,
+                _ngRef.Host(),
+              ]
+            ],
+          );
         }
       '''),
     );
@@ -285,6 +329,7 @@ void main() {
     expect(
       dartfmt(emitter.emitInitReflector()),
       dartfmt(r'''
+        // ignore_for_file: no_leading_underscores_for_library_prefixes
         var _visited = false;
         void initReflector() {
           if (_visited) {
@@ -292,24 +337,51 @@ void main() {
           }
           _visited = true;
 
-          _ngRef.registerDependencies(Creator.createB, const [
-            [SomeDependency]
-          ]);
-          _ngRef.registerDependencies(Creator.createC, const [
-            [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
-          ]);
-          _ngRef.registerDependencies(Creator.createD, const [
-            [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
-          ]);
-          _ngRef.registerDependencies(Creator.createE, const [
-            [SomeDependency, _ngRef.Optional()]
-          ]);
-          _ngRef.registerDependencies(Creator.createF, const [
-            [SomeDependency, _ngRef.SkipSelf()]
-          ]);
-          _ngRef.registerDependencies(Creator.createG, const [
-            [SomeDependency, _ngRef.Host()]
-          ]);
+          _ngRef.registerDependencies(
+            Creator.createB,
+            const [
+              [SomeDependency]
+            ],
+          );
+          _ngRef.registerDependencies(
+            Creator.createC,
+            const [
+              [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
+            ],
+          );
+          _ngRef.registerDependencies(
+            Creator.createD,
+            const [
+              [_ngRef.Inject(OpaqueToken<Object>('someToken'))]
+            ],
+          );
+          _ngRef.registerDependencies(
+            Creator.createE,
+            const [
+              [
+                SomeDependency,
+                _ngRef.Optional(),
+              ]
+            ],
+          );
+          _ngRef.registerDependencies(
+            Creator.createF,
+            const [
+              [
+                SomeDependency,
+                _ngRef.SkipSelf(),
+              ]
+            ],
+          );
+          _ngRef.registerDependencies(
+            Creator.createG,
+            const [
+              [
+                SomeDependency,
+                _ngRef.Host(),
+              ]
+            ],
+          );
         }
       '''),
     );
@@ -360,6 +432,7 @@ void main() {
     expect(
       dartfmt(emitter.emitInitReflector()),
       dartfmt(r'''
+        // ignore_for_file: no_leading_underscores_for_library_prefixes
         var _visited = false;
         void initReflector() {
           if (_visited) {
@@ -367,12 +440,16 @@ void main() {
           }
           _visited = true;
 
-          _ngRef.registerFactory(InjectsB, (_i1.B p0) => InjectsB(p0));
-          _ngRef.registerDependencies(InjectsB, const [
-            [
-              _i1.B
-            ]
-          ]);
+          _ngRef.registerFactory(
+            InjectsB,
+            (_i1.B p0) => InjectsB(p0),
+          );
+          _ngRef.registerDependencies(
+            InjectsB,
+            const [
+              [_i1.B]
+            ],
+          );
         }
       '''),
     );
@@ -399,6 +476,7 @@ void main() {
       expect(
         dartfmt(await initReflectorOf(source)),
         dartfmt(r'''
+          // ignore_for_file: no_leading_underscores_for_library_prefixes
           var _visited = false;
           void initReflector() {
             if (_visited) {
@@ -406,12 +484,16 @@ void main() {
             }
             _visited = true;
 
-            _ngRef.registerFactory(InjectsGeneric, (GenericType<dynamic> p0) => InjectsGeneric(p0));
-            _ngRef.registerDependencies(InjectsGeneric, const [
-              [
-                GenericType
-              ]
-            ]);
+            _ngRef.registerFactory(
+              InjectsGeneric,
+              (GenericType<dynamic> p0) => InjectsGeneric(p0),
+            );
+            _ngRef.registerDependencies(
+              InjectsGeneric,
+              const [
+                [GenericType]
+              ],
+            );
           }
         '''),
       );
@@ -430,6 +512,7 @@ void main() {
       expect(
         dartfmt(await initReflectorOf(source)),
         dartfmt(r'''
+          // ignore_for_file: no_leading_underscores_for_library_prefixes
           var _visited = false;
           void initReflector() {
             if (_visited) {
@@ -437,12 +520,16 @@ void main() {
             }
             _visited = true;
 
-            _ngRef.registerFactory(InjectsGeneric, (GenericType<dynamic> p0) => InjectsGeneric(p0));
-            _ngRef.registerDependencies(InjectsGeneric, const [
-              [
-                GenericType
-              ]
-            ]);
+            _ngRef.registerFactory(
+              InjectsGeneric,
+              (GenericType<dynamic> p0) => InjectsGeneric(p0),
+            );
+            _ngRef.registerDependencies(
+              InjectsGeneric,
+              const [
+                [GenericType]
+              ],
+            );
           }
         '''),
       );
@@ -460,6 +547,7 @@ void main() {
       expect(
         dartfmt(await initReflectorOf(source)),
         dartfmt(r'''
+          // ignore_for_file: no_leading_underscores_for_library_prefixes
           var _visited = false;
           void initReflector() {
             if (_visited) {
@@ -467,12 +555,16 @@ void main() {
             }
             _visited = true;
 
-            _ngRef.registerFactory(InjectsGeneric, (GenericType<String> p0) => InjectsGeneric(p0));
-            _ngRef.registerDependencies(InjectsGeneric, const [
-              [
-                GenericType
-              ]
-            ]);
+            _ngRef.registerFactory(
+              InjectsGeneric,
+              (GenericType<String> p0) => InjectsGeneric(p0),
+            );
+            _ngRef.registerDependencies(
+              InjectsGeneric,
+              const [
+                [GenericType]
+              ],
+            );
           }
         '''),
       );
@@ -490,6 +582,7 @@ void main() {
       expect(
         dartfmt(await initReflectorOf(source)),
         dartfmt(r'''
+          // ignore_for_file: no_leading_underscores_for_library_prefixes
           var _visited = false;
           void initReflector() {
             if (_visited) {
@@ -497,12 +590,16 @@ void main() {
             }
             _visited = true;
 
-            _ngRef.registerFactory(InjectsGeneric, (GenericType<Comparable<dynamic>> p0) => InjectsGeneric(p0));
-            _ngRef.registerDependencies(InjectsGeneric, const [
-              [
-                GenericType
-              ]
-            ]);
+            _ngRef.registerFactory(
+              InjectsGeneric,
+              (GenericType<Comparable<dynamic>> p0) => InjectsGeneric(p0),
+            );
+            _ngRef.registerDependencies(
+              InjectsGeneric,
+              const [
+                [GenericType]
+              ],
+            );
           }
         '''),
       );
@@ -520,6 +617,7 @@ void main() {
       expect(
         dartfmt(await initReflectorOf(source)),
         dartfmt(r'''
+          // ignore_for_file: no_leading_underscores_for_library_prefixes
           var _visited = false;
           void initReflector() {
             if (_visited) {
@@ -527,12 +625,16 @@ void main() {
             }
             _visited = true;
 
-            _ngRef.registerFactory(InjectsGeneric, (GenericType<String> p0) => InjectsGeneric(p0));
-            _ngRef.registerDependencies(InjectsGeneric, const [
-              [
-                GenericType
-              ]
-            ]);
+            _ngRef.registerFactory(
+              InjectsGeneric,
+              (GenericType<String> p0) => InjectsGeneric(p0),
+            );
+            _ngRef.registerDependencies(
+              InjectsGeneric,
+              const [
+                [GenericType]
+              ],
+            );
           }
         '''),
       );
@@ -550,6 +652,7 @@ void main() {
       expect(
         dartfmt(await initReflectorOf(source)),
         dartfmt(r'''
+          // ignore_for_file: no_leading_underscores_for_library_prefixes
           var _visited = false;
           void initReflector() {
             if (_visited) {
@@ -557,12 +660,17 @@ void main() {
             }
             _visited = true;
 
-            _ngRef.registerFactory(InjectsGeneric, (GenericType<Comparable<dynamic>, Comparable<dynamic>> p0) => InjectsGeneric(p0));
-            _ngRef.registerDependencies(InjectsGeneric, const [
-              [
-                GenericType
-              ]
-            ]);
+            _ngRef.registerFactory(
+              InjectsGeneric,
+              (GenericType<Comparable<dynamic>, Comparable<dynamic>> p0) =>
+                  InjectsGeneric(p0),
+            );
+            _ngRef.registerDependencies(
+              InjectsGeneric,
+              const [
+                [GenericType]
+              ],
+            );
           }
         '''),
       );

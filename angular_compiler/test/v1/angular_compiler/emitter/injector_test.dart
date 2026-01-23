@@ -33,7 +33,10 @@ void main() {
           FooInjector._(Injector parent) : super(parent);
 
           @override
-          Object injectFromSelfOptional(Object token, [Object orElse = throwIfNotFound]) {
+          Object injectFromSelfOptional(
+            Object token, [
+            Object orElse = throwIfNotFound,
+          ]) {
             return orElse;
           }
         }
@@ -65,9 +68,16 @@ void main() {
 
           FooImpl _field0;
 
-          FooImpl _getFooImpl$0() => _field0 ??= FooImpl(this.get(Dep1), this.get(Dep2));
+          FooImpl _getFooImpl$0() => _field0 ??= FooImpl(
+            this.get(Dep1),
+            this.get(Dep2),
+          );
+
           @override
-          Object injectFromSelfOptional(Object token, [Object orElse = throwIfNotFound]) {
+          Object injectFromSelfOptional(
+            Object token, [
+            Object orElse = throwIfNotFound,
+          ]) {
             if (identical(token, Foo)) {
               return _getFooImpl$0();
             }
@@ -95,8 +105,12 @@ void main() {
           FooInjector._(Injector parent) : super(parent);
 
           Foo _getExisting$0() => this.get(Foo);
+
           @override
-          Object injectFromSelfOptional(Object token, [Object orElse = throwIfNotFound]) {
+          Object injectFromSelfOptional(
+            Object token, [
+            Object orElse = throwIfNotFound,
+          ]) {
             if (identical(token, FooPrime)) {
               return _getExisting$0();
             }
@@ -129,9 +143,16 @@ void main() {
 
           Foo _field0;
 
-          Foo _getFoo$0() => _field0 ??= createFoo(this.get(Dep1), this.get(Dep2));
+          Foo _getFoo$0() => _field0 ??= createFoo(
+            this.get(Dep1),
+            this.get(Dep2),
+          );
+
           @override
-          Object injectFromSelfOptional(Object token, [Object orElse = throwIfNotFound]) {
+          Object injectFromSelfOptional(
+            Object token, [
+            Object orElse = throwIfNotFound,
+          ]) {
             if (identical(token, Foo)) {
               return _getFoo$0();
             }
@@ -159,8 +180,12 @@ void main() {
           FooInjector._(Injector parent) : super(parent);
 
           Foo _getFoo$0() => const Foo();
+
           @override
-          Object injectFromSelfOptional(Object token, [Object orElse = throwIfNotFound]) {
+          Object injectFromSelfOptional(
+            Object token, [
+            Object orElse = throwIfNotFound,
+          ]) {
             if (identical(token, Foo)) {
               return _getFoo$0();
             }
@@ -205,11 +230,19 @@ void main() {
           FooInjector._(Injector parent) : super(parent);
 
           int _getint$0() => 1;
+
           int _getint$1() => 2;
+
           @override
-          Object injectFromSelfOptional(Object token, [Object orElse = throwIfNotFound]) {
+          Object injectFromSelfOptional(
+            Object token, [
+            Object orElse = throwIfNotFound,
+          ]) {
             if (identical(token, someToken)) {
-              return [_getint$0(), _getint$1()];
+              return [
+                _getint$0(),
+                _getint$1(),
+              ];
             }
             return orElse;
           }
