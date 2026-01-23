@@ -1,7 +1,7 @@
 name: angular_workspace
 description: AngularDart workspace.
 environment:
-  sdk: 2.17.7
+  sdk: ^2.19.6
 
 dependencies:
   angular: 7.0.2
