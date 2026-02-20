@@ -1,6 +1,5 @@
-// @dart=2.9
-
 import 'package:collection/collection.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:angular_router/angular_router.dart';
@@ -8,12 +7,15 @@ import 'package:angular_router/src/router/router_impl.dart';
 import 'package:angular_router/testing.dart';
 import 'package:angular_test/angular_test.dart';
 
+@GenerateNiceMocks([MockSpec<Router>()])
+import 'navigate_by_url_test.mocks.dart';
+
 void main() {
   tearDown(disposeAnyRunningTest);
 
   group('navigateByUrl', () {
-    Router mockRouter;
-    Router router;
+    late MockRouter mockRouter;
+    late Router router;
 
     setUp(() {
       mockRouter = MockRouter();
@@ -89,18 +91,16 @@ void main() {
   });
 }
 
-class MockRouter extends Mock implements Router {}
-
 class DelegatingRouter extends RouterImpl {
-  final Router _delegate;
+  final MockRouter _delegate;
 
   DelegatingRouter(this._delegate)
       : super(Location(MockLocationStrategy()), null);
 
   @override
   Future<NavigationResult> navigate(
-    String path, [
-    NavigationParams navigationParams,
+    String? path, [
+    NavigationParams? navigationParams,
   ]) =>
       _delegate.navigate(path, navigationParams);
 }
@@ -142,9 +142,9 @@ class NavigationParamsMatcher extends Matcher {
 
   @override
   Description describeMismatch(
-    item,
+    dynamic item,
     Description mismatchDescription,
-    Map<Object, Object> matchState,
+    Map<dynamic, dynamic> matchState,
     bool verbose,
   ) {
     if (item is NavigationParams) {

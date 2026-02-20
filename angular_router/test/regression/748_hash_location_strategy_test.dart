@@ -1,12 +1,14 @@
-// @dart=2.9
-
 import 'dart:html';
 
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:angular_test/angular_test.dart';
+
+@GenerateNiceMocks([MockSpec<PlatformLocation>()])
+import '748_hash_location_strategy_test.mocks.dart';
 
 import '748_hash_location_strategy_test.template.dart' as ng;
 
@@ -25,17 +27,15 @@ void main() {
       rootInjector: injectorFactory,
     );
     final testFixture = await testBed.create();
-    expect(testFixture.assertOnlyInstance.anchor.getAttribute('href'), '#/foo');
+    expect(testFixture.assertOnlyInstance.anchor!.getAttribute('href'), '#/foo');
     await testFixture.update((c) {
-      c.anchor.click();
+      c.anchor!.click();
     });
     verify(platformLocation.pushState(any, any, '#/foo')).called(1);
   });
 }
 
 PlatformLocation platformLocationFactory() => platformLocation;
-
-class MockPlatformLocation extends Mock implements BrowserPlatformLocation {}
 
 @GenerateInjector([
   routerProvidersHash,
@@ -59,7 +59,7 @@ class AppComponent {
   static final routes = [fooRoute];
 
   @ViewChild('routerLink')
-  HtmlElement anchor;
+  HtmlElement? anchor;
 }
 
 @Component(selector: 'foo', template: '')
