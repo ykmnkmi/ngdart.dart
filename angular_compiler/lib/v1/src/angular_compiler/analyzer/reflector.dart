@@ -75,28 +75,22 @@ class ReflectableReader {
   static FutureOr<bool> _nullHasInput(_) => false;
   static Future<bool> _nullIsLibrary(_) async => false;
 
-  static Iterable<CompilationUnitElement> _allUnits(LibraryElement lib) sync* {
-    yield lib.definingCompilationUnit;
-    yield* lib.parts;
-  }
-
   /// Returns information needed to write `.template.dart` files.
   Future<ReflectableOutput> resolve(LibraryElement library) async {
     final registerClasses = <ReflectableClass>[];
     final registerFunctions = <DependencyInvocation<ExecutableElement>>[];
-    for (final unit in _allUnits(library)) {
-      for (final type in unit.classes) {
-        final reflectable = _resolveClass(type);
-        if (reflectable != null) {
-          registerClasses.add(reflectable);
-        }
-        if (recordInjectableFactories) {
-          registerFunctions.addAll(_resolveFunctions(type.methods));
-        }
+    for (final type in library.topLevelElements.whereType<ClassElement>()) {
+      final reflectable = _resolveClass(type);
+      if (reflectable != null) {
+        registerClasses.add(reflectable);
       }
       if (recordInjectableFactories) {
-        registerFunctions.addAll(_resolveFunctions(unit.functions));
+        registerFunctions.addAll(_resolveFunctions(type.methods));
       }
+    }
+    if (recordInjectableFactories) {
+      registerFunctions.addAll(_resolveFunctions(
+          library.topLevelElements.whereType<ExecutableElement>()));
     }
     var urlsNeedingInitReflector = const <String>[];
 
