@@ -14,10 +14,12 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   group('navigateByUrl', () {
+    // ignore: undefined_class
     late MockRouter mockRouter;
     late Router router;
 
     setUp(() {
+      // ignore: undefined_function
       mockRouter = MockRouter();
       router = DelegatingRouter(mockRouter);
     });
@@ -92,6 +94,7 @@ void main() {
 }
 
 class DelegatingRouter extends RouterImpl {
+  // ignore: undefined_class
   final MockRouter _delegate;
 
   DelegatingRouter(this._delegate)

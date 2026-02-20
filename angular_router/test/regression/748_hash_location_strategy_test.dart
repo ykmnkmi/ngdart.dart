@@ -12,6 +12,7 @@ import '748_hash_location_strategy_test.mocks.dart';
 
 import '748_hash_location_strategy_test.template.dart' as ng;
 
+// ignore: undefined_function
 final platformLocation = MockPlatformLocation();
 
 void main() {
