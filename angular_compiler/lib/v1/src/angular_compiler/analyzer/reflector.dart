@@ -161,19 +161,35 @@ class ReflectableReader {
   }
 
   Future<List<String>> _resolveNeedsReflector(LibraryElement library) async {
-    final directives = <UriReferencedElement>[
-      ...library.imports,
-      ...library.exports
-    ];
+    final directives = [...library.libraryImports, ...library.libraryExports];
     final results = <String>[];
     await Future.wait(directives.map((d) async {
-      if (await _needsInitReflector(d, library.source.uri.toString())) {
-        var uri = d.uri ?? '';
-        // Always link to the .template.dart file equivalent of a file.
-        if (!uri.endsWith(outputExtension)) {
-          uri = _withOutputExtension(uri);
+      DirectiveUri uri;
+      if (d is LibraryImportElement) {
+        if (d.prefix is DeferredImportElementPrefix) {
+          // Do not link to deferred code.
+          return false;
         }
-        results.add(uri);
+
+        uri = d.uri;
+      } else if (d is LibraryExportElement) {
+        uri = d.uri;
+      } else {
+        throw TypeError();
+      }
+      String uriString;
+      if (uri is DirectiveUriWithRelativeUriString) {
+        uriString = uri.relativeUriString;
+      } else {
+        throw UnimplementedError();
+      }
+      if (await _needsInitReflector(
+          d, uriString, library.source.uri.toString())) {
+        // Always link to the .template.dart file equivalent of a file.
+        if (!uriString.endsWith(outputExtension)) {
+          uriString = _withOutputExtension(uriString);
+        }
+        results.add(uriString);
       }
     }));
     return results..sort();
@@ -181,28 +197,24 @@ class ReflectableReader {
 
   // Determines whether initReflector needs to link to [directive].
   Future<bool> _needsInitReflector(
-    UriReferencedElement directive,
+    Element directive,
+    String uriPath,
     String sourceUri,
   ) async {
-    if (directive is ImportElement && directive.isDeferred) {
-      // Do not link to deferred code.
-      return false;
-    }
-    final uri = directive.uri ?? '';
-    if (uri.endsWith(outputExtension)) {
+    if (uriPath.endsWith(outputExtension)) {
       // Always link when manually importing/exporting .template.dart files.
       return true;
     }
     // Link if we are have or will have a .template.dart file.
-    if (!uri.contains('.')) {
+    if (!uriPath.contains('.')) {
       // Don't link imports that are missing an extension. These are either
       // valid Dart SDK imports which don't need to be linked, or invalid
       // imports which will be reported by the analyzer.
       return false;
     }
-    final outputUri = _withOutputExtension(uri);
+    final outputUri = _withOutputExtension(uriPath);
     try {
-      return await isLibrary(outputUri) || await hasInput(uri);
+      return await isLibrary(outputUri) || await hasInput(uriPath);
     } catch (e) {
       throw BuildError.forElement(
           directive, 'Could not parse URI. Additional information:\n$e\n');

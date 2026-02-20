@@ -112,11 +112,15 @@ class TemplateOutliner implements Builder {
     }
 
     output.writeln('// Required for "type inference" (scoping).');
-    for (final d in library.imports) {
-      if (!d.isDeferred && d.uri != null) {
-        var directive = "import '${d.uri}'";
+    for (final d in library.libraryImports) {
+      if (d.prefix is! DeferredImportElementPrefix) {
+        final uri = d.uri;
+        if (uri is! DirectiveUriWithRelativeUriString) {
+          throw UnimplementedError();
+        }
+        var directive = "import '$uri'";
         if (d.prefix != null) {
-          directive += ' as ${d.prefix!.name}';
+          directive += ' as ${d.prefix!.element.name}';
         }
         if (d.combinators.isNotEmpty) {
           final isShow = d.combinators.first is ShowElementCombinator;
