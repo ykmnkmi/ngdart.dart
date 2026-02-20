@@ -20,6 +20,7 @@ code_builder: ^4.7.0
 collection: ^1.18.0
 csslib: ^0.17.3
 dart_style: ^2.2.4
+glob: ^2.1.2
 intl: ^0.18.1
 js: ^0.6.7
 lints: ^2.0.1
