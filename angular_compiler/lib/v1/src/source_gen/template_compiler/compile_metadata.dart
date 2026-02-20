@@ -334,7 +334,7 @@ class CompileTypeMetadataVisitor
       // not have something annotated properly. It's likely this is either
       // dead code or is not actually used via DI. We can ignore for now.
       logWarning(''
-          'Could not resolve token for $p on ${p.enclosingElement} in '
+          'Could not resolve token for $p on ${p.enclosingElement3} in '
           '${p.library?.identifier}');
       return CompileDiDependencyMetadata();
     }
@@ -567,8 +567,8 @@ class CompileTypeMetadataVisitor
   CompileIdentifierMetadata _identifierForFunction(
       FunctionTypedElement function) {
     String? prefix;
-    if (function.enclosingElement is ClassElement) {
-      prefix = function.enclosingElement!.name;
+    if (function.enclosingElement3 is ClassElement) {
+      prefix = function.enclosingElement3!.name;
     }
     return CompileIdentifierMetadata(
         name: function.name!,
@@ -582,8 +582,8 @@ class CompileTypeMetadataVisitor
     List<DartObject> typesOrTokens,
   ) {
     String? prefix;
-    if (function.enclosingElement is ClassElement) {
-      prefix = function.enclosingElement!.name;
+    if (function.enclosingElement3 is ClassElement) {
+      prefix = function.enclosingElement3!.name;
     }
     return CompileFactoryMetadata(
       name: function.name!,
