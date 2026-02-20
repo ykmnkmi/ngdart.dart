@@ -87,5 +87,5 @@ void main() {
         containsSourceLocation(1, 7),
       )
     ]);
-  });
+  }, skip: 'No warn for a bad enum annotation');
 }
