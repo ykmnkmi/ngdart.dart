@@ -293,14 +293,14 @@ class ReflectableEmitter {
     // _ngRef.registerFactory(Type, (p0, p1) => new Type(p0, p1));
     final bound = function.bound!;
     final clazz = bound.returnType;
-    var constructor = clazz.element.name;
+    var constructor = clazz.element2.name;
     // Support named constructors.
     if (bound.name.isNotEmpty == true) {
       constructor = '$constructor.${bound.name}';
     }
     _initReflectorBody.addExpression(
       _registerFactory.call([
-        refer(clazz.element.name),
+        refer(clazz.element2.name),
         _tearOffConstructor(constructor, function),
       ]),
     );

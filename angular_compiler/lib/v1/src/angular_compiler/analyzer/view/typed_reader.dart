@@ -99,10 +99,10 @@ class TypedReader {
   TypedElement _parseTyped(DartObject typedObject, {bool root = false}) {
     final type = typeArgumentOf(typedObject);
     if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
-      if (root && !$Directive.hasAnnotationOf(type.element!)) {
+      if (root && !$Directive.hasAnnotationOf(type.element2!)) {
         throw BuildError.withoutContext(
           'Expected a "Typed" expression with a "Component" or "Directive" '
-          'annotated type, but got "Typed<${type.element!.name!}>"',
+          'annotated type, but got "Typed<${type.element2!.name!}>"',
         );
       }
       String? on;
@@ -128,7 +128,7 @@ class TypedReader {
         if (typeArgument.isPrivate) {
           throw BuildError.withoutContext(
             'Directive type arguments must be public, but '
-            '"${type.element!.name!}" was given private type argument '
+            '"${type.element2!.name!}" was given private type argument '
             '"${typeArgument.symbol}" by "${_hostElement.name}".',
           );
         }

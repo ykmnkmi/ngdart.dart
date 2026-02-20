@@ -460,7 +460,7 @@ class _ComponentVisitor
     var selector = getField(value, 'selector');
     if (isNull(selector)) {
       _exceptionHandler.handle(ErrorMessageForAnnotation(annotationInfo,
-          'Missing selector argument for "@${value!.type!.element!.name!}"'));
+          'Missing selector argument for "@${value!.type!.element2!.name!}"'));
       return [];
     }
     var selectorString = selector?.toStringValue();
@@ -475,15 +475,15 @@ class _ComponentVisitor
       // NOTE(deboer): This code is untested and probably unreachable.
       _exceptionHandler.handle(ErrorMessageForAnnotation(
           annotationInfo,
-          'Only a value of `String` or `Type` for "@${value!.type!.element!.name!}" is '
+          'Only a value of `String` or `Type` for "@${value!.type!.element2!.name!}" is '
           'supported'));
       return [];
     }
     return [
       CompileTokenMetadata(
         identifier: CompileIdentifierMetadata(
-          name: selectorType.element!.name!,
-          moduleUrl: moduleUrl(selectorType.element!),
+          name: selectorType.element2!.name!,
+          moduleUrl: moduleUrl(selectorType.element2!),
         ),
       ),
     ];
@@ -504,7 +504,7 @@ class _ComponentVisitor
       descendants: coerceBool(value, 'descendants', defaultTo: false),
       first: coerceBool(value, 'first', defaultTo: false),
       propertyName: propertyName,
-      isElementType: propertyType?.element != null &&
+      isElementType: propertyType?.element2 != null &&
               _htmlElement.isAssignableFromType(propertyType!) ||
           // A bit imprecise, but this will cover 'Iterable' and 'List'.
           _coreIterable.isAssignableFromType(propertyType!) &&
@@ -515,7 +515,7 @@ class _ComponentVisitor
           ? CompileTokenMetadata(
               identifier: CompileIdentifierMetadata(
                 name: readType.getDisplayString(withNullability: false),
-                moduleUrl: moduleUrl(readType.element!),
+                moduleUrl: moduleUrl(readType.element2!),
               ),
             )
           : null,
@@ -616,7 +616,7 @@ class _ComponentVisitor
     // Reverse supertypes to traverse inheritance hierarchy from top to bottom
     // so that derived bindings overwrite their inherited definition.
     for (var type in element.allSupertypes.reversed) {
-      _collectInheritableMetadataOn(type.element);
+      _collectInheritableMetadataOn(type.element2 as ClassElement);
     }
     _collectInheritableMetadataOn(element);
   }
