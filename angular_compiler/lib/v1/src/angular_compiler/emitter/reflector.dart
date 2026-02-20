@@ -172,7 +172,7 @@ class ReflectableEmitter {
     // Add initReflector() [to the end].
     _libraryBuilder.body.add(
       // var _visited = false;
-      literalFalse.assignVar('_visited').statement,
+      declareVar('_visited').assign(literalFalse).statement,
     );
 
     initReflector.body = _initReflectorBody.build();
