@@ -8,6 +8,7 @@ analyzer:
   errors:
     # deprecated_member_use: warning
     todo: ignore
+    uri_does_not_exist: info
     uri_has_not_been_generated: info
   # strong-mode:
   #   implicit-casts: false
