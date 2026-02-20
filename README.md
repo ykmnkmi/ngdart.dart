@@ -1,3 +1,7 @@
+> Note:
+> Work in progress. Personal project. Updating old applications.
+> Bumping the SDK version and migrating to the new `analyzer` and `build` stack.
+
 See https://github.com/angulardart for current updates on this project.
 
 ## Packages
@@ -12,10 +16,9 @@ See https://github.com/angulardart for current updates on this project.
 | [angular_ast]&ddagger;       | [![Pub Package](https://img.shields.io/pub/v/angular_ast.svg)](https://pub.dev/packages/angular_ast)               |
 | [angular_compiler]&ddagger;  | [![Pub Package](https://img.shields.io/pub/v/angular_compiler.svg)](https://pub.dev/packages/angular_compiler)     |
 
-&dagger; _`angular_components` source is in another [repository](https://github.com/angulardart/angular_components)._
+&dagger; _The `angular_components` source is in a separate [repository](https://github.com/angulardart/angular_components)._
 
-&ddagger; _Infrastructure packages. Not typically used directly.
-Included for completeness._
+&ddagger; _Infrastructure packages. Not typically used directly. Included for completeness._
 
 [angular]: https://github.com/angulardart/angular/tree/master/angular
 [angular_ast]: https://github.com/angulardart/angular/tree/master/angular_ast
