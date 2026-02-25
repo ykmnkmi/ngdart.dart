@@ -73,8 +73,8 @@ Future<void> _collectTypeParametersFromUnit(
   for (final declaration in unit.declarations) {
     if (declaration is ClassDeclaration &&
         declaration.typeParameters != null &&
-        typeParameters.containsKey(declaration.name2.lexeme)) {
-      typeParameters[declaration.name2.lexeme] = source.substring(
+        typeParameters.containsKey(declaration.name.lexeme)) {
+      typeParameters[declaration.name.lexeme] = source.substring(
         declaration.typeParameters!.offset,
         declaration.typeParameters!.end,
       );
