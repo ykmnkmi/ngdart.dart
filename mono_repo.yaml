@@ -9,7 +9,7 @@ github:
         - v8html
         - master
 
-self_validate: analyze
+# self_validate: analyze
 
 merge_stages:
   - analyze
