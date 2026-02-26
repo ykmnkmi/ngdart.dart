@@ -147,7 +147,7 @@ void main() {
     await fixture.update((_) {
       fixture.rootElement.querySelector('button')!.click();
     });
-  });
+  }, skip: 'https://github.com/angulardart/angular/issues/1670');
 
   test('should support static methods invoked for events', () async {
     final testBed = NgTestBed<TestStaticMethodsDirect>(
