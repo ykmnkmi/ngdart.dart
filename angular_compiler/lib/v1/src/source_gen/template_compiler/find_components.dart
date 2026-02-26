@@ -460,7 +460,7 @@ class _ComponentVisitor
     var selector = getField(value, 'selector');
     if (isNull(selector)) {
       _exceptionHandler.handle(ErrorMessageForAnnotation(annotationInfo,
-          'Missing selector argument for "@${value!.type!.element2!.name!}"'));
+          'Missing selector argument for "@${value!.type!.element!.name!}"'));
       return [];
     }
     var selectorString = selector?.toStringValue();
@@ -475,15 +475,15 @@ class _ComponentVisitor
       // NOTE(deboer): This code is untested and probably unreachable.
       _exceptionHandler.handle(ErrorMessageForAnnotation(
           annotationInfo,
-          'Only a value of `String` or `Type` for "@${value!.type!.element2!.name!}" is '
+          'Only a value of `String` or `Type` for "@${value!.type!.element!.name!}" is '
           'supported'));
       return [];
     }
     return [
       CompileTokenMetadata(
         identifier: CompileIdentifierMetadata(
-          name: selectorType.element2!.name!,
-          moduleUrl: moduleUrl(selectorType.element2!),
+          name: selectorType.element!.name!,
+          moduleUrl: moduleUrl(selectorType.element!),
         ),
       ),
     ];
@@ -504,7 +504,7 @@ class _ComponentVisitor
       descendants: coerceBool(value, 'descendants', defaultTo: false),
       first: coerceBool(value, 'first', defaultTo: false),
       propertyName: propertyName,
-      isElementType: propertyType?.element2 != null &&
+      isElementType: propertyType?.element != null &&
               _htmlElement.isAssignableFromType(propertyType!) ||
           // A bit imprecise, but this will cover 'Iterable' and 'List'.
           _coreIterable.isAssignableFromType(propertyType!) &&
@@ -515,7 +515,7 @@ class _ComponentVisitor
           ? CompileTokenMetadata(
               identifier: CompileIdentifierMetadata(
                 name: readType.getDisplayString(withNullability: false),
-                moduleUrl: moduleUrl(readType.element2!),
+                moduleUrl: moduleUrl(readType.element!),
               ),
             )
           : null,
@@ -537,7 +537,7 @@ class _ComponentVisitor
     var bindTo = ast.PropertyRead(ast.ImplicitReceiver(), element.name!);
     if (element is PropertyAccessorElement && element.isStatic ||
         element is FieldElement && element.isStatic) {
-      if (element.enclosingElement3 != _directiveClassElement) {
+      if (element.enclosingElement != _directiveClassElement) {
         // We do not want to inherit static members.
         // https://github.com/angulardart/angular/issues/1272
         return;
@@ -582,7 +582,7 @@ class _ComponentVisitor
     final propertyName = element.displayName;
     final bindingName =
         coerceString(value, 'bindingPropertyName', defaultTo: propertyName)!;
-    _prohibitBindingChange(element.enclosingElement3 as ClassElement?,
+    _prohibitBindingChange(element.enclosingElement as ClassElement?,
         propertyName, bindingName, immutableBindings ?? bindings);
     bindings[propertyName] = bindingName;
   }
@@ -616,7 +616,7 @@ class _ComponentVisitor
     // Reverse supertypes to traverse inheritance hierarchy from top to bottom
     // so that derived bindings overwrite their inherited definition.
     for (var type in element.allSupertypes.reversed) {
-      _collectInheritableMetadataOn(type.element2 as ClassElement);
+      _collectInheritableMetadataOn(type.element as ClassElement);
     }
     _collectInheritableMetadataOn(element);
   }

@@ -51,7 +51,7 @@ DartType getExpressionType(ast.AST expression, AnalyzedClass analyzedClass) {
 ///
 /// Returns null otherwise.
 DartType? getIterableElementType(DartType dartType) => dartType is InterfaceType
-    ? dartType.lookUpGetter2('single', dartType.element2.library)?.returnType
+    ? dartType.lookUpGetter2('single', dartType.element.library)?.returnType
     : null;
 
 /// Returns an int type using the [analyzedClass]'s context.
@@ -98,13 +98,13 @@ String typeToCode(DartType type) {
   } else if (type is InterfaceType) {
     var typeArguments = type.typeArguments;
     if (typeArguments.isEmpty) {
-      return type.element2.name;
+      return type.element.name;
     } else {
       final typeArgumentsStr = typeArguments.map(typeToCode).join(', ');
-      return '${type.element2.name}<$typeArgumentsStr>';
+      return '${type.element.name}<$typeArgumentsStr>';
     }
   } else if (type is TypeParameterType) {
-    return type.element2.name;
+    return type.element.name;
   } else if (type.isVoid) {
     return 'void';
   } else {
@@ -190,7 +190,7 @@ ast.ASTWithSource rewriteTearOff(
     // Find the method, either on "this." or "super.".
     final method = analyzedClass.classElement.thisType.lookUpMethod2(
         unwrappedExpression.name,
-        analyzedClass.classElement.thisType.element2.library);
+        analyzedClass.classElement.thisType.element.library);
 
     // If not found, we do not perform any re-write.
     if (method == null) {
@@ -365,7 +365,7 @@ class _TypeResolver extends ast.AstVisitor<DartType, dynamic> {
   DartType _lookupGetterReturnType(DartType receiverType, String getterName) {
     if (receiverType is InterfaceType) {
       var getter =
-          receiverType.lookUpGetter2(getterName, receiverType.element2.library);
+          receiverType.lookUpGetter2(getterName, receiverType.element.library);
       if (getter != null) return getter.returnType;
     }
     return _dynamicType;
@@ -377,7 +377,7 @@ class _TypeResolver extends ast.AstVisitor<DartType, dynamic> {
   DartType _lookupMethodReturnType(DartType receiverType, String methodName) {
     if (receiverType is InterfaceType) {
       var method =
-          receiverType.lookUpMethod2(methodName, receiverType.element2.library);
+          receiverType.lookUpMethod2(methodName, receiverType.element.library);
       if (method != null) return method.returnType;
     }
     return _dynamicType;

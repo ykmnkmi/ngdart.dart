@@ -66,7 +66,7 @@ class DirectiveVisitor {
   /// **NOTE**: There is no verification [element] has the annotation.
   void visitDirective(ClassElement element) {
     for (final superType in element.allSupertypes.reversed) {
-      _visitDirectiveOrSupertype(superType.element2 as ClassElement);
+      _visitDirectiveOrSupertype(superType.element as ClassElement);
     }
     _visitDirectiveOrSupertype(element);
   }

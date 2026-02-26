@@ -14,7 +14,7 @@ String getTypeImport(DartType type) {
     return 'dart:core';
   }
   if (type is InterfaceType) {
-    return normalizeUrl(type.element2.library.source.uri).toString();
+    return normalizeUrl(type.element.library.source.uri).toString();
   }
   throw UnimplementedError('(${type.runtimeType}) $type');
 }
@@ -32,7 +32,7 @@ String? getTypeName(DartType type) {
     return null;
   }
   if (type is InterfaceType) {
-    return type.element2.name;
+    return type.element.name;
   }
   if (type is VoidType) {
     return 'void';
@@ -68,13 +68,13 @@ String? typeToCode(DartType? type) {
   } else if (type is InterfaceType) {
     var typeArguments = type.typeArguments;
     if (typeArguments.isEmpty) {
-      return type.element2.name;
+      return type.element.name;
     } else {
       final typeArgumentsStr = typeArguments.map(typeToCode).join(', ');
-      return '${type.element2.name}<$typeArgumentsStr>';
+      return '${type.element.name}<$typeArgumentsStr>';
     }
   } else if (type is TypeParameterType) {
-    return type.element2.name;
+    return type.element.name;
   } else if (type.isVoid) {
     return 'void';
   } else {
@@ -93,7 +93,7 @@ Uri urlOf(Element? element, [String? name]) {
   }
 
   var fragment = name ?? element!.name;
-  final enclosing = element!.enclosingElement3;
+  final enclosing = element!.enclosingElement;
   if (enclosing is ClassElement) {
     fragment = '${enclosing.name}.$fragment';
   }

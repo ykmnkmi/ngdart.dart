@@ -65,6 +65,6 @@ void main() {
           .toStringValue(),
       'Hello World',
     );
-    expect(clazz.supertype!.element2.name, 'Base');
+    expect(clazz.supertype!.element.name, 'Base');
   });
 }

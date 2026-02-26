@@ -89,7 +89,7 @@ Element? typeDeclarationOf(DartObject value) {
 
   // For functions, `toTypeValue()` is null so we fall back on `type`.
   final type = value.toTypeValue() ?? value.type;
-  return type?.element2;
+  return type?.element;
 }
 
 // TODO: For whatever reason 'ByName' works in Bazel, but not 'ByIndex', and the

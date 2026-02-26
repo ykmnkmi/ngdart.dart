@@ -237,9 +237,9 @@ class ReflectableEmitter {
 
     String name;
     if (bound is ConstructorElement) {
-      name = bound.enclosingElement3.name;
+      name = bound.enclosingElement.name;
     } else if (bound is MethodElement) {
-      name = '${bound.enclosingElement3.name}.${bound.name}';
+      name = '${bound.enclosingElement.name}.${bound.name}';
     } else {
       name = bound!.name!;
     }
@@ -293,14 +293,14 @@ class ReflectableEmitter {
     // _ngRef.registerFactory(Type, (p0, p1) => new Type(p0, p1));
     final bound = function.bound!;
     final clazz = bound.returnType;
-    var constructor = clazz.element2.name;
+    var constructor = clazz.element.name;
     // Support named constructors.
     if (bound.name.isNotEmpty == true) {
       constructor = '$constructor.${bound.name}';
     }
     _initReflectorBody.addExpression(
       _registerFactory.call([
-        refer(clazz.element2.name),
+        refer(clazz.element.name),
         _tearOffConstructor(constructor, function),
       ]),
     );
