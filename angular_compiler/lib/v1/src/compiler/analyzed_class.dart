@@ -93,7 +93,7 @@ bool isString(ast.AST expression, AnalyzedClass analyzedClass) {
 }
 
 String typeToCode(DartType type) {
-  if (type.isDynamic) {
+  if (type is DynamicType) {
     return 'dynamic';
   } else if (type is InterfaceType) {
     var typeArguments = type.typeArguments;

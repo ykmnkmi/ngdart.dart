@@ -63,7 +63,7 @@ DartType typeArgumentOf(DartObject object, [int index = 0]) {
 String? typeToCode(DartType? type) {
   if (type == null) {
     return null;
-  } else if (type.isDynamic) {
+  } else if (type is DynamicType) {
     return 'dynamic';
   } else if (type is InterfaceType) {
     var typeArguments = type.typeArguments;

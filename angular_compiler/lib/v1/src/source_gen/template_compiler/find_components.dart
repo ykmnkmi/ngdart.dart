@@ -185,7 +185,7 @@ class _NormalizedComponentVisitor extends RecursiveElementVisitor<void> {
 
   static bool _isUnresolvedOrNotAnExpression(CollectionElement e) {
     if (e is Expression) {
-      return e.staticType?.isDynamic != false;
+      return e.staticType is DynamicType;
     } else {
       return true;
     }

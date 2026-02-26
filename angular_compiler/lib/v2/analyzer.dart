@@ -17,7 +17,7 @@ extension NullableDartType on DartType? {
   /// Whether the type is an opted-in library where it explicitly nullable.
   bool get isExplicitlyNullable {
     var type = this;
-    if (type == null || type.isDynamic) {
+    if (type == null || type is DynamicType) {
       return false;
     }
     if (_isFutureOrWithExplicitlyNullableValue) {

@@ -63,7 +63,7 @@ DartType? inferProviderType(DartObject provider, DartObject token) {
       !$Provider.isExactlyType(provider.type!) &&
       tokenType.typeArguments.isNotEmpty) {
     final opaqueTokenOfT = tokenType.typeArguments.first;
-    if (!opaqueTokenOfT.isDynamic) {
+    if (opaqueTokenOfT is! DynamicType) {
       return opaqueTokenOfT;
     }
   }

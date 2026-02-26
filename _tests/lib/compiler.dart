@@ -108,7 +108,7 @@ Future<void> _testBuilder(
           inputIds,
           reader,
           writer,
-          AnalyzerResolvers(),
+          AnalyzerResolvers.sharedInstance,
           logger: logger,
         ),
         ['non-nullable'],
