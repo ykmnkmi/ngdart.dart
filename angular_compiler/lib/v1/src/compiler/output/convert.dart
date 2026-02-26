@@ -20,7 +20,7 @@ o.OutputType? fromDartType(DartType? dartType, {bool resolveBounds = true}) {
     // an explicit type, such as a generic type parameter bound.
     return null;
   }
-  if (dartType.isVoid) {
+  if (dartType is VoidType) {
     return o.VOID_TYPE;
   }
   if (dartType.isDartCoreNull) {

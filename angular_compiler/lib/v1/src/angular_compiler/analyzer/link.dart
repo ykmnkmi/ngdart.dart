@@ -28,7 +28,7 @@ DartType _resolveBounds(DartType type) {
 /// Returns a [TypeLink] to the given statically analyzed [DartType].
 TypeLink linkTypeOf(DartType type) {
   // Return void or Null types.
-  if (type.isVoid) {
+  if (type is VoidType) {
     return TypeLink.$void;
   }
   if (type.isDartCoreNull) {

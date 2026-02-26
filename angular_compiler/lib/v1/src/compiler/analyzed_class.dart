@@ -105,7 +105,7 @@ String typeToCode(DartType type) {
     }
   } else if (type is TypeParameterType) {
     return type.element.name;
-  } else if (type.isVoid) {
+  } else if (type is VoidType) {
     return 'void';
   } else {
     throw UnimplementedError('(${type.runtimeType}) $type');
