@@ -9,7 +9,7 @@ dependencies:
   angular_compiler: ^2.0.2
   angular_test: ^4.0.1
   build: ^2.3.1
-  build_resolvers: ">=2.1.0 <2.2.0"
+  build_resolvers: ">=2.0.0 <2.1.0"
   build_test: ^2.2.0
   collection: ^1.18.0
   glob: ^2.1.2
