@@ -1,6 +1,6 @@
 sdk: ^2.19.6
 
-analyzer: 5.8.0 # ^5.9.0
+analyzer: 5.9.0 # ^5.10.0
 angular: ^7.0.2
 angular_ast: ^2.0.1
 angular_compiler: ^2.0.2

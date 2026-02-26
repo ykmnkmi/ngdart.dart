@@ -153,20 +153,22 @@ class _NormalizedComponentVisitor extends RecursiveElementVisitor<void> {
       final annotationImpl = annotation as ElementAnnotationImpl;
       for (final argument
           in annotationImpl.annotationAst.arguments!.arguments) {
-        if (argument is NamedExpression && argument.name.label.name == field) {
-          if (argument.expression is! ListLiteral) {
+        if (argument is NamedExpression &&
+            (argument as NamedExpression).name.label.name == field) {
+          if ((argument as NamedExpression).expression is! ListLiteral) {
             // Something like
             //   directives: 'Ha Ha!'
             //
             // ... was attempted to be used.
             _exceptionHandler.handle(UnresolvedExpressionError(
-              [argument.expression],
+              [(argument as NamedExpression).expression],
               element,
               annotationImpl.compilationUnit,
             ));
             break;
           }
-          final values = argument.expression as ListLiteral;
+          final values =
+              (argument as NamedExpression).expression as ListLiteral;
           if (values.elements.isNotEmpty &&
               values.elements.any(_isUnresolvedOrNotAnExpression)) {
             _exceptionHandler.handle(UnresolvedExpressionError(
@@ -314,7 +316,8 @@ class _ComponentVisitor
           final propertyType = setter.parameters.first.type;
           final dynamicType = setter.library.typeProvider.dynamicType;
           // Resolves unspecified or bounded generic type parameters.
-          final resolvedType = setter.library.typeSystem.resolveToBound(propertyType);
+          final resolvedType =
+              setter.library.typeSystem.resolveToBound(propertyType);
           final typeName = getTypeName(resolvedType);
           _addPropertyBindingTo(
               isField ? _fieldInputs : _setterInputs, annotation, element,
@@ -785,12 +788,13 @@ class _ComponentVisitor
   int _templateOffsetForAnnotation(AnnotationInformation annotationInfo) {
     var templateExpression =
         (annotationInfo.annotation as ElementAnnotationImpl)
-            .annotationAst
-            .arguments
-            ?.arguments
-            .firstWhereOrNull((argument) =>
-                argument is NamedExpression &&
-                argument.name.label.name == 'template') as NamedExpression?;
+                .annotationAst
+                .arguments
+                ?.arguments
+                .firstWhereOrNull((argument) =>
+                    argument is NamedExpression &&
+                    (argument as NamedExpression).name.label.name == 'template')
+            as NamedExpression?;
     if (templateExpression != null) {
       if (templateExpression.expression is SingleStringLiteral) {
         return (templateExpression.expression as SingleStringLiteral)

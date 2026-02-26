@@ -367,14 +367,14 @@ class CompileTypeMetadataVisitor
     final id = annotation.annotationAst.arguments!.arguments.first;
     if (id is Identifier) {
       if (id is PrefixedIdentifier) {
-        name = id.identifier.name;
+        name = (id as PrefixedIdentifier).name;
       } else {
-        name = id.name;
+        name = (id as Identifier).name;
       }
       return CompileTokenMetadata(
         identifier: CompileIdentifierMetadata(
           name: name,
-          moduleUrl: moduleUrl(id.staticElement!.library!),
+          moduleUrl: moduleUrl(id.staticParameterElement!.library!),
         ),
       );
     }
