@@ -18,6 +18,7 @@ dependencies:
   js: ^0.6.7
   lints: ^2.0.1
   meta: 1.9.1
+  stream_transform: ^2.1.0
 
 dependency_overrides:
   angular_ast:
