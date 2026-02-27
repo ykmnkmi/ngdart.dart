@@ -1,13 +1,13 @@
 name: angular_test
 description: Testing runner and library for AngularDart
 repository: https://github.com/angulardart/angular
-version: 4.0.1
+version: 4.1.0
 
 environment:
   sdk: ^2.19.6
 
 dependencies:
-  angular: ^7.0.2
+  angular: ^7.1.0
   collection: ^1.18.0
   meta: 1.9.1
 

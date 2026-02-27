@@ -1,3 +1,8 @@
+## 4.1.0
+
+- Require Dart 2.19.6.
+- Bump all dependencies.
+
 ## 4.0.1
 
 - Update `README.md`.

@@ -4,12 +4,11 @@ environment:
   sdk: ^2.19.6
 
 dependencies:
-  angular: 7.0.2
-  angular_ast: 2.0.1
-  angular_compiler: 2.0.2
-  angular_forms: 4.0.1
-  angular_router: 3.0.1
-  angular_test: 4.0.1
+  angular: ^7.1.0
+  angular_ast: ^2.1.0
+  angular_compiler: ^2.1.0
+  angular_forms: ^4.1.0
+  angular_test: ^4.1.0
 
 dev_dependencies:
   lints: ^2.0.1
