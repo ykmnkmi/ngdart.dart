@@ -12,7 +12,7 @@ dependencies:
   angular_ast: ^2.0.1
   args: ^2.4.2
   build: ^2.3.1
-  build_test: ^2.2.0
+  build_test: ^2.2.1
   code_builder: ^4.7.0
   collection: ^1.18.0
   csslib: ^1.0.0
