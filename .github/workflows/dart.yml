@@ -25,16 +25,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests;commands:analyze"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests;commands:analyze"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -109,16 +109,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:_tests;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:_tests;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -141,16 +141,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_forms;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_forms;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -173,16 +173,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_router;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_router;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -205,16 +205,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_test;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_test;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -237,16 +237,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:tests;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:tests;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -269,16 +269,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:_tests;commands:command_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:_tests;commands:command_2"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -306,16 +306,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:_tests;commands:command_1"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:_tests;commands:command_1"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -343,16 +343,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_ast;commands:command_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_ast;commands:command_3"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_ast
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_ast
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -380,16 +380,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_compiler;commands:command_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_compiler;commands:command_3"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_compiler
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_compiler
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -417,16 +417,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_forms;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_forms;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -454,16 +454,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_router;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_router;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -491,16 +491,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_test;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_test;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
@@ -528,16 +528,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:tests;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:tests;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7;packages:tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.7
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: "2.19.6"
+          sdk: "3.0.7"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
