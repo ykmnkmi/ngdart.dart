@@ -911,32 +911,16 @@ o.Statement? _generateInitStatement(CompileView view) {
   }
 }
 
-/// Returns [view.subscriptions], filtered for nulls if any are mock-like.
+/// Returns [view.subscriptions].
 ///
-/// Normally it's assumed that directive outputs are non-null. However, when a
-/// directive is mock-like, meaning it overrides [Object.noSuchMethod], any of
-/// its outputs could now be null. This is prevalent in tests, where complex
-/// directives are commonly mocked. In such a case, any null outputs will result
-/// in null subscriptions which must be filtered so that the view doesn't
-/// attempt to cancel them when it's destroyed.
+/// Normally it's assumed that directive outputs are non-null.
 ///
 /// Returns a null expression if there are no subscriptions.
 o.Expression _maybeFilterSubscriptions(CompileView view) {
   if (view.subscriptions.isEmpty) {
     return o.NULL_EXPR;
   }
-  final subscriptionsExpr = o.literalArr(view.subscriptions);
-  if (view.subscribesToMockLike) {
-    // Mock-like directives may have null subscriptions which must be
-    // filtered out to prevent an exception when they are later cancelled.
-    return subscriptionsExpr.callMethod('where', [
-      o.FunctionExpr(
-        [o.FnParam('i')],
-        [o.ReturnStatement(o.variable('i').notEquals(o.NULL_EXPR))],
-      )
-    ]).callMethod('toList', []);
-  }
-  return subscriptionsExpr;
+  return o.literalArr(view.subscriptions);
 }
 
 /// Writes shared event handler wiring for events that are directly defined

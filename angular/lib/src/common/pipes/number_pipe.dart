@@ -128,6 +128,7 @@ class CurrencyPipe extends _NumberPipe {
 }
 
 enum _NumberFormatStyle { Decimal, Percent, Currency }
+
 String? _normalizeLocale(String? locale) => locale?.replaceAll('-', '_');
 String _formatNumber(
   num number,

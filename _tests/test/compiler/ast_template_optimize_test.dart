@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:test/test.dart';
 import 'package:angular_compiler/v1/cli.dart';
 import 'package:angular_compiler/v1/src/compiler/expression_parser/parser.dart';
@@ -23,17 +21,17 @@ void main() {
     CompilerFlags(),
   );
 
-  List<Object> getHumanizedTemplate(
+  List<Object?> getHumanizedTemplate(
     NormalizedComponentWithViewDirectives component,
   ) {
     final componentMetadata = component.component;
     final templateAsts = templateParser.parse(
       componentMetadata,
-      componentMetadata.template.template,
+      componentMetadata.template!.template!,
       component.directives,
       [],
-      null,
-      componentMetadata.template.templateUrl,
+      '',
+      componentMetadata.template!.templateUrl ?? '',
     );
     return humanizeTplAst(templateAsts);
   }

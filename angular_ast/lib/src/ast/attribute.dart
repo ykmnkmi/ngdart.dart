@@ -11,7 +11,7 @@ const _listEquals = ListEquality<dynamic>();
 /// Represents a static attribute assignment (i.e. not bound to an expression).
 ///
 /// Clients should not extend, implement, or mix-in this class.
-abstract class AttributeAst implements TemplateAst {
+abstract mixin class AttributeAst implements TemplateAst {
   /// Create a new synthetic [AttributeAst] with a string [value].
   factory AttributeAst(
     String name, [

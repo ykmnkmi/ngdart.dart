@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:test/test.dart';
 import 'package:angular_compiler/v1/angular_compiler.dart';
 import 'package:angular_compiler/v1/src/compiler/style_url_resolver.dart'

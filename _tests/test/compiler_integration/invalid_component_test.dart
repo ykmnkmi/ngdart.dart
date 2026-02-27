@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:term_glyph/term_glyph.dart' as term_glyph;
 import 'package:test/test.dart';
 import 'package:_tests/compiler.dart';

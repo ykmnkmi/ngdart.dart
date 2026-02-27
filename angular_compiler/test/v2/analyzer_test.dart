@@ -12,24 +12,17 @@ void main() {
       expect(noType.isExplicitlyNullable, isFalse);
     });
 
-    Future<void> testDynamicIsNotExplicit({
-      required bool enableNullSafety,
-    }) async {
-      final lib = await resolve(
-        '''
-        ${enableNullSafety ? '// @dart=2.9' : ''}
-        dynamic topLevelField;
-        ''',
-        includeAngularDeps: false,
-      );
-      final field = lib.library.topLevelElements.last as VariableElement;
-      expect(field.type.isExplicitlyNullable, isFalse);
-      expect(field.type.isExplicitlyNonNullable, isFalse);
-    }
-
     group('on opted-in code:', () {
       test('dynamic should not be explicitly anything', () async {
-        await (testDynamicIsNotExplicit(enableNullSafety: true));
+        final lib = await resolve(
+          '''
+        dynamic topLevelField;
+        ''',
+          includeAngularDeps: false,
+        );
+        final field = lib.library.topLevelElements.last as VariableElement;
+        expect(field.type.isExplicitlyNullable, isFalse);
+        expect(field.type.isExplicitlyNonNullable, isFalse);
       });
 
       test('a non-nullable type should be explicitly non-nullable', () async {
@@ -66,39 +59,6 @@ void main() {
         );
         final field = lib.library.topLevelElements.last as VariableElement;
         expect(field.type.isExplicitlyNullable, isTrue);
-        expect(field.type.isExplicitlyNonNullable, isFalse);
-      });
-    });
-
-    group('on opted-out code:', () {
-      test('dynamic should not be explicitly anything', () async {
-        await (testDynamicIsNotExplicit(enableNullSafety: false));
-      });
-
-      test('a legacy type should not be explicitly anything', () async {
-        final lib = await resolve(
-          '''
-          // @dart=2.9
-          String topLevelField;
-          ''',
-          includeAngularDeps: false,
-        );
-        final field = lib.library.topLevelElements.last as VariableElement;
-        expect(field.type.isExplicitlyNullable, isFalse);
-        expect(field.type.isExplicitlyNonNullable, isFalse);
-      });
-
-      test('a legacy FutureOr should not explicitly anything', () async {
-        final lib = await resolve(
-          '''
-          // @dart=2.9
-          import 'dart:async';
-          FutureOr<String> topLevelField;
-          ''',
-          includeAngularDeps: false,
-        );
-        final field = lib.library.topLevelElements.last as VariableElement;
-        expect(field.type.isExplicitlyNullable, isFalse);
         expect(field.type.isExplicitlyNonNullable, isFalse);
       });
     });

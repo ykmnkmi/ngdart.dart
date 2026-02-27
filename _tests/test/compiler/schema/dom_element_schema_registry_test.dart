@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:test/test.dart';
 import 'package:angular_compiler/v1/src/compiler/schema/dom_element_schema_registry.dart'
     show DomElementSchemaRegistry;
@@ -7,7 +5,7 @@ import 'package:angular_compiler/v1/src/compiler/security.dart';
 
 void main() {
   group('DOMElementSchema', () {
-    DomElementSchemaRegistry registry;
+    late DomElementSchemaRegistry registry;
     setUp(() {
       registry = DomElementSchemaRegistry();
     });

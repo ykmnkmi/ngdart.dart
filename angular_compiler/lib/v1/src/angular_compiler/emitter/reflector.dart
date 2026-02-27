@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart' show LibraryReader;
-import 'package:angular_compiler/v2/context.dart';
 
 import '../analyzer/di/dependencies.dart';
 import '../analyzer/di/tokens.dart';
@@ -127,7 +126,6 @@ class ReflectableEmitter {
     _dartEmitter = SplitDartEmitter(
       _importBuffer,
       allocator: _allocator,
-      emitNullSafeSyntax: CompileContext.current.emitNullSafeCode,
     );
     _libraryBuilder = LibraryBuilder();
 
@@ -318,11 +316,10 @@ class SplitDartEmitter extends DartEmitter {
   SplitDartEmitter(
     this._writeImports, {
     Allocator allocator = Allocator.none,
-    bool emitNullSafeSyntax = false,
   }) : super(
           allocator: allocator,
           orderDirectives: false,
-          useNullSafetySyntax: emitNullSafeSyntax,
+          useNullSafetySyntax: true,
         );
 
   @override

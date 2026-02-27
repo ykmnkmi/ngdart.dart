@@ -15,7 +15,7 @@ const _listEquals = ListEquality<dynamic>();
 /// [references].
 ///
 /// Clients should not extend, implement, or mix-in this class.
-abstract class EmbeddedTemplateAst implements StandaloneTemplateAst {
+abstract mixin class EmbeddedTemplateAst implements StandaloneTemplateAst {
   factory EmbeddedTemplateAst({
     List<AnnotationAst> annotations,
     List<AttributeAst> attributes,

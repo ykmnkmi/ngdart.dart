@@ -63,7 +63,7 @@ abstract class TemplateAst {
 /// A marker interface for [TemplateAst] types that do not need to be attached.
 ///
 /// For example, elements, comments, and text may be free-standing nodes.
-abstract class StandaloneTemplateAst implements TemplateAst {}
+abstract mixin class StandaloneTemplateAst implements TemplateAst {}
 
 /// An AST node that was created programmatically (not from parsed source).
 ///

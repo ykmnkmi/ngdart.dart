@@ -28,7 +28,8 @@ void main() {
       rootInjector: injectorFactory,
     );
     final testFixture = await testBed.create();
-    expect(testFixture.assertOnlyInstance.anchor!.getAttribute('href'), '#/foo');
+    expect(
+        testFixture.assertOnlyInstance.anchor!.getAttribute('href'), '#/foo');
     await testFixture.update((c) {
       c.anchor!.click();
     });

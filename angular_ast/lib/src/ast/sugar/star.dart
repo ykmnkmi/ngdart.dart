@@ -11,7 +11,7 @@ import '../../visitor.dart';
 /// useful for tooling, but not useful for compilers).
 ///
 /// Clients should not extend, implement, or mix-in this class.
-abstract class StarAst implements TemplateAst {
+abstract mixin class StarAst implements TemplateAst {
   /// Create a new synthetic [StarAst] assigned to [name].
   factory StarAst(
     String name, [

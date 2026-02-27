@@ -84,14 +84,11 @@ class NgFormControl extends NgControl implements AfterChanges {
   dynamic viewModel;
 
   NgFormControl(
-      @Optional()
-      @Self()
-      @Inject(NG_VALIDATORS)
-          List<dynamic>? validators,
+      @Optional() @Self() @Inject(NG_VALIDATORS) List<dynamic>? validators,
       @Optional()
       @Self()
       @Inject(ngValueAccessor)
-          List<ControlValueAccessor<dynamic>>? valueAccessors)
+      List<ControlValueAccessor<dynamic>>? valueAccessors)
       : super(valueAccessors, validators);
 
   @override

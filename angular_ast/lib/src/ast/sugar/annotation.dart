@@ -10,7 +10,7 @@ import '../../visitor.dart';
 /// This annotation may optionally be assigned a value `@annotation="value"`.
 ///
 /// Clients should not extend, implement, or mix-in this class.
-abstract class AnnotationAst implements TemplateAst {
+abstract mixin class AnnotationAst implements TemplateAst {
   /// Create a new synthetic [AnnotationAst] with a string [name].
   factory AnnotationAst(String name, [String? value]) = _SyntheticAnnotationAst;
 

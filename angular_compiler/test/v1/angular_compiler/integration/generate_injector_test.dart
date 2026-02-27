@@ -21,7 +21,6 @@ void main() {
 
     setUpAll(() async {
       final library = await resolveLibrary(r'''
-        // @dart=2.9
         @GenerateInjector([
           FactoryProvider(Foo, createFooDynamicDependency),
         ])
@@ -80,7 +79,6 @@ void main() {
 
     setUpAll(() async {
       final library = await resolveLibrary(r'''
-        // @dart=2.9
         @GenerateInjector([
           ValueProvider(Foo, Foo(Foo)),
         ])
@@ -102,7 +100,7 @@ void main() {
               e.toString(),
               allOf([
                 contains('Reviving Types is not supported'),
-                contains('line 8, column 25 of')
+                contains('line 7, column 25 of')
               ]));
           rethrow;
         }

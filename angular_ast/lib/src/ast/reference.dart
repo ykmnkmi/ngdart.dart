@@ -8,7 +8,7 @@ import '../visitor.dart';
 /// Represents a reference to an element or exported directive instance.
 ///
 /// Clients should not extend, implement, or mix-in this class.
-abstract class ReferenceAst implements TemplateAst {
+abstract mixin class ReferenceAst implements TemplateAst {
   /// Create a new synthetic reference of [variable].
   factory ReferenceAst(
     String variable, [

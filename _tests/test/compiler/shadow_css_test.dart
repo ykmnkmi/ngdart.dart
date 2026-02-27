@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'dart:async';
 
 import 'package:logging/logging.dart';
@@ -32,7 +30,7 @@ RegExp containsRegexp(String input) {
   return RegExp(input.replaceAllMapped(_ESCAPE_RE, (match) => '\\${match[0]}'));
 }
 
-RegExp _normalizerExp1,
+RegExp? _normalizerExp1,
     _normalizerExp2,
     _normalizerExp3,
     _normalizerExp4,
@@ -48,20 +46,20 @@ String normalizeCSS(String css) {
   _normalizerExp5 ??= RegExp(r'}(?!}|$)');
   _normalizerExp6 ??= RegExp(r'url\((\"|\s)(.+)(\"|\s)\)(\s*)');
   _normalizerExp7 ??= RegExp(r'\[(.+)=([^"\]]+)\]');
-  css = css.replaceAll(_normalizerExp1, ' ');
-  css = css.replaceAll(_normalizerExp2, ':');
-  css = css.replaceAll(_normalizerExp3, '"');
-  css = css.replaceAll(_normalizerExp4, ' {');
-  css = css.replaceAll(_normalizerExp5, '} ');
-  css = css.replaceAllMapped(_normalizerExp6, (match) => 'url("${match[2]}")');
+  css = css.replaceAll(_normalizerExp1!, ' ');
+  css = css.replaceAll(_normalizerExp2!, ':');
+  css = css.replaceAll(_normalizerExp3!, '"');
+  css = css.replaceAll(_normalizerExp4!, ' {');
+  css = css.replaceAll(_normalizerExp5!, '} ');
+  css = css.replaceAllMapped(_normalizerExp6!, (match) => 'url("${match[2]}")');
   css = css.replaceAllMapped(
-      _normalizerExp7, (match) => '[${match[1]}="${match[2]}"]');
+      _normalizerExp7!, (match) => '[${match[1]}="${match[2]}"]');
   return css;
 }
 
 /// Shims [css] and compares to the [expected] output for both current and
 /// legacy encapsulation.
-void shimAndExpect(String css, String expected, {String expectedLegacy}) {
+void shimAndExpect(String css, String expected, {String? expectedLegacy}) {
   runZoned(() {
     var actual = shimShadowCss(css, content, host);
     var actualLegacy =

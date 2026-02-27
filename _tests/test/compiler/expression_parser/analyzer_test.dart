@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:test/test.dart';
 import 'package:angular_compiler/v1/src/compiler/expression_parser/analyzer_parser.dart';
 import 'package:angular_compiler/v1/src/compiler/expression_parser/ast.dart'
@@ -15,7 +13,7 @@ void main() {
   final parser = AnalyzerExpressionParser();
   final unparser = Unparser();
 
-  String parse(String input, {bool allowAssignments}) {
+  String parse(String input, {bool? allowAssignments}) {
     final wrapped = ast.ASTWithSource(
       parser.parseExpression(
         input,

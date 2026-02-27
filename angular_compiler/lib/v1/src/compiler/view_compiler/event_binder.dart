@@ -16,9 +16,7 @@ void bindDirectiveOutputs(
     var handlerExpr = converter
         .scopeNamespace()
         .convertSourceToExpression(output.source, output.target.type)!;
-    var nodeReference = view.createSubscription(
-      isMockLike: (output.target as ir.DirectiveOutput).isMockLike,
-    );
+    var nodeReference = view.createSubscription();
     view.addEventListener(
         nodeReference, output, handlerExpr, directiveInstance.build());
   }

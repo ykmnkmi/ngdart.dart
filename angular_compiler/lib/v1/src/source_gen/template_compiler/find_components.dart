@@ -221,9 +221,6 @@ class _ComponentVisitor
   final LibraryReader _library;
   final ComponentVisitorExceptionHandler _exceptionHandler;
 
-  /// Whether the component being visited re-implements 'noSuchMethod'.
-  bool _implementsNoSuchMethod = false;
-
   /// Element of the current directive being visited.
   ///
   /// This is used to look up resolved type information.
@@ -314,7 +311,6 @@ class _ComponentVisitor
             return;
           }
           final propertyType = setter.parameters.first.type;
-          final dynamicType = setter.library.typeProvider.dynamicType;
           // Resolves unspecified or bounded generic type parameters.
           final resolvedType =
               setter.library.typeSystem.resolveToBound(propertyType);
@@ -596,12 +592,6 @@ class _ComponentVisitor
     // whether a user type implements 'noSuchMethod'.
     if (element.isDartCoreObject) return;
 
-    // Skip checking for noSuchMethod for opted-in libraries.
-    if (!CompileContext.current.emitNullSafeCode &&
-        element.getMethod('noSuchMethod') != null) {
-      _implementsNoSuchMethod = true;
-    }
-
     // Collect metadata from field and property accessor annotations.
     super.visitClassElement(element);
 
@@ -658,8 +648,7 @@ class _ComponentVisitor
     // _createTemplateMetadata failed to create the metadata.
     if (template == null) return null;
 
-    final analyzedClass =
-        AnalyzedClass(element, isMockLike: _implementsNoSuchMethod);
+    final analyzedClass = AnalyzedClass(element);
     final lifecycleHooks = extractLifecycleHooks(element);
     _validateLifecycleHooks(lifecycleHooks, element, isComponent);
 

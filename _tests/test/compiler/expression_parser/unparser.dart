@@ -1,11 +1,9 @@
-// @dart=2.9
-
 import 'package:angular_compiler/v1/src/compiler/expression_parser/ast.dart';
 
 class Unparser implements AstVisitor<void, String> {
   static final _quoteRegExp = RegExp(r'"');
 
-  StringBuffer sb;
+  late StringBuffer sb;
 
   String unparse(ASTWithSource ast) {
     sb = StringBuffer();
@@ -102,9 +100,9 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitNamedExpr(NamedExpr ast, _) {
+  void visitNamedExpr(NamedExpr ast, void _) {
     sb.write('${ast.name}: ');
-    ast.expression.visit(this);
+    ast.expression!.visit(this);
   }
 
   @override

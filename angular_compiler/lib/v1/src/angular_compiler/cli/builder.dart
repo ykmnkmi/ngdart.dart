@@ -29,13 +29,11 @@ class Compiler implements Generator {
 
   @override
   Future<String> generate(LibraryReader library, BuildStep buildStep) {
-    final isNullSafe = library.element.isNonNullableByDefault;
     return runWithContext(
       CompileContext(
         buildStep.inputId,
         policyExceptions: _flags.policyExceptions,
         policyExceptionsInPackages: _flags.policyExceptionInPackages,
-        isNullSafe: isNullSafe,
         enableDevTools: _flags.enableDevTools,
       ),
       () => _build(library, buildStep, _flags),

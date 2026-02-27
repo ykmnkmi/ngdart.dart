@@ -1,6 +1,3 @@
-// @dart=2.9
-
-import 'package:build/build.dart';
 import 'package:test/test.dart';
 import 'package:_tests/compiler.dart';
 import 'package:angular_compiler/v2/context.dart';
@@ -191,64 +188,5 @@ void main() {
         CarComponent(@Attribute('title') String? title);
       }
     """);
-  });
-
-  group('should allow opted-out to use opted-in import w/o error', () {
-    final clientLibSource = """
-      // @dart=2.9
-      import '$ngImport';
-      import 'opted_in_library.dart';
-
-      @Component(
-        selector: 'example-comp',
-        template: '',
-        providers: [
-          ClassProvider(Clock),
-        ],
-      )
-      class ExampleComp {
-        ExampleComp(Clock clock);
-      }
-    """;
-
-    setUp(() {
-      CompileContext.overrideForTesting(
-        CompileContext.forTesting(emitNullSafeCode: false),
-      );
-    });
-
-    test('[expected nullable]', () async {
-      final importLibSource = '''
-        typedef DateTimeGetter = DateTime Function();
-        class Clock {
-          static DateTime _defaultGetTime() => DateTime.now();
-          Clock([DateTimeGetter getTime = _defaultGetTime]);
-        }
-      ''';
-      await compilesNormally(
-        clientLibSource,
-        include: {
-          'pkg|lib/opted_in_library.dart': importLibSource,
-        },
-        inputSource: 'pkg|lib/opted_out_client.dart',
-        runBuilderOn: {AssetId('pkg', 'lib/opted_out_client.dart')},
-      );
-    });
-
-    test('[expected @Optional]', () async {
-      final importLibSource = '''
-        class Clock {
-          Clock(DateTime? expectedToBeOptional);
-        }
-      ''';
-      await compilesNormally(
-        clientLibSource,
-        include: {
-          'pkg|lib/opted_in_library.dart': importLibSource,
-        },
-        inputSource: 'pkg|lib/opted_out_client.dart',
-        runBuilderOn: {AssetId('pkg', 'lib/opted_out_client.dart')},
-      );
-    });
   });
 }

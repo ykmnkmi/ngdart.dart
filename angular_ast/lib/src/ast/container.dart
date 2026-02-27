@@ -13,7 +13,7 @@ const _listEquals = ListEquality();
 /// This is a logical container that has no effect on layout in the DOM.
 ///
 /// Clients should not extend, implement, or mix-in this class.
-abstract class ContainerAst implements StandaloneTemplateAst {
+abstract mixin class ContainerAst implements StandaloneTemplateAst {
   factory ContainerAst({
     List<AnnotationAst> annotations,
     List<StandaloneTemplateAst> childNodes,

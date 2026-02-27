@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'dart:io';
 
 import 'package:build/build.dart';
@@ -56,9 +54,9 @@ final _ngFiles = Glob('lib/**.dart');
 Future<void> _testBuilder(
   Builder builder,
   Map<String, String> sourceAssets, {
-  List<AssetId> runBuilderOn,
-  void Function(LogRecord) onLog,
-  String rootPackage,
+  List<AssetId>? runBuilderOn,
+  void Function(LogRecord)? onLog,
+  String? rootPackage,
 }) async {
   // Setup the readers/writers for assets.
   final sources = InMemoryAssetReader(rootPackage: rootPackage);
@@ -108,7 +106,7 @@ Future<void> _testBuilder(
           inputIds,
           reader,
           writer,
-          AnalyzerResolvers.sharedInstance,
+          AnalyzerResolvers.custom(),
           logger: logger,
         ),
         ['non-nullable'],
@@ -135,13 +133,13 @@ Future<void> _testBuilder(
 /// Note that `package:angular/**.dart` is always included.
 Future<void> compilesExpecting(
   String input, {
-  String inputSource,
-  Set<AssetId> runBuilderOn,
-  Map<String, String> include,
-  Object /*Matcher|Iterable<Matcher>*/ errors,
-  Object /*Matcher|Iterable<Matcher>*/ warnings,
-  Object /*Matcher|Iterable<Matcher>*/ notices,
-  Object /*Matcher|Map<String, Matcher>*/ outputs,
+  String? inputSource,
+  Set<AssetId>? runBuilderOn,
+  Map<String, String>? include,
+  Object? /*Matcher|Iterable<Matcher>*/ errors,
+  Object? /*Matcher|Iterable<Matcher>*/ warnings,
+  Object? /*Matcher|Iterable<Matcher>*/ notices,
+  Object? /*Matcher|Map<String, Matcher>*/ outputs,
 }) async {
   // Default values.
   //
@@ -154,7 +152,8 @@ Future<void> compilesExpecting(
   // Complete list of input sources.
   final sources = <String, String>{
     inputSource: input,
-  }..addAll(include);
+    ...include,
+  };
 
   // Run the builder.
   final records = <Level, List<LogRecord>>{};
@@ -177,14 +176,20 @@ Future<void> compilesExpecting(
   }
 }
 
-void expectLogRecords(List<LogRecord> logs, matcher, String reasonPrefix) {
-  if (matcher == null) {
+void expectLogRecords(
+  List<LogRecord>? logs,
+  dynamic matcher,
+  String reasonPrefix,
+) {
+  if (matcher == null || logs == null) {
     return;
   }
-  logs ??= [];
-  expect(logs.map(formattedLogMessage), matcher,
-      reason:
-          '$reasonPrefix: \n${logs.map((l) => '${formattedLogMessage(l)} at:\n ${l.stackTrace}')}');
+  expect(
+    logs.map(formattedLogMessage),
+    matcher is Iterable ? containsAllInOrder(matcher) : matcher,
+    reason:
+        '$reasonPrefix: \n${logs.map((l) => '${formattedLogMessage(l)} at:\n ${l.stackTrace}')}',
+  );
 }
 
 String formattedLogMessage(LogRecord record) {
@@ -200,9 +205,9 @@ String formattedLogMessage(LogRecord record) {
 /// An alias [compilesExpecting] with `errors` and `warnings` asserting empty.
 Future<void> compilesNormally(
   String input, {
-  String inputSource,
-  Map<String, String> include,
-  Set<AssetId> runBuilderOn,
+  String? inputSource,
+  Map<String, String>? include,
+  Set<AssetId>? runBuilderOn,
 }) =>
     compilesExpecting(
       input,

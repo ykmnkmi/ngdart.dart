@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:angular_compiler/v1/src/compiler/output/dart_emitter.dart';
 import 'package:angular_compiler/v1/src/compiler/template_ast.dart';
 
@@ -111,7 +109,7 @@ class _TemplateHumanizer implements TemplateAstVisitor<void, void> {
         ..add(attributeValue.value.text)
         ..add(attributeValue.value.metadata.description);
       if (attributeValue.value.metadata.meaning != null) {
-        res.add(attributeValue.value.metadata.meaning);
+        res.add(attributeValue.value.metadata.meaning!);
       }
     } else if (attributeValue is LiteralAttributeValue) {
       res.add(attributeValue.value);
@@ -166,7 +164,7 @@ class _TemplateHumanizer implements TemplateAstVisitor<void, void> {
   void visitI18nText(I18nTextAst ast, _) {
     var res = [I18nTextAst, ast.value.text, ast.value.metadata.description];
     if (ast.value.metadata.meaning != null) {
-      res.add(ast.value.metadata.meaning);
+      res.add(ast.value.metadata.meaning!);
     }
     if (ast.value.containsHtml) {
       res.add(ast.value.args);

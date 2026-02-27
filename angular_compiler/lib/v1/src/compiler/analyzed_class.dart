@@ -10,29 +10,17 @@ class AnalyzedClass {
   final ClassElement classElement;
   final Map<String, DartType?> locals;
 
-  /// Whether this class has mock-like behavior.
-  ///
-  /// The heuristic used to determine mock-like behavior is if the analyzed
-  /// class or one of its ancestors, other than [Object], implements
-  /// [noSuchMethod].
-  ///
-  /// Note that is the value is _never_ true for null-safe libraries, as we no
-  /// longer support null streams/stream subscriptions in the generated code.
-  final bool isMockLike;
-
   // The type provider associated with this class.
   TypeProvider get _typeProvider => classElement.library.typeProvider;
 
   AnalyzedClass(
     this.classElement, {
-    this.isMockLike = false,
     this.locals = const {},
   });
 
   AnalyzedClass.from(AnalyzedClass other,
       {Map<String, DartType?> additionalLocals = const {}})
       : classElement = other.classElement,
-        isMockLike = other.isMockLike,
         locals = {}
           ..addAll(other.locals)
           ..addAll(additionalLocals);

@@ -138,10 +138,6 @@ class CompileTypeMetadataVisitor
     DartType type, {
     required bool isOptional,
   }) {
-    if (!CompileContext.current.emitNullSafeCode) {
-      // Do not run this check for libraries not opted-in to null safety.
-      return;
-    }
     if (type.isExplicitlyNonNullable) {
       // Must *NOT* be @Optional()
       if (isOptional) {

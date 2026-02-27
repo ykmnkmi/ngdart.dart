@@ -89,9 +89,7 @@ class TemplateOutliner implements Builder {
     // Unlike the main compiler, we do not do an allow-list check here; this is
     // both to speed up the outliner (reducing duplicate checks) and because we
     // do not have a configured CompileContext when the outliner is run.
-    final emitNullSafeCode = library.isNonNullableByDefault;
-    final languageVersion = emitNullSafeCode ? '' : '// @dart=2.9\n\n';
-    final output = StringBuffer('$languageVersion$_analyzerIgnores\n');
+    final output = StringBuffer('$_analyzerIgnores\n');
     if (exportUserCodeFromTemplate) {
       output
         ..writeln('// The .template.dart files also export the user code.')

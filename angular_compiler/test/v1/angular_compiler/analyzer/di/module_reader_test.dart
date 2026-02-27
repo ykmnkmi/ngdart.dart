@@ -18,7 +18,6 @@ void main() {
 
     setUpAll(() async {
       final testLib = await resolveLibrary(r'''
-        // @dart=2.9
         @listModule
         @newModuleA
         @newModuleB
@@ -192,7 +191,6 @@ void main() {
 
     setUpAll(() async {
       final testLib = await resolveLibrary(r'''
-        // @dart=2.9
         @aListOfProviders
         @aModuleOfProviders
         @nestedListsAndModules

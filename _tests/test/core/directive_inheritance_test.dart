@@ -435,7 +435,7 @@ class TestDirectiveDerivedComponent {
   String? input;
 }
 
-class DescriptionInput {
+mixin class DescriptionInput {
   @Input()
   String? description;
 }
@@ -494,7 +494,7 @@ class FooAttribute {
   String? foo;
 }
 
-class BarAttribute {
+mixin class BarAttribute {
   @HostBinding('attr.bar')
   String? bar;
 }
@@ -587,7 +587,7 @@ abstract class MixinInterface {
   set input(String value);
 }
 
-class MixinImplementsInterface implements MixinInterface {
+mixin class MixinImplementsInterface implements MixinInterface {
   String? input;
 }
 

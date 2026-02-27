@@ -12,7 +12,7 @@ const _listEquals = ListEquality<dynamic>();
 /// element.
 ///
 /// Clients should not extend, implement, or mix-in this class.
-abstract class EventAst implements TemplateAst {
+abstract mixin class EventAst implements TemplateAst {
   /// Create a new synthetic [EventAst] listening to [name].
   factory EventAst(
     String name,

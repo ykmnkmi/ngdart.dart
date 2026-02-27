@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'dart:io';
 import 'dart:isolate';
 
@@ -18,11 +16,11 @@ final _packageConfigFuture = Platform
             .environment['ANGULAR_PACKAGE_CONFIG_PATH'] !=
         null
     ? loadPackageConfigUri(
-        Uri.base.resolve(Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH']))
-    : Isolate.packageConfig.then(loadPackageConfigUri);
+        Uri.base.resolve(Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH']!))
+    : Isolate.packageConfig.then((uri) => loadPackageConfigUri(uri!));
 
 Future<LibraryElement> resolve(String source,
-    [PackageConfig packageConfig]) async {
+    [PackageConfig? packageConfig]) async {
   final testAssetId = AssetId('_tests', 'lib/resolve.dart');
   return await withEnabledExperiments(
     () => resolveSource(

@@ -204,8 +204,7 @@ class _ToBindingVisitor
       ir.Binding(
         source:
             _handlerFor(ast.templateName, ast.handler, ast.sourceSpan, context),
-        target: ir.DirectiveOutput(
-            ast.memberName, context.directive!.analyzedClass!.isMockLike),
+        target: ir.DirectiveOutput(ast.memberName),
       );
 
   @override

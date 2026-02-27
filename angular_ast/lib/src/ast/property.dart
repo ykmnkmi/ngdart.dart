@@ -9,7 +9,7 @@ import '../visitor.dart';
 /// element.
 ///
 /// Clients should not extend, implement, or mix-in this class.
-abstract class PropertyAst implements TemplateAst {
+abstract mixin class PropertyAst implements TemplateAst {
   /// Create a new synthetic [PropertyAst] assigned to [name].
   factory PropertyAst(
     String name, [

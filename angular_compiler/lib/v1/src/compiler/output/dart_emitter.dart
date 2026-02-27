@@ -12,7 +12,8 @@ import 'path_util.dart' show getImportModulePath;
 var _debugModuleUrl = 'asset://debug/lib';
 var _METADATA_MAP_VAR = '_METADATA';
 String debugOutputAstAsDart(
-  dynamic /* o . Statement | o . Expression | o . Type | List < dynamic > */ ast, {
+  dynamic /* o . Statement | o . Expression | o . Type | List < dynamic > */
+      ast, {
   bool emitNullSafeSyntax = false,
 }) {
   var converter = _DartEmitterVisitor(

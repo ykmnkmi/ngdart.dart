@@ -95,7 +95,7 @@ class NgControlName extends NgControl implements AfterChanges, OnDestroy {
     @Optional()
     @Self()
     @Inject(ngValueAccessor)
-        List<ControlValueAccessor<dynamic>>? valueAccessors,
+    List<ControlValueAccessor<dynamic>>? valueAccessors,
   ) : super(valueAccessors, validators);
 
   @Input('ngControl')

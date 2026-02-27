@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:build_test/build_test.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
@@ -108,7 +106,7 @@ void main() {
       ),
     );
     metadata = await normalizer.normalizeDirective(metadata);
-    expect(metadata.template.ngContentSelectors, [
+    expect(metadata.template!.ngContentSelectors, [
       '*',
       '.left',
       '.right',
@@ -154,7 +152,7 @@ void main() {
     );
     metadata = await normalizer.normalizeDirective(metadata);
     expect(
-      metadata.template.styleUrls,
+      metadata.template!.styleUrls,
       orderedEquals([
         'package:a/1.css',
         'package:a/2.css',
@@ -174,7 +172,7 @@ void main() {
       ),
     );
     metadata = await normalizer.normalizeDirective(metadata);
-    expect(metadata.template.encapsulation, ViewEncapsulation.None);
+    expect(metadata.template!.encapsulation, ViewEncapsulation.None);
   });
 
   test('should resolve inline stylesheets', () async {
@@ -205,9 +203,9 @@ void main() {
       ),
     );
     metadata = await normalizer.normalizeDirective(metadata);
-    expect(metadata.template.encapsulation, ViewEncapsulation.Emulated);
+    expect(metadata.template!.encapsulation, ViewEncapsulation.Emulated);
     expect(
-      metadata.template.styles,
+      metadata.template!.styles,
       [
         contains(':host { margin: 10px; }'),
       ],

@@ -488,17 +488,7 @@ class CustomEvent extends BoundEvent {
 }
 
 class DirectiveOutput extends BoundEvent {
-  /// Whether this output has mock-like behavior.
-  ///
-  /// The heuristic used to determine mock-like behavior is if the analyzed
-  /// class or one of its ancestors, other than [Object], implements
-  /// [noSuchMethod].
-  ///
-  /// Note that is the value is _never_ true for null-safe libraries, as we no
-  /// longer support null streams/stream subscriptions in the generated code.
-  final bool isMockLike;
-
-  DirectiveOutput(String name, this.isMockLike) : super(name);
+  DirectiveOutput(String name) : super(name);
 
   @override
   R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
@@ -736,7 +726,7 @@ class ComplexEventHandler extends EventHandler {
       visitor.visitComplexEventHandler(this, context);
 }
 
-abstract class BindingTargetVisitor<R, C> {
+abstract mixin class BindingTargetVisitor<R, C> {
   R visitTextBinding(TextBinding textBinding, [C? context]);
   R visitHtmlBinding(HtmlBinding htmlBinding, [C? context]);
   R visitClassBinding(ClassBinding classBinding, [C? context]);
@@ -750,7 +740,7 @@ abstract class BindingTargetVisitor<R, C> {
   R visitDirectiveOutput(DirectiveOutput directiveOutput, [C? context]);
 }
 
-abstract class BindingSourceVisitor<R, C> {
+abstract mixin class BindingSourceVisitor<R, C> {
   R visitBoundI18nMessage(BoundI18nMessage boundI18nMessage, [C? context]);
   R visitStringLiteral(StringLiteral stringLiteral, [C? context]);
   R visitBoundExpression(BoundExpression boundExpression, [C? context]);
