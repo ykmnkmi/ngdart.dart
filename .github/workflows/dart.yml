@@ -18,16 +18,16 @@ permissions: read-all
 
 jobs:
   job_001:
-    name: "analyze; PKGS: angular, angular_ast, angular_compiler, angular_forms, angular_router, angular_test; `dart analyze`"
+    name: "analyze; PKGS: angular, angular_ast, angular_compiler, angular_forms, angular_router, angular_test, tests; `dart analyze`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v4
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test;commands:analyze"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests;commands:analyze"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests
             os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
@@ -92,6 +92,15 @@ jobs:
         run: dart analyze
         if: "always() && steps.angular_test_pub_upgrade.conclusion == 'success'"
         working-directory: angular_test
+      - id: tests_pub_upgrade
+        name: tests; dart pub upgrade
+        run: dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: tests
+      - name: tests; dart analyze
+        run: dart analyze
+        if: "always() && steps.tests_pub_upgrade.conclusion == 'success'"
+        working-directory: tests
   job_002:
     name: "build; PKG: _tests; `dart run build_runner build --fail-on-severe`"
     runs-on: ubuntu-latest
@@ -221,6 +230,38 @@ jobs:
     needs:
       - job_001
   job_006:
+    name: "build; PKG: tests; `dart run build_runner build --fail-on-severe`"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Pub hosted dependencies
+        uses: actions/cache@v4
+        with:
+          path: "~/.pub-cache/hosted"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:tests;commands:command_0"
+          restore-keys: |
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted
+            os:ubuntu-latest
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "2.19.6"
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v4
+      - id: tests_pub_upgrade
+        name: tests; dart pub upgrade
+        run: dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: tests
+      - name: "tests; dart run build_runner build --fail-on-severe"
+        run: dart run build_runner build --fail-on-severe
+        if: "always() && steps.tests_pub_upgrade.conclusion == 'success'"
+        working-directory: tests
+    needs:
+      - job_001
+  job_007:
     name: "unit_test; PKG: _tests; `dart run build_runner test --fail-on-severe -- -P browser`"
     runs-on: ubuntu-latest
     steps:
@@ -256,7 +297,8 @@ jobs:
       - job_003
       - job_004
       - job_005
-  job_007:
+      - job_006
+  job_008:
     name: "unit_test; PKG: _tests; `dart test -P vm`"
     runs-on: ubuntu-latest
     steps:
@@ -292,7 +334,8 @@ jobs:
       - job_003
       - job_004
       - job_005
-  job_008:
+      - job_006
+  job_009:
     name: "unit_test; PKG: angular_ast; `dart test -P ci`"
     runs-on: ubuntu-latest
     steps:
@@ -328,7 +371,8 @@ jobs:
       - job_003
       - job_004
       - job_005
-  job_009:
+      - job_006
+  job_010:
     name: "unit_test; PKG: angular_compiler; `dart test -P ci`"
     runs-on: ubuntu-latest
     steps:
@@ -364,7 +408,8 @@ jobs:
       - job_003
       - job_004
       - job_005
-  job_010:
+      - job_006
+  job_011:
     name: "unit_test; PKG: angular_forms; `dart run build_runner test --fail-on-severe -- -P ci`"
     runs-on: ubuntu-latest
     steps:
@@ -400,7 +445,8 @@ jobs:
       - job_003
       - job_004
       - job_005
-  job_011:
+      - job_006
+  job_012:
     name: "unit_test; PKG: angular_router; `dart run build_runner test --fail-on-severe -- -P ci`"
     runs-on: ubuntu-latest
     steps:
@@ -436,7 +482,8 @@ jobs:
       - job_003
       - job_004
       - job_005
-  job_012:
+      - job_006
+  job_013:
     name: "unit_test; PKG: angular_test; `dart run build_runner test --fail-on-severe -- -P ci`"
     runs-on: ubuntu-latest
     steps:
@@ -472,3 +519,41 @@ jobs:
       - job_003
       - job_004
       - job_005
+      - job_006
+  job_014:
+    name: "unit_test; PKG: tests; `dart run build_runner test --fail-on-severe -- -P ci`"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Pub hosted dependencies
+        uses: actions/cache@v4
+        with:
+          path: "~/.pub-cache/hosted"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:tests;commands:command_4"
+          restore-keys: |
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6;packages:tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.6
+            os:ubuntu-latest;pub-cache-hosted
+            os:ubuntu-latest
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "2.19.6"
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v4
+      - id: tests_pub_upgrade
+        name: tests; dart pub upgrade
+        run: dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: tests
+      - name: "tests; dart run build_runner test --fail-on-severe -- -P ci"
+        run: dart run build_runner test --fail-on-severe -- -P ci
+        if: "always() && steps.tests_pub_upgrade.conclusion == 'success'"
+        working-directory: tests
+    needs:
+      - job_001
+      - job_002
+      - job_003
+      - job_004
+      - job_005
+      - job_006
