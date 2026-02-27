@@ -1,0 +1,26 @@
+name: tests
+description: Tests for AngularDart.
+
+environment:
+  sdk: ^2.19.6
+
+dependencies:
+  build_resolvers: ">=2.4.0 <2.4.1"
+
+dev_dependencies:
+  angular: ^7.1.0
+  angular_test: ^4.1.0
+  build_runner: ^2.3.3
+  build_web_compilers: ^3.2.7
+  lints: ^2.0.1
+  test: ^1.24.3
+
+dependency_overrides:
+  angular:
+    path: ../angular
+  angular_ast:
+    path: ../angular_ast
+  angular_compiler:
+    path: ../angular_compiler
+  angular_test:
+    path: ../angular_test

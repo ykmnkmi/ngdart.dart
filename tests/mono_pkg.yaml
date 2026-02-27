@@ -1,0 +1,11 @@
+sdk:
+  - 2.19.6
+
+stages:
+  - analyze:
+      - group:
+          - analyze
+  - build:
+      - command: dart run build_runner build --fail-on-severe
+  - unit_test:
+      - command: dart run build_runner test --fail-on-severe -- -P ci
