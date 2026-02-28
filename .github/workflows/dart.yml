@@ -410,7 +410,7 @@ jobs:
       - job_005
       - job_006
   job_011:
-    name: "unit_test; PKG: angular_forms; `dart run build_runner test --fail-on-severe -- -P ci`"
+    name: "unit_test; PKG: angular_forms; `dart run build_runner test --fail-on-severe -- -P ci -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -435,8 +435,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_forms
-      - name: "angular_forms; dart run build_runner test --fail-on-severe -- -P ci"
-        run: dart run build_runner test --fail-on-severe -- -P ci
+      - name: "angular_forms; dart run build_runner test --fail-on-severe -- -P ci -j1"
+        run: dart run build_runner test --fail-on-severe -- -P ci -j1
         if: "always() && steps.angular_forms_pub_upgrade.conclusion == 'success'"
         working-directory: angular_forms
     needs:
@@ -447,7 +447,7 @@ jobs:
       - job_005
       - job_006
   job_012:
-    name: "unit_test; PKG: angular_router; `dart run build_runner test --fail-on-severe -- -P ci`"
+    name: "unit_test; PKG: angular_router; `dart run build_runner test --fail-on-severe -- -P ci -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -472,8 +472,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_router
-      - name: "angular_router; dart run build_runner test --fail-on-severe -- -P ci"
-        run: dart run build_runner test --fail-on-severe -- -P ci
+      - name: "angular_router; dart run build_runner test --fail-on-severe -- -P ci -j1"
+        run: dart run build_runner test --fail-on-severe -- -P ci -j1
         if: "always() && steps.angular_router_pub_upgrade.conclusion == 'success'"
         working-directory: angular_router
     needs:
@@ -484,7 +484,7 @@ jobs:
       - job_005
       - job_006
   job_013:
-    name: "unit_test; PKG: angular_test; `dart run build_runner test --fail-on-severe -- -P ci`"
+    name: "unit_test; PKG: angular_test; `dart run build_runner test --fail-on-severe -- -P ci -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -509,8 +509,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_test
-      - name: "angular_test; dart run build_runner test --fail-on-severe -- -P ci"
-        run: dart run build_runner test --fail-on-severe -- -P ci
+      - name: "angular_test; dart run build_runner test --fail-on-severe -- -P ci -j1"
+        run: dart run build_runner test --fail-on-severe -- -P ci -j1
         if: "always() && steps.angular_test_pub_upgrade.conclusion == 'success'"
         working-directory: angular_test
     needs:
@@ -521,7 +521,7 @@ jobs:
       - job_005
       - job_006
   job_014:
-    name: "unit_test; PKG: tests; `dart run build_runner test --fail-on-severe -- -P ci`"
+    name: "unit_test; PKG: tests; `dart run build_runner test --fail-on-severe -- -P ci -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -546,8 +546,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: tests
-      - name: "tests; dart run build_runner test --fail-on-severe -- -P ci"
-        run: dart run build_runner test --fail-on-severe -- -P ci
+      - name: "tests; dart run build_runner test --fail-on-severe -- -P ci -j1"
+        run: dart run build_runner test --fail-on-severe -- -P ci -j1
         if: "always() && steps.tests_pub_upgrade.conclusion == 'success'"
         working-directory: tests
     needs:
