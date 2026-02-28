@@ -19,7 +19,7 @@ dependencies:
   test: ^1.25.2
 
 dev_dependencies:
-  analyzer: 5.13.0
+  analyzer: 6.0.0
   angular_forms: ^4.1.0
   build_runner: ^2.4.9
   build_web_compilers:
