@@ -38,8 +38,8 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       - id: angular_ast_pub_upgrade
-        name: angular_ast; dart pub upgrade
-        run: dart pub upgrade
+        name: angular_ast; dart pub get
+        run: dart pub get
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_ast
       - id: angular_ast_analyze
@@ -76,8 +76,8 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       - id: angular_compiler_pub_upgrade
-        name: angular_compiler; dart pub upgrade
-        run: dart pub upgrade
+        name: angular_compiler; dart pub get
+        run: dart pub get
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_compiler
       - id: angular_compiler_analyze
@@ -114,8 +114,8 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       - id: angular_pub_upgrade
-        name: angular; dart pub upgrade
-        run: dart pub upgrade
+        name: angular; dart pub get
+        run: dart pub get
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular
       - id: angular_analyze
@@ -147,8 +147,8 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       - id: angular_test_pub_upgrade
-        name: angular_test; dart pub upgrade
-        run: dart pub upgrade
+        name: angular_test; dart pub get
+        run: dart pub get
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_test
       - id: angular_test_analyze
@@ -162,8 +162,8 @@ jobs:
         if: "always() && steps.angular_test_analyze.conclusion == 'success'"
         working-directory: angular_test
       - id: angular_test_test_ci_j1
-        name: "angular_test; dart run build_runner test --fail-on-severe -- -P ci -j1"
-        run: dart run build_runner test --fail-on-severe -- -P ci -j1
+        name: "angular_test; dart run build_runner test --fail-on-severe -- -P ci"
+        run: dart run build_runner test --fail-on-severe -- -P ci
         if: "always() && steps.angular_test_build.conclusion == 'success'"
         working-directory: angular_test
 
@@ -190,8 +190,8 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       - id: angular_forms_pub_upgrade
-        name: angular_forms; dart pub upgrade
-        run: dart pub upgrade
+        name: angular_forms; dart pub get
+        run: dart pub get
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_forms
       - id: angular_forms_analyze
@@ -205,8 +205,8 @@ jobs:
         if: "always() && steps.angular_forms_analyze.conclusion == 'success'"
         working-directory: angular_forms
       - id: angular_forms_test_ci_j1
-        name: "angular_forms; dart run build_runner test --fail-on-severe -- -P ci -j1"
-        run: dart run build_runner test --fail-on-severe -- -P ci -j1
+        name: "angular_forms; dart run build_runner test --fail-on-severe -- -P ci"
+        run: dart run build_runner test --fail-on-severe -- -P ci
         if: "always() && steps.angular_forms_build.conclusion == 'success'"
         working-directory: angular_forms
 
@@ -233,8 +233,8 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       - id: angular_router_pub_upgrade
-        name: angular_router; dart pub upgrade
-        run: dart pub upgrade
+        name: angular_router; dart pub get
+        run: dart pub get
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_router
       - id: angular_router_analyze
@@ -248,8 +248,8 @@ jobs:
         if: "always() && steps.angular_router_analyze.conclusion == 'success'"
         working-directory: angular_router
       - id: angular_router_test_ci_j1
-        name: "angular_router; dart run build_runner test --fail-on-severe -- -P ci -j1"
-        run: dart run build_runner test --fail-on-severe -- -P ci -j1
+        name: "angular_router; dart run build_runner test --fail-on-severe -- -P ci"
+        run: dart run build_runner test --fail-on-severe -- -P ci
         if: "always() && steps.angular_router_build.conclusion == 'success'"
         working-directory: angular_router
 
@@ -258,7 +258,7 @@ jobs:
     needs:
       - angular_forms
       - angular_router
-      - tests
+      - angular_test
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -279,8 +279,8 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       - id: _tests_pub_upgrade
-        name: _tests; dart pub upgrade
-        run: dart pub upgrade
+        name: _tests; dart pub get
+        run: dart pub get
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: _tests
       - id: _tests_build
@@ -301,7 +301,10 @@ jobs:
 
   tests:
     name: "tests"
-    needs: angular_test
+    needs:
+      - angular_forms
+      - angular_router
+      - angular_test
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -322,8 +325,8 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       - id: tests_pub_upgrade
-        name: tests; dart pub upgrade
-        run: dart pub upgrade
+        name: tests; dart pub get
+        run: dart pub get
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: tests
       - id: tests_analyze
@@ -337,8 +340,8 @@ jobs:
         if: "always() && steps.tests_analyze.conclusion == 'success'"
         working-directory: tests
       - id: tests_test_ci_j1
-        name: "tests; dart run build_runner test --fail-on-severe -- -P ci -j1"
-        run: dart run build_runner test --fail-on-severe -- -P ci -j1
+        name: "tests; dart run build_runner test --fail-on-severe -- -P ci"
+        run: dart run build_runner test --fail-on-severe -- -P ci
         if: "always() && steps.tests_build.conclusion == 'success'"
         working-directory: tests
 
