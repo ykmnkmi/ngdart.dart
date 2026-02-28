@@ -5,9 +5,3 @@ presets:
 
     # https://github.com/dart-lang/test/blob/master/doc/configuration.md#reporter
     reporter: expanded
-
-override_platforms:
-  chrome:
-    # The settings to override for this platform.
-    settings:
-      executable: chromium-browser
