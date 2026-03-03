@@ -9,8 +9,8 @@ environment:
 dependencies:
   angular: ^7.1.0
   collection: ^1.18.0
-  js: ^0.6.7
-  meta: ^1.10.0
+  js: ^0.7.0
+  meta: ^1.16.0
 
 dev_dependencies:
   angular_test: ^4.1.0
