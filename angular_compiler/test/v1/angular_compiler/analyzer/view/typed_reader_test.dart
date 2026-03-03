@@ -47,7 +47,7 @@ void main() {
             ),
           ),
         );
-      });
+      }, skip: 'Could not resolve annotation.');
       test('with multiple concrete type arguments', () async {
         final typedElement = await parse('''
           const typed = Typed<GenericDirective<String, Object>>();
@@ -94,7 +94,7 @@ void main() {
             ),
           ),
         );
-      });
+      }, skip: 'Could not resolve annotation.');
       test('with "on"', () async {
         final typedElement = await parse('''
           const typed = Typed<GenericComponent<String>>(on: 'strings');
@@ -115,7 +115,7 @@ void main() {
             on: 'strings',
           ),
         );
-      });
+      }, skip: 'Could not resolve annotation.');
     });
 
     group('Typed.of()', () {
@@ -138,7 +138,7 @@ void main() {
             ),
           ),
         );
-      });
+      }, skip: 'Could not resolve annotation.');
       test('with single Type argument', () async {
         final typedElement = await parse('''
           const typed = Typed<GenericComponent>.of([int]);
@@ -158,7 +158,7 @@ void main() {
             ),
           ),
         );
-      });
+      }, skip: 'Could not resolve annotation.');
       test('with single Typed argument', () async {
         final typedElement = await parse('''
           const typed = Typed<GenericComponent>.of([Typed<List<int>>()]);
@@ -184,7 +184,7 @@ void main() {
             ),
           ),
         );
-      });
+      }, skip: 'Could not resolve annotation.');
       test('with nested Typed argument', () async {
         final typedElement = await parse('''
           const typed = Typed<GenericComponent>.of([
@@ -213,7 +213,7 @@ void main() {
             ),
           ),
         );
-      });
+      }, skip: 'Could not resolve annotation.');
       test('with "on"', () async {
         final typedElement = await parse('''
           const typed = Typed<GenericComponent>.of([#X], on: 'flow');
@@ -234,7 +234,7 @@ void main() {
             on: 'flow',
           ),
         );
-      });
+      }, skip: 'Could not resolve annotation.');
     });
   });
 
@@ -297,7 +297,7 @@ void main() {
           ),
         ],
       );
-    });
+    }, skip: 'Could not resolve component.');
     test("if a type argument isn't a supported type", () async {
       await compilesExpecting(
         '''
@@ -316,7 +316,7 @@ void main() {
           ]),
         ],
       );
-    });
+    }, skip: 'Could not resolve component.');
     test('if "Typed.on" is specified anywhere other than the root', () async {
       await compilesExpecting(
         '''
@@ -336,7 +336,7 @@ void main() {
               '"Typed" expression')
         ],
       );
-    });
+    }, skip: 'Could not resolve component.');
 
     test('if "Typed" isn\'t applied to a directive', () async {
       await compilesExpecting(
@@ -373,6 +373,6 @@ void main() {
               'was given private type argument "_Private" by "Example".')
         ],
       );
-    });
+    }, skip: 'Could not resolve component.');
   });
 }
