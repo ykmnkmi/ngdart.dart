@@ -76,8 +76,8 @@ for PKG in ${PKGS}; do
         dart test -P vm || EXIT_CODE=$?
         ;;
       command_2)
-        echo 'dart run build_runner test --fail-on-severe -- -P browser'
-        dart run build_runner test --fail-on-severe -- -P browser || EXIT_CODE=$?
+        echo 'dart run build_runner test --fail-on-severe -- -P browser -j1'
+        dart run build_runner test --fail-on-severe -- -P browser -j1 || EXIT_CODE=$?
         ;;
       command_3)
         echo 'dart test -P ci'
