@@ -6,7 +6,7 @@ version: 7.1.0
 repository: https://github.com/angulardart/angular
 
 environment:
-  sdk: ^3.1.5
+  sdk: ^3.3.4
 
 dependencies:
   angular_compiler: ^2.1.0

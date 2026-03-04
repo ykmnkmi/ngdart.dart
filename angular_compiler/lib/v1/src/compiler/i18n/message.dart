@@ -34,7 +34,7 @@ class I18nMessage {
   int get hashCode => metadata.hashCode ^ text.hashCode ^ _map.hash(args);
 
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       other is I18nMessage &&
       other.metadata == metadata &&
       other.text == text &&

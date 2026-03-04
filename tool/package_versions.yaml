@@ -1,13 +1,13 @@
-sdk: ^3.1.5
+sdk: ^3.3.4
 
-analyzer: ^6.4.1
+analyzer: ^6.4.1 # 3.4
 angular: ^7.1.0
 angular_ast: ^2.1.0
 angular_compiler: ^2.1.0
 angular_forms: ^4.1.0
 angular_router: ^3.1.0
 angular_test: ^4.1.0
-args: ^2.5.0 # 3.3
+args: ^2.7.0 # Latest
 async: ^2.11.0 # 3.4
 build: ^2.4.1 # 3.6
 build_resolvers: ^2.4.2 # 3.6
@@ -21,7 +21,7 @@ code_builder: ^4.10.0 # 3.5
 collection: ^1.18.0 # 3.4
 csslib: ^1.0.2 # Latest
 dart_style: ^2.3.6 # analyzer: ^6.5.0
-glob: ^2.1.2 # 3.3
+glob: ^2.1.3 # Latest
 intl: ^0.19.0 # 3.3
 js: ^0.7.1 # 3.7
 lints: ^4.0.0 # 3.5
@@ -38,6 +38,6 @@ stack_trace: ^1.11.1 # 3.4
 stream_transform: ^2.1.1 # Latest
 string_scanner: ^1.4.1 # Latest
 term_glyph: ^1.2.2 # Latest
-test: ^1.25.5 # 3.2
+test: ^1.25.7 # 3.4
 yaml: ^3.1.2 # 3.4
 watcher: ^1.1.4 # 3.4

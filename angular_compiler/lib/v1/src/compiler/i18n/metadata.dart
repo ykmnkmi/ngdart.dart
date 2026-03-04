@@ -119,7 +119,7 @@ class I18nMetadata {
       description.hashCode ^ locale.hashCode ^ meaning.hashCode ^ skip.hashCode;
 
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       other is I18nMetadata &&
       other.description == description &&
       other.locale == locale &&

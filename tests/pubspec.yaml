@@ -2,7 +2,7 @@ name: tests
 description: Tests for AngularDart.
 
 environment:
-  sdk: ^3.1.5
+  sdk: ^3.3.4
 
 dependencies:
   build_resolvers: ^2.4.2
