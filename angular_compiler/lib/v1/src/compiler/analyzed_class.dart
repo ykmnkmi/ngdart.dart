@@ -101,14 +101,14 @@ String typeToCode(DartType type) {
 }
 
 PropertyInducingElement? _getField(AnalyzedClass clazz, String name) {
-  var getter =
-      clazz.classElement.lookUpGetter(name, clazz.classElement.library);
-  return getter?.variable;
+  var getter = clazz.classElement.augmented
+      .lookUpGetter(name: name, library: clazz.classElement.library);
+  return getter?.variable2;
 }
 
 MethodElement? _getMethod(AnalyzedClass clazz, String name) {
   var element = clazz.classElement;
-  return element.lookUpMethod(name, element.library);
+  return element.augmented.lookUpMethod(name: name, library: element.library);
 }
 
 // TODO(het): Make this work with chained expressions.

@@ -476,7 +476,7 @@ class CompileTypeMetadataVisitor
       }
     }
     if (element == null) {
-      var typeStr = type.getDisplayString(withNullability: false);
+      var typeStr = type.getDisplayString();
       var source = libraryIdentifier.isNotEmpty ? '$libraryIdentifier\n' : '';
       throw BuildError.withoutContext(
         '${source}A function type: $typeStr is not recognized by Dart '

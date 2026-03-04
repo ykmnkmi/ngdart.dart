@@ -118,15 +118,13 @@ class ModuleReader {
     final reader = ConstantReader(o);
     final includeReader = reader.read('include');
     if (!includeReader.isList) {
-      var typeStr =
-          reader.objectValue.type!.getDisplayString(withNullability: false);
+      var typeStr = reader.objectValue.type!.getDisplayString();
       throw FormatException("Expected list for 'include' field of $typeStr");
     }
     final include = includeReader.listValue.map(parseModule).toList();
     final provideReader = reader.read('provide');
     if (!provideReader.isList) {
-      var typeStr =
-          reader.objectValue.type!.getDisplayString(withNullability: false);
+      var typeStr = reader.objectValue.type!.getDisplayString();
       throw FormatException("Expected list for 'provide' field of $typeStr.");
     }
     final provide =
