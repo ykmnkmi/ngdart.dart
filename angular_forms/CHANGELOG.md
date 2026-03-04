@@ -1,3 +1,8 @@
+## 5.0.0
+
+- Require Dart 3.6.2.
+- Bump all dependencies.
+
 ## 4.1.0
 
 - Require Dart 2.19.6.

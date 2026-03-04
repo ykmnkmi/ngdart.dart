@@ -3,13 +3,6 @@ description: AngularDart workspace.
 environment:
   sdk: ^3.6.2
 
-dependencies:
-  angular: ^7.1.0
-  angular_ast: ^2.1.0
-  angular_compiler: ^2.1.0
-  angular_forms: ^4.1.0
-  angular_test: ^4.1.0
-
 dev_dependencies:
   lints: ^5.0.0
 

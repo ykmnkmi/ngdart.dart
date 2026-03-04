@@ -1,12 +1,12 @@
 sdk: ^3.6.2
 
 analyzer: ^6.11.0 # ^7.0.0
-angular: ^7.1.0
-angular_ast: ^2.1.0
-angular_compiler: ^2.1.0
-angular_forms: ^4.1.0
-angular_router: ^3.1.0
-angular_test: ^4.1.0
+angular: ^8.0.0
+angular_ast: ^3.0.0
+angular_compiler: ^3.0.0
+angular_forms: ^5.0.0
+angular_router: ^4.0.0
+angular_test: ^5.0.0
 args: ^2.7.0 # Latest
 async: ^2.13.0 # Latest
 build: ^2.4.2 # 3.7
