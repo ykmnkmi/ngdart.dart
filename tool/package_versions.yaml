@@ -1,6 +1,6 @@
-sdk: ^3.4.4
+sdk: ^3.5.4
 
-analyzer: ^6.5.0 # 3.5
+analyzer: ^6.8.0 # 3.5
 angular: ^7.1.0
 angular_ast: ^2.1.0
 angular_compiler: ^2.1.0
@@ -9,25 +9,25 @@ angular_router: ^3.1.0
 angular_test: ^4.1.0
 args: ^2.7.0 # Latest
 async: ^2.13.0 # Latest
-build: ^2.4.1 # 3.6
-build_resolvers: ^2.4.2 # 3.6
-build_runner: ^2.4.11 # 3.5
+build: ^2.4.1 # 3.6 & analyzer: ^6.9.0
+build_resolvers: ^2.4.2 # 3.6 & analyzer: ^7.0.0
+build_runner: ^2.4.13 # 3.6 & analyzer: ^7.0.0
 build_test: ^2.2.2 # 3.6
-build_web_compilers: ^4.0.10 # 3.5
+build_web_compilers: ^4.0.11 # 3.6 & analyzer: ^7.0.0
 built_collection: ^5.1.1 # Latest
 built_value: ^8.12.4 # Latest
 charcode: ^1.4.0 # Latest
-code_builder: ^4.10.0 # 3.5
+code_builder: ^4.10.1 # 3.7
 collection: ^1.19.1 # Latest
 csslib: ^1.0.2 # Latest
 dart_style: ^2.3.7 # analyzer: ^6.5.0
 glob: ^2.1.3 # Latest
 intl: ^0.20.2 # Latest
 js: ^0.7.1 # 3.7
-lints: ^4.0.0 # 3.5
+lints: ^5.0.0 # 3.6
 logging: ^1.3.0 # Latest
-matcher: ^0.12.16+1 # test >=1.25.9
-meta: ^1.16.0 # 3.5
+matcher: ^0.12.17 # 3.7
+meta: ^1.18.1 # Latest
 mockito: ^5.4.4 # 3.6
 package_config: ^2.2.0 # Latest
 path: ^1.9.1 # Latest
@@ -38,6 +38,6 @@ stack_trace: ^1.12.1 # Latest
 stream_transform: ^2.1.1 # Latest
 string_scanner: ^1.4.1 # Latest
 term_glyph: ^1.2.2 # Latest
-test: ^1.25.8 # 3.5
+test: ^1.26.3 # 3.7
 yaml: ^3.1.3 # Latest
 watcher: ^1.2.1 # Latest
