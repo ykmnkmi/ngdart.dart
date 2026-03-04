@@ -3,6 +3,7 @@ import 'package:dart_style/dart_style.dart';
 import 'package:test/test.dart';
 import 'package:angular_compiler/v1/angular_compiler.dart';
 import 'package:angular_compiler/v2/context.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 import '../src/resolve.dart';
 
@@ -10,7 +11,7 @@ void main() {
   CompileContext.overrideForTesting();
 
   group('should generate injector with', () {
-    final dartfmt = DartFormatter();
+    final dartfmt = DartFormatter(languageVersion: Version(3, 6, 0));
     EqualsDart.format = dartfmt.format;
     late InjectorEmitter emitter;
     late List<InjectorReader> injectors;

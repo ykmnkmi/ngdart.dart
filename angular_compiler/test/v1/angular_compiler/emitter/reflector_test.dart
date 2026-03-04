@@ -8,13 +8,14 @@ import 'package:source_gen/source_gen.dart';
 import 'package:test/test.dart';
 import 'package:angular_compiler/v1/angular_compiler.dart';
 import 'package:angular_compiler/v2/context.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 import '../src/resolve.dart';
 
 void main() {
   CompileContext.overrideForTesting();
 
-  final dartfmt = DartFormatter().format;
+  final dartfmt = DartFormatter(languageVersion: Version(3, 6, 0)).format;
   final angular = 'package:angular';
   final libReflection = '$angular/src/core/reflection/reflection.dart';
 

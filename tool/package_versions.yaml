@@ -20,17 +20,18 @@ charcode: ^1.4.0 # Latest
 code_builder: ^4.10.1 # 3.7
 collection: ^1.19.1 # Latest
 csslib: ^1.0.2 # Latest
-dart_style: ^2.3.8 # analyzer: ^6.5.0?
+dart_style: ^3.0.1 # 3.7
 glob: ^2.1.3 # Latest
 intl: ^0.20.2 # Latest
 js: ^0.7.1 # 3.7
 lints: ^5.1.1 # 3.8
 logging: ^1.3.0 # Latest
 meta: ^1.18.1 # Latest
-mockito: ^5.4.5 # 3.6?
+mockito: ^5.4.5 # 3.7
 package_config: ^2.2.0 # Latest
 path: ^1.9.1 # Latest
-source_gen: ^1.5.0 # 3.6
+pub_semver: ^2.2.0 # Latest
+source_gen: ^2.0.0 # 3.7
 source_span: ^1.10.2 # Latest
 stream_transform: ^2.1.1 # Latest
 string_scanner: ^1.4.1 # Latest

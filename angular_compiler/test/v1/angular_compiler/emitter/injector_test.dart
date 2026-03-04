@@ -2,9 +2,10 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:test/test.dart';
 import 'package:angular_compiler/v1/angular_compiler.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 void main() {
-  final dartfmt = DartFormatter();
+  final dartfmt = DartFormatter(languageVersion: Version(3, 6, 0));
   EqualsDart.format = dartfmt.format;
 
   TokenElement dummyToken = TypeTokenElement(TypeLink('Token', null));

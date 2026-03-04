@@ -9,11 +9,6 @@ import 'flags.dart';
 ///
 /// To use as a [Builder], see [Compiler.asBuilder].
 class Compiler implements Generator {
-  // Note: Use an absurdly long line width in order to speed up the formatter.
-  // We still get a lot of other formatting, such as forced line breaks (after
-  // semicolons for instance), spaces in argument lists, etc.
-  static final _formatter = DartFormatter(pageWidth: 1000000);
-
   // Ideally this would be part of this generator, and not delegated to an
   // external function, but today much of the AngularDart compiler still lives
   // inside package:angular, and is non-trivial to
@@ -44,7 +39,12 @@ class Compiler implements Generator {
   Builder asBuilder({String extension = '.template.dart'}) {
     return LibraryBuilder(
       this,
-      formatOutput: (s) => _formatter.format(s),
+      formatOutput: (s, v) =>
+          // Note: Use an absurdly long line width in order to speed up the
+          // formatter. We still get a lot of other formatting, such as forced
+          // line breaks (after semicolons for instance), spaces in argument
+          // lists, etc.
+          DartFormatter(pageWidth: 1000000, languageVersion: v).format(s),
       generatedExtension: extension,
       header: '',
     );

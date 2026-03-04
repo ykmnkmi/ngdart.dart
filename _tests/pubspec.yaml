@@ -25,5 +25,5 @@ dev_dependencies:
   js: ^0.7.1
   lints: ^5.1.1
   package_config: ^2.2.0
-  source_gen: ^1.5.0
+  source_gen: ^2.0.0
   term_glyph: ^1.2.2
