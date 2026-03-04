@@ -2,7 +2,6 @@
 library angular.src.testability.js_api;
 
 import 'package:js/js.dart';
-import 'package:meta/meta.dart';
 
 /// A JavaScript interface for interacting with AngularDart's `Testability` API.
 ///
@@ -11,8 +10,8 @@ import 'package:meta/meta.dart';
 @anonymous
 abstract class JsTestability {
   external factory JsTestability({
-    @required bool Function() isStable,
-    @required void Function(void Function(bool didAsyncWork)) whenStable,
+    required bool Function() isStable,
+    required void Function(void Function(bool didAsyncWork)) whenStable,
   });
 
   /// Returns whether the application is considered stable.

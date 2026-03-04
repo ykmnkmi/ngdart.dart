@@ -161,7 +161,10 @@ class ReflectableReader {
   }
 
   Future<List<String>> _resolveNeedsReflector(LibraryElement library) async {
-    final directives = [...library.libraryImports, ...library.libraryExports];
+    final directives = [
+      ...library.definingCompilationUnit.libraryImports,
+      ...library.definingCompilationUnit.libraryExports
+    ];
     final results = <String>[];
     await Future.wait(directives.map((d) async {
       DirectiveUri uri;

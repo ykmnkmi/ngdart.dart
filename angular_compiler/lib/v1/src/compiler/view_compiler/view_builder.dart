@@ -570,8 +570,7 @@ o.ClassStmt createViewClass(CompileView view, ExpressionParser parser) {
     );
   }
   for (final method in viewMethods) {
-    NodeReferenceStorageVisitor.visitScopedStatements(
-        method.body as List<o.Statement>);
+    NodeReferenceStorageVisitor.visitScopedStatements(method.body);
   }
   for (final getter in view.getters) {
     NodeReferenceStorageVisitor.visitScopedStatements(getter.body);
@@ -600,8 +599,6 @@ o.Constructor? _createViewConstructor(CompileView view) {
       // Host views have no constructor parameters, thus don't require an
       // explicit constructor.
       return null;
-    default:
-      throw StateError('Unsupported $ViewType: ${view.viewType}');
   }
 }
 
@@ -686,8 +683,6 @@ o.Expression _createParentClassExpr(CompileView view) {
       return o.importExpr(Views.embeddedView, typeParams: typeArgs);
     case ViewType.host:
       return o.importExpr(Views.hostView, typeParams: typeArgs);
-    default:
-      throw StateError('Unsupported $ViewType: ${view.viewType}');
   }
 }
 
@@ -906,8 +901,6 @@ o.Statement? _generateInitStatement(CompileView view) {
         // Host views should have exactly one root node.
         view.rootNodesOrViewContainers.single,
       ]).toStmt();
-    default:
-      throw StateError('Unsupported $ViewType: ${view.viewType}');
   }
 }
 

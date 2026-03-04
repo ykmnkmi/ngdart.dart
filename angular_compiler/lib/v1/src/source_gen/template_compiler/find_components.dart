@@ -536,7 +536,7 @@ class _ComponentVisitor
     var bindTo = ast.PropertyRead(ast.ImplicitReceiver(), element.name!);
     if (element is PropertyAccessorElement && element.isStatic ||
         element is FieldElement && element.isStatic) {
-      if (element.enclosingElement != _directiveClassElement) {
+      if (element.enclosingElement3 != _directiveClassElement) {
         // We do not want to inherit static members.
         // https://github.com/angulardart/angular/issues/1272
         return;
@@ -581,7 +581,7 @@ class _ComponentVisitor
     final propertyName = element.displayName;
     final bindingName =
         coerceString(value, 'bindingPropertyName', defaultTo: propertyName)!;
-    _prohibitBindingChange(element.enclosingElement as ClassElement?,
+    _prohibitBindingChange(element.enclosingElement3 as ClassElement?,
         propertyName, bindingName, immutableBindings ?? bindings);
     bindings[propertyName] = bindingName;
   }

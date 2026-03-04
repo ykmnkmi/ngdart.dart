@@ -4,7 +4,6 @@
 /// example to expect that given source code produces an error or other
 /// specific output.
 import 'dart:async';
-import 'dart:io';
 import 'dart:isolate';
 
 import 'package:analyzer/dart/element/element.dart';
@@ -15,10 +14,8 @@ import 'package:package_config/package_config.dart';
 
 const _angularPkgPath = 'package:';
 const _angularLibPath = '${_angularPkgPath}angular/angular.dart';
-const _environmentVar = 'ANGULAR_PACKAGE_CONFIG_PATH';
 const _defaultLibrary = 'test_lib';
 final _defaultAssetId = AssetId(_defaultLibrary, 'lib/$_defaultLibrary.dart');
-final _packageConfigPath = Platform.environment[_environmentVar];
 final _cachedPackageConfig = _loadPackageConfig();
 
 Future<PackageConfig> _loadPackageConfig() {

@@ -488,8 +488,6 @@ abstract class AbstractEmitterVisitor
       case o.BinaryOperator.BiggerEquals:
         opStr = '>=';
         break;
-      default:
-        throw StateError('Unknown operator ${ast.operator}');
     }
     context.print('(');
     ast.lhs.visitExpression(this, context);

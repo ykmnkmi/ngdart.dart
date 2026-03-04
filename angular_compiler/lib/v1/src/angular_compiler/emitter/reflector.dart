@@ -235,9 +235,9 @@ class ReflectableEmitter {
 
     String name;
     if (bound is ConstructorElement) {
-      name = bound.enclosingElement.name;
+      name = bound.enclosingElement3.name;
     } else if (bound is MethodElement) {
-      name = '${bound.enclosingElement.name}.${bound.name}';
+      name = '${bound.enclosingElement3.name}.${bound.name}';
     } else {
       name = bound!.name!;
     }

@@ -93,7 +93,7 @@ Uri urlOf(Element? element, [String? name]) {
   }
 
   var fragment = name ?? element!.name;
-  final enclosing = element!.enclosingElement;
+  final enclosing = element!.enclosingElement3;
   if (enclosing is ClassElement) {
     fragment = '${enclosing.name}.$fragment';
   }

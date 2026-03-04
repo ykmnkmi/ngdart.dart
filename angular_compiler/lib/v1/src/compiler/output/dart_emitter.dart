@@ -408,8 +408,6 @@ class _DartEmitterVisitor extends AbstractEmitterVisitor
         return '.addAll';
       case o.BuiltinMethod.SubscribeObservable:
         return 'listen';
-      default:
-        throw StateError('Unknown builtin method: $method');
     }
   }
 
@@ -614,8 +612,6 @@ class _DartEmitterVisitor extends AbstractEmitterVisitor
       case o.BuiltinTypeName.Void:
         typeStr = 'void';
         break;
-      default:
-        throw StateError('Unsupported builtin type ${type.name}');
     }
     if (type.modifiers.contains(o.TypeModifier.Nullable)) {
       final suffix = emitNullSafeSyntax ? '?' : '/*?*/';

@@ -110,7 +110,7 @@ class TemplateOutliner implements Builder {
     }
 
     output.writeln('// Required for "type inference" (scoping).');
-    for (final d in library.libraryImports) {
+    for (final d in library.definingCompilationUnit.libraryImports) {
       if (d.prefix is! DeferredImportElementPrefix) {
         final uri = d.uri;
         if (uri is! DirectiveUriWithRelativeUriString) {

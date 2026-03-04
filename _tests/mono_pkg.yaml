@@ -1,9 +1,9 @@
 sdk:
-  - 3.5.4
+  - 3.6.2
 
 stages:
   - build:
       - command: dart run build_runner build --fail-on-severe
   - unit_test:
       - command: dart test -P vm
-      - command: dart run build_runner test --fail-on-severe -- -P browser
+      - command: dart run build_runner test --fail-on-severe -- -P browser -j1

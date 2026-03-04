@@ -4,7 +4,9 @@ repository: https://github.com/angulardart/angular
 version: 4.1.0
 
 environment:
-  sdk: ^3.5.4
+  sdk: ^3.6.2
+
+resolution: workspace
 
 dependencies:
   angular: ^7.1.0
@@ -12,20 +14,9 @@ dependencies:
 
 dev_dependencies:
   angular_test: ^4.1.0
-  build_resolvers: ^2.4.2
   build_runner: ^2.4.13
   build_test: ^2.2.2
   build_web_compilers: ^4.0.11
   lints: ^5.0.0
   mockito: ^5.4.4
   test: ^1.26.3
-
-dependency_overrides:
-  angular:
-    path: ../angular
-  angular_ast:
-    path: ../angular_ast
-  angular_compiler:
-    path: ../angular_compiler
-  angular_test:
-    path: ../angular_test

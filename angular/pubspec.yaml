@@ -6,7 +6,9 @@ version: 7.1.0
 repository: https://github.com/angulardart/angular
 
 environment:
-  sdk: ^3.5.4
+  sdk: ^3.6.2
+
+resolution: workspace
 
 dependencies:
   angular_compiler: ^2.1.0
@@ -16,12 +18,8 @@ dependencies:
   collection: ^1.19.1
   intl: ^0.20.2
   js: ^0.7.1
-  lints: ^5.0.0
   meta: ^1.18.1
   stream_transform: ^2.1.1
 
-dependency_overrides:
-  angular_ast:
-    path: ../angular_ast
-  angular_compiler:
-    path: ../angular_compiler
+dev_dependencies:
+  lints: ^5.0.0

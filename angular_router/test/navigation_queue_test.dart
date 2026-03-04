@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:pedantic/pedantic.dart';
 import 'package:test/test.dart';
 import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';

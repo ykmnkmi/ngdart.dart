@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:meta/dart2js.dart' as dart2js;
-import 'package:meta/meta.dart';
 import 'package:angular/src/utilities.dart';
 
 /// Whether [_debugCheckBinding] should throw if the values are different.
@@ -140,8 +139,8 @@ class UnstableExpressionValue {
   final Object? newValue;
 
   UnstableExpressionValue._({
-    @required this.oldValue,
-    @required this.newValue,
+    required this.oldValue,
+    required this.newValue,
     this.expression,
     this.location,
   });
