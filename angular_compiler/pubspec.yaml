@@ -9,7 +9,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  analyzer: ^6.11.0
+  analyzer: ^7.3.0
   angular: ^8.0.0
   angular_ast: ^3.0.0
   args: ^2.7.0

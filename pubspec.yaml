@@ -4,7 +4,20 @@ environment:
   sdk: ^3.6.2
 
 dev_dependencies:
-  lints: ^5.0.0
+  lints: ^5.1.1
+
+  # global tracking
+  analyzer: 7.3.0
+  build: 2.4.2
+  build_daemon: 4.0.4
+  build_modules: 5.0.11
+  build_resolvers: 2.4.4
+  build_runner: 2.4.15
+  build_test: 2.2.3
+  build_web_compilers: 4.1.1
+  code_builder: 4.10.1
+  dart_style: 3.0.1
+  mockito: 5.4.5
 
 workspace:
   - _tests
