@@ -35,7 +35,7 @@ class _RecursiveMicroAstParser {
   final String _directive;
   final int? _expressionOffset;
   final int? _expressionLength;
-//  final String _sourceUrl;
+  //  final String _sourceUrl;
   final Iterator<NgMicroToken> _tokens;
 
   final letBindings = <LetBindingAst>[];
@@ -79,22 +79,22 @@ class _RecursiveMicroAstParser {
       throw _unexpected();
     }
     var value = _tokens.current.lexeme;
-    properties.add(PropertyAst.from(
-      _origin,
-      '$_directive${name[0].toUpperCase()}${name.substring(1)}',
-      value,
-    ));
+    properties.add(
+      PropertyAst.from(
+        _origin,
+        '$_directive${name[0].toUpperCase()}${name.substring(1)}',
+        value,
+      ),
+    );
   }
 
   // An implicit binding has no accompanying identifier. Instead, it is bound
   // to the property on the left-hand side to which the micro-syntax expression
   // was assigned.
   void _parseImplicitBind() {
-    properties.add(PropertyAst.from(
-      _origin,
-      _directive,
-      _tokens.current.lexeme,
-    ));
+    properties.add(
+      PropertyAst.from(_origin, _directive, _tokens.current.lexeme),
+    );
   }
 
   void _parseLet() {
@@ -114,11 +114,13 @@ class _RecursiveMicroAstParser {
       return;
     }
     if (_tokens.current.type == NgMicroTokenType.letAssignment) {
-      letBindings.add(LetBindingAst.from(
-        _origin,
-        identifier,
-        _tokens.current.lexeme.trimRight(),
-      ));
+      letBindings.add(
+        LetBindingAst.from(
+          _origin,
+          identifier,
+          _tokens.current.lexeme.trimRight(),
+        ),
+      );
     } else {
       letBindings.add(LetBindingAst.from(_origin, identifier));
       if (_tokens.current.type != NgMicroTokenType.bindIdentifier) {
@@ -132,11 +134,13 @@ class _RecursiveMicroAstParser {
         throw _unexpected();
       }
       var expression = _tokens.current.lexeme;
-      properties.add(PropertyAst.from(
-        _origin,
-        '$_directive${property[0].toUpperCase()}${property.substring(1)}',
-        expression,
-      ));
+      properties.add(
+        PropertyAst.from(
+          _origin,
+          '$_directive${property[0].toUpperCase()}${property.substring(1)}',
+          expression,
+        ),
+      );
     }
   }
 

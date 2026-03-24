@@ -13,9 +13,7 @@ void main() {
 
   group('Router.onNavigationStart', () {
     test('fires on navigation', () async {
-      final testBed = NgTestBed<TestComponent>(
-        ng.createTestComponentFactory(),
-      );
+      final testBed = NgTestBed<TestComponent>(ng.createTestComponentFactory());
       final testFixture = await testBed.create();
       final router = testFixture.assertOnlyInstance.router;
       await expectLater(
@@ -55,9 +53,7 @@ void main() {
     });
 
     test('fires only once on redirect', () async {
-      final testBed = NgTestBed<TestComponent>(
-        ng.createTestComponentFactory(),
-      );
+      final testBed = NgTestBed<TestComponent>(ng.createTestComponentFactory());
       final testFixture = await testBed.create();
       final router = testFixture.assertOnlyInstance.router;
       await expectLater(
@@ -72,17 +68,14 @@ void main() {
 }
 
 Stream<dynamic> navigate(Router router, String path) => StreamGroup.merge([
-      router.onNavigationStart,
-      router.navigate(path).asStream(),
-    ]);
+  router.onNavigationStart,
+  router.navigate(path).asStream(),
+]);
 
 const canDeactivateToken = OpaqueToken<bool>('canDeactivateToken');
 const canNavigateToken = OpaqueToken<bool>('canNavigateToken');
 
-@Component(
-  selector: 'home',
-  template: '',
-)
+@Component(selector: 'home', template: '')
 class HomeComponent implements CanDeactivate, CanNavigate {
   final bool _canDeactivate;
   final bool _canNavigate;
@@ -90,8 +83,8 @@ class HomeComponent implements CanDeactivate, CanNavigate {
   HomeComponent(
     @Optional() @Inject(canDeactivateToken) bool? canDeactivate,
     @Optional() @Inject(canNavigateToken) bool? canNavigate,
-  )   : _canDeactivate = canDeactivate ?? true,
-        _canNavigate = canNavigate ?? true;
+  ) : _canDeactivate = canDeactivate ?? true,
+      _canNavigate = canNavigate ?? true;
 
   @override
   Future<bool> canDeactivate(_, __) => Future.value(_canDeactivate);
@@ -100,10 +93,7 @@ class HomeComponent implements CanDeactivate, CanNavigate {
   Future<bool> canNavigate() => Future.value(_canNavigate);
 }
 
-@Component(
-  selector: 'destination',
-  template: '',
-)
+@Component(selector: 'destination', template: '')
 class DestinationComponent {}
 
 @Component(
@@ -124,10 +114,7 @@ class TestComponent {
       path: 'destination',
       component: ng.createDestinationComponentFactory(),
     ),
-    RouteDefinition.redirect(
-      path: 'redirection',
-      redirectTo: 'destination',
-    ),
+    RouteDefinition.redirect(path: 'redirection', redirectTo: 'destination'),
   ];
 
   TestComponent(this.router);

@@ -38,7 +38,7 @@ void main() {
       });
       test('should error on short strings', () {
         expect(Validators.minLength(2)(Control('a')), {
-          'minlength': {'requiredLength': 2, 'actualLength': 1}
+          'minlength': {'requiredLength': 2, 'actualLength': 1},
         });
       });
     });
@@ -54,7 +54,7 @@ void main() {
       });
       test('should error on long strings', () {
         expect(Validators.maxLength(2)(Control('aaa')), {
-          'maxlength': {'requiredLength': 2, 'actualLength': 3}
+          'maxlength': {'requiredLength': 2, 'actualLength': 3},
         });
       });
     });
@@ -70,7 +70,10 @@ void main() {
       });
       test('should error on failure to match string', () {
         expect(Validators.pattern('[a-zA-Z ]*')(Control('aaa0')), {
-          'pattern': {'requiredPattern': '^[a-zA-Z ]*\$', 'actualValue': 'aaa0'}
+          'pattern': {
+            'requiredPattern': '^[a-zA-Z ]*\$',
+            'actualValue': 'aaa0',
+          },
         });
       });
     });
@@ -79,8 +82,10 @@ void main() {
         expect(Validators.compose(null), isNull);
       });
       test('should collect errors from all the validators', () {
-        var c =
-            Validators.compose([validator('a', true), validator('b', true)]);
+        var c = Validators.compose([
+          validator('a', true),
+          validator('b', true),
+        ]);
         expect(c!(Control('')), {'a': true, 'b': true});
       });
       test('should run validators left to right', () {
@@ -88,8 +93,10 @@ void main() {
         expect(c!(Control('')), {'a': 2});
       });
       test('should return null when no errors', () {
-        var c = Validators.compose(
-            [Validators.nullValidator, Validators.nullValidator]);
+        var c = Validators.compose([
+          Validators.nullValidator,
+          Validators.nullValidator,
+        ]);
         expect(c!(Control('')), null);
       });
       test('should ignore nulls', () {

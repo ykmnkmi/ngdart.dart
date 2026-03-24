@@ -6,7 +6,8 @@ void main() {
   setUp(CompileContext.overrideForTesting);
 
   test('should fail on an injector with a nullable non-optional', () async {
-    await compilesExpecting("""
+    await compilesExpecting(
+      """
       import '$ngImport';
 
       class Engine {
@@ -17,15 +18,14 @@ void main() {
         ClassProvider(Engine),
       ])
       final injectorFactory = null; // OK for compiler tests.
-    """, errors: [
-      allOf(
-        contains('must be annotated @Optional()'),
-      )
-    ]);
+    """,
+      errors: [allOf(contains('must be annotated @Optional()'))],
+    );
   });
 
   test('should fail on an injector with a nullable FutureOr', () async {
-    await compilesExpecting("""
+    await compilesExpecting(
+      """
       import 'dart:async';
       import '$ngImport';
 
@@ -37,15 +37,14 @@ void main() {
         ClassProvider(Engine),
       ])
       final injectorFactory = null; // OK for compiler tests.
-    """, errors: [
-      allOf(
-        contains('must be annotated @Optional()'),
-      )
-    ]);
+    """,
+      errors: [allOf(contains('must be annotated @Optional()'))],
+    );
   });
 
   test('should fail on an injector with a non-nullable optional', () async {
-    await compilesExpecting("""
+    await compilesExpecting(
+      """
       import '$ngImport';
 
       class Engine {
@@ -56,11 +55,9 @@ void main() {
         ClassProvider(Engine),
       ])
       final injectorFactory = null; // OK for compiler tests.
-    """, errors: [
-      allOf(
-        contains('must be annotated @Optional()'),
-      )
-    ]);
+    """,
+      errors: [allOf(contains('must be annotated @Optional()'))],
+    );
   });
 
   test('should allow optional FactoryProvider deps in injector', () async {
@@ -114,7 +111,8 @@ void main() {
   });
 
   test('should fail on a component with a non-nullable optional', () async {
-    await compilesExpecting("""
+    await compilesExpecting(
+      """
       import '$ngImport';
 
       class Engine {}
@@ -126,15 +124,14 @@ void main() {
       class CarComponent {
         CarComponent(@Optional() Engine engine);
       }
-    """, errors: [
-      allOf(
-        contains('must be annotated @Optional()'),
-      )
-    ]);
+    """,
+      errors: [allOf(contains('must be annotated @Optional()'))],
+    );
   });
 
   test('should fail on a component with a nullable non-optional', () async {
-    await compilesExpecting("""
+    await compilesExpecting(
+      """
       import '$ngImport';
 
       class Engine {}
@@ -146,15 +143,14 @@ void main() {
       class CarComponent {
         CarComponent(Engine? engine);
       }
-    """, errors: [
-      allOf(
-        contains('must be annotated @Optional()'),
-      )
-    ]);
+    """,
+      errors: [allOf(contains('must be annotated @Optional()'))],
+    );
   });
 
   test('should fail on an component with a nullable FutureOr', () async {
-    await compilesExpecting("""
+    await compilesExpecting(
+      """
       import 'dart:async';
       import '$ngImport';
 
@@ -167,11 +163,9 @@ void main() {
       class CarComponent {
         CarComponent(FutureOr<Engine?> engine);
       }
-    """, errors: [
-      allOf(
-        contains('must be annotated @Optional()'),
-      )
-    ]);
+    """,
+      errors: [allOf(contains('must be annotated @Optional()'))],
+    );
   });
 
   test('should allow a nullable attribute that is not optional', () async {

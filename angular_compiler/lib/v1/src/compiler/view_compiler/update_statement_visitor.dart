@@ -21,21 +21,28 @@ List<o.Statement> bindingToUpdateStatements(
   o.Expression currValExpr,
 ) {
   // Wraps current value with sanitization call if necessary.
-  var renderValue =
-      _sanitizedValue(binding.target.securityContext, currValExpr);
+  var renderValue = _sanitizedValue(
+    binding.target.securityContext,
+    currValExpr,
+  );
   var visitor = _UpdateStatementsVisitor(
-      appViewInstance, renderNode, binding.source, isHtmlElement, currValExpr);
+    appViewInstance,
+    renderNode,
+    binding.source,
+    isHtmlElement,
+    currValExpr,
+  );
   var updateStatement = binding.target.accept(visitor, renderValue);
   if (binding.source is BoundExpression) {
     updateStatement.sourceReference =
         (binding.source as BoundExpression).sourceReference;
   }
-  var devToolsStatement =
-      devToolsBindingStatement(binding, appViewInstance, currValExpr);
-  return [
-    if (devToolsStatement != null) devToolsStatement,
-    updateStatement,
-  ];
+  var devToolsStatement = devToolsBindingStatement(
+    binding,
+    appViewInstance,
+    currValExpr,
+  );
+  return [if (devToolsStatement != null) devToolsStatement, updateStatement];
 }
 
 class _UpdateStatementsVisitor
@@ -92,16 +99,17 @@ class _UpdateStatementsVisitor
     }
 
     return o
-        .importExpr(!useSetAttributeIfImmutable || bindingSource.isNullable
-            ? DomHelpers.updateAttribute
-            : DomHelpers.setAttribute)
-        .callFn(
-      [
-        renderNode!.toReadExpr(),
-        o.literal(attributeBinding.name),
-        renderValue!,
-      ],
-    ).toStmt();
+        .importExpr(
+          !useSetAttributeIfImmutable || bindingSource.isNullable
+              ? DomHelpers.updateAttribute
+              : DomHelpers.setAttribute,
+        )
+        .callFn([
+          renderNode!.toReadExpr(),
+          o.literal(attributeBinding.name),
+          renderValue!,
+        ])
+        .toStmt();
   }
 
   static o.Expression? _convertAttributeRenderValue(
@@ -115,8 +123,10 @@ class _UpdateStatementsVisitor
   }
 
   @override
-  o.Statement visitClassBinding(ir.ClassBinding classBinding,
-      [o.Expression? renderValue]) {
+  o.Statement visitClassBinding(
+    ir.ClassBinding classBinding, [
+    o.Expression? renderValue,
+  ]) {
     if (classBinding.name == null) {
       // TODO(b/126226538): Consider optimizing "static" classBindings in the
       // constructor to skip adding the shim classes.
@@ -124,12 +134,15 @@ class _UpdateStatementsVisitor
       // Handle [attr.class]="expression" or [className]="expression".
       final renderMethod =
           isHtmlElement ? 'updateChildClass' : 'updateChildClassNonHtml';
-      return appViewInstance!.callMethod(
-          renderMethod, [renderNode!.toReadExpr(), renderValue!]).toStmt();
+      return appViewInstance!.callMethod(renderMethod, [
+        renderNode!.toReadExpr(),
+        renderValue!,
+      ]).toStmt();
     } else {
-      final renderMethod = isHtmlElement
-          ? DomHelpers.updateClassBinding
-          : DomHelpers.updateClassBindingNonHtml;
+      final renderMethod =
+          isHtmlElement
+              ? DomHelpers.updateClassBinding
+              : DomHelpers.updateClassBindingNonHtml;
       return o.importExpr(renderMethod).callFn([
         renderNode!.toReadExpr(),
         o.literal(classBinding.name),
@@ -139,8 +152,10 @@ class _UpdateStatementsVisitor
   }
 
   @override
-  o.Statement visitPropertyBinding(ir.PropertyBinding propertyBinding,
-      [o.Expression? renderValue]) {
+  o.Statement visitPropertyBinding(
+    ir.PropertyBinding propertyBinding, [
+    o.Expression? renderValue,
+  ]) {
     return o.importExpr(DomHelpers.setProperty).callFn([
       renderNode!.toReadExpr(),
       o.literal(propertyBinding.name),
@@ -157,33 +172,42 @@ class _UpdateStatementsVisitor
       //
       //    ctx.width == null ? null : ctx.width.toString() + 'px'
       //
-      final styleString = bindingSource.isString
-          ? currValExpr
-          : currValExpr.callMethod('toString', []);
+      final styleString =
+          bindingSource.isString
+              ? currValExpr
+              : currValExpr.callMethod('toString', []);
       final styleWithUnit = styleString.plus(o.literal(styleBinding.unit));
-      styleValueExpr =
-          currValExpr.isBlank().conditional(o.NULL_EXPR, styleWithUnit);
+      styleValueExpr = currValExpr.isBlank().conditional(
+        o.NULL_EXPR,
+        styleWithUnit,
+      );
     } else {
-      styleValueExpr = bindingSource.isString
-          ? currValExpr
-          : currValExpr.callMethod(
-              'toString', [],
-              // Use null check to bind null instead of string "null".
-              checked: bindingSource.isNullable,
-            );
+      styleValueExpr =
+          bindingSource.isString
+              ? currValExpr
+              : currValExpr.callMethod(
+                'toString',
+                [],
+                // Use null check to bind null instead of string "null".
+                checked: bindingSource.isNullable,
+              );
     }
     // Call Element.style.setProperty(propName, value);
     o.Expression updateStyleExpr = renderNode!
         .toReadExpr()
         .prop('style')
-        .callMethod(
-            'setProperty', [o.literal(styleBinding.name), styleValueExpr]);
+        .callMethod('setProperty', [
+          o.literal(styleBinding.name),
+          styleValueExpr,
+        ]);
     return updateStyleExpr.toStmt();
   }
 
   @override
-  o.Statement visitTabIndexBinding(ir.TabIndexBinding tabIndexBinding,
-      [o.Expression? renderValue]) {
+  o.Statement visitTabIndexBinding(
+    ir.TabIndexBinding tabIndexBinding, [
+    o.Expression? renderValue,
+  ]) {
     if (renderValue is o.LiteralExpr) {
       final value = renderValue.value;
       final tabIndex = value is String ? int.tryParse(value) : null;
@@ -211,8 +235,10 @@ class _UpdateStatementsVisitor
   }
 
   @override
-  o.Statement visitTextBinding(ir.TextBinding textBinding,
-      [o.Expression? renderValue]) {
+  o.Statement visitTextBinding(
+    ir.TextBinding textBinding, [
+    o.Expression? renderValue,
+  ]) {
     // TODO(alorenzen): Generalize updateExpr() to all NodeReferences.
     var node = renderNode as TextBindingNodeReference?;
     if (bindingSource.isBool ||
@@ -227,42 +253,50 @@ class _UpdateStatementsVisitor
   @override
   o.Statement visitHtmlBinding(ir.HtmlBinding htmlBinding, [_]) {
     throw UnsupportedError(
-        '${ir.HtmlBinding}s are not supported as bound properties.');
+      '${ir.HtmlBinding}s are not supported as bound properties.',
+    );
   }
 
   @override
-  o.Statement visitInputBinding(ir.InputBinding inputBinding,
-          [o.Expression? renderValue]) =>
+  o.Statement visitInputBinding(
+    ir.InputBinding inputBinding, [
+    o.Expression? renderValue,
+  ]) =>
       appViewInstance!
           .prop(inputBinding.propertyName)
           .set(renderValue!)
           .toStmt();
 
   @override
-  o.Statement visitCustomEvent(ir.CustomEvent customEvent,
-      [o.Expression? renderValue]) {
+  o.Statement visitCustomEvent(
+    ir.CustomEvent customEvent, [
+    o.Expression? renderValue,
+  ]) {
     final appViewUtilsExpr = o.importExpr(Identifiers.appViewUtils);
     final eventManagerExpr = appViewUtilsExpr.prop('eventManager');
-    return eventManagerExpr.callMethod(
-      'addEventListener',
-      [
-        renderNode?.toReadExpr() ?? appViewInstance!,
-        o.literal(customEvent.name),
-        renderValue!
-      ],
-    ).toStmt();
+    return eventManagerExpr.callMethod('addEventListener', [
+      renderNode?.toReadExpr() ?? appViewInstance!,
+      o.literal(customEvent.name),
+      renderValue!,
+    ]).toStmt();
   }
 
   @override
-  o.Statement visitDirectiveOutput(ir.DirectiveOutput directiveOutput,
-          [o.Expression? renderValue]) =>
-      renderNode!.toWriteStmt(appViewInstance!
-          .prop(directiveOutput.name)
-          .callMethod(o.BuiltinMethod.SubscribeObservable, [renderValue!]));
+  o.Statement visitDirectiveOutput(
+    ir.DirectiveOutput directiveOutput, [
+    o.Expression? renderValue,
+  ]) => renderNode!.toWriteStmt(
+    appViewInstance!.prop(directiveOutput.name).callMethod(
+      o.BuiltinMethod.SubscribeObservable,
+      [renderValue!],
+    ),
+  );
 
   @override
-  o.Statement visitNativeEvent(ir.NativeEvent nativeEvent,
-          [o.Expression? renderValue]) =>
+  o.Statement visitNativeEvent(
+    ir.NativeEvent nativeEvent, [
+    o.Expression? renderValue,
+  ]) =>
       (renderNode?.toReadExpr() ?? appViewInstance!).callMethod(
         'addEventListener',
         [o.literal(nativeEvent.name), renderValue!],

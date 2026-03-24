@@ -23,7 +23,7 @@ const _RE_SPECIAL_CHARS = [
   '.',
   '^',
   '\$',
-  '|'
+  '|',
 ];
 final _ESCAPE_RE = RegExp('[\\${_RE_SPECIAL_CHARS.join('\\')}]');
 RegExp containsRegexp(String input) {
@@ -41,7 +41,11 @@ RegExp? _normalizerExp1,
 String normalizeCSS(String css) {
   _normalizerExp1 ??= RegExp(r'\s+');
   _normalizerExp2 ??= RegExp(r':\s');
-  _normalizerExp3 ??= RegExp('' "'" r'');
+  _normalizerExp3 ??= RegExp(
+    ''
+    "'"
+    r'',
+  );
   _normalizerExp4 ??= RegExp(r'{');
   _normalizerExp5 ??= RegExp(r'}(?!}|$)');
   _normalizerExp6 ??= RegExp(r'url\((\"|\s)(.+)(\"|\s)\)(\s*)');
@@ -53,7 +57,9 @@ String normalizeCSS(String css) {
   css = css.replaceAll(_normalizerExp5!, '} ');
   css = css.replaceAllMapped(_normalizerExp6!, (match) => 'url("${match[2]}")');
   css = css.replaceAllMapped(
-      _normalizerExp7!, (match) => '[${match[1]}="${match[2]}"]');
+    _normalizerExp7!,
+    (match) => '[${match[1]}="${match[2]}"]',
+  );
   return css;
 }
 
@@ -62,8 +68,12 @@ String normalizeCSS(String css) {
 void shimAndExpect(String css, String expected, {String? expectedLegacy}) {
   runZoned(() {
     var actual = shimShadowCss(css, content, host);
-    var actualLegacy =
-        shimShadowCss(css, content, host, useLegacyEncapsulation: true);
+    var actualLegacy = shimShadowCss(
+      css,
+      content,
+      host,
+      useLegacyEncapsulation: true,
+    );
     expect(normalizeCSS(actual), expected);
     expect(normalizeCSS(actualLegacy), expectedLegacy ?? expected);
   }, zoneValues: {#buildLog: Logger.root});
@@ -72,8 +82,12 @@ void shimAndExpect(String css, String expected, {String? expectedLegacy}) {
 /// Shims [css] and compares to the [expected] output for legacy syntax only.
 void legacyShimAndExpect(String css, String expected) {
   runZoned(() {
-    var actual =
-        shimShadowCss(css, content, host, useLegacyEncapsulation: true);
+    var actual = shimShadowCss(
+      css,
+      content,
+      host,
+      useLegacyEncapsulation: true,
+    );
     expect(normalizeCSS(actual), expected);
   }, zoneValues: {#buildLog: Logger.root});
 }
@@ -114,9 +128,11 @@ void main() {
   });
 
   test('should handle media rules with simple rules', () {
-    var css = '@media screen and (max-width: 800px) '
+    var css =
+        '@media screen and (max-width: 800px) '
         '{div {font-size: 50px;}} div {}';
-    var expected = '@media screen AND (max-width:800px) '
+    var expected =
+        '@media screen AND (max-width:800px) '
         '{div.$content {font-size:50px}} div.$content {}';
     shimAndExpect(css, expected);
   });
@@ -129,9 +145,11 @@ void main() {
   });
 
   test('should handle -webkit-keyframes rules', () {
-    var css = '@-webkit-keyframes foo '
+    var css =
+        '@-webkit-keyframes foo '
         '{0% {-webkit-transform:translate(-50%) scaleX(0);}}';
-    var expected = '@-webkit-keyframes foo '
+    var expected =
+        '@-webkit-keyframes foo '
         '{0% {-webkit-transform:translate(-50%) scaleX(0)}}';
     shimAndExpect(css, expected);
   });
@@ -173,8 +191,11 @@ void main() {
     });
 
     test('should differentiate legacy encapsulation', () {
-      shimAndExpect(':host p {}', '.$host p.$content {}',
-          expectedLegacy: '.$host p {}');
+      shimAndExpect(
+        ':host p {}',
+        '.$host p.$content {}',
+        expectedLegacy: '.$host p {}',
+      );
     });
   });
 
@@ -295,7 +316,8 @@ void main() {
 
     test('should handle non-trivial combination', () {
       var css = ':host(div::scrollbar:vertical):host-context(.foo:hover) {}';
-      var expected = 'div.$host.$host.foo:hover::scrollbar:vertical,'
+      var expected =
+          'div.$host.$host.foo:hover::scrollbar:vertical,'
           '.foo:hover div.$host.$host::scrollbar:vertical {}';
       shimAndExpect(css, expected);
     });
@@ -371,7 +393,8 @@ void main() {
     });
 
     test('should support multiple instances polyfill-unscoped-rule', () {
-      var css = 'polyfill-unscoped-rule {content: "foo";color: blue;}'
+      var css =
+          'polyfill-unscoped-rule {content: "foo";color: blue;}'
           'polyfill-unscoped-rule {content: "bar";color: red;}';
       legacyShimAndExpect(css, 'foo {color:blue} bar {color:red}');
     });

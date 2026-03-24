@@ -105,9 +105,10 @@ abstract class AbstractControl<T> {
     _touched = false;
 
     _forEachChild(
-        // Only set self, so that children don't try to update their parent,
-        // and thus create a loop of updates.
-        (c) => c.markAsUntouched(updateParent: false));
+      // Only set self, so that children don't try to update their parent,
+      // and thus create a loop of updates.
+      (c) => c.markAsUntouched(updateParent: false),
+    );
 
     var parent = _parent;
     if (parent != null && updateParent) {
@@ -139,9 +140,10 @@ abstract class AbstractControl<T> {
     _pristine = true;
 
     _forEachChild(
-        // Only set self, so that children don't try to update their parent,
-        // and thus create a loop of updates.
-        (c) => c.markAsPristine(updateParent: false));
+      // Only set self, so that children don't try to update their parent,
+      // and thus create a loop of updates.
+      (c) => c.markAsPristine(updateParent: false),
+    );
 
     var parent = _parent;
     if (parent != null && updateParent) {
@@ -168,9 +170,10 @@ abstract class AbstractControl<T> {
     _status = DISABLED;
 
     _forEachChild(
-        // Only set self, so that children don't try to update their parent,
-        // and thus create a loop of updates.
-        (c) => c.markAsDisabled(updateParent: false, emitEvent: emitEvent));
+      // Only set self, so that children don't try to update their parent,
+      // and thus create a loop of updates.
+      (c) => c.markAsDisabled(updateParent: false, emitEvent: emitEvent),
+    );
     onUpdate();
 
     if (emitEvent) _emitEvent();
@@ -187,9 +190,10 @@ abstract class AbstractControl<T> {
   void markAsEnabled({bool updateParent = true, bool emitEvent = true}) {
     _status = VALID;
     _forEachChild(
-        // Only set self, so that children don't try to update their parent,
-        // and thus create a loop of updates.
-        (c) => c.markAsEnabled(updateParent: false, emitEvent: emitEvent));
+      // Only set self, so that children don't try to update their parent,
+      // and thus create a loop of updates.
+      (c) => c.markAsEnabled(updateParent: false, emitEvent: emitEvent),
+    );
     updateValueAndValidity(onlySelf: true, emitEvent: emitEvent);
     _updateAncestors(updateParent, emitEvent);
     _disabledChanges.add(false);
@@ -206,8 +210,12 @@ abstract class AbstractControl<T> {
   /// standalone value or a disabled state. We allow setting value and
   /// disabled here because these are the only two properties that
   /// cannot be calculated.
-  void reset(
-      {T? value, bool? isDisabled, bool? updateParent, bool? emitEvent}) {
+  void reset({
+    T? value,
+    bool? isDisabled,
+    bool? updateParent,
+    bool? emitEvent,
+  }) {
     updateParent ??= true;
     emitEvent ??= true;
     updateValue(value, onlySelf: !updateParent, emitEvent: emitEvent);
@@ -224,7 +232,9 @@ abstract class AbstractControl<T> {
     var parent = _parent;
     if (parent != null && updateParent) {
       parent.updateValueAndValidity(
-          onlySelf: !updateParent, emitEvent: emitEvent);
+        onlySelf: !updateParent,
+        emitEvent: emitEvent,
+      );
       // TODO(alorenzen): Update parent pristine and touched.
     }
   }
@@ -371,11 +381,13 @@ abstract class AbstractControl<T> {
   /// If `emitModelToViewChange` is `true`, the view will be notified about the
   /// new value via an `onChange` event. This is the default behavior if
   /// `emitModelToViewChange` is not specified.
-  void updateValue(T? value,
-      {bool? onlySelf,
-      bool? emitEvent,
-      bool? emitModelToViewChange,
-      String? rawValue});
+  void updateValue(
+    T? value, {
+    bool? onlySelf,
+    bool? emitEvent,
+    bool? emitModelToViewChange,
+    String? rawValue,
+  });
 
   /// Callback when control is asked to update its value.
   ///
@@ -415,7 +427,7 @@ class Control<T> extends AbstractControl<T> {
   String? _rawValue;
 
   Control([dynamic value, ValidatorFn? validator])
-      : super(validator, value: value);
+    : super(validator, value: value);
 
   /// Set the value of the control to `value`.
   ///
@@ -429,11 +441,13 @@ class Control<T> extends AbstractControl<T> {
   /// new value via an `onChange` event. This is the default behavior if
   /// `emitModelToViewChange` is not specified.
   @override
-  void updateValue(T? value,
-      {bool? onlySelf,
-      bool? emitEvent,
-      bool? emitModelToViewChange,
-      String? rawValue}) {
+  void updateValue(
+    T? value, {
+    bool? onlySelf,
+    bool? emitEvent,
+    bool? emitModelToViewChange,
+    String? rawValue,
+  }) {
     emitModelToViewChange ??= true;
     _value = value;
     _rawValue = rawValue;
@@ -483,22 +497,26 @@ class Control<T> extends AbstractControl<T> {
 /// [ControlArray] can also contain other controls, but is of variable length.
 class ControlGroup extends AbstractControlGroup<Map<String?, dynamic>> {
   ControlGroup(Map<String?, AbstractControl> controls, [ValidatorFn? validator])
-      : super(controls, validator);
+    : super(controls, validator);
 
   @override
-  void updateValue(Map<String?, dynamic>? value,
-      {bool? onlySelf,
-      bool? emitEvent,
-      bool? emitModelToViewChange,
-      String? rawValue}) {
+  void updateValue(
+    Map<String?, dynamic>? value, {
+    bool? onlySelf,
+    bool? emitEvent,
+    bool? emitModelToViewChange,
+    String? rawValue,
+  }) {
     // Treat null and empty as the same thing.
     if (value != null && value.isEmpty) value = null;
     _checkAllValuesPresent(value);
     for (var name in controls.keys) {
-      controls[name]!.updateValue(value == null ? null : value[name],
-          onlySelf: true,
-          emitEvent: emitEvent,
-          emitModelToViewChange: emitModelToViewChange);
+      controls[name]!.updateValue(
+        value == null ? null : value[name],
+        onlySelf: true,
+        emitEvent: emitEvent,
+        emitModelToViewChange: emitModelToViewChange,
+      );
     }
     updateValueAndValidity(onlySelf: onlySelf, emitEvent: emitEvent);
   }
@@ -525,13 +543,17 @@ class ControlGroup extends AbstractControlGroup<Map<String?, dynamic>> {
       for (var name in controls.keys) {
         if (!value.containsKey(name)) {
           throw ArgumentError.value(
-              value, 'Must supply a value for form control with name: $name.');
+            value,
+            'Must supply a value for form control with name: $name.',
+          );
         }
       }
       for (var name in value.keys) {
         if (!controls.containsKey(name)) {
           throw ArgumentError.value(
-              value, 'No form control found with name: $name.');
+            value,
+            'No form control found with name: $name.',
+          );
         }
       }
       return true;
@@ -546,7 +568,7 @@ abstract class AbstractControlGroup<T> extends AbstractControl<T> {
   final Map<String?, AbstractControl> controls;
 
   AbstractControlGroup(this.controls, [ValidatorFn? validator])
-      : super(validator) {
+    : super(validator) {
     _setParentForControls(this, controls.values);
   }
 
@@ -659,10 +681,12 @@ class ControlArray extends AbstractControl<List<dynamic>> {
     if (value != null && value.isEmpty) value = null;
     _checkAllValuesPresent(value);
     for (var i = 0; i < controls.length; i++) {
-      controls[i].updateValue(value == null ? null : value[i],
-          onlySelf: true,
-          emitEvent: emitEvent,
-          emitModelToViewChange: emitModelToViewChange);
+      controls[i].updateValue(
+        value == null ? null : value[i],
+        onlySelf: true,
+        emitEvent: emitEvent,
+        emitModelToViewChange: emitModelToViewChange,
+      );
     }
     updateValueAndValidity(onlySelf: onlySelf, emitEvent: emitEvent);
   }
@@ -708,9 +732,10 @@ class ControlArray extends AbstractControl<List<dynamic>> {
     assert(() {
       if (value.length != controls.length) {
         throw ArgumentError.value(
-            value,
-            'ControlArray has ${controls.length} controls, but received a list '
-            'of ${value.length} values.');
+          value,
+          'ControlArray has ${controls.length} controls, but received a list '
+          'of ${value.length} values.',
+        );
       }
       return true;
     }());
@@ -718,7 +743,9 @@ class ControlArray extends AbstractControl<List<dynamic>> {
 }
 
 void _setParentForControls(
-    AbstractControl parent, Iterable<AbstractControl> children) {
+  AbstractControl parent,
+  Iterable<AbstractControl> children,
+) {
   for (final control in children) {
     control.setParent(parent);
   }

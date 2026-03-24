@@ -4,15 +4,13 @@ import 'package:angular_compiler/v2/testing.dart';
 
 void main() {
   test('should resolve a component', () async {
-    final library = await resolve(
-      '''
+    final library = await resolve('''
       @Component(
         selector: 'example',
         template: 'Hello World',
       )
       class Example {}
-      ''',
-    );
+      ''');
     expect(
       library
           .getClass('Example')!
@@ -26,16 +24,13 @@ void main() {
   });
 
   test('should fail to resolve a component', () async {
-    final library = await resolve(
-      '''
+    final library = await resolve('''
       @Component(
         selector: 'example',
         template: 'Hello World',
       )
       class Example {}
-      ''',
-      includeAngularDeps: false,
-    );
+      ''', includeAngularDeps: false);
     expect(
       library.getClass('Example')!.metadata.first.computeConstantValue(),
       isNull,
@@ -54,7 +49,7 @@ void main() {
         class Example extends Base {}
       ''',
       additionalFiles: {
-        AssetId('test_lib', 'lib/another.dart'): 'class Base {}'
+        AssetId('test_lib', 'lib/another.dart'): 'class Base {}',
       },
     );
     final clazz = library.getClass('Example')!;

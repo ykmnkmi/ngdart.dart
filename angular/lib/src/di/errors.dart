@@ -93,15 +93,16 @@ class NoProviderError extends InjectionError {
   final List<Object> path;
 
   NoProviderError._(this.token, List<Object>? stack)
-      : path = _withAdjacentDeduped(stack, token),
-        super._();
+    : path = _withAdjacentDeduped(stack, token),
+      super._();
 
   @override
-  String toString() => path.isEmpty
-      ? _noProviderError(token)
-      : _noProviderError(token) +
-          ':\n  ${path.join(' ->\n  ')} ->\n  $token.\n'
-              '**NOTE**: This path is not exhaustive, and nodes may be missing '
-              'in between the "->" delimiters. There is ongoing work to improve '
-              'this error message and include all the nodes where possible. ';
+  String toString() =>
+      path.isEmpty
+          ? _noProviderError(token)
+          : _noProviderError(token) +
+              ':\n  ${path.join(' ->\n  ')} ->\n  $token.\n'
+                  '**NOTE**: This path is not exhaustive, and nodes may be missing '
+                  'in between the "->" delimiters. There is ongoing work to improve '
+                  'this error message and include all the nodes where possible. ';
 }

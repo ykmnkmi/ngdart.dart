@@ -78,19 +78,28 @@ void main() {
             FooComponent.routes.first,
           ]);
           expect(state.parameters, {'fooId': '1', 'barId': '2'});
-          expect(state.fragment, 'qux',
-              skip: 'Not correctly set by MockLocationStrategy (b/122484064)');
+          expect(
+            state.fragment,
+            'qux',
+            skip: 'Not correctly set by MockLocationStrategy (b/122484064)',
+          );
           expect(state.queryParameters, {'x': '12'});
         }),
       ),
     ];
     BarComponent.routes = [
       RouteDefinition(
-          path: '/baz', component: ng.createEmptyComponentFactory()),
+        path: '/baz',
+        component: ng.createEmptyComponentFactory(),
+      ),
     ];
-    return testBed.create(beforeComponentCreated: (injector) {
-      injector.provideType<Location>(Location).go('/foo/1/bar/2/baz?x=12#qux');
-    });
+    return testBed.create(
+      beforeComponentCreated: (injector) {
+        injector
+            .provideType<Location>(Location)
+            .go('/foo/1/bar/2/baz?x=12#qux');
+      },
+    );
   });
 }
 
@@ -110,10 +119,7 @@ class AppComponent {
   AppComponent(this.router);
 }
 
-@Component(
-  selector: 'empty',
-  template: '',
-)
+@Component(selector: 'empty', template: '')
 class EmptyComponent {}
 
 @Component(

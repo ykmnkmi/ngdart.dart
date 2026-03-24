@@ -10,9 +10,10 @@ void main() {
   late NgTestFixture<TestComponent> fixture;
 
   setUp(() async {
-    fixture = await NgTestBed<TestComponent>(
-      ng.createTestComponentFactory(),
-    ).create();
+    fixture =
+        await NgTestBed<TestComponent>(
+          ng.createTestComponentFactory(),
+        ).create();
   });
 
   tearDown(disposeAnyRunningTest);
@@ -34,8 +35,7 @@ void main() {
   // component, there's currently no mechanism in the framework that marks that
   // component to be checked when the `<template>` parent receives a change that
   // could invalidate a binding within the `<template>`.
-  group(
-      'updating the OnPush component which defines a template should update '
+  group('updating the OnPush component which defines a template should update '
       'any embedded views created from that template', () {
     test('when embedded within the OnPush component of origin', () async {
       final component = fixture.assertOnlyInstance;
@@ -82,7 +82,8 @@ void main() {
       expect(
         component.templateConsumer!.text,
         contains('Hello template!'),
-        reason: 'Unrelated change to view container parent triggers change '
+        reason:
+            'Unrelated change to view container parent triggers change '
             'detection of nested views which delivers an old change from the '
             'template parent to the embedded view.',
       );
@@ -93,10 +94,7 @@ void main() {
 
 @Component(
   selector: 'test',
-  directives: [
-    TemplateProducerComponent,
-    TemplateConsumerComponent,
-  ],
+  directives: [TemplateProducerComponent, TemplateConsumerComponent],
   template: '''
     <template-producer
         #templateProducer="templateProducer"

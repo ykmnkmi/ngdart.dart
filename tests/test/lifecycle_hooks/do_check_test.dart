@@ -62,9 +62,7 @@ void main() {
 
 @Component(
   selector: 'test-do-check-hook',
-  directives: [
-    DoCheckExample1,
-  ],
+  directives: [DoCheckExample1],
   template: r'''
     <do-check-example-1 [animals]="animals">
     </do-check-example-1>
@@ -76,9 +74,7 @@ class TestDoCheckHook {
 
 @Component(
   selector: 'test-do-check-setter',
-  directives: [
-    DoCheckExample2,
-  ],
+  directives: [DoCheckExample2],
   template: r'''
     <do-check-example-2 [animals]="animals">
     </do-check-example-2>

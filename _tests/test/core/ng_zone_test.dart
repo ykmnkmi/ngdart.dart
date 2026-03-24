@@ -129,8 +129,9 @@ void main() {
         log = <String>[];
         subs.addAll([
           nestedZone.onEventDone.listen((_) => log.add('nested onEventDone')),
-          nestedZone.onMicrotaskEmpty
-              .listen((_) => log.add('nested onMicrotaskEmpty')),
+          nestedZone.onMicrotaskEmpty.listen(
+            (_) => log.add('nested onMicrotaskEmpty'),
+          ),
           nestedZone.onTurnDone.listen((_) => log.add('nested onTurnDone')),
           nestedZone.onTurnStart.listen((_) => log.add('nested onTurnStart')),
         ]);
@@ -158,7 +159,7 @@ void main() {
           'nested onTurnDone',
           'onEventDone',
           'onMicrotaskEmpty',
-          'onTurnDone'
+          'onTurnDone',
         ]);
       });
     });

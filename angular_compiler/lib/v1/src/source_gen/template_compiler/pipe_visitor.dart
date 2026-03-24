@@ -25,16 +25,17 @@ class PipeVisitor extends RecursiveElementVisitor<CompilePipeMetadata> {
 
     if (annotationInfo == null) return null;
     if (annotationInfo.hasErrors) {
-      _exceptionHandler.handle(AngularAnalysisError(
-          annotationInfo.constantEvaluationErrors, annotationInfo));
+      _exceptionHandler.handle(
+        AngularAnalysisError(
+          annotationInfo.constantEvaluationErrors,
+          annotationInfo,
+        ),
+      );
       return null;
     }
     if (element.isPrivate) {
       CompileContext.current.reportAndRecover(
-        BuildError.forElement(
-          element,
-          'Pipes must be public',
-        ),
+        BuildError.forElement(element, 'Pipes must be public'),
       );
       return null;
     }
@@ -47,16 +48,20 @@ class PipeVisitor extends RecursiveElementVisitor<CompilePipeMetadata> {
   ) {
     var elementType = annotation.element.thisType;
     FunctionType? transformType;
-    final transformMethod =
-        elementType.lookUpMethod2('transform', annotation.element.library);
+    final transformMethod = elementType.lookUpMethod2(
+      'transform',
+      annotation.element.library,
+    );
     if (transformMethod != null) {
       // The pipe defines a 'transform' method.
       transformType = transformMethod.type;
     } else {
       // The pipe may define a function-typed 'transform' property. This is
       // supported for backwards compatibility.
-      final transformGetter =
-          elementType.lookUpGetter2('transform', annotation.element.library);
+      final transformGetter = elementType.lookUpGetter2(
+        'transform',
+        annotation.element.library,
+      );
       final transformGetterType = transformGetter?.returnType;
       if (transformGetterType is FunctionType) {
         transformType = transformGetterType;

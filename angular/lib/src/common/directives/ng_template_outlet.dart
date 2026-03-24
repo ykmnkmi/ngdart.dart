@@ -40,9 +40,7 @@ import 'package:angular/src/meta.dart';
 ///   };
 /// }
 /// ```
-@Directive(
-  selector: '[ngTemplateOutlet]',
-)
+@Directive(selector: '[ngTemplateOutlet]')
 class NgTemplateOutlet implements DoCheck {
   final ViewContainerRef _viewContainerRef;
 

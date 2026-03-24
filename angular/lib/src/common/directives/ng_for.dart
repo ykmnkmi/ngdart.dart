@@ -82,9 +82,7 @@ import '../../core/linker.dart';
 /// page.
 ///
 /// [guide]: https://webdev.dartlang.org/angular/guide/template-syntax.html#ngFor
-@Directive(
-  selector: '[ngFor][ngForOf]',
-)
+@Directive(selector: '[ngFor][ngForOf]')
 class NgFor implements DoCheck {
   final ViewContainerRef _viewContainer;
 

@@ -108,11 +108,7 @@ class Inject {
 /// ## Use #3: A static class method
 ///
 /// This works the same way as with top-level functions.
-@Target({
-  TargetKind.classType,
-  TargetKind.function,
-  TargetKind.method,
-})
+@Target({TargetKind.classType, TargetKind.function, TargetKind.method})
 class Injectable {
   const Injectable();
 }

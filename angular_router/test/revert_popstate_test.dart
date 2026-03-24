@@ -22,10 +22,12 @@ void main() {
         return createInjector(Injector.map({RouterHook: routerHook}, parent));
       },
     );
-    testFixture = await testBed.create(beforeComponentCreated: (injector) {
-      location = injector.provideType(Location)..replaceState('/a');
-      router = injector.provideType(Router);
-    });
+    testFixture = await testBed.create(
+      beforeComponentCreated: (injector) {
+        location = injector.provideType(Location)..replaceState('/a');
+        router = injector.provideType(Router);
+      },
+    );
   });
 
   tearDown(disposeAnyRunningTest);
@@ -90,25 +92,13 @@ final createInjector = ng.createInjector$Injector;
 )
 class TestComponent {
   final routes = [
-    RouteDefinition(
-      path: '/a',
-      component: ng.createRouteComponentFactory(),
-    ),
-    RouteDefinition(
-      path: '/b',
-      component: ng.createRouteComponentFactory(),
-    ),
-    RouteDefinition(
-      path: '/c',
-      component: ng.createRouteComponentFactory(),
-    ),
+    RouteDefinition(path: '/a', component: ng.createRouteComponentFactory()),
+    RouteDefinition(path: '/b', component: ng.createRouteComponentFactory()),
+    RouteDefinition(path: '/c', component: ng.createRouteComponentFactory()),
   ];
 }
 
-@Component(
-  selector: 'route',
-  template: '',
-)
+@Component(selector: 'route', template: '')
 class RouteComponent {}
 
 class TestRouterHook extends RouterHook {

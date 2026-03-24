@@ -41,14 +41,17 @@ void main() {
       expect(registry.getMappedPropName('readonly'), 'readOnly');
     });
     test(
-        'should not re-map property names that are not specified in DOM facade',
-        () {
-      expect(registry.getMappedPropName('title'), 'title');
-      expect(registry.getMappedPropName('exotic-unknown'), 'exotic-unknown');
-    });
+      'should not re-map property names that are not specified in DOM facade',
+      () {
+        expect(registry.getMappedPropName('title'), 'title');
+        expect(registry.getMappedPropName('exotic-unknown'), 'exotic-unknown');
+      },
+    );
     test('should return security contexts for elements', () {
       expect(
-          registry.securityContext('a', 'href'), TemplateSecurityContext.url);
+        registry.securityContext('a', 'href'),
+        TemplateSecurityContext.url,
+      );
     });
     test('should detect properties on namespaced elements', () {
       expect(registry.hasProperty('@svg:g', 'id'), true);

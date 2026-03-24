@@ -27,9 +27,7 @@ import 'package:angular/src/runtime/check_binding.dart';
 /// ```
 ///
 /// [guide]: https://webdev.dartlang.org/angular/guide/template-syntax.html#ngIf
-@Directive(
-  selector: '[ngIf]',
-)
+@Directive(selector: '[ngIf]')
 class NgIf {
   final TemplateRef _templateRef;
   final ViewContainerRef _viewContainer;

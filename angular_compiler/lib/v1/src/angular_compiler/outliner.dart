@@ -22,9 +22,10 @@ String _typeArgumentsFor(ClassElement element) {
   if (element.typeParameters.isEmpty) {
     return '';
   }
-  final buffer = StringBuffer('<')
-    ..writeAll(element.typeParameters.map((t) => t.name), ', ')
-    ..write('>');
+  final buffer =
+      StringBuffer('<')
+        ..writeAll(element.typeParameters.map((t) => t.name), ', ')
+        ..write('>');
   return buffer.toString();
 }
 
@@ -41,10 +42,10 @@ class TemplateOutliner implements Builder {
   TemplateOutliner({
     required String extension,
     required this.exportUserCodeFromTemplate,
-  })  : _extension = extension,
-        buildExtensions = {
-          '.dart': [extension],
-        };
+  }) : _extension = extension,
+       buildExtensions = {
+         '.dart': [extension],
+       };
 
   @override
   Future<void> build(BuildStep buildStep) async {
@@ -141,7 +142,9 @@ class TemplateOutliner implements Builder {
     }
     output.writeln();
     final directiveTypeParameters = await collectTypeParameters(
-        components.followedBy(directives), buildStep);
+      components.followedBy(directives),
+      buildStep,
+    );
     if (components.isNotEmpty) {
       for (final component in components) {
         final componentName = component.name;

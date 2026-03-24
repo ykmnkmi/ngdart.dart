@@ -21,13 +21,7 @@ class RealTimeNgZoneStabilizer extends BaseNgZoneStabilizer<_ObservedTimer> {
   factory RealTimeNgZoneStabilizer(TimerHookZone timerZone, NgZone ngZone) {
     // All non-periodic timers that have been started, but not completed.
     final pendingTimers = PriorityQueue<_ObservedTimer>();
-    timerZone.createTimer = (
-      self,
-      parent,
-      zone,
-      duration,
-      callback,
-    ) {
+    timerZone.createTimer = (self, parent, zone, duration, callback) {
       // If the timer is meant to run outside of Angular zone, we do not try to
       // stabilize it, and delegate it to the parent zone.
       if (!inAngularZone(ngZone, zone)) {
@@ -43,11 +37,7 @@ class RealTimeNgZoneStabilizer extends BaseNgZoneStabilizer<_ObservedTimer> {
         }
       }
 
-      final delegate = parent.createTimer(
-        zone,
-        duration,
-        wrappedCallback,
-      );
+      final delegate = parent.createTimer(zone, duration, wrappedCallback);
       instance = _ObservedTimer(
         delegate,
         duration,
@@ -56,10 +46,7 @@ class RealTimeNgZoneStabilizer extends BaseNgZoneStabilizer<_ObservedTimer> {
       pendingTimers.add(instance);
       return instance;
     };
-    return RealTimeNgZoneStabilizer._(
-      ngZone,
-      pendingTimers,
-    );
+    return RealTimeNgZoneStabilizer._(ngZone, pendingTimers);
   }
 
   RealTimeNgZoneStabilizer._(

@@ -5,43 +5,66 @@ import 'package:angular/src/common/pipes/replace_pipe.dart';
 final someNumber = 42;
 final str = 'Douglas Adams';
 
-final Matcher throwsAnInvalidPipeArgumentException =
-    throwsA(TypeMatcher<InvalidPipeArgumentException>());
+final Matcher throwsAnInvalidPipeArgumentException = throwsA(
+  TypeMatcher<InvalidPipeArgumentException>(),
+);
 
 void main() {
   group('ReplacePipe', () {
     var pipe = const ReplacePipe();
     group('transform', () {
       test('should not support input other than strings and numbers', () {
-        expect(() => pipe.transform({}, 'Douglas', 'Hugh'),
-            throwsAnInvalidPipeArgumentException);
-        expect(() => pipe.transform([1, 2, 3], 'Douglas', 'Hugh'),
-            throwsAnInvalidPipeArgumentException);
+        expect(
+          () => pipe.transform({}, 'Douglas', 'Hugh'),
+          throwsAnInvalidPipeArgumentException,
+        );
+        expect(
+          () => pipe.transform([1, 2, 3], 'Douglas', 'Hugh'),
+          throwsAnInvalidPipeArgumentException,
+        );
       });
       test(
-          'should not support patterns other than strings and regular expressions',
-          () {
-        expect(() => pipe.transform(str, {}, 'Hugh'),
-            throwsAnInvalidPipeArgumentException);
-        expect(() => pipe.transform(str, null, 'Hugh'),
-            throwsAnInvalidPipeArgumentException);
-        expect(() => pipe.transform(str, 123, 'Hugh'),
-            throwsAnInvalidPipeArgumentException);
-      });
-      test('should not support replacements other than strings and functions',
-          () {
-        expect(() => pipe.transform(str, 'Douglas', {}),
-            throwsAnInvalidPipeArgumentException);
-        expect(() => pipe.transform(str, 'Douglas', null),
-            throwsAnInvalidPipeArgumentException);
-        expect(() => pipe.transform(str, 'Douglas', 123),
-            throwsAnInvalidPipeArgumentException);
-      });
+        'should not support patterns other than strings and regular expressions',
+        () {
+          expect(
+            () => pipe.transform(str, {}, 'Hugh'),
+            throwsAnInvalidPipeArgumentException,
+          );
+          expect(
+            () => pipe.transform(str, null, 'Hugh'),
+            throwsAnInvalidPipeArgumentException,
+          );
+          expect(
+            () => pipe.transform(str, 123, 'Hugh'),
+            throwsAnInvalidPipeArgumentException,
+          );
+        },
+      );
+      test(
+        'should not support replacements other than strings and functions',
+        () {
+          expect(
+            () => pipe.transform(str, 'Douglas', {}),
+            throwsAnInvalidPipeArgumentException,
+          );
+          expect(
+            () => pipe.transform(str, 'Douglas', null),
+            throwsAnInvalidPipeArgumentException,
+          );
+          expect(
+            () => pipe.transform(str, 'Douglas', 123),
+            throwsAnInvalidPipeArgumentException,
+          );
+        },
+      );
       test('should return a new string with the pattern replaced', () {
         var result1 = pipe.transform(str, 'Douglas', 'Hugh');
         var result2 = pipe.transform(str, RegExp('a'), '_');
-        var result3 =
-            pipe.transform(str, RegExp('a', caseSensitive: false), '_');
+        var result3 = pipe.transform(
+          str,
+          RegExp('a', caseSensitive: false),
+          '_',
+        );
         String f(_) {
           return 'Adams!';
         }

@@ -107,7 +107,7 @@ class AngularCompiler {
       styleUrls: componentWithDirs.component.template!.styleUrls,
       views: [
         _componentView(componentWithDirs),
-        _hostView(componentWithDirs.component)
+        _hostView(componentWithDirs.component),
       ],
     );
   }

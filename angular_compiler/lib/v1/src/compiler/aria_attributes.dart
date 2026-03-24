@@ -47,7 +47,7 @@ const _ariaAttributes = <String>{
   'aria-valuemax',
   'aria-valuemin',
   'aria-valuenow',
-  'aria-valuetext'
+  'aria-valuetext',
 };
 
 /// Returns true if input is a valid ARIA attribute.

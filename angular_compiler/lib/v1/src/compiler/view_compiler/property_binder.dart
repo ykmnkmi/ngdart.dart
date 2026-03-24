@@ -50,17 +50,18 @@ void bindAndWriteToRenderer(
       continue;
     }
     _checkBinding(
-        binding,
-        converter,
-        nameResolver,
-        appViewInstance,
-        renderNode,
-        isHtmlElement,
-        calcChanged,
-        storage,
-        dynamicMethod,
-        constantMethod,
-        isHostComponent);
+      binding,
+      converter,
+      nameResolver,
+      appViewInstance,
+      renderNode,
+      isHtmlElement,
+      calcChanged,
+      storage,
+      dynamicMethod,
+      constantMethod,
+      isHostComponent,
+    );
   }
   if (constantMethod.isNotEmpty) {
     targetMethod.addStmtsIfFirstCheck(constantMethod.finish());
@@ -71,7 +72,10 @@ void bindAndWriteToRenderer(
 }
 
 void bindRenderText(
-    ir.Binding binding, CompileNode compileNode, CompileView? view) {
+  ir.Binding binding,
+  CompileNode compileNode,
+  CompileView? view,
+) {
   if (binding.source.isImmutable) {
     // We already set the value to the text node at creation
     return;
@@ -87,10 +91,13 @@ void bindRenderText(
 }
 
 void bindRenderInputs(
-    List<ir.Binding> bindings, CompileElement compileElement) {
-  var appViewInstance = compileElement.component == null
-      ? o.THIS_EXPR
-      : compileElement.componentView;
+  List<ir.Binding> bindings,
+  CompileElement compileElement,
+) {
+  var appViewInstance =
+      compileElement.component == null
+          ? o.THIS_EXPR
+          : compileElement.componentView;
   var renderNode = compileElement.renderNode;
   var view = compileElement.view!;
   var converter = BoundValueConverter.forView(view);
@@ -124,8 +131,9 @@ void bindDirectiveInputs(
   // At the beginning of change detecting inputs we reset this flag to false,
   // and then set it to true if any of it's inputs change.
   if (calcChanged && !isHostComponent) {
-    detectChangesInInputsMethod
-        .addStmt(DetectChangesVars.changed.set(o.literal(false)).toStmt());
+    detectChangesInInputsMethod.addStmt(
+      DetectChangesVars.changed.set(o.literal(false)).toStmt(),
+    );
   }
   bindAndWriteToRenderer(
     inputs,
@@ -140,9 +148,13 @@ void bindDirectiveInputs(
     calcChanged: calcChanged,
   );
   if (isOnPushComp) {
-    detectChangesInInputsMethod.addStmt(o.IfStmt(DetectChangesVars.changed, [
-      compileElement.componentView!.callMethod('markAsCheckOnce', []).toStmt()
-    ]));
+    detectChangesInInputsMethod.addStmt(
+      o.IfStmt(DetectChangesVars.changed, [
+        compileElement.componentView!
+            .callMethod('markAsCheckOnce', [])
+            .toStmt(),
+      ]),
+    );
   }
 }
 
@@ -175,17 +187,18 @@ void _directBinding(
 ///       this._expr_1 = currVal_1;
 ///     }
 void _checkBinding(
-    ir.Binding binding,
-    BoundValueConverter converter,
-    ViewNameResolver nameResolver,
-    o.Expression? appViewInstance,
-    NodeReference? renderNode,
-    bool isHtmlElement,
-    bool calcChanged,
-    ViewStorage storage,
-    CompileMethod dynamicMethod,
-    CompileMethod constantMethod,
-    bool isHostComponent) {
+  ir.Binding binding,
+  BoundValueConverter converter,
+  ViewNameResolver nameResolver,
+  o.Expression? appViewInstance,
+  NodeReference? renderNode,
+  bool isHtmlElement,
+  bool calcChanged,
+  ViewStorage storage,
+  CompileMethod dynamicMethod,
+  CompileMethod constantMethod,
+  bool isHostComponent,
+) {
   // Add to view bindings collection.
   var bindingIndex = nameResolver.createUniqueBindIndex();
 
@@ -195,8 +208,13 @@ void _checkBinding(
   // Expression for current value of expression when value is re-read.
   var currValExpr = _createCurrValueExpr(bindingIndex);
 
-  var updatedExpr = _maybeOptimizeInterpolation(
-      binding.source, currValExpr, converter, binding.target.type)!;
+  var updatedExpr =
+      _maybeOptimizeInterpolation(
+        binding.source,
+        currValExpr,
+        converter,
+        binding.target.type,
+      )!;
 
   var updateStmts = bindingToUpdateStatements(
     binding,
@@ -210,8 +228,10 @@ void _checkBinding(
     updateStmts.add(DetectChangesVars.changed.set(o.literal(true)).toStmt());
   }
 
-  final checkExpression =
-      converter.convertSourceToExpression(binding.source, binding.target.type);
+  final checkExpression = converter.convertSourceToExpression(
+    binding.source,
+    binding.target.type,
+  );
 
   final checkBindingExpr = _checkBindingExpr(binding, fieldExpr, currValExpr);
   _bind(
@@ -230,8 +250,11 @@ void _checkBinding(
   );
 }
 
-o.Expression _checkBindingExpr(ir.Binding binding,
-    o.ReadClassMemberExpr fieldExpr, o.ReadVarExpr currValExpr) {
+o.Expression _checkBindingExpr(
+  ir.Binding binding,
+  o.ReadClassMemberExpr fieldExpr,
+  o.ReadVarExpr currValExpr,
+) {
   return binding.source.accept(_CheckBindingVisitor(fieldExpr, currValExpr));
 }
 
@@ -280,10 +303,7 @@ class _CheckBindingVisitor
   }
 
   @override
-  o.Expression visitStringLiteral(
-    ir.StringLiteral stringLiteral, [
-    void _,
-  ]) {
+  o.Expression visitStringLiteral(ir.StringLiteral stringLiteral, [void _]) {
     return o.importExpr(Runtime.checkBinding).callFn([fieldExpr, currValExpr]);
   }
 }
@@ -317,8 +337,14 @@ void _bind(
     // If the expression is immutable, it will never change, so we can run it
     // once on the first change detection.
     if (!isHostComponent) {
-      _bindLiteral(checkExpression!, actions, currValExpr.name!, fieldExpr.name,
-          literalMethod, isNullable);
+      _bindLiteral(
+        checkExpression!,
+        actions,
+        currValExpr.name!,
+        fieldExpr.name,
+        literalMethod,
+        isNullable,
+      );
     }
     return;
   }
@@ -336,13 +362,10 @@ void _bind(
       currValExpr.set(checkExpression).toDeclStmt(null, [o.StmtModifier.Final]),
     )
     ..addStmt(
-      o.IfStmt(
-        checkBindingExpr,
-        [
-          ...actions,
-          storage.buildWriteExpr(previousValueField, currValExpr).toStmt()
-        ],
-      ),
+      o.IfStmt(checkBindingExpr, [
+        ...actions,
+        storage.buildWriteExpr(previousValueField, currValExpr).toStmt(),
+      ]),
     );
 }
 
@@ -354,12 +377,13 @@ void _bind(
 /// the [actions] and run them once on the first change detection run.
 // TODO(alorenzen): Replace usages with _directBinding().
 void _bindLiteral(
-    o.Expression checkExpression,
-    List<o.Statement> actions,
-    String currValName,
-    String fieldName,
-    CompileMethod method,
-    bool isNullable) {
+  o.Expression checkExpression,
+  List<o.Statement> actions,
+  String currValName,
+  String fieldName,
+  CompileMethod method,
+  bool isNullable,
+) {
   if (checkExpression == o.NULL_EXPR ||
       (checkExpression is o.LiteralExpr && checkExpression.value == null)) {
     // In this case, there is no transition, since change detection variables
@@ -370,7 +394,8 @@ void _bindLiteral(
   var mappedActions = actions
       // Replace all 'currVal_X' with the actual expression
       .map(
-          (stmt) => o.replaceVarInStatement(currValName, checkExpression, stmt))
+        (stmt) => o.replaceVarInStatement(currValName, checkExpression, stmt),
+      )
       // Replace all 'expr_X' with 'null'
       .map((stmt) => o.replaceVarInStatement(fieldName, o.NULL_EXPR, stmt));
   if (isNullable) {
@@ -399,8 +424,9 @@ void bindDirectiveHostProps(
       [DetectChangesVars.firstCheck],
     );
   } else {
-    final directiveInstance =
-        unwrapDirectiveInstance(directive.providerSource!.build());
+    final directiveInstance = unwrapDirectiveInstance(
+      directive.providerSource!.build(),
+    );
     // For @Component-annotated classes that extend @Directive classes, i.e.:
     //
     // @Directive(...)
@@ -418,15 +444,12 @@ void bindDirectiveHostProps(
     if (directiveInstance == null) {
       return;
     }
-    detectHostChanges = directiveInstance.callMethod(
-      'detectHostChanges',
-      [
-        compileElement.component != null
-            ? compileElement.componentView!
-            : o.THIS_EXPR,
-        compileElement.renderNode.toReadExpr(),
-      ],
-    );
+    detectHostChanges = directiveInstance.callMethod('detectHostChanges', [
+      compileElement.component != null
+          ? compileElement.componentView!
+          : o.THIS_EXPR,
+      compileElement.renderNode.toReadExpr(),
+    ]);
   }
   compileElement.view!.detectChangesRenderPropertiesMethod.addStmt(
     detectHostChanges.toStmt(),
@@ -462,16 +485,20 @@ bool _shouldInterpolateAfterCheck(ir.BindingSource source) =>
 // method would replace current variable to checkExpression. It results in
 // binding interpolate method twice.
 o.Expression? _maybeOptimizeInterpolation(
-    ir.BindingSource source,
-    o.ReadVarExpr currValExpr,
-    BoundValueConverter converter,
-    o.OutputType? type) {
+  ir.BindingSource source,
+  o.ReadVarExpr currValExpr,
+  BoundValueConverter converter,
+  o.OutputType? type,
+) {
   if (!_shouldInterpolateAfterCheck(source)) {
     return currValExpr;
   }
   final oldSource = source as ir.BoundExpression;
   final oldInterpolation = oldSource.expression.ast as ast.Interpolation;
-  final interpolationSource = oldSource.withNewExpression(ast.Interpolation(
-      oldInterpolation.strings, [ast.VariableRead(currValExpr.name!)]));
+  final interpolationSource = oldSource.withNewExpression(
+    ast.Interpolation(oldInterpolation.strings, [
+      ast.VariableRead(currValExpr.name!),
+    ]),
+  );
   return converter.convertSourceToExpression(interpolationSource, type);
 }

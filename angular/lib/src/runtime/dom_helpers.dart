@@ -70,11 +70,7 @@ void updateClassBindingNonHtml(Element element, String className, bool isAdd) {
 ///
 /// If [value] is `null`, this implicitly _removes_ [attribute] from [element].
 @dart2js.noInline
-void updateAttribute(
-  Element element,
-  String attribute,
-  String? value,
-) {
+void updateAttribute(Element element, String attribute, String? value) {
   if (value == null) {
     element.removeAttribute(attribute);
   } else {
@@ -105,11 +101,7 @@ void updateAttributeNS(
 /// from the template, as it does not check to see if [value] is `null` (and
 /// the attribute should be removed) nor does it set [domRootRendererIsDirty].
 @dart2js.noInline
-void setAttribute(
-  Element element,
-  String attribute, [
-  String value = '',
-]) {
+void setAttribute(Element element, String attribute, [String value = '']) {
   element.setAttribute(attribute, value);
 }
 
@@ -121,11 +113,7 @@ void setAttribute(
 /// e.disabled = true;
 /// ```
 @dart2js.tryInline
-void setProperty(
-  Element element,
-  String property,
-  Object? value,
-) {
+void setProperty(Element element, String property, Object? value) {
   js.setProperty(element, property, value);
 }
 
@@ -218,11 +206,7 @@ SpanElement appendSpan(Document doc, Node parent) {
 ///
 /// This is an optimization to reduce code size for a common operation.
 @dart2js.noInline
-T appendElement<T extends Element>(
-  Document doc,
-  Node parent,
-  String tagName,
-) {
+T appendElement<T extends Element>(Document doc, Node parent, String tagName) {
   // <T extends Element> allows the pattern:
   // HtmlElement e = appendElement(doc, parent, 'foo')
   //

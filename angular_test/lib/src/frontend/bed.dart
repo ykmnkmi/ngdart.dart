@@ -106,9 +106,7 @@ class NgTestBed<T extends Object> {
 
   static Injector _defaultRootInjector(Injector parent) => parent;
 
-  static NgTestStabilizer _alwaysStable(
-    Injector _,
-  ) =>
+  static NgTestStabilizer _alwaysStable(Injector _) =>
       NgTestStabilizer.alwaysStable;
 
   static NgTestStabilizer _defaultStabilizers(
@@ -215,23 +213,23 @@ class NgTestBed<T extends Object> {
     required NgTestStabilizerFactory stabilizer,
     InjectorFactory? rootInjector,
     ComponentFactory<T>? component,
-  })  : _host = host,
-        _providers = providers.toList(),
-        _createStabilizer = stabilizer,
-        _rootInjector = rootInjector ?? _defaultRootInjector,
-        _componentFactory = component;
+  }) : _host = host,
+       _providers = providers.toList(),
+       _createStabilizer = stabilizer,
+       _rootInjector = rootInjector ?? _defaultRootInjector,
+       _componentFactory = component;
 
   NgTestBed._useComponentFactory({
     Element? host,
     required ComponentFactory<T> component,
     required InjectorFactory rootInjector,
     required bool watchAngularLifecycle,
-  })  : _host = host,
-        _providers = const [],
-        _createStabilizer =
-            watchAngularLifecycle ? _defaultStabilizers : _alwaysStable,
-        _rootInjector = rootInjector,
-        _componentFactory = component;
+  }) : _host = host,
+       _providers = const [],
+       _createStabilizer =
+           watchAngularLifecycle ? _defaultStabilizers : _alwaysStable,
+       _rootInjector = rootInjector,
+       _componentFactory = component;
 
   /// Whether this is the new-style [ComponentFactory]-backed [NgTestBed].
   bool get _usesComponentFactory => _componentFactory != null;
@@ -337,9 +335,10 @@ class NgTestBed<T extends Object> {
         // Some internal stabilizers get access to the TimerHookZone.
         // Most (i.e. user-land) stabilizers do not.
         final createStabilizer = _createStabilizer;
-        allStabilizers = createStabilizer is AllowTimerHookZoneAccess
-            ? createStabilizer(injector, timerHookZone)
-            : createStabilizer(injector);
+        allStabilizers =
+            createStabilizer is AllowTimerHookZoneAccess
+                ? createStabilizer(injector, timerHookZone)
+                : createStabilizer(injector);
 
         // If there is no user hook, we are done.
         if (beforeComponentCreated == null) {

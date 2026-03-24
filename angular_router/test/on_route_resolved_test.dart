@@ -78,16 +78,20 @@ void main() {
   });
 }
 
-Stream<String> onRouteResolved(Router router) => router.onRouteResolved
-    .map((state) => '$state popstate:${state.fromPopState}');
+Stream<String> onRouteResolved(Router router) => router.onRouteResolved.map(
+  (state) => '$state popstate:${state.fromPopState}',
+);
 
 Stream<dynamic> navigate(Router router, String path) => StreamGroup.merge([
-      onRouteResolved(router),
-      router.navigate(path).asStream(),
-    ]);
+  onRouteResolved(router),
+  router.navigate(path).asStream(),
+]);
 
 Stream<String> popState(
-    Router router, LocationStrategy locationStrategy, String url) {
+  Router router,
+  LocationStrategy locationStrategy,
+  String url,
+) {
   final stream = onRouteResolved(router);
   (locationStrategy as MockLocationStrategy).simulatePopState(url);
   return stream;
@@ -96,10 +100,7 @@ Stream<String> popState(
 const canDeactivateToken = OpaqueToken<bool>('canDeactivateToken');
 const canNavigateToken = OpaqueToken<bool>('canNavigateToken');
 
-@Component(
-  selector: 'home',
-  template: '',
-)
+@Component(selector: 'home', template: '')
 class HomeComponent implements CanDeactivate, CanNavigate {
   final bool _canDeactivate;
   final bool _canNavigate;
@@ -107,8 +108,8 @@ class HomeComponent implements CanDeactivate, CanNavigate {
   HomeComponent(
     @Optional() @Inject(canDeactivateToken) bool? canDeactivate,
     @Optional() @Inject(canNavigateToken) bool? canNavigate,
-  )   : _canDeactivate = canDeactivate ?? true,
-        _canNavigate = canNavigate ?? true;
+  ) : _canDeactivate = canDeactivate ?? true,
+      _canNavigate = canNavigate ?? true;
 
   @override
   Future<bool> canDeactivate(_, __) => Future.value(_canDeactivate);
@@ -117,10 +118,7 @@ class HomeComponent implements CanDeactivate, CanNavigate {
   Future<bool> canNavigate() => Future.value(_canNavigate);
 }
 
-@Component(
-  selector: 'destination',
-  template: '',
-)
+@Component(selector: 'destination', template: '')
 class DestinationComponent {}
 
 @Component(
@@ -142,10 +140,7 @@ class TestComponent {
       path: 'destination',
       component: ng.createDestinationComponentFactory(),
     ),
-    RouteDefinition.redirect(
-      path: 'redirection',
-      redirectTo: 'destination',
-    ),
+    RouteDefinition.redirect(path: 'redirection', redirectTo: 'destination'),
   ];
 
   TestComponent(this.router, this.locationStrategy);

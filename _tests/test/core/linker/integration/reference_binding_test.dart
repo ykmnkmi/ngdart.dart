@@ -11,21 +11,24 @@ void main() {
 
   test('should assign a component to a reference', () async {
     final testBed = NgTestBed<ComponentReferenceBindingComponent>(
-        ng.createComponentReferenceBindingComponentFactory());
+      ng.createComponentReferenceBindingComponentFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.assertOnlyInstance.child, TypeMatcher<ChildComponent>());
   });
 
   test('should assign a directive to a reference', () async {
     final testBed = NgTestBed<DirectiveReferenceBindingComponent>(
-        ng.createDirectiveReferenceBindingComponentFactory());
+      ng.createDirectiveReferenceBindingComponentFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.assertOnlyInstance.directive, TypeMatcher<ExportDir>());
   });
 
   test('should assign an element to a reference', () async {
     final testBed = NgTestBed<ElementReferenceBindingComponent>(
-        ng.createElementReferenceBindingComponentFactory());
+      ng.createElementReferenceBindingComponentFactory(),
+    );
     final testFixture = await testBed.create();
     expect(
       testFixture.assertOnlyInstance.captured!.reference,
@@ -35,14 +38,16 @@ void main() {
 
   test('should be accessible in bindings before declaration', () async {
     final testBed = NgTestBed<UseRefBeforeDeclarationComponent>(
-        ng.createUseRefBeforeDeclarationComponentFactory());
+      ng.createUseRefBeforeDeclarationComponentFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'hello|hello|hello');
   });
 
   test('should assign two component instances each with a reference', () async {
     final testBed = NgTestBed<TwoComponentReferencesComponent>(
-        ng.createTwoComponentReferencesComponentFactory());
+      ng.createTwoComponentReferencesComponentFactory(),
+    );
     final testFixture = await testBed.create();
     final alice = testFixture.assertOnlyInstance.alice;
     final bob = testFixture.assertOnlyInstance.bob;
@@ -53,7 +58,8 @@ void main() {
 
   test('should be case sensitive', () async {
     final testBed = NgTestBed<CaseSensitiveRefComponent>(
-        ng.createCaseSensitiveRefComponentFactory());
+      ng.createCaseSensitiveRefComponentFactory(),
+    );
     final testFixture = await testBed.create();
     final caseSensitive = testFixture.assertOnlyInstance.caseSensitive;
     final caseInsensitive = testFixture.assertOnlyInstance.caseInsensitive;
@@ -67,13 +73,7 @@ class MyService {
   String greeting = 'hello';
 }
 
-@Component(
-  selector: 'child',
-  template: '{{value}}',
-  viewProviders: [
-    MyService,
-  ],
-)
+@Component(selector: 'child', template: '{{value}}', viewProviders: [MyService])
 class ChildComponent {
   late final String value;
 
@@ -92,10 +92,7 @@ class ComponentReferenceBindingComponent {
   ChildComponent? child;
 }
 
-@Directive(
-  selector: '[export-dir]',
-  exportAs: 'dir',
-)
+@Directive(selector: '[export-dir]', exportAs: 'dir')
 class ExportDir {}
 
 @Component(
@@ -124,9 +121,7 @@ class ElementReferenceBindingComponent {
   CaptureReferenceDirective? captured;
 }
 
-@Directive(
-  selector: '[capture]',
-)
+@Directive(selector: '[capture]')
 class CaptureReferenceDirective {
   @Input()
   dynamic reference;
@@ -134,12 +129,10 @@ class CaptureReferenceDirective {
 
 @Component(
   selector: 'use-ref-before-declaration',
-  template: '<template [ngIf]="true">{{alice.value}}</template>'
+  template:
+      '<template [ngIf]="true">{{alice.value}}</template>'
       '|{{alice.value}}|<child #alice></child>',
-  directives: [
-    ChildComponent,
-    NgIf,
-  ],
+  directives: [ChildComponent, NgIf],
 )
 class UseRefBeforeDeclarationComponent {}
 

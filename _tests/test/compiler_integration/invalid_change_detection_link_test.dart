@@ -24,7 +24,8 @@ void main() {
     });
 
     test("shouldn't compile on CheckAlways component", () async {
-      await compilesExpecting("""
+      await compilesExpecting(
+        """
         import '$ngImport';
         import '$ngExperimentalImport';
 
@@ -34,32 +35,37 @@ void main() {
           template: '',
         )
         class CheckAlwaysComponent {}
-      """, errors: [
-        allOf([
-          contains(
-            'Only supported on components that use "OnPush" change detection',
-          ),
-          containsSourceLocation(4, 9),
-        ]),
-      ]);
+      """,
+        errors: [
+          allOf([
+            contains(
+              'Only supported on components that use "OnPush" change detection',
+            ),
+            containsSourceLocation(4, 9),
+          ]),
+        ],
+      );
     });
 
     test("shouldn't compile on directive", () async {
-      await compilesExpecting("""
+      await compilesExpecting(
+        """
         import '$ngImport';
         import '$ngExperimentalImport';
 
         @changeDetectionLink
         @Directive(selector: '[test]')
         class TestDirective {}
-      """, errors: [
-        allOf([
-          contains(
-            'Only supported on components that use "OnPush" change detection',
-          ),
-          containsSourceLocation(4, 9),
-        ]),
-      ]);
+      """,
+        errors: [
+          allOf([
+            contains(
+              'Only supported on components that use "OnPush" change detection',
+            ),
+            containsSourceLocation(4, 9),
+          ]),
+        ],
+      );
     });
   });
 }

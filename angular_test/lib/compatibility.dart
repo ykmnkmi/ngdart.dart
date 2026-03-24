@@ -54,9 +54,7 @@ Injector _rootLegacyInjector(InjectorFactory userInjector) {
   // as ExceptionHandler.
   return appInjector((parent) {
     return Injector.map({
-      SlowComponentLoader: const SlowComponentLoader(
-        ComponentLoader(),
-      ),
+      SlowComponentLoader: const SlowComponentLoader(ComponentLoader()),
     }, userInjector(parent));
   });
 }

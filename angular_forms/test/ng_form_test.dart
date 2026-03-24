@@ -55,10 +55,9 @@ void main() {
 
     test('should set up sync validator', () {
       Map<String, dynamic> formValidator(_) => {'custom': true};
-      var f = NgForm(
-        [formValidator],
-        fixture.assertOnlyInstance.changeDetectorRef,
-      );
+      var f = NgForm([
+        formValidator,
+      ], fixture.assertOnlyInstance.changeDetectorRef);
       expect(f.form!.errors, {'custom': true});
     });
 
@@ -82,8 +81,9 @@ void main() {
       tearDown(() => disposeAnyRunningTest());
 
       setUp(() async {
-        var testBed =
-            NgTestBed<OnPushControlTest>(ng.createOnPushControlTestFactory());
+        var testBed = NgTestBed<OnPushControlTest>(
+          ng.createOnPushControlTestFactory(),
+        );
         fixture = await testBed.create();
       });
 
@@ -116,7 +116,8 @@ void main() {
 
       setUp(() async {
         var testBed = NgTestBed<OnPushControlGroupTest>(
-            ng.createOnPushControlGroupTestFactory());
+          ng.createOnPushControlGroupTestFactory(),
+        );
         fixture = await testBed.create();
       });
 
@@ -146,10 +147,7 @@ void main() {
 
 @Component(
   selector: 'ng-form-test',
-  directives: [
-    formDirectives,
-    NgIf,
-  ],
+  directives: [formDirectives, NgIf],
   template: '''
 <div ngForm #form="ngForm" [ngDisabled]="disabled">
   <div [ngControlGroup]="'person'" *ngIf="needsLogin">
@@ -181,10 +179,7 @@ class NgFormTest {
 
 @Component(
   selector: 'test',
-  directives: [
-    formDirectives,
-    NgIf,
-  ],
+  directives: [formDirectives, NgIf],
   template: '''
     <form #form="ngForm">
       <input *ngIf="requiresName" ngControl="name" required />
@@ -204,10 +199,7 @@ class OnPushControlTest {
 
 @Component(
   selector: 'test',
-  directives: [
-    formDirectives,
-    NgIf,
-  ],
+  directives: [formDirectives, NgIf],
   template: '''
     <form #form="ngForm">
       <div *ngIf="requiresGroup" ngControlGroup="info">

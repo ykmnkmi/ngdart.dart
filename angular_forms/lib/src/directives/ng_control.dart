@@ -23,6 +23,6 @@ abstract class NgControl extends AbstractControlDirective<Control> {
   NgControl(
     List<ControlValueAccessor<dynamic>>? valueAccessors,
     List<dynamic>? validators,
-  )   : valueAccessor = selectValueAccessor(valueAccessors),
-        validator = composeValidators(validators);
+  ) : valueAccessor = selectValueAccessor(valueAccessors),
+      validator = composeValidators(validators);
 }

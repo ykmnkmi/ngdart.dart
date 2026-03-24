@@ -9,9 +9,8 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should use the proper provider bindings in a hierarchy', () async {
-    final fixture = await NgTestBed<TestParent>(
-      ng.createTestParentFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<TestParent>(ng.createTestParentFactory()).create();
     late final B serviceB;
     late final A serviceA;
     await fixture.update((comp) {
@@ -31,20 +30,19 @@ void main() {
   });
 
   test('should consider Provider(T) as Provider(T, useClass: T)', () async {
-    final fixture = await NgTestBed<SupportsImplicitClass>(
-      ng.createSupportsImplicitClassFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<SupportsImplicitClass>(
+          ng.createSupportsImplicitClassFactory(),
+        ).create();
     final injector = fixture.assertOnlyInstance.injector;
-    expect(
-      injector.get(ExampleService),
-      const TypeMatcher<ExampleService>(),
-    );
+    expect(injector.get(ExampleService), const TypeMatcher<ExampleService>());
   });
 
   test('should use user-default value on ElementInjector.get', () async {
-    final fixture = await NgTestBed<UsingElementInjector>(
-      ng.createUsingElementInjectorFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<UsingElementInjector>(
+          ng.createUsingElementInjectorFactory(),
+        ).create();
     await fixture.update((comp) {
       final foo = comp.injector.get(#foo, 'someValue');
       expect(foo, 'someValue');
@@ -52,9 +50,10 @@ void main() {
   });
 
   test('should support MultiToken', () async {
-    final fixture = await NgTestBed<SupportsMultiToken>(
-      ng.createSupportsMultiTokenFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<SupportsMultiToken>(
+          ng.createSupportsMultiTokenFactory(),
+        ).create();
     expect(
       fixture.assertOnlyInstance.values,
       const TypeMatcher<List<String>>(),
@@ -62,9 +61,10 @@ void main() {
   });
 
   test('should support custom MultiToken', () async {
-    final fixture = await NgTestBed<SupportsCustomMultiToken>(
-      ng.createSupportsCustomMultiTokenFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<SupportsCustomMultiToken>(
+          ng.createSupportsCustomMultiTokenFactory(),
+        ).create();
     expect(
       fixture.assertOnlyInstance.values,
       const TypeMatcher<List<String>>(),
@@ -72,9 +72,10 @@ void main() {
   });
 
   test('should not consider Opaque/MultiToken the same token', () async {
-    final fixture = await NgTestBed<NoClashTokens>(
-      ng.createNoClashTokensFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<NoClashTokens>(
+          ng.createNoClashTokensFactory(),
+        ).create();
     expect(
       fixture.assertOnlyInstance.fooTokenFromOpaque,
       isNot(fixture.assertOnlyInstance.fooTokenFromMulti),
@@ -82,9 +83,10 @@ void main() {
   });
 
   test('should not consider tokens with different types the same', () async {
-    final fixture = await NgTestBed<SupportsTypedToken>(
-      ng.createSupportsTypedTokenFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<SupportsTypedToken>(
+          ng.createSupportsTypedTokenFactory(),
+        ).create();
     final value1 = fixture.assertOnlyInstance.injector.get(barTypedToken1);
     expect(value1, 1);
     final value2 = fixture.assertOnlyInstance.injector.get(barTypedToken2);
@@ -94,15 +96,16 @@ void main() {
   group('should support optional values', () {
     late NgTestBed<UsingInjectAndOptional> testBed;
 
-    setUp(() => testBed = NgTestBed<UsingInjectAndOptional>(
-          ng.createUsingInjectAndOptionalFactory(),
-        ));
+    setUp(
+      () =>
+          testBed = NgTestBed<UsingInjectAndOptional>(
+            ng.createUsingInjectAndOptionalFactory(),
+          ),
+    );
 
     test('when provided', () async {
       testBed = testBed.addInjector(
-        (i) => Injector.map({
-          urlToken: 'https://google.com',
-        }, i),
+        (i) => Injector.map({urlToken: 'https://google.com'}, i),
       );
       final fixture = await testBed.create();
       expect(
@@ -113,26 +116,25 @@ void main() {
 
     test('when omitted', () async {
       final fixture = await testBed.create();
-      expect(
-        fixture.assertOnlyInstance.service.urlFromToken,
-        isNull,
-      );
+      expect(fixture.assertOnlyInstance.service.urlFromToken, isNull);
     });
   });
 
   test('should treat tokens with different names as different', () async {
-    final fixture = await NgTestBed<ProperTokenIdentity>(
-      ng.createProperTokenIdentityFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<ProperTokenIdentity>(
+          ng.createProperTokenIdentityFactory(),
+        ).create();
     final injector = fixture.assertOnlyInstance.injector;
     expect(injector.get(aDynamicTokenNamedA), 'A');
     expect(injector.get(aDynamicTokenNamedB), 'B');
   });
 
   test('should treat unnamed tokens as acceptable', () async {
-    final fixture = await NgTestBed<SupportsUnnamedToken>(
-      ng.createSupportsUnnamedTokenFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<SupportsUnnamedToken>(
+          ng.createSupportsUnnamedTokenFactory(),
+        ).create();
     final injector = fixture.assertOnlyInstance.injector;
     expect(injector.get(unnamedTokenOfDynamic), 1);
     expect(injector.get(unnamedTokenOfString), 2);
@@ -173,8 +175,10 @@ void main() {
       () => testBed.create(),
       throwsA(
         predicate(
-          (e) => '$e'.contains('No provider found for $MissingService:\n  '
-              '$InjectsMissingService ->\n  $MissingService'),
+          (e) => '$e'.contains(
+            'No provider found for $MissingService:\n  '
+            '$InjectsMissingService ->\n  $MissingService',
+          ),
         ),
       ),
     );
@@ -188,8 +192,10 @@ void main() {
       () => testBed.create(),
       throwsA(
         predicate(
-          (e) => '$e'.contains('No provider found for $MissingService:\n  '
-              '$WillFailInjecting1Node ->\n  $MissingService'),
+          (e) => '$e'.contains(
+            'No provider found for $MissingService:\n  '
+            '$WillFailInjecting1Node ->\n  $MissingService',
+          ),
         ),
       ),
     );
@@ -203,8 +209,10 @@ void main() {
       () => testBed.create(),
       throwsA(
         predicate(
-          (e) => '$e'.contains('No provider found for $MissingService:\n  '
-              '$WillFailInjecting1Node ->\n  $MissingService'),
+          (e) => '$e'.contains(
+            'No provider found for $MissingService:\n  '
+            '$WillFailInjecting1Node ->\n  $MissingService',
+          ),
         ),
       ),
     );
@@ -218,8 +226,10 @@ void main() {
       () => testBed.create(),
       throwsA(
         predicate(
-          (e) => '$e'.contains('No provider found for $MissingService:\n  '
-              '$InjectsMissingService ->\n  $MissingService'),
+          (e) => '$e'.contains(
+            'No provider found for $MissingService:\n  '
+            '$InjectsMissingService ->\n  $MissingService',
+          ),
         ),
       ),
     );
@@ -233,8 +243,10 @@ void main() {
       () => testBed.create(),
       throwsA(
         predicate(
-          (e) => '$e'.contains('No provider found for $MissingService:\n  '
-              '$InjectsMissingService ->\n  $MissingService'),
+          (e) => '$e'.contains(
+            'No provider found for $MissingService:\n  '
+            '$InjectsMissingService ->\n  $MissingService',
+          ),
         ),
       ),
     );
@@ -248,8 +260,10 @@ void main() {
       () => testBed.create(),
       throwsA(
         predicate(
-          (e) => '$e'.contains('No provider found for $MissingService:\n  '
-              '$PrimeInjectsMissingService ->\n  $MissingService'),
+          (e) => '$e'.contains(
+            'No provider found for $MissingService:\n  '
+            '$PrimeInjectsMissingService ->\n  $MissingService',
+          ),
         ),
       ),
     );
@@ -263,45 +277,48 @@ void main() {
         Provider(
           InjectsMissingService,
           useFactory: (Object willNotBeCalled) => null,
-          deps: const [
-            MissingService,
-          ],
-        )
+          deps: const [MissingService],
+        ),
       ], i),
     );
     expect(
       () => testBed.create(),
       throwsA(
         predicate(
-          (e) => '$e'.contains(''
-              'No provider found for $MissingService:\n  '
-              '$WillFailInjecting2NodeParent ->\n  '
-              '$InjectsMissingService ->\n  $MissingService.'),
+          (e) => '$e'.contains(
+            ''
+            'No provider found for $MissingService:\n  '
+            '$WillFailInjecting2NodeParent ->\n  '
+            '$InjectsMissingService ->\n  $MissingService.',
+          ),
         ),
       ),
     );
   });
 
   test('should treat an OpaqueToken identical to @Inject', () async {
-    final fixture = await NgTestBed<InjectsBaseUrl>(
-      ng.createInjectsBaseUrlFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<InjectsBaseUrl>(
+          ng.createInjectsBaseUrlFactory(),
+        ).create();
     final service = fixture.assertOnlyInstance;
     expect(service.url, 'https://site.com/api/');
   });
 
   test('should support a custom OpaqueToken', () async {
-    final fixture = await NgTestBed<InjectsXsrfToken>(
-      ng.createInjectsXsrfTokenFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<InjectsXsrfToken>(
+          ng.createInjectsXsrfTokenFactory(),
+        ).create();
     final service = fixture.assertOnlyInstance;
     expect(service.token, 'ABC123');
   });
 
   test('should support modules in providers: const [ ... ]', () async {
-    final fixture = await NgTestBed<SupportsModules>(
-      ng.createSupportsModulesFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<SupportsModules>(
+          ng.createSupportsModulesFactory(),
+        ).create();
     final injector = fixture.assertOnlyInstance.injector;
     expect(injector.get(ExampleService), const TypeMatcher<ExampleService>());
     expect(injector.get(C), const C('Hello World'));
@@ -324,29 +341,18 @@ void main() {
 
   group('should support void and Null', () {
     test('in a @Component', () async {
-      final fixture = await NgTestBed<ComponentInjector>(
-        ng.createComponentInjectorFactory(),
-      ).create();
-      expect(
-        fixture.assertOnlyInstance.aListOfNull,
-        const [null],
-      );
-      expect(
-        fixture.assertOnlyInstance.aListOfVoid,
-        const [1],
-      );
-      expect(
-        fixture.assertOnlyInstance.aListOfListOfNull,
-        const [
-          [null]
-        ],
-      );
-      expect(
-        fixture.assertOnlyInstance.aListOfListOfVoid,
-        const [
-          [2]
-        ],
-      );
+      final fixture =
+          await NgTestBed<ComponentInjector>(
+            ng.createComponentInjectorFactory(),
+          ).create();
+      expect(fixture.assertOnlyInstance.aListOfNull, const [null]);
+      expect(fixture.assertOnlyInstance.aListOfVoid, const [1]);
+      expect(fixture.assertOnlyInstance.aListOfListOfNull, const [
+        [null],
+      ]);
+      expect(fixture.assertOnlyInstance.aListOfListOfVoid, const [
+        [2],
+      ]);
     });
 
     test('in a @GenerateInjector', () async {
@@ -354,10 +360,10 @@ void main() {
       expect(injector.get(listOfNull), const [null]);
       expect(injector.get(listOfVoid), const [1]);
       expect(injector.get(listOfListOfNull), const [
-        [null]
+        [null],
       ]);
       expect(injector.get(listOfListOfVoid), const [
-        [2]
+        [2],
       ]);
     });
   });
@@ -373,13 +379,11 @@ void main() {
       );
       fixture = await testBed.create();
 
-      interfaces =
-          fixture.assertOnlyInstance.injector.provideToken(someInterfaces);
-      expect(interfaces, isNotEmpty);
-      expect(
-        interfaces,
-        isTypedList,
+      interfaces = fixture.assertOnlyInstance.injector.provideToken(
+        someInterfaces,
       );
+      expect(interfaces, isNotEmpty);
+      expect(interfaces, isTypedList);
     });
 
     test('explicit', () async {
@@ -388,13 +392,11 @@ void main() {
       );
       fixture = await testBed.create();
 
-      interfaces =
-          fixture.assertOnlyInstance.injector.provideToken(someInterfaces);
-      expect(interfaces, isNotEmpty);
-      expect(
-        interfaces,
-        isTypedList,
+      interfaces = fixture.assertOnlyInstance.injector.provideToken(
+        someInterfaces,
       );
+      expect(interfaces, isNotEmpty);
+      expect(interfaces, isTypedList);
     });
   });
 
@@ -417,9 +419,7 @@ void main() {
 @Component(
   selector: 'test-parent',
   template: '<parent></parent>',
-  directives: [
-    CompParent,
-  ],
+  directives: [CompParent],
 )
 class TestParent {
   @ViewChild(CompParent)
@@ -429,14 +429,8 @@ class TestParent {
 @Component(
   selector: 'parent',
   template: '<child-1></child-1>',
-  directives: [
-    CompChild1,
-  ],
-  providers: [
-    A,
-    B,
-    Provider(C, useValue: C('oldC')),
-  ],
+  directives: [CompChild1],
+  providers: [A, B, Provider(C, useValue: C('oldC'))],
 )
 class CompParent {
   @ViewChild(CompChild1)
@@ -446,13 +440,8 @@ class CompParent {
 @Component(
   selector: 'child-1',
   template: '<child-2></child-2>',
-  directives: [
-    CompChild2,
-  ],
-  providers: [
-    B,
-    Provider(C, useValue: C('newC')),
-  ],
+  directives: [CompChild2],
+  providers: [B, Provider(C, useValue: C('newC'))],
 )
 class CompChild1 {
   final B b;
@@ -463,10 +452,7 @@ class CompChild1 {
   CompChild2? child2;
 }
 
-@Component(
-  selector: 'child-2',
-  template: '',
-)
+@Component(selector: 'child-2', template: '')
 class CompChild2 {
   final A a;
 
@@ -495,10 +481,7 @@ class C {
   String toString() => 'C: $debugMessage';
 }
 
-@Component(
-  selector: 'using-element-injector',
-  template: '',
-)
+@Component(selector: 'using-element-injector', template: '')
 class UsingElementInjector {
   final Injector injector;
 
@@ -523,9 +506,7 @@ const urlToken = OpaqueToken('urlToken');
 class ExampleServiceOptionals {
   final String? urlFromToken;
 
-  ExampleServiceOptionals(
-    @Inject(urlToken) @Optional() this.urlFromToken,
-  );
+  ExampleServiceOptionals(@Inject(urlToken) @Optional() this.urlFromToken);
 }
 
 class Arbitrary {
@@ -536,9 +517,7 @@ class Arbitrary {
 
 const arbitraryToken = OpaqueToken<Arbitrary>('arbitrary');
 
-@Directive(
-  selector: '[arbitrary]',
-)
+@Directive(selector: '[arbitrary]')
 class UsesTypedTokensDirective {
   final List<Arbitrary> arbitrary;
 
@@ -639,9 +618,7 @@ class ExampleService {}
 
 @Component(
   selector: 'supports-implicit-class',
-  providers: [
-    Provider(ExampleService),
-  ],
+  providers: [Provider(ExampleService)],
   template: '',
 )
 class SupportsImplicitClass {
@@ -678,10 +655,7 @@ const listOfStringToken = OpaqueToken<List<String>>('listOfString');
       </div>
     </div>
   ''',
-  directives: [
-    ChildThatInjectsTypedToken,
-    NgIf,
-  ],
+  directives: [ChildThatInjectsTypedToken, NgIf],
 )
 class SupportsTypedTokenInNestedViews {
   @ViewChild('tag')
@@ -690,10 +664,7 @@ class SupportsTypedTokenInNestedViews {
   bool someValue = true;
 }
 
-@Component(
-  selector: 'child-that-injects-token',
-  template: '',
-)
+@Component(selector: 'child-that-injects-token', template: '')
 class ChildThatInjectsTypedToken {
   final List<String> example;
 
@@ -702,10 +673,7 @@ class ChildThatInjectsTypedToken {
 
 class MissingService {}
 
-@Component(
-  selector: 'will-fail-injecting-1-node',
-  template: '',
-)
+@Component(selector: 'will-fail-injecting-1-node', template: '')
 class WillFailInjecting1Node {
   WillFailInjecting1Node(MissingService _);
 }
@@ -716,21 +684,14 @@ class InjectsMissingService {
 
 @Component(
   selector: 'will-fail-injecting-2-node',
-  providers: [
-    Provider(
-      InjectsMissingService,
-    ),
-  ],
+  providers: [Provider(InjectsMissingService)],
   template: '',
 )
 class WillFailInjecting2Node {
   WillFailInjecting2Node(InjectsMissingService _);
 }
 
-@Component(
-  selector: 'will-fail-injecting-2-node',
-  template: '',
-)
+@Component(selector: 'will-fail-injecting-2-node', template: '')
 class WillFailInjecting2NodeParent {
   WillFailInjecting2NodeParent(InjectsMissingService _);
 }
@@ -749,10 +710,7 @@ class WillFailCreatingChild {}
   template: r'''
     <will-fail-injecting-1-node *ngIf="showChild"></will-fail-injecting-1-node>
   ''',
-  directives: [
-    NgIf,
-    WillFailInjecting1Node,
-  ],
+  directives: [NgIf, WillFailInjecting1Node],
 )
 class WillFailCreatingChildInTemplate {
   var showChild = true;
@@ -763,9 +721,7 @@ class WillFailCreatingChildInTemplate {
   template: r'''
     <lazy-provides-missing-service></lazy-provides-missing-service>
   ''',
-  directives: [
-    LazilyProvidesMissingService,
-  ],
+  directives: [LazilyProvidesMissingService],
 )
 class WillFailQueryingServiceInTemplate {
   @ViewChild(LazilyProvidesMissingService, read: InjectsMissingService)
@@ -774,9 +730,7 @@ class WillFailQueryingServiceInTemplate {
 
 @Directive(
   selector: 'lazy-provides-missing-service',
-  providers: [
-    InjectsMissingService,
-  ],
+  providers: [InjectsMissingService],
 )
 class LazilyProvidesMissingService {}
 
@@ -787,7 +741,7 @@ class LazilyProvidesMissingService {}
     FactoryProvider(
       InjectsMissingService,
       WillFailFollowingFactoryProvider.aFactory,
-    )
+    ),
   ],
 )
 class WillFailFollowingFactoryProvider {
@@ -802,7 +756,7 @@ class WillFailFollowingFactoryProvider {
   template: '',
   providers: [
     ClassProvider(PrimeInjectsMissingService),
-    ExistingProvider(InjectsMissingService, PrimeInjectsMissingService)
+    ExistingProvider(InjectsMissingService, PrimeInjectsMissingService),
   ],
 )
 class WillFailFollowingExistingProvider {
@@ -818,9 +772,7 @@ const baseUrl = OpaqueToken<String>('baseUrl');
 @Component(
   selector: 'injects-base-url',
   template: '',
-  providers: [
-    Provider(baseUrl, useValue: 'https://site.com/api/'),
-  ],
+  providers: [Provider(baseUrl, useValue: 'https://site.com/api/')],
 )
 class InjectsBaseUrl {
   final String url;
@@ -837,9 +789,7 @@ class XsrfToken extends OpaqueToken<String> {
 @Component(
   selector: 'injects-xsrf-token',
   template: '',
-  providers: [
-    Provider(XsrfToken(), useValue: 'ABC123'),
-  ],
+  providers: [Provider(XsrfToken(), useValue: 'ABC123')],
 )
 class InjectsXsrfToken {
   final String token;
@@ -853,15 +803,9 @@ class InjectsXsrfToken {
   providers: [
     Module(
       include: [
-        Module(
-          provide: [
-            ValueProvider(C, C('Hello World')),
-          ],
-        ),
+        Module(provide: [ValueProvider(C, C('Hello World'))]),
       ],
-      provide: [
-        ClassProvider(ExampleService),
-      ],
+      provide: [ClassProvider(ExampleService)],
     ),
   ],
 )
@@ -897,10 +841,7 @@ const topLevelProvider = ValueProvider(TestConstNamedArgs2, topLevelValue);
   selector: 'supports-value-provider',
   template: '',
   providers: [
-    ValueProvider(
-      TestConstNoArgs,
-      TestConstNoArgs(),
-    ),
+    ValueProvider(TestConstNoArgs, TestConstNoArgs()),
     ValueProvider(
       TestConstPositionalArgs,
       TestConstPositionalArgs('TestConstPositionalArgs'),
@@ -918,12 +859,7 @@ class SupportsValueProviderWithArbitraryConst {
   final TestConstNamedArgs c3;
   final TestConstNamedArgs2 c4;
 
-  SupportsValueProviderWithArbitraryConst(
-    this.c1,
-    this.c2,
-    this.c3,
-    this.c4,
-  );
+  SupportsValueProviderWithArbitraryConst(this.c1, this.c2, this.c3, this.c4);
 }
 
 const listOfVoid = OpaqueToken<List<void>>('listOfVoid');
@@ -945,11 +881,7 @@ const _testVoidTokenProviders = [
 @GenerateInjector([_testVoidTokenProviders])
 final InjectorFactory generatedInjector = ng.generatedInjector$Injector;
 
-@Component(
-  selector: 'comp',
-  providers: [_testVoidTokenProviders],
-  template: '',
-)
+@Component(selector: 'comp', providers: [_testVoidTokenProviders], template: '')
 class ComponentInjector {
   // Lack of types on these fields (i.e. List<void> or List<Null>) is due to
   // https://github.com/angulardart/angular/issues/1436
@@ -1014,14 +946,12 @@ const usPresidents = OpaqueToken<List<String>>('usPresidents');
 
 @Component(
   selector: 'comp',
-  directives: [
-    ChildComp,
-  ],
+  directives: [ChildComp],
   providers: [
-    Provider<List<String>>(usPresidents, useValue: [
-      'George Washington',
-      'Abraham Lincoln',
-    ]),
+    Provider<List<String>>(
+      usPresidents,
+      useValue: ['George Washington', 'Abraham Lincoln'],
+    ),
   ],
   template: '<child></child>',
 )
@@ -1030,10 +960,7 @@ class CompProvidesUsPresidents {
   ChildComp? child;
 }
 
-@Component(
-  selector: 'child',
-  template: '',
-)
+@Component(selector: 'child', template: '')
 class ChildComp {
   // Intentionally not List<String>, that is the regression test :)
   final Object injectedList;

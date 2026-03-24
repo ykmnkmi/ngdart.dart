@@ -16,7 +16,9 @@ class OptimizeTemplateAstVisitor
 
   @override
   TemplateAst visitEmbeddedTemplate(
-      EmbeddedTemplateAst ast, CompileDirectiveMetadata? component) {
+    EmbeddedTemplateAst ast,
+    CompileDirectiveMetadata? component,
+  ) {
     component = component!;
     _typeNgForLocals(component, ast.directives, ast.variables);
 
@@ -53,9 +55,11 @@ void _typeNgForLocals(
   List<DirectiveAst> directives,
   List<VariableAst> variables,
 ) {
-  final ngFor = directives.firstWhereOrNull((directive) =>
-      directive.directive.type!.moduleUrl ==
-      Identifiers.NG_FOR_DIRECTIVE.moduleUrl);
+  final ngFor = directives.firstWhereOrNull(
+    (directive) =>
+        directive.directive.type!.moduleUrl ==
+        Identifiers.NG_FOR_DIRECTIVE.moduleUrl,
+  );
   if (ngFor == null) return; // No `NgFor` to optimize.
   BoundExpression? ngForOfValue;
   for (final input in ngFor.inputs) {
@@ -71,8 +75,10 @@ void _typeNgForLocals(
     // No [ngForOf] binding from which to get type.
     return;
   }
-  final ngForOfType =
-      getExpressionType(ngForOfValue.expression.ast, component.analyzedClass!);
+  final ngForOfType = getExpressionType(
+    ngForOfValue.expression.ast,
+    component.analyzedClass!,
+  );
   // Augment locals set by `NgFor` with type information.
   for (var variable in variables) {
     switch (variable.value) {

@@ -12,7 +12,8 @@ void main() {
 
   test("Should receive 'keydown' event", () async {
     var testBed = NgTestBed<KeydownListenerComponent>(
-        ng.createKeydownListenerComponentFactory());
+      ng.createKeydownListenerComponentFactory(),
+    );
     var testFixture = await testBed.create();
     var event = KeyboardEvent('keydown');
     testFixture.rootElement.dispatchEvent(event);
@@ -25,7 +26,8 @@ void main() {
 
   test("Should receive 'keydown.a' event", () async {
     var testBed = NgTestBed<KeydownListenerComponent>(
-        ng.createKeydownListenerComponentFactory());
+      ng.createKeydownListenerComponentFactory(),
+    );
     var testFixture = await testBed.create();
     var event = createKeyboardEvent('keydown', KeyCode.A);
     testFixture.rootElement.dispatchEvent(event);
@@ -38,7 +40,8 @@ void main() {
 
   test("Should receive 'keydown.shift.a", () async {
     var testBed = NgTestBed<KeydownListenerComponent>(
-        ng.createKeydownListenerComponentFactory());
+      ng.createKeydownListenerComponentFactory(),
+    );
     var testFixture = await testBed.create();
     var event = createKeyboardEvent('keydown', KeyCode.A, shiftKey: true);
     testFixture.rootElement.dispatchEvent(event);
@@ -51,7 +54,8 @@ void main() {
 
   test("Should receive 'keypress' event", () async {
     var testBed = NgTestBed<KeypressListenerComponent>(
-        ng.createKeypressListenerComponentFactory());
+      ng.createKeypressListenerComponentFactory(),
+    );
     var testFixture = await testBed.create();
     var event = KeyboardEvent('keypress');
     testFixture.rootElement.dispatchEvent(event);
@@ -62,7 +66,8 @@ void main() {
 
   test("Should receive 'keyup' event", () async {
     var testBed = NgTestBed<KeyupListenerComponent>(
-        ng.createKeyupListenerComponentFactory());
+      ng.createKeyupListenerComponentFactory(),
+    );
     var testFixture = await testBed.create();
     var event = KeyboardEvent('keyup');
     testFixture.rootElement.dispatchEvent(event);
@@ -75,7 +80,8 @@ void main() {
 
   test("Should receive 'keyup.enter' event", () async {
     var testBed = NgTestBed<KeyupListenerComponent>(
-        ng.createKeyupListenerComponentFactory());
+      ng.createKeyupListenerComponentFactory(),
+    );
     var testFixture = await testBed.create();
     var event = createKeyboardEvent('keyup', KeyCode.ENTER);
     testFixture.rootElement.dispatchEvent(event);
@@ -88,7 +94,8 @@ void main() {
 
   test("Should receive 'keyup.control.enter' event", () async {
     var testBed = NgTestBed<KeyupListenerComponent>(
-        ng.createKeyupListenerComponentFactory());
+      ng.createKeyupListenerComponentFactory(),
+    );
     var testFixture = await testBed.create();
     var event = createKeyboardEvent('keyup', KeyCode.ENTER, ctrlKey: true);
     testFixture.rootElement.dispatchEvent(event);
@@ -100,11 +107,16 @@ void main() {
   });
 
   test('Should receive keyboard event with multiple modifiers', () async {
-    var testBed =
-        NgTestBed<ModifiersListener>(ng.createModifiersListenerFactory());
+    var testBed = NgTestBed<ModifiersListener>(
+      ng.createModifiersListenerFactory(),
+    );
     var testFixture = await testBed.create();
-    var event = createKeyboardEvent('keyup', KeyCode.NUM_ZERO,
-        altKey: true, metaKey: true);
+    var event = createKeyboardEvent(
+      'keyup',
+      KeyCode.NUM_ZERO,
+      altKey: true,
+      metaKey: true,
+    );
     testFixture.rootElement.dispatchEvent(event);
     await testFixture.update((component) {
       expect(component.receivedModifiers, true);
@@ -112,10 +124,7 @@ void main() {
   });
 }
 
-@Component(
-  selector: 'keydown-listener',
-  template: '<div></div>',
-)
+@Component(selector: 'keydown-listener', template: '<div></div>')
 class KeydownListenerComponent {
   bool receivedKeydown = false;
   bool receivedKeydownA = false;
@@ -131,10 +140,7 @@ class KeydownListenerComponent {
   void onKeyDownShiftA() => receivedKeydownShiftA = true;
 }
 
-@Component(
-  selector: 'keypress-listener',
-  template: '<div></div>',
-)
+@Component(selector: 'keypress-listener', template: '<div></div>')
 class KeypressListenerComponent {
   @HostListener('keypress')
   void onKeyPress() => receivedKeypress = true;
@@ -142,10 +148,7 @@ class KeypressListenerComponent {
   bool receivedKeypress = false;
 }
 
-@Component(
-  selector: 'keyup-listener',
-  template: '<div></div>',
-)
+@Component(selector: 'keyup-listener', template: '<div></div>')
 class KeyupListenerComponent {
   @HostListener('keyup')
   void onKeyUp() => receivedKeyup = true;
@@ -161,10 +164,7 @@ class KeyupListenerComponent {
   bool receivedKeyupCtrlEnter = false;
 }
 
-@Component(
-  selector: 'modifiers-listener',
-  template: '<div></div>',
-)
+@Component(selector: 'modifiers-listener', template: '<div></div>')
 class ModifiersListener {
   @HostListener('keyup.alt.meta.0')
   void onKeyUpAltMeta0() => receivedModifiers = true;
@@ -206,17 +206,19 @@ Event createKeyboardEvent(
   bool metaKey = false,
 }) {
   if (!context.hasProperty(CREATE_KEYBOARD_EVENT_NAME)) {
-    var script = document.createElement('script')
-      ..setAttribute('type', 'text/javascript')
-      ..text = CREATE_KEYBOARD_EVENT_SCRIPT;
+    var script =
+        document.createElement('script')
+          ..setAttribute('type', 'text/javascript')
+          ..text = CREATE_KEYBOARD_EVENT_SCRIPT;
     document.body!.append(script);
   }
   return context.callMethod(CREATE_KEYBOARD_EVENT_NAME, [
-    type,
-    keyCode,
-    ctrlKey,
-    altKey,
-    shiftKey,
-    metaKey,
-  ]) as Event;
+        type,
+        keyCode,
+        ctrlKey,
+        altKey,
+        shiftKey,
+        metaKey,
+      ])
+      as Event;
 }

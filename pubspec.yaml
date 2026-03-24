@@ -1,7 +1,7 @@
 name: angular_workspace
 description: AngularDart workspace.
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.3
 
 dev_dependencies:
   lints: ^5.1.1
@@ -27,4 +27,5 @@ workspace:
   - angular_forms
   - angular_router
   - angular_test
+  - examples/hello_world
   - tests

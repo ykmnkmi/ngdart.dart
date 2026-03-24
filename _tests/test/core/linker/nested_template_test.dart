@@ -8,9 +8,10 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should render a nested template', () async {
-    final fixture = await NgTestBed<NestedTemplateTest>(
-      ng.createNestedTemplateTestFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<NestedTemplateTest>(
+          ng.createNestedTemplateTestFactory(),
+        ).create();
 
     Future<void> setInnerCondition(bool value) {
       return fixture.update((c) => c.showInner = value);
@@ -38,9 +39,10 @@ void main() {
   });
 
   test('should render a nested template with a custom directive', () async {
-    final fixture = await NgTestBed<NestedCustomTest>(
-      ng.createNestedCustomTestFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<NestedCustomTest>(
+          ng.createNestedCustomTestFactory(),
+        ).create();
 
     Future<void> setInnerCondition(bool value) {
       return fixture.update((c) {
@@ -82,10 +84,7 @@ void main() {
 
 @Component(
   selector: 'nested-template-test',
-  directives: [
-    HelloWorldComponent,
-    NgIf,
-  ],
+  directives: [HelloWorldComponent, NgIf],
   template: r'''
     <template [ngIf]="true">
       <template [ngIf]="showOuter">
@@ -101,9 +100,7 @@ class NestedTemplateTest {
   bool showInner = false;
 }
 
-@Directive(
-  selector: '[customIf]',
-)
+@Directive(selector: '[customIf]')
 class CustomIfDirective {
   final TemplateRef _templateRef;
   final ViewContainerRef _viewContainer;
@@ -121,10 +118,7 @@ class CustomIfDirective {
 
 @Component(
   selector: 'nested-custom-test',
-  directives: [
-    CustomIfDirective,
-    HelloWorldComponent,
-  ],
+  directives: [CustomIfDirective, HelloWorldComponent],
   template: r'''
     <template customIf #showOuter>
       <template customIf #showInner>
@@ -141,8 +135,5 @@ class NestedCustomTest {
   CustomIfDirective? showInner;
 }
 
-@Component(
-  selector: 'hello-world',
-  template: 'Hello World',
-)
+@Component(selector: 'hello-world', template: 'Hello World')
 class HelloWorldComponent {}

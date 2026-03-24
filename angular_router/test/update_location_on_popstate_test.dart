@@ -16,11 +16,13 @@ void main() {
       ng.createAppComponentFactory(),
       rootInjector: createInjector,
     );
-    testFixture = await testBed.create(beforeComponentCreated: (injector) {
-      location = injector.provideType(Location);
-      locationStrategy =
-          injector.provideType(LocationStrategy) as MockLocationStrategy;
-    });
+    testFixture = await testBed.create(
+      beforeComponentCreated: (injector) {
+        location = injector.provideType(Location);
+        locationStrategy =
+            injector.provideType(LocationStrategy) as MockLocationStrategy;
+      },
+    );
   });
 
   tearDown(disposeAnyRunningTest);
@@ -33,8 +35,7 @@ void main() {
     expect(location.path(), '/redirect-to');
   });
 
-  test(
-      'redirect to current location triggered by "popstate" should update '
+  test('redirect to current location triggered by "popstate" should update '
       'location', () async {
     await testFixture.update((_) {
       locationStrategy.simulatePopState('/redirect-to');
@@ -75,10 +76,7 @@ final createInjector = ng.createInjector$Injector;
 )
 class AppComponent {
   final routes = [
-    RouteDefinition(
-      path: '',
-      component: ng.createRouteComponentFactory(),
-    ),
+    RouteDefinition(path: '', component: ng.createRouteComponentFactory()),
     RouteDefinition.redirect(
       path: '/redirect-from',
       redirectTo: '/redirect-to',
@@ -94,10 +92,7 @@ class AppComponent {
   ];
 }
 
-@Component(
-  selector: 'route',
-  template: '',
-)
+@Component(selector: 'route', template: '')
 class RouteComponent {}
 
 class TestRouterHook extends RouterHook {

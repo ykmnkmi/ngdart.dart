@@ -77,7 +77,7 @@ class DatePipe {
     'mediumDate': 'yMMMd',
     'shortDate': 'yMd',
     'mediumTime': 'jms',
-    'shortTime': 'jm'
+    'shortTime': 'jm',
   };
   String? transform(dynamic value, [String pattern = 'mediumDate']) {
     if (value == null) return null;

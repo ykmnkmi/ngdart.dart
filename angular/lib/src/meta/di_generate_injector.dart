@@ -27,7 +27,6 @@ class GenerateInjector {
   const GenerateInjector(this._providersOrModules);
 
   /// Generate an [Injector] from [Module]s instead of untyped lists.
-  const factory GenerateInjector.fromModules(
-    List<Module> modules,
-  ) = GenerateInjector;
+  const factory GenerateInjector.fromModules(List<Module> modules) =
+      GenerateInjector;
 }

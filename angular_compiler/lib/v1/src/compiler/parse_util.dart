@@ -15,11 +15,7 @@ class AstExceptionHandler extends RecoveringExceptionHandler {
   /// Directive that is being compiled.
   final String _directiveName;
 
-  AstExceptionHandler(
-    this._contents,
-    this._sourceUrl,
-    this._directiveName,
-  );
+  AstExceptionHandler(this._contents, this._sourceUrl, this._directiveName);
 
   /// Converts and throws [exceptions] as a [BuildError].
   ///

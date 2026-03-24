@@ -28,9 +28,9 @@ class RouterState extends Url {
     String fragment = '',
     Map<String, String>? queryParameters,
     this.fromPopState = false,
-  })  : parameters = Map.unmodifiable(parameters ?? {}),
-        routes = List.unmodifiable(routes ?? []),
-        super(path, queryParameters: queryParameters, fragment: fragment);
+  }) : parameters = Map.unmodifiable(parameters ?? {}),
+       routes = List.unmodifiable(routes ?? []),
+       super(path, queryParameters: queryParameters, fragment: fragment);
 
   @override
   String toString() => '#$RouterState {${super.toString()}}';
@@ -62,11 +62,14 @@ class MutableRouterState {
   }
 
   RouterState build() {
-    return RouterState(path, routes.toList(),
-        fragment: fragment,
-        queryParameters: queryParameters,
-        parameters: parameters,
-        fromPopState: fromPopState);
+    return RouterState(
+      path,
+      routes.toList(),
+      fragment: fragment,
+      queryParameters: queryParameters,
+      parameters: parameters,
+      fromPopState: fromPopState,
+    );
   }
 
   /// Pushes a [route] and its [match].

@@ -38,34 +38,26 @@ void main() {
   test('should invoke ngAfterChanges, then ngOnInit', () async {
     final fixture = await NgTestBed<NgAfterChangesInitOrder>(
       ng.createNgAfterChangesInitOrderFactory(),
-    ).create(
-      beforeChangeDetection: (root) => root.name = 'Hello',
-    );
-    expect(
-      fixture.assertOnlyInstance.child!.events,
-      ['AfterChanges:name=Hello', 'OnInit'],
-    );
+    ).create(beforeChangeDetection: (root) => root.name = 'Hello');
+    expect(fixture.assertOnlyInstance.child!.events, [
+      'AfterChanges:name=Hello',
+      'OnInit',
+    ]);
   });
 
-  test(
-      'should invoke ngAfterChanges with asynchronous beforeChangeDetection,'
+  test('should invoke ngAfterChanges with asynchronous beforeChangeDetection,'
       ' then ngOnInit', () async {
     final fixture = await NgTestBed<NgAfterChangesInitOrder>(
       ng.createNgAfterChangesInitOrderFactory(),
-    ).create(
-      beforeChangeDetection: (root) async => root.name = 'Hello',
-    );
-    expect(
-      fixture.assertOnlyInstance.child!.events,
-      ['AfterChanges:name=Hello', 'OnInit'],
-    );
+    ).create(beforeChangeDetection: (root) async => root.name = 'Hello');
+    expect(fixture.assertOnlyInstance.child!.events, [
+      'AfterChanges:name=Hello',
+      'OnInit',
+    ]);
   });
 }
 
-@Component(
-  selector: 'test',
-  template: '{{value}}',
-)
+@Component(selector: 'test', template: '{{value}}')
 class AngularLifecycle {
   String value = '';
 }
@@ -82,11 +74,7 @@ class NgAfterChangesInitOrder {
   ChildWithLifeCycles? child;
 }
 
-@Component(
-  selector: 'child',
-  template: '',
-  visibility: Visibility.all,
-)
+@Component(selector: 'child', template: '', visibility: Visibility.all)
 class ChildWithLifeCycles implements AfterChanges, OnInit {
   final events = <String>[];
 

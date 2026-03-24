@@ -41,8 +41,9 @@ class NgScanner {
     Uri? sourceUrl,
   }) {
     var reader = NgTokenReversibleReader<NgSimpleTokenType>(
-        SourceFile.fromString(html, url: sourceUrl),
-        const NgSimpleTokenizer().tokenize(html));
+      SourceFile.fromString(html, url: sourceUrl),
+      const NgSimpleTokenizer().tokenize(html),
+    );
     var recoverError = exceptionHandler is RecoveringExceptionHandler;
 
     return NgScanner._(reader, recoverError, exceptionHandler);
@@ -619,11 +620,13 @@ class NgScanner {
           // the decorator value. Otherwise, the token's source span would
           // extend beyond the decorator itself, past EOF, and crash.
           rightQuoteOffset = current.end - 1;
-          exceptionHandler.handle(_generateException(
-            ParserErrorCode.UNCLOSED_QUOTE,
-            current.offset,
-            current.length,
-          ));
+          exceptionHandler.handle(
+            _generateException(
+              ParserErrorCode.UNCLOSED_QUOTE,
+              current.offset,
+              current.length,
+            ),
+          );
         } else {
           return handleError(
             ParserErrorCode.UNCLOSED_QUOTE,
@@ -642,12 +645,17 @@ class NgScanner {
         leftQuoteToken = NgToken.singleQuote(leftQuoteOffset);
         rightQuoteToken = NgToken.singleQuote(rightQuoteOffset);
       }
-      innerValueToken =
-          NgToken.elementDecoratorValue(current.contentOffset, innerValue);
+      innerValueToken = NgToken.elementDecoratorValue(
+        current.contentOffset,
+        innerValue,
+      );
 
       _state = NgScannerState.scanAfterElementDecoratorValue;
       return NgAttributeValueToken.generate(
-          leftQuoteToken, innerValueToken, rightQuoteToken);
+        leftQuoteToken,
+        innerValueToken,
+        rightQuoteToken,
+      );
     }
     if (type == NgSimpleTokenType.whitespace) {
       return NgToken.whitespace(current.offset, current.lexeme);
@@ -695,9 +703,10 @@ class NgScanner {
     var current = _current!;
     var type = current.type;
     if (type == NgSimpleTokenType.identifier) {
-      _state = wasOpenTag
-          ? NgScannerState.scanAfterElementIdentifierOpen
-          : NgScannerState.scanAfterElementIdentifierClose;
+      _state =
+          wasOpenTag
+              ? NgScannerState.scanAfterElementIdentifierOpen
+              : NgScannerState.scanAfterElementIdentifierClose;
       return NgToken.elementIdentifier(current.offset, current.lexeme);
     }
     if (wasOpenTag) {
@@ -842,11 +851,7 @@ class NgScanner {
     }
 
     if (_current == _lastErrorToken) {
-      return handleError(
-        null,
-        null,
-        null,
-      );
+      return handleError(null, null, null);
     }
 
     if (type == NgSimpleTokenType.EOF ||
@@ -1058,9 +1063,10 @@ class NgScanner {
 
     var lastDecoratorPrefix = _lastDecoratorPrefix!;
     return handleError(
-        ParserErrorCode.SUFFIX_BANANA,
-        lastDecoratorPrefix.offset,
-        current.offset - lastDecoratorPrefix.offset);
+      ParserErrorCode.SUFFIX_BANANA,
+      lastDecoratorPrefix.offset,
+      current.offset - lastDecoratorPrefix.offset,
+    );
   }
 
   @protected
@@ -1121,9 +1127,10 @@ class NgScanner {
 
     var lastDecoratorPrefix = _lastDecoratorPrefix!;
     return handleError(
-        ParserErrorCode.SUFFIX_PROPERTY,
-        lastDecoratorPrefix.offset,
-        current.offset - lastDecoratorPrefix.offset);
+      ParserErrorCode.SUFFIX_PROPERTY,
+      lastDecoratorPrefix.offset,
+      current.offset - lastDecoratorPrefix.offset,
+    );
   }
 
   @protected
@@ -1158,19 +1165,11 @@ class NgScanner {
   /// Handles the exception provided by [ParserErrorCode] and
   /// positional information. If this value is null, no exception will
   /// be generated, but synthetic token will still be generated.
-  NgToken? handleError(
-    ParserErrorCode? errorCode,
-    int? offset,
-    int? length,
-  ) {
+  NgToken? handleError(ParserErrorCode? errorCode, int? offset, int? length) {
     var currentState = _state;
     _state = NgScannerState.hasError;
     if (errorCode != null) {
-      var e = _generateException(
-        errorCode,
-        offset!,
-        length!,
-      );
+      var e = _generateException(errorCode, offset!, length!);
       exceptionHandler.handle(e);
     }
 
@@ -1199,11 +1198,7 @@ class NgScanner {
       return null;
     }
     _lastErrorToken = _current;
-    return AngularParserException(
-      errorCode,
-      offset,
-      length,
-    );
+    return AngularParserException(errorCode, offset, length);
   }
 }
 

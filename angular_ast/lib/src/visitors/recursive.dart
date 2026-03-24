@@ -14,8 +14,10 @@ class RecursiveTemplateAstVisitor<C>
 
   /// Visits a collection of [TemplateAst] nodes, returning all of those that
   /// are not null.
-  List<T>? visitAll<T extends TemplateAst>(Iterable<T>? astNodes,
-      [C? context]) {
+  List<T>? visitAll<T extends TemplateAst>(
+    Iterable<T>? astNodes, [
+    C? context,
+  ]) {
     if (astNodes == null) return null;
 
     final results = <T>[];
@@ -69,18 +71,19 @@ class RecursiveTemplateAstVisitor<C>
 
   @override
   @mustCallSuper
-  TemplateAst visitEmbeddedTemplate(EmbeddedTemplateAst astNode,
-          [C? context]) =>
-      EmbeddedTemplateAst.from(
-        astNode,
-        annotations: visitAll(astNode.annotations, context) ?? [],
-        attributes: visitAll(astNode.attributes, context) ?? [],
-        childNodes: visitAll(astNode.childNodes, context) ?? [],
-        events: visitAll(astNode.events, context) ?? [],
-        properties: visitAll(astNode.properties, context) ?? [],
-        references: visitAll(astNode.references, context) ?? [],
-        letBindings: visitAll(astNode.letBindings, context) ?? [],
-      );
+  TemplateAst visitEmbeddedTemplate(
+    EmbeddedTemplateAst astNode, [
+    C? context,
+  ]) => EmbeddedTemplateAst.from(
+    astNode,
+    annotations: visitAll(astNode.annotations, context) ?? [],
+    attributes: visitAll(astNode.attributes, context) ?? [],
+    childNodes: visitAll(astNode.childNodes, context) ?? [],
+    events: visitAll(astNode.events, context) ?? [],
+    properties: visitAll(astNode.properties, context) ?? [],
+    references: visitAll(astNode.references, context) ?? [],
+    letBindings: visitAll(astNode.letBindings, context) ?? [],
+  );
 
   @override
   @mustCallSuper
@@ -101,20 +104,13 @@ class RecursiveTemplateAstVisitor<C>
 
   @override
   @mustCallSuper
-  TemplateAst visitEvent(EventAst astNode, [C? context]) => EventAst.from(
-        astNode,
-        astNode.name,
-        astNode.value,
-        astNode.reductions,
-      );
+  TemplateAst visitEvent(EventAst astNode, [C? context]) =>
+      EventAst.from(astNode, astNode.name, astNode.value, astNode.reductions);
 
   @override
   @mustCallSuper
   TemplateAst visitInterpolation(InterpolationAst astNode, [_]) =>
-      InterpolationAst.from(
-        astNode,
-        astNode.value,
-      );
+      InterpolationAst.from(astNode, astNode.value);
 
   @override
   TemplateAst visitLetBinding(LetBindingAst astNode, [_]) => astNode;
@@ -122,12 +118,12 @@ class RecursiveTemplateAstVisitor<C>
   @override
   @mustCallSuper
   TemplateAst visitProperty(PropertyAst astNode, [_]) => PropertyAst.from(
-        astNode,
-        astNode.name,
-        astNode.value,
-        astNode.postfix,
-        astNode.unit,
-      );
+    astNode,
+    astNode.name,
+    astNode.value,
+    astNode.postfix,
+    astNode.unit,
+  );
 
   @override
   TemplateAst visitReference(ReferenceAst astNode, [_]) => astNode;

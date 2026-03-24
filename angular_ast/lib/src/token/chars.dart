@@ -256,5 +256,5 @@ const NAMED_ENTITIES = {
   'Zeta': 'Ζ',
   'zeta': 'ζ',
   'zwj': '‍',
-  'zwnj': '‌'
+  'zwnj': '‌',
 };

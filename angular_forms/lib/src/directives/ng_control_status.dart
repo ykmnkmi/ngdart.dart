@@ -4,18 +4,19 @@ import 'ng_control.dart' show NgControl;
 
 /// Directive automatically applied to Angular forms that sets CSS classes
 /// based on control status (valid/invalid/dirty/etc).
-@Directive(
-  selector: '[ngControl],[ngModel],[ngFormControl]',
+@Directive(selector: '[ngControl],[ngModel],[ngFormControl]')
+@Deprecated(
+  'Use listeners or variable binding on the control itself instead. '
+  'This adds overhead for every form control whether the class is '
+  'used or not.',
 )
-@Deprecated('Use listeners or variable binding on the control itself instead. '
-    'This adds overhead for every form control whether the class is '
-    'used or not.')
 class NgControlStatus {
   final NgControl _cd;
   @Deprecated(
-      'Use listeners or variable binding on the control itself instead. '
-      'This adds overhead for every form control whether the class is '
-      'used or not.')
+    'Use listeners or variable binding on the control itself instead. '
+    'This adds overhead for every form control whether the class is '
+    'used or not.',
+  )
   NgControlStatus(@Self() this._cd);
 
   @HostBinding('class.ng-untouched')

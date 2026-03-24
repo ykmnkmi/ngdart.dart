@@ -9,7 +9,8 @@ void main() {
 
   test('should evaluate conditional operator with right precedence', () async {
     final testBed = NgTestBed<RightPrecedenceConditionalComponent>(
-        ng.createRightPrecedenceConditionalComponentFactory());
+      ng.createRightPrecedenceConditionalComponentFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'red');
     await testFixture.update((component) => component.hasBorder = true);
@@ -43,18 +44,22 @@ void main() {
 
   test("should interpolate previous element's class binding", () async {
     final testBed = NgTestBed<InterpolateClassBindingComponent>(
-        ng.createInterpolateClassBindingComponentFactory());
+      ng.createInterpolateClassBindingComponentFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'foo');
   });
 
-  test('should support ngClass before a component and transclusion inside ngIf',
-      () async {
-    final testBed = NgTestBed<ContentProviderComponent>(
-        ng.createContentProviderComponentFactory());
-    final testFixture = await testBed.create();
-    expect(testFixture.text, 'ABC');
-  });
+  test(
+    'should support ngClass before a component and transclusion inside ngIf',
+    () async {
+      final testBed = NgTestBed<ContentProviderComponent>(
+        ng.createContentProviderComponentFactory(),
+      );
+      final testFixture = await testBed.create();
+      expect(testFixture.text, 'ABC');
+    },
+  );
 }
 
 @Component(
@@ -71,19 +76,12 @@ class RightPrecedenceConditionalComponent {
 )
 class InterpolateClassBindingComponent {}
 
-@Component(
-  selector: 'content-host',
-  template: '<ng-content></ng-content>',
-)
+@Component(selector: 'content-host', template: '<ng-content></ng-content>')
 class ContentHostComponent {}
 
 @Component(
   selector: 'content-provider',
   template: 'A<content-host *ngIf="true" [ngClass]="\'red\'">B</content-host>C',
-  directives: [
-    ContentHostComponent,
-    NgClass,
-    NgIf,
-  ],
+  directives: [ContentHostComponent, NgClass, NgIf],
 )
 class ContentProviderComponent {}

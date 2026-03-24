@@ -16,11 +16,11 @@ class ProviderReader {
   final DependencyReader _dependencyReader;
   final TokenReader _tokenReader;
 
-  const ProviderReader(
-      {DependencyReader dependencyReader = const DependencyReader(),
-      TokenReader tokenReader = const TokenReader()})
-      : _dependencyReader = dependencyReader,
-        _tokenReader = tokenReader;
+  const ProviderReader({
+    DependencyReader dependencyReader = const DependencyReader(),
+    TokenReader tokenReader = const TokenReader(),
+  }) : _dependencyReader = dependencyReader,
+       _tokenReader = tokenReader;
 
   /// Returns whether an object represents a `Provider`.
   @protected
@@ -164,10 +164,13 @@ class ProviderReader {
         token,
       ),
       urlOf(factoryElement),
-      dependencies: manualDeps.isList
-          ? _dependencyReader.parseDependenciesList(
-              factoryElement, manualDeps.listValue)
-          : _dependencyReader.parseDependencies(factoryElement),
+      dependencies:
+          manualDeps.isList
+              ? _dependencyReader.parseDependenciesList(
+                factoryElement,
+                manualDeps.listValue,
+              )
+              : _dependencyReader.parseDependencies(factoryElement),
     );
   }
 
@@ -208,10 +211,7 @@ abstract class ProviderElement {
   /// The `T` type of `Provider<T>`.
   final TypeLink? providerType;
 
-  const ProviderElement._(
-    this.token,
-    this.providerType,
-  );
+  const ProviderElement._(this.token, this.providerType);
 
   @override
   bool operator ==(Object o) => o is ProviderElement && o.token == token;
@@ -284,10 +284,7 @@ class UseExistingProviderElement extends ProviderElement {
   @override
   String toString() =>
       'UseFactoryProviderElement ' +
-      {
-        'token': '$token',
-        'redirect': '$redirect',
-      }.toString();
+      {'token': '$token', 'redirect': '$redirect'}.toString();
 }
 
 /// A statically parsed `Provider` that describes a function invocation.
@@ -304,10 +301,7 @@ class UseFactoryProviderElement extends ProviderElement {
     TypeLink? providerType,
     this.useFactory, {
     required this.dependencies,
-  }) : super._(
-          e,
-          providerType,
-        );
+  }) : super._(e, providerType);
 
   @override
   bool operator ==(Object o) =>
@@ -340,10 +334,7 @@ class UseValueProviderElement extends ProviderElement {
     TokenElement e,
     TypeLink providerType,
     this.useValue,
-  ) : super._(
-          e,
-          providerType,
-        );
+  ) : super._(e, providerType);
 }
 
 /// Thrown when a value of `null` is read for a provider token.

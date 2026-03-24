@@ -28,9 +28,11 @@ class _ViewStyleLinker {
   bool get _hasScopedStyles =>
       _view.component.template!.encapsulation == ViewEncapsulation.Emulated;
 
-  o.ExternalExpr get _styleType => o.importExpr(_hasScopedStyles
-      ? StyleEncapsulation.componentStylesScoped
-      : StyleEncapsulation.componentStylesUnscoped);
+  o.ExternalExpr get _styleType => o.importExpr(
+    _hasScopedStyles
+        ? StyleEncapsulation.componentStylesScoped
+        : StyleEncapsulation.componentStylesUnscoped,
+  );
 
   void initStyleEncapsulation() {
     // We need to call initComponentStyles() before we handle any constant
@@ -61,20 +63,16 @@ class _ViewStyleLinker {
           ),
         ],
         o.BuiltinType(o.BuiltinTypeName.String, [o.TypeModifier.Nullable]),
-        [
-          o.StmtModifier.Static,
-        ],
+        [o.StmtModifier.Static],
       ),
     );
   }
 
   static final _componentStyles = o.ClassField(
     _componentStylesStatic,
-    outputType: o.importType(
-      StyleEncapsulation.componentStyles,
-      [],
-      [o.TypeModifier.Nullable],
-    ),
+    outputType: o.importType(StyleEncapsulation.componentStyles, [], [
+      o.TypeModifier.Nullable,
+    ]),
     modifiers: const [o.StmtModifier.Static],
   );
 
@@ -90,9 +88,7 @@ class _ViewStyleLinker {
       o.ClassMethod(
         _debugClearComponentStyles,
         const [],
-        [
-          nullifyStaticComponentStyles,
-        ],
+        [nullifyStaticComponentStyles],
         o.VOID_TYPE,
         const [o.StmtModifier.Static],
       ),
@@ -117,47 +113,35 @@ class _ViewStyleLinker {
     //      ComponentStyles.debugOnClear(_debugClearComponentStyles);
     //   }
     // }
-    final ifStylesNullInit = o.IfStmt(
-      readStyles.equals(o.NULL_EXPR),
-      [
-        o.WriteStaticMemberExpr(
-          _componentStylesStatic,
-          o.WriteVarExpr(
-            localStylesVar,
-            _styleType.instantiate([
-              _view.styles,
-              o.ReadVarExpr(_debugComponentUrl),
-            ]),
-          ),
-        ).toStmt(),
-        o.IfStmt(
-          o.importExpr(Runtime.isDevMode),
-          [
-            o.importExpr(StyleEncapsulation.componentStyles).callMethod(
-              'debugOnClear',
-              [o.ReadStaticMemberExpr(_debugClearComponentStyles)],
-            ).toStmt(),
-          ],
+    final ifStylesNullInit = o.IfStmt(readStyles.equals(o.NULL_EXPR), [
+      o.WriteStaticMemberExpr(
+        _componentStylesStatic,
+        o.WriteVarExpr(
+          localStylesVar,
+          _styleType.instantiate([
+            _view.styles,
+            o.ReadVarExpr(_debugComponentUrl),
+          ]),
         ),
-      ],
-    );
+      ).toStmt(),
+      o.IfStmt(o.importExpr(Runtime.isDevMode), [
+        o.importExpr(StyleEncapsulation.componentStyles).callMethod(
+          'debugOnClear',
+          [o.ReadStaticMemberExpr(_debugClearComponentStyles)],
+        ).toStmt(),
+      ]),
+    ]);
 
     // this.componentStyles = styles;
-    final assignMember = o.WriteClassMemberExpr(
-      _componentStylesMember,
-      readStyles,
-    ).toStmt();
+    final assignMember =
+        o.WriteClassMemberExpr(_componentStylesMember, readStyles).toStmt();
 
     _class.methods.add(
-      o.ClassMethod(
-        _initComponentStyles,
-        const [],
-        [
-          defineStyles,
-          ifStylesNullInit,
-          assignMember,
-        ],
-      ),
+      o.ClassMethod(_initComponentStyles, const [], [
+        defineStyles,
+        ifStylesNullInit,
+        assignMember,
+      ]),
     );
   }
 }

@@ -196,8 +196,5 @@ class ParserErrorCode {
   /// The message associated with the error will be created from the
   /// given [message] template. The correction associated with the error
   /// will be created from the given [correction] template.
-  const ParserErrorCode._(
-    this.name,
-    this.message,
-  );
+  const ParserErrorCode._(this.name, this.message);
 }

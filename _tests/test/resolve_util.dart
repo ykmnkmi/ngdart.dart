@@ -12,15 +12,19 @@ import 'package:angular_compiler/v1/src/source_gen/template_compiler/component_v
 import 'package:angular_compiler/v1/src/source_gen/template_compiler/find_components.dart';
 
 // Use custom package config for angular sources if specified
-final _packageConfigFuture = Platform
-            .environment['ANGULAR_PACKAGE_CONFIG_PATH'] !=
-        null
-    ? loadPackageConfigUri(
-        Uri.base.resolve(Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH']!))
-    : Isolate.packageConfig.then((uri) => loadPackageConfigUri(uri!));
+final _packageConfigFuture =
+    Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH'] != null
+        ? loadPackageConfigUri(
+          Uri.base.resolve(
+            Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH']!,
+          ),
+        )
+        : Isolate.packageConfig.then((uri) => loadPackageConfigUri(uri!));
 
-Future<LibraryElement> resolve(String source,
-    [PackageConfig? packageConfig]) async {
+Future<LibraryElement> resolve(
+  String source, [
+  PackageConfig? packageConfig,
+]) async {
   final testAssetId = AssetId('_tests', 'lib/resolve.dart');
   return await withEnabledExperiments(
     () => resolveSource(
@@ -37,10 +41,13 @@ Future<NormalizedComponentWithViewDirectives> resolveAndFindComponent(
   String source,
 ) async {
   final library = await resolve(
-      "import 'package:angular/angular.dart';"
-      '$source',
-      await _packageConfigFuture);
+    "import 'package:angular/angular.dart';"
+    '$source',
+    await _packageConfigFuture,
+  );
   final artifacts = findComponentsAndDirectives(
-      LibraryReader(library), ComponentVisitorExceptionHandler());
+    LibraryReader(library),
+    ComponentVisitorExceptionHandler(),
+  );
   return artifacts.components.first;
 }

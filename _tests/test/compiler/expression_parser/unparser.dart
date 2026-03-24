@@ -12,41 +12,29 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitPropertyRead(
-    PropertyRead ast,
-    void _,
-  ) {
+  void visitPropertyRead(PropertyRead ast, void _) {
     _visit(ast.receiver);
     sb.write(ast.receiver is ImplicitReceiver ? '${ast.name}' : '.${ast.name}');
   }
 
   @override
-  void visitPropertyWrite(
-    PropertyWrite ast,
-    void _,
-  ) {
+  void visitPropertyWrite(PropertyWrite ast, void _) {
     _visit(ast.receiver);
-    sb.write(ast.receiver is ImplicitReceiver
-        ? '${ast.name} = '
-        : '.${ast.name} = ');
+    sb.write(
+      ast.receiver is ImplicitReceiver ? '${ast.name} = ' : '.${ast.name} = ',
+    );
     _visit(ast.value);
   }
 
   @override
-  void visitBinary(
-    Binary ast,
-    void _,
-  ) {
+  void visitBinary(Binary ast, void _) {
     _visit(ast.left);
     sb.write(' ${ast.operator} ');
     _visit(ast.right);
   }
 
   @override
-  void visitConditional(
-    Conditional ast,
-    void _,
-  ) {
+  void visitConditional(Conditional ast, void _) {
     _visit(ast.condition);
     sb.write(' ? ');
     _visit(ast.trueExp);
@@ -55,20 +43,14 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitIfNull(
-    IfNull ast,
-    void _,
-  ) {
+  void visitIfNull(IfNull ast, void _) {
     _visit(ast.condition);
     sb.write(' ?? ');
     _visit(ast.nullExp);
   }
 
   @override
-  void visitPipe(
-    BindingPipe ast,
-    void _,
-  ) {
+  void visitPipe(BindingPipe ast, void _) {
     sb.write('\$pipe.${ast.name}(');
     _visit(ast.exp);
     for (var arg in ast.args) {
@@ -79,10 +61,7 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitFunctionCall(
-    FunctionCall ast,
-    void _,
-  ) {
+  void visitFunctionCall(FunctionCall ast, void _) {
     _visit(ast.target);
     sb.write('(');
     var isFirst = true;
@@ -106,16 +85,10 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitImplicitReceiver(
-    ImplicitReceiver ast,
-    void _,
-  ) {}
+  void visitImplicitReceiver(ImplicitReceiver ast, void _) {}
 
   @override
-  void visitInterpolation(
-    Interpolation ast,
-    void _,
-  ) {
+  void visitInterpolation(Interpolation ast, void _) {
     for (var i = 0; i < ast.strings.length; i++) {
       sb.write(ast.strings[i]);
       if (i < ast.expressions.length) {
@@ -127,10 +100,7 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitKeyedRead(
-    KeyedRead ast,
-    void _,
-  ) {
+  void visitKeyedRead(KeyedRead ast, void _) {
     _visit(ast.receiver);
     sb.write('[');
     _visit(ast.key);
@@ -138,10 +108,7 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitKeyedWrite(
-    KeyedWrite ast,
-    void _,
-  ) {
+  void visitKeyedWrite(KeyedWrite ast, void _) {
     _visit(ast.receiver);
     sb.write('[');
     _visit(ast.key);
@@ -150,10 +117,7 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitLiteralPrimitive(
-    LiteralPrimitive ast,
-    void _,
-  ) {
+  void visitLiteralPrimitive(LiteralPrimitive ast, void _) {
     final value = ast.value;
     if (value is String) {
       sb.write('"${value.replaceAll(Unparser._quoteRegExp, '"')}"');
@@ -163,13 +127,11 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitMethodCall(
-    MethodCall ast,
-    void _,
-  ) {
+  void visitMethodCall(MethodCall ast, void _) {
     _visit(ast.receiver);
     sb.write(
-        ast.receiver is ImplicitReceiver ? '${ast.name}(' : '.${ast.name}(');
+      ast.receiver is ImplicitReceiver ? '${ast.name}(' : '.${ast.name}(',
+    );
     var isFirst = true;
     for (var arg in ast.args) {
       if (!isFirst) sb.write(', ');
@@ -185,37 +147,25 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitPostfixNotNull(
-    PostfixNotNull ast,
-    void _,
-  ) {
+  void visitPostfixNotNull(PostfixNotNull ast, void _) {
     _visit(ast.expression);
     sb.write('!');
   }
 
   @override
-  void visitPrefixNot(
-    PrefixNot ast,
-    void _,
-  ) {
+  void visitPrefixNot(PrefixNot ast, void _) {
     sb.write('!');
     _visit(ast.expression);
   }
 
   @override
-  void visitSafePropertyRead(
-    SafePropertyRead ast,
-    void _,
-  ) {
+  void visitSafePropertyRead(SafePropertyRead ast, void _) {
     _visit(ast.receiver);
     sb.write('?.${ast.name}');
   }
 
   @override
-  void visitSafeMethodCall(
-    SafeMethodCall ast,
-    void _,
-  ) {
+  void visitSafeMethodCall(SafeMethodCall ast, void _) {
     _visit(ast.receiver);
     sb.write('?.${ast.name}(');
     var isFirst = true;
@@ -233,24 +183,15 @@ class Unparser implements AstVisitor<void, String> {
   }
 
   @override
-  void visitStaticRead(
-    StaticRead ast,
-    void _,
-  ) {
+  void visitStaticRead(StaticRead ast, void _) {
     sb.write(ast.id.name);
   }
 
   @override
-  void visitEmptyExpr(
-    EmptyExpr ast,
-    void _,
-  ) {}
+  void visitEmptyExpr(EmptyExpr ast, void _) {}
 
   @override
-  void visitVariableRead(
-    VariableRead ast,
-    void _,
-  ) {}
+  void visitVariableRead(VariableRead ast, void _) {}
 
   void _visit(AST ast) {
     ast.visit(this);

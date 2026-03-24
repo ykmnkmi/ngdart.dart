@@ -12,7 +12,9 @@ void main() {
           T value;
         }''');
       expect(
-          normalizedComponent.component.inputTypes['value']!.name, 'dynamic');
+        normalizedComponent.component.inputTypes['value']!.name,
+        'dynamic',
+      );
     });
 
     test('should resolve to dynamic when unspecified on supertype', () async {
@@ -26,7 +28,9 @@ void main() {
         class TestComponent extends Base {}
       ''');
       expect(
-          normalizedComponent.component.inputTypes['value']!.name, 'dynamic');
+        normalizedComponent.component.inputTypes['value']!.name,
+        'dynamic',
+      );
     });
 
     test('should resolve bounded type', () async {

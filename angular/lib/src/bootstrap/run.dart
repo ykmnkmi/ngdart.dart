@@ -56,10 +56,7 @@ Injector appInjector(
   // We also add other top-level services with similar constraints:
   // * `AppViewUtils`
   final injector = ngZone.run(() {
-    applicationRef = internalCreateApplicationRef(
-      ngZone,
-      userInjector,
-    );
+    applicationRef = internalCreateApplicationRef(ngZone, userInjector);
     appViewUtils = AppViewUtils(
       userInjector.provideToken(APP_ID),
       EventManager(ngZone),
@@ -81,10 +78,7 @@ Injector appInjector(
 class _LazyInjector extends HierarchicalInjector {
   final Map<Object, Object Function()> _providers;
 
-  const _LazyInjector(
-    this._providers, [
-    Injector? parent,
-  ]) : super(parent);
+  const _LazyInjector(this._providers, [Injector? parent]) : super(parent);
 
   @override
   Object? injectFromSelfOptional(
@@ -219,12 +213,9 @@ ComponentRef<T> runAppLegacy<T extends Object>(
   return runApp(
     unsafeCast(typeToFactory(componentType)),
     createInjector: (parent) {
-      return ReflectiveInjector.resolveAndCreate(
-        [
-          createInjectorFromProviders,
-        ],
-        unsafeCast(parent),
-      );
+      return ReflectiveInjector.resolveAndCreate([
+        createInjectorFromProviders,
+      ], unsafeCast(parent));
     },
   );
 }
@@ -246,12 +237,9 @@ Future<ComponentRef<T>> runAppLegacyAsync<T extends Object>(
     unsafeCast(typeToFactory(componentType)),
     beforeComponentCreated: beforeComponentCreated,
     createInjector: (parent) {
-      return ReflectiveInjector.resolveAndCreate(
-        [
-          createInjectorFromProviders,
-        ],
-        unsafeCast(parent),
-      );
+      return ReflectiveInjector.resolveAndCreate([
+        createInjectorFromProviders,
+      ], unsafeCast(parent));
     },
   );
 }
@@ -264,11 +252,10 @@ Future<ComponentRef<T>> bootstrapStatic<T extends Object>(
   Type componentType, [
   List<Object> providers = const [],
   void Function()? initReflector,
-]) =>
-    Future.microtask(
-      () => runAppLegacy(
-        componentType,
-        createInjectorFromProviders: providers,
-        initReflector: initReflector,
-      ),
-    );
+]) => Future.microtask(
+  () => runAppLegacy(
+    componentType,
+    createInjectorFromProviders: providers,
+    initReflector: initReflector,
+  ),
+);

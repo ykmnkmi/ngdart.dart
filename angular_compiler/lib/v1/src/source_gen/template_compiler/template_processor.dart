@@ -32,9 +32,5 @@ Future<TemplateCompilerOutputs> processTemplates(
   final sourceModule = await compiler.compile(element);
 
   // Return them to be emitted to disk as generated code in the future.
-  return TemplateCompilerOutputs(
-    sourceModule,
-    reflectables,
-    injectors,
-  );
+  return TemplateCompilerOutputs(sourceModule, reflectables, injectors);
 }

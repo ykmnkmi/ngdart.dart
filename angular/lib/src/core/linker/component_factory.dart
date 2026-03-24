@@ -47,11 +47,7 @@ class ComponentRef<C> {
   final Element _nativeElement;
   final C _component;
 
-  ComponentRef(
-    this._hostView,
-    this._nativeElement,
-    this._component,
-  );
+  ComponentRef(this._hostView, this._nativeElement, this._component);
 
   /// Location of the Host Element of this Component Instance.
   Element get location => _nativeElement;
@@ -133,10 +129,7 @@ class ComponentFactory<T extends Object> {
   final HostView<T> Function() _viewFactory;
 
   /// Internal constructor for generated code only - **do not invoke**.
-  const ComponentFactory(
-    this.selector,
-    this._viewFactory,
-  );
+  const ComponentFactory(this.selector, this._viewFactory);
 
   @Deprecated('Unsupported and in the process of removal.')
   Type get componentType => T;

@@ -13,23 +13,36 @@ void bindDirectiveOutputs(
   var view = compileElement.view!;
   var converter = BoundValueConverter.forView(view);
   for (var output in outputs) {
-    var handlerExpr = converter
-        .scopeNamespace()
-        .convertSourceToExpression(output.source, output.target.type)!;
+    var handlerExpr =
+        converter.scopeNamespace().convertSourceToExpression(
+          output.source,
+          output.target.type,
+        )!;
     var nodeReference = view.createSubscription();
     view.addEventListener(
-        nodeReference, output, handlerExpr, directiveInstance.build());
+      nodeReference,
+      output,
+      handlerExpr,
+      directiveInstance.build(),
+    );
   }
 }
 
 void bindRenderOutputs(
-    List<ir.Binding> outputs, CompileElement compileElement) {
+  List<ir.Binding> outputs,
+  CompileElement compileElement,
+) {
   var converter = BoundValueConverter.forView(compileElement.view!);
   for (var output in outputs) {
-    var handlerExpr = converter
-        .scopeNamespace()
-        .convertSourceToExpression(output.source, output.target.type)!;
-    compileElement.view!
-        .addEventListener(compileElement.renderNode, output, handlerExpr);
+    var handlerExpr =
+        converter.scopeNamespace().convertSourceToExpression(
+          output.source,
+          output.target.type,
+        )!;
+    compileElement.view!.addEventListener(
+      compileElement.renderNode,
+      output,
+      handlerExpr,
+    );
   }
 }

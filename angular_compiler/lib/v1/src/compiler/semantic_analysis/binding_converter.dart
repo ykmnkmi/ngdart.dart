@@ -27,12 +27,11 @@ List<ir.Binding> convertAllToBinding(
   CompileDirectiveMetadata? compileDirectiveMetadata,
   CompileDirectiveMetadata? directive,
   CompileElement? compileElement,
-}) =>
-    ast.templateVisitAll(
-      _ToBindingVisitor(),
-      nodes,
-      _IrBindingContext(compileDirectiveMetadata, directive, compileElement),
-    );
+}) => ast.templateVisitAll(
+  _ToBindingVisitor(),
+  nodes,
+  _IrBindingContext(compileDirectiveMetadata, directive, compileElement),
+);
 
 /// Converts a single [ast.TemplateAst] node into an [ir.Binding] instance.
 ir.Binding convertToBinding(
@@ -40,41 +39,43 @@ ir.Binding convertToBinding(
   CompileDirectiveMetadata? directive,
   CompileDirectiveMetadata? compileDirectiveMetadata,
   CompileElement? compileElement,
-}) =>
-    node.visit(
-      _ToBindingVisitor(),
-      _IrBindingContext(compileDirectiveMetadata, directive, compileElement),
-    );
+}) => node.visit(
+  _ToBindingVisitor(),
+  _IrBindingContext(compileDirectiveMetadata, directive, compileElement),
+);
 
 /// Converts a host attribute to an [ir.Binding] instance.
 ///
 /// Currently host attributes are represented as a map from [name] to [value].
 // TODO(b/130184376): Create a better HostAttribute representation.
 ir.Binding convertHostAttributeToBinding(
-        String name,
-        expression_ast.ASTWithSource value,
-        CompileDirectiveMetadata compileDirectiveMetadata) =>
-    ir.Binding(
-        source: ir.BoundExpression(value, null, compileDirectiveMetadata),
-        target: _attributeName(name));
+  String name,
+  expression_ast.ASTWithSource value,
+  CompileDirectiveMetadata compileDirectiveMetadata,
+) => ir.Binding(
+  source: ir.BoundExpression(value, null, compileDirectiveMetadata),
+  target: _attributeName(name),
+);
 
 /// Converts a host listener to an [ir.Binding] instance.
 ///
 /// Current host listeners are represented as a map from [name] to [value].
 // TODO(b/130184376): Create a better HostListener representation.
 ir.Binding convertHostListenerToBinding(
-        String eventName, expression_ast.ASTWithSource handlerAst) =>
-    ir.Binding(
-      source: _handlerFor(
-        eventName,
-        ast.EventHandler(handlerAst),
-        null, // TODO(alorenzen): Add SourceSpan to HostListeners.
-        _IrBindingContext(null, null, null),
-      ),
-      target: isNativeHtmlEvent(eventName)
+  String eventName,
+  expression_ast.ASTWithSource handlerAst,
+) => ir.Binding(
+  source: _handlerFor(
+    eventName,
+    ast.EventHandler(handlerAst),
+    null, // TODO(alorenzen): Add SourceSpan to HostListeners.
+    _IrBindingContext(null, null, null),
+  ),
+  target:
+      isNativeHtmlEvent(eventName)
           ? ir.NativeEvent(eventName)
           : ir.CustomEvent(eventName),
-    );
+);
 
 class _ToBindingVisitor
     implements ast.TemplateAstVisitor<ir.Binding, _IrBindingContext> {
@@ -85,22 +86,26 @@ class _ToBindingVisitor
   @override
   ir.Binding visitI18nText(ast.I18nTextAst ast, _IrBindingContext _) =>
       ir.Binding(
-          source: ir.BoundI18nMessage(ast.value),
-          target: ast.value.containsHtml ? ir.HtmlBinding() : ir.TextBinding());
+        source: ir.BoundI18nMessage(ast.value),
+        target: ast.value.containsHtml ? ir.HtmlBinding() : ir.TextBinding(),
+      );
 
   @override
   ir.Binding visitBoundText(ast.BoundTextAst ast, _IrBindingContext context) =>
       ir.Binding(
-          source: ir.BoundExpression(
-            ast.value,
-            ast.sourceSpan,
-            context.compileDirectiveMetadata,
-          ),
-          target: ir.TextBinding());
+        source: ir.BoundExpression(
+          ast.value,
+          ast.sourceSpan,
+          context.compileDirectiveMetadata,
+        ),
+        target: ir.TextBinding(),
+      );
 
   @override
   ir.Binding visitAttr(ast.AttrAst attr, _IrBindingContext _) => ir.Binding(
-      source: _attributeValue(attr.value), target: _attributeName(attr.name));
+    source: _attributeValue(attr.value),
+    target: _attributeName(attr.name),
+  );
 
   ir.BindingSource _attributeValue(ast.AttributeValue<Object> attr) {
     if (attr is ast.LiteralAttributeValue) {
@@ -109,16 +114,20 @@ class _ToBindingVisitor
       return ir.BoundI18nMessage(attr.value);
     }
     throw ArgumentError.value(
-        attr, 'attr', 'Unknown ${ast.AttributeValue} type.');
+      attr,
+      'attr',
+      'Unknown ${ast.AttributeValue} type.',
+    );
   }
 
   @override
   ir.Binding visitElementProperty(
-          ast.BoundElementPropertyAst ast, _IrBindingContext context) =>
-      ir.Binding(
-        source: _boundValueToIr(ast.value, ast.sourceSpan, context),
-        target: _propertyToIr(ast),
-      );
+    ast.BoundElementPropertyAst ast,
+    _IrBindingContext context,
+  ) => ir.Binding(
+    source: _boundValueToIr(ast.value, ast.sourceSpan, context),
+    target: _propertyToIr(ast),
+  );
 
   ir.BindingTarget _propertyToIr(ast.BoundElementPropertyAst boundProp) {
     final name = boundProp.name!;
@@ -133,10 +142,12 @@ class _ToBindingVisitor
         if (name == 'class') {
           return ir.ClassBinding();
         }
-        return ir.AttributeBinding(name,
-            namespace: boundProp.namespace,
-            isConditional: _isConditionalAttribute(boundProp),
-            securityContext: securityContext);
+        return ir.AttributeBinding(
+          name,
+          namespace: boundProp.namespace,
+          isConditional: _isConditionalAttribute(boundProp),
+          securityContext: securityContext,
+        );
       case ast.PropertyBindingType.cssClass:
         return ir.ClassBinding(name: name);
       case ast.PropertyBindingType.style:
@@ -149,19 +160,22 @@ class _ToBindingVisitor
 
   @override
   ir.Binding visitDirectiveProperty(
-          ast.BoundDirectivePropertyAst input, _IrBindingContext context) =>
-      ir.Binding(
-        source: _boundValueToIr(input.value, input.sourceSpan, context),
-        target: ir.InputBinding(
-          input.memberName,
-          input.templateName,
-          _inputType(context.directive!, input),
-        ),
-        isDirect: _isDirectBinding(context.directive!, input.memberName),
-      );
+    ast.BoundDirectivePropertyAst input,
+    _IrBindingContext context,
+  ) => ir.Binding(
+    source: _boundValueToIr(input.value, input.sourceSpan, context),
+    target: ir.InputBinding(
+      input.memberName,
+      input.templateName,
+      _inputType(context.directive!, input),
+    ),
+    isDirect: _isDirectBinding(context.directive!, input.memberName),
+  );
 
   o.OutputType? _inputType(
-      CompileDirectiveMetadata directive, ast.BoundDirectivePropertyAst input) {
+    CompileDirectiveMetadata directive,
+    ast.BoundDirectivePropertyAst input,
+  ) {
     // TODO(alorenzen): Determine if we actually need this special case.
     if (directive.identifier!.name == 'NgIf' && input.memberName == 'ngIf') {
       return o.BOOL_TYPE;
@@ -173,7 +187,9 @@ class _ToBindingVisitor
   }
 
   bool _isDirectBinding(
-      CompileDirectiveMetadata directive, String directiveName) {
+    CompileDirectiveMetadata directive,
+    String directiveName,
+  ) {
     // Optimization specifically for NgIf. Since the directive already performs
     // change detection we can directly update it's input.
     // TODO: generalize to SingleInputDirective mixin.
@@ -184,7 +200,10 @@ class _ToBindingVisitor
   }
 
   ir.BindingSource _boundValueToIr(
-      ast.BoundValue value, SourceSpan sourceSpan, _IrBindingContext context) {
+    ast.BoundValue value,
+    SourceSpan sourceSpan,
+    _IrBindingContext context,
+  ) {
     if (value is ast.BoundExpression) {
       return ir.BoundExpression(
         value.expression,
@@ -195,17 +214,20 @@ class _ToBindingVisitor
       return ir.BoundI18nMessage(value.message);
     }
     throw ArgumentError.value(
-        value, 'value', 'Unknown ${ast.BoundValue} type.');
+      value,
+      'value',
+      'Unknown ${ast.BoundValue} type.',
+    );
   }
 
   @override
   ir.Binding visitDirectiveEvent(
-          ast.BoundDirectiveEventAst ast, _IrBindingContext context) =>
-      ir.Binding(
-        source:
-            _handlerFor(ast.templateName, ast.handler, ast.sourceSpan, context),
-        target: ir.DirectiveOutput(ast.memberName),
-      );
+    ast.BoundDirectiveEventAst ast,
+    _IrBindingContext context,
+  ) => ir.Binding(
+    source: _handlerFor(ast.templateName, ast.handler, ast.sourceSpan, context),
+    target: ir.DirectiveOutput(ast.memberName),
+  );
 
   @override
   ir.Binding visitDirective(ast.DirectiveAst ast, _IrBindingContext context) =>
@@ -217,22 +239,25 @@ class _ToBindingVisitor
 
   @override
   ir.Binding visitEmbeddedTemplate(
-          ast.EmbeddedTemplateAst ast, _IrBindingContext context) =>
-      throw UnimplementedError();
+    ast.EmbeddedTemplateAst ast,
+    _IrBindingContext context,
+  ) => throw UnimplementedError();
 
   @override
   ir.Binding visitEvent(ast.BoundEventAst ast, _IrBindingContext context) =>
       ir.Binding(
         source: _handlerFor(ast.name, ast.handler, ast.sourceSpan, context),
-        target: isNativeHtmlEvent(ast.name)
-            ? ir.NativeEvent(ast.name)
-            : ir.CustomEvent(ast.name),
+        target:
+            isNativeHtmlEvent(ast.name)
+                ? ir.NativeEvent(ast.name)
+                : ir.CustomEvent(ast.name),
       );
 
   @override
   ir.Binding visitNgContainer(
-          ast.NgContainerAst ast, _IrBindingContext context) =>
-      throw UnimplementedError();
+    ast.NgContainerAst ast,
+    _IrBindingContext context,
+  ) => throw UnimplementedError();
 
   @override
   ir.Binding visitNgContent(ast.NgContentAst ast, _IrBindingContext context) =>
@@ -240,8 +265,9 @@ class _ToBindingVisitor
 
   @override
   ir.Binding visitProvider(
-          ast.ProviderAst providerAst, _IrBindingContext context) =>
-      throw UnimplementedError();
+    ast.ProviderAst providerAst,
+    _IrBindingContext context,
+  ) => throw UnimplementedError();
 
   @override
   ir.Binding visitReference(ast.ReferenceAst ast, _IrBindingContext context) =>
@@ -260,7 +286,10 @@ class _IrBindingContext {
   final CompileElement? compileElement;
 
   _IrBindingContext(
-      this.compileDirectiveMetadata, this.directive, this.compileElement);
+    this.compileDirectiveMetadata,
+    this.directive,
+    this.compileElement,
+  );
 
   /// Lookup the [ProviderSource] for a [directive] matched on the element in
   /// context.
@@ -292,10 +321,12 @@ ir.BindingTarget _attributeName(String name) {
     _throwIfConditional(isConditional, name);
     return ir.TabIndexBinding();
   }
-  return ir.AttributeBinding(name,
-      namespace: attrNs,
-      isConditional: isConditional,
-      securityContext: TemplateSecurityContext.none);
+  return ir.AttributeBinding(
+    name,
+    namespace: attrNs,
+    isConditional: isConditional,
+    securityContext: TemplateSecurityContext.none,
+  );
 }
 
 void _throwIfConditional(bool isConditional, String name) {
@@ -321,14 +352,19 @@ ir.EventHandler _handlerFor(
       directiveInstance: directiveInstance,
     );
   } else {
-    return ir.SimpleEventHandler(handlerAst, sourceSpan,
-        directiveInstance: directiveInstance,
-        numArgs: handlerType == HandlerType.simpleNoArgs ? 0 : 1);
+    return ir.SimpleEventHandler(
+      handlerAst,
+      sourceSpan,
+      directiveInstance: directiveInstance,
+      numArgs: handlerType == HandlerType.simpleNoArgs ? 0 : 1,
+    );
   }
 }
 
 expression_ast.ASTWithSource _handlerExpression(
-    ast.EventHandler handler, _IrBindingContext context) {
+  ast.EventHandler handler,
+  _IrBindingContext context,
+) {
   var handlerAst = handler.expression;
   if (!_isTearOff(handlerAst)) {
     return handlerAst;

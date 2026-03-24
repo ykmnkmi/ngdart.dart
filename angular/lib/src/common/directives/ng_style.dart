@@ -54,9 +54,7 @@ import '../../core/change_detection/differs/default_keyvalue_differ.dart';
 ///
 /// [guide]: https://webdev.dartlang.org/angular/guide/template-syntax.html#ngStyle
 /// [ex]: https://angulardart.dev/examples/template-syntax#ngStyle
-@Directive(
-  selector: '[ngStyle]',
-)
+@Directive(selector: '[ngStyle]')
 class NgStyle implements DoCheck {
   final Element _ngElement;
   Map<String, String?>? _rawStyle;

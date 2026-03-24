@@ -124,14 +124,19 @@ const List<String> _customEvents = [
 final Iterable<List<CssSelector>> _selectors =
     _selectorAllowlist.map((selector) => CssSelector.parse(selector)).toList();
 
-bool hasElementInAllowlist(String name) =>
-    _selectors.any((selectors) => selectors
-        .any((selector) => selector.element == name && selector.attrs.isEmpty));
+bool hasElementInAllowlist(String name) => _selectors.any(
+  (selectors) => selectors.any(
+    (selector) => selector.element == name && selector.attrs.isEmpty,
+  ),
+);
 
-bool hasAttributeInAllowlist(String name, String attr) =>
-    _selectors.any((selectors) => selectors.any((selector) =>
+bool hasAttributeInAllowlist(String name, String attr) => _selectors.any(
+  (selectors) => selectors.any(
+    (selector) =>
         (selector.element == name || selector.element == null) &&
-        selector.attrs.any((matcher) => matcher.name == attr)));
+        selector.attrs.any((matcher) => matcher.name == attr),
+  ),
+);
 
 bool hasEventInAllowlist(String name, String event) =>
     _customEvents.contains('$name:$event');

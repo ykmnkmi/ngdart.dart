@@ -6,7 +6,7 @@ version: 8.0.0
 repository: https://github.com/angulardart/angular
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.3
 
 resolution: workspace
 

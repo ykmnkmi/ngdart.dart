@@ -17,18 +17,22 @@ class DefaultKeyValueDiffer {
 
   /// Invokes [fn] for every changed item since last check.
   void forEachChangedItem(void Function(KeyValueChangeRecord) fn) {
-    for (var record = _changesHead;
-        record != null;
-        record = record._nextChanged) {
+    for (
+      var record = _changesHead;
+      record != null;
+      record = record._nextChanged
+    ) {
       fn(record);
     }
   }
 
   /// Invokes [fn] for every added item since last check.
   void forEachAddedItem(void Function(KeyValueChangeRecord) fn) {
-    for (var record = _additionsHead;
-        record != null;
-        record = record._nextAdded) {
+    for (
+      var record = _additionsHead;
+      record != null;
+      record = record._nextAdded
+    ) {
       fn(record);
     }
   }
@@ -165,15 +169,19 @@ class DefaultKeyValueDiffer {
       return;
     }
 
-    for (var record = _changesHead;
-        record != null;
-        record = record._nextChanged) {
+    for (
+      var record = _changesHead;
+      record != null;
+      record = record._nextChanged
+    ) {
       record.previousValue = record.currentValue;
     }
 
-    for (var record = _additionsHead;
-        record != null;
-        record = record._nextAdded) {
+    for (
+      var record = _additionsHead;
+      record != null;
+      record = record._nextAdded
+    ) {
       record.previousValue = record.currentValue;
     }
 

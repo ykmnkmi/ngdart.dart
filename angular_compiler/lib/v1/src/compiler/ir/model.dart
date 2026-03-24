@@ -42,11 +42,13 @@ class Component implements IRNode {
   final List<String> styles;
   final List<String> styleUrls;
 
-  Component(this.name,
-      {this.encapsulation = ViewEncapsulation.emulated,
-      this.views = const [],
-      this.styles = const [],
-      this.styleUrls = const []});
+  Component(
+    this.name, {
+    this.encapsulation = ViewEncapsulation.emulated,
+    this.views = const [],
+    this.styles = const [],
+    this.styleUrls = const [],
+  });
 
   @override
   R accept<R, C, CO extends C>(IRVisitor<R, C> visitor, [CO? context]) =>
@@ -125,12 +127,13 @@ class ComponentView implements View {
   @override
   CompileView? compileView;
 
-  ComponentView(
-      {this.children = const [],
-      required this.cmpMetadata,
-      this.parsedTemplate = const [],
-      this.directiveTypes = const [],
-      this.pipes = const []});
+  ComponentView({
+    this.children = const [],
+    required this.cmpMetadata,
+    this.parsedTemplate = const [],
+    this.directiveTypes = const [],
+    this.pipes = const [],
+  });
 
   @override
   R accept<R, C, CO extends C>(IRVisitor<R, C> visitor, [CO? context]) =>
@@ -294,8 +297,10 @@ abstract class BindingTarget extends IRNode {
   o.OutputType? get type;
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-      [CO? context]);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]);
 }
 
 class TextBinding implements BindingTarget {
@@ -305,9 +310,10 @@ class TextBinding implements BindingTarget {
   final o.OutputType? type = null;
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitTextBinding(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitTextBinding(this, context);
 }
 
 class HtmlBinding implements BindingTarget {
@@ -319,9 +325,10 @@ class HtmlBinding implements BindingTarget {
   final o.OutputType? type = null;
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitHtmlBinding(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitHtmlBinding(this, context);
 }
 
 class ClassBinding implements BindingTarget {
@@ -337,9 +344,10 @@ class ClassBinding implements BindingTarget {
   ClassBinding({this.name});
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitClassBinding(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitClassBinding(this, context);
 
   /// When a class name is specified, then the [BindingSource] is a boolean to
   /// toggle the class on and off.
@@ -357,9 +365,10 @@ class TabIndexBinding implements BindingTarget {
   final o.OutputType? type = null;
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitTabIndexBinding(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitTabIndexBinding(this, context);
 }
 
 class StyleBinding implements BindingTarget {
@@ -374,9 +383,10 @@ class StyleBinding implements BindingTarget {
   StyleBinding(this.name, this.unit);
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitStyleBinding(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitStyleBinding(this, context);
 }
 
 class AttributeBinding implements BindingTarget {
@@ -399,9 +409,10 @@ class AttributeBinding implements BindingTarget {
   bool get hasNamespace => namespace != null;
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitAttributeBinding(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitAttributeBinding(this, context);
 }
 
 class PropertyBinding implements BindingTarget {
@@ -414,9 +425,10 @@ class PropertyBinding implements BindingTarget {
   PropertyBinding(this.name, this.securityContext);
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitPropertyBinding(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitPropertyBinding(this, context);
 }
 
 class InputBinding implements BindingTarget {
@@ -453,9 +465,10 @@ class InputBinding implements BindingTarget {
   InputBinding(this.propertyName, this.templateName, this.type);
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitInputBinding(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitInputBinding(this, context);
 }
 
 abstract class BoundEvent implements BindingTarget {
@@ -473,27 +486,30 @@ class NativeEvent extends BoundEvent {
   NativeEvent(String name) : super(name);
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitNativeEvent(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitNativeEvent(this, context);
 }
 
 class CustomEvent extends BoundEvent {
   CustomEvent(String name) : super(name);
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitCustomEvent(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitCustomEvent(this, context);
 }
 
 class DirectiveOutput extends BoundEvent {
   DirectiveOutput(String name) : super(name);
 
   @override
-  R accept<R, C, CO extends C>(BindingTargetVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitDirectiveOutput(this, context);
+  R accept<R, C, CO extends C>(
+    BindingTargetVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitDirectiveOutput(this, context);
 }
 
 abstract class BindingSource extends IRNode {
@@ -506,8 +522,10 @@ abstract class BindingSource extends IRNode {
   bool get isInt;
 
   @override
-  R accept<R, C, CO extends C>(BindingSourceVisitor<R, C> visitor,
-      [CO? context]);
+  R accept<R, C, CO extends C>(
+    BindingSourceVisitor<R, C> visitor, [
+    CO? context,
+  ]);
 }
 
 class BoundI18nMessage implements BindingSource {
@@ -531,9 +549,10 @@ class BoundI18nMessage implements BindingSource {
   BoundI18nMessage(this.value);
 
   @override
-  R accept<R, C, CO extends C>(BindingSourceVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitBoundI18nMessage(this, context);
+  R accept<R, C, CO extends C>(
+    BindingSourceVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitBoundI18nMessage(this, context);
 }
 
 abstract class BoundLiteral implements BindingSource {
@@ -565,9 +584,10 @@ class StringLiteral extends BoundLiteral {
   final bool isString = true;
 
   @override
-  R accept<R, C, CO extends C>(BindingSourceVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitStringLiteral(this, context);
+  R accept<R, C, CO extends C>(
+    BindingSourceVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitStringLiteral(this, context);
 }
 
 class SourceReference {
@@ -581,12 +601,17 @@ class SourceReference {
   SourceReference._(this.startOffset, this.endOffset, this.sourceUrl);
 
   /// Returns a [SourceReference] accounting for the templateOffset.
-  factory SourceReference(SourceSpan sourceSpan,
-      CompileDirectiveMetadata? compileDirectiveMetadata) {
+  factory SourceReference(
+    SourceSpan sourceSpan,
+    CompileDirectiveMetadata? compileDirectiveMetadata,
+  ) {
     var templateOffset =
         compileDirectiveMetadata?.template?.templateOffset ?? 0;
-    return SourceReference._(sourceSpan.start.offset + templateOffset,
-        sourceSpan.end.offset + templateOffset, sourceSpan.sourceUrl!);
+    return SourceReference._(
+      sourceSpan.start.offset + templateOffset,
+      sourceSpan.end.offset + templateOffset,
+      sourceSpan.sourceUrl!,
+    );
   }
 }
 
@@ -625,9 +650,10 @@ class BoundExpression implements BindingSource {
   bool get isInt => analyzed.isInt(expression.ast, _analyzedClass!);
 
   @override
-  R accept<R, C, CO extends C>(BindingSourceVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitBoundExpression(this, context);
+  R accept<R, C, CO extends C>(
+    BindingSourceVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitBoundExpression(this, context);
 
   SourceReference? get sourceReference =>
       sourceSpan != null && sourceSpan?.sourceUrl != null
@@ -635,11 +661,14 @@ class BoundExpression implements BindingSource {
           : null;
 
   BoundExpression withNewExpression(ast.AST expression) => BoundExpression(
-        ast.ASTWithSource(
-            expression, this.expression.source, this.expression.location),
-        sourceSpan,
-        compileDirectiveMetadata,
-      );
+    ast.ASTWithSource(
+      expression,
+      this.expression.source,
+      this.expression.location,
+    ),
+    sourceSpan,
+    compileDirectiveMetadata,
+  );
 }
 
 abstract class EventHandler implements BindingSource {
@@ -677,17 +706,22 @@ class SimpleEventHandler extends EventHandler {
 
   final int? numArgs;
 
-  SimpleEventHandler(this.handler, this.sourceSpan,
-      {this.directiveInstance, this.numArgs});
+  SimpleEventHandler(
+    this.handler,
+    this.sourceSpan, {
+    this.directiveInstance,
+    this.numArgs,
+  });
 
   @override
   EventHandler merge(EventHandler? handler) =>
       ComplexEventHandler._([this, handler]);
 
   @override
-  R accept<R, C, CO extends C>(BindingSourceVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitSimpleEventHandler(this, context);
+  R accept<R, C, CO extends C>(
+    BindingSourceVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitSimpleEventHandler(this, context);
 }
 
 /// An [EventHandler] that cannot be expressed as a [SimpleEventHandler].
@@ -704,15 +738,17 @@ class ComplexEventHandler extends EventHandler {
 
   ComplexEventHandler._(this.handlers);
 
-  ComplexEventHandler.forAst(ast.ASTWithSource handler, SourceSpan? sourceSpan,
-      {ProviderSource? directiveInstance})
-      : this._([
-          SimpleEventHandler(
-            handler,
-            sourceSpan,
-            directiveInstance: directiveInstance,
-          )
-        ]);
+  ComplexEventHandler.forAst(
+    ast.ASTWithSource handler,
+    SourceSpan? sourceSpan, {
+    ProviderSource? directiveInstance,
+  }) : this._([
+         SimpleEventHandler(
+           handler,
+           sourceSpan,
+           directiveInstance: directiveInstance,
+         ),
+       ]);
 
   @override
   EventHandler merge(EventHandler? handler) {
@@ -721,9 +757,10 @@ class ComplexEventHandler extends EventHandler {
   }
 
   @override
-  R accept<R, C, CO extends C>(BindingSourceVisitor<R, C> visitor,
-          [CO? context]) =>
-      visitor.visitComplexEventHandler(this, context);
+  R accept<R, C, CO extends C>(
+    BindingSourceVisitor<R, C> visitor, [
+    CO? context,
+  ]) => visitor.visitComplexEventHandler(this, context);
 }
 
 abstract mixin class BindingTargetVisitor<R, C> {
@@ -744,10 +781,14 @@ abstract mixin class BindingSourceVisitor<R, C> {
   R visitBoundI18nMessage(BoundI18nMessage boundI18nMessage, [C? context]);
   R visitStringLiteral(StringLiteral stringLiteral, [C? context]);
   R visitBoundExpression(BoundExpression boundExpression, [C? context]);
-  R visitSimpleEventHandler(SimpleEventHandler simpleEventHandler,
-      [C? context]);
-  R visitComplexEventHandler(ComplexEventHandler complexEventHandler,
-      [C? context]);
+  R visitSimpleEventHandler(
+    SimpleEventHandler simpleEventHandler, [
+    C? context,
+  ]);
+  R visitComplexEventHandler(
+    ComplexEventHandler complexEventHandler, [
+    C? context,
+  ]);
 }
 
 abstract class IRVisitor<R, C> extends Object

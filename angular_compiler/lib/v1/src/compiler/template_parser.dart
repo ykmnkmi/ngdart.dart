@@ -51,46 +51,58 @@ BoundElementPropertyAst createElementPropertyAst(
   var parts = name.split(_propertyPartsSeparator);
   if (identical(parts.length, 1)) {
     boundPropertyName = schemaRegistry.getMappedPropName(parts[0]);
-    securityContext =
-        schemaRegistry.securityContext(elementName, boundPropertyName);
+    securityContext = schemaRegistry.securityContext(
+      elementName,
+      boundPropertyName,
+    );
     bindingType = PropertyBindingType.property;
     if (!schemaRegistry.hasProperty(elementName, boundPropertyName)) {
       if (boundPropertyName == 'ngclass') {
-        CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-          sourceSpan,
-          'Please use camel-case ngClass instead of ngclass in your template',
-        ));
+        CompileContext.current.reportAndRecover(
+          BuildError.forSourceSpan(
+            sourceSpan,
+            'Please use camel-case ngClass instead of ngclass in your template',
+          ),
+        );
       } else {
-        CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-          sourceSpan,
-          "Can't bind to '$boundPropertyName' since it isn't a known "
-          'native property or known directive. Please fix typo or add to '
-          'directives list.',
-        ));
+        CompileContext.current.reportAndRecover(
+          BuildError.forSourceSpan(
+            sourceSpan,
+            "Can't bind to '$boundPropertyName' since it isn't a known "
+            'native property or known directive. Please fix typo or add to '
+            'directives list.',
+          ),
+        );
       }
     }
   } else {
     if (parts[0] == _attributePrefix) {
       boundPropertyName = parts[1];
       if (boundPropertyName.toLowerCase().startsWith('on')) {
-        CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-          sourceSpan,
-          'Binding to event attribute \'$boundPropertyName\' '
-          'is disallowed for security reasons, please use '
-          '(${boundPropertyName.substring(2)})=...',
-        ));
+        CompileContext.current.reportAndRecover(
+          BuildError.forSourceSpan(
+            sourceSpan,
+            'Binding to event attribute \'$boundPropertyName\' '
+            'is disallowed for security reasons, please use '
+            '(${boundPropertyName.substring(2)})=...',
+          ),
+        );
       }
       unit = parts.length > 2 ? parts[2] : null;
       if (unit != null && unit != 'if') {
-        CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-          sourceSpan,
-          'Invalid attribute unit "$unit"',
-        ));
+        CompileContext.current.reportAndRecover(
+          BuildError.forSourceSpan(
+            sourceSpan,
+            'Invalid attribute unit "$unit"',
+          ),
+        );
       }
       // NB: For security purposes, use the mapped property name, not the
       // attribute name.
       securityContext = schemaRegistry.securityContext(
-          elementName, schemaRegistry.getMappedPropName(boundPropertyName));
+        elementName,
+        schemaRegistry.getMappedPropName(boundPropertyName),
+      );
       var nsSeparatorIdx = boundPropertyName.indexOf(':');
       if (nsSeparatorIdx > -1) {
         namespace = boundPropertyName.substring(0, nsSeparatorIdx);
@@ -110,10 +122,9 @@ BoundElementPropertyAst createElementPropertyAst(
       // Throw an error, otherwise it builds a BoundElementPropertyAst with null
       // fields that will result in a crash when trying to transform this Ast
       // node to an IR node.
-      CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-        sourceSpan,
-        "Invalid property name '$name'",
-      ));
+      CompileContext.current.reportAndRecover(
+        BuildError.forSourceSpan(sourceSpan, "Invalid property name '$name'"),
+      );
       bindingType = null;
       securityContext = null;
     }
@@ -134,7 +145,9 @@ List<String> _splitClasses(String classAttrValue) {
 }
 
 CssSelector createElementCssSelector(
-    String elementName, List<List<String?>> matchableAttrs) {
+  String elementName,
+  List<List<String?>> matchableAttrs,
+) {
   var cssSelector = CssSelector();
   var elNameNoNs = _splitNsName(elementName)[1];
   cssSelector.setElement(elNameNoNs);
@@ -161,21 +174,22 @@ CssSelector createElementCssSelector(
 List<T> removeDuplicates<T>(List<T> items) {
   var res = <T>[];
   for (var item in items) {
-    var hasMatch = res.where((r) {
-      if (r is CompilePipeMetadata) {
-        CompilePipeMetadata rMeta = r;
-        var itemMeta = item as CompilePipeMetadata;
-        return rMeta.type!.name == itemMeta.type!.name &&
-            rMeta.type!.moduleUrl == itemMeta.type!.moduleUrl;
-      } else if (r is CompileDirectiveMetadata) {
-        CompileDirectiveMetadata rMeta = r;
-        var itemMeta = item as CompileDirectiveMetadata;
-        return rMeta.type!.name == itemMeta.type!.name &&
-            rMeta.type!.moduleUrl == itemMeta.type!.moduleUrl;
-      } else {
-        throw ArgumentError();
-      }
-    }).isNotEmpty;
+    var hasMatch =
+        res.where((r) {
+          if (r is CompilePipeMetadata) {
+            CompilePipeMetadata rMeta = r;
+            var itemMeta = item as CompilePipeMetadata;
+            return rMeta.type!.name == itemMeta.type!.name &&
+                rMeta.type!.moduleUrl == itemMeta.type!.moduleUrl;
+          } else if (r is CompileDirectiveMetadata) {
+            CompileDirectiveMetadata rMeta = r;
+            var itemMeta = item as CompileDirectiveMetadata;
+            return rMeta.type!.name == itemMeta.type!.name &&
+                rMeta.type!.moduleUrl == itemMeta.type!.moduleUrl;
+          } else {
+            throw ArgumentError();
+          }
+        }).isNotEmpty;
     if (!hasMatch) {
       res.add(item);
     }

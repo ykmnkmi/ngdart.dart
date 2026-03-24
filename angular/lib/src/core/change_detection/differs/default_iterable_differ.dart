@@ -55,7 +55,7 @@ class DefaultIterableDiffer {
   CollectionChangeRecord? _identityChangesTail;
 
   DefaultIterableDiffer([TrackByFn? trackByFn])
-      : _trackByFn = trackByFn ?? _trackByIdentity;
+    : _trackByFn = trackByFn ?? _trackByIdentity;
 
   DefaultIterableDiffer clone(TrackByFn? trackByFn) {
     var differ = DefaultIterableDiffer(trackByFn);
@@ -91,16 +91,23 @@ class DefaultIterableDiffer {
     while (nextIt != null || nextRemove != null) {
       // Figure out which is the next record to process
       // Order: remove, add, move
-      dynamic record = nextRemove == null ||
-              nextIt != null &&
-                  nextIt.currentIndex! <
-                      _getPreviousIndex(
-                          nextRemove, addRemoveOffset, moveOffsets)!
-          ? nextIt
-          : nextRemove;
+      dynamic record =
+          nextRemove == null ||
+                  nextIt != null &&
+                      nextIt.currentIndex! <
+                          _getPreviousIndex(
+                            nextRemove,
+                            addRemoveOffset,
+                            moveOffsets,
+                          )!
+              ? nextIt
+              : nextRemove;
 
-      var adjPreviousIndex =
-          _getPreviousIndex(unsafeCast(record), addRemoveOffset, moveOffsets);
+      var adjPreviousIndex = _getPreviousIndex(
+        unsafeCast(record),
+        addRemoveOffset,
+        moveOffsets,
+      );
 
       // TODO(b/171306883): Type "record" and remove the unsafeCast(s).
       var currentIndex = unsafeCast<int?>(record.currentIndex);
@@ -166,25 +173,31 @@ class DefaultIterableDiffer {
   }
 
   void forEachAddedItem(void Function(CollectionChangeRecord) fn) {
-    for (var record = _additionsHead;
-        record != null;
-        record = record._nextAdded) {
+    for (
+      var record = _additionsHead;
+      record != null;
+      record = record._nextAdded
+    ) {
       fn(record);
     }
   }
 
   void forEachRemovedItem(void Function(CollectionChangeRecord) fn) {
-    for (var record = _removalsHead;
-        record != null;
-        record = record._nextRemoved) {
+    for (
+      var record = _removalsHead;
+      record != null;
+      record = record._nextRemoved
+    ) {
       fn(record);
     }
   }
 
   void forEachIdentityChange(void Function(CollectionChangeRecord) fn) {
-    for (var record = _identityChangesHead;
-        record != null;
-        record = record._nextIdentityChange) {
+    for (
+      var record = _identityChangesHead;
+      record != null;
+      record = record._nextIdentityChange
+    ) {
       fn(record);
     }
   }
@@ -266,14 +279,18 @@ class DefaultIterableDiffer {
     if (isDirty) {
       CollectionChangeRecord? record;
       CollectionChangeRecord? nextRecord;
-      for (record = _previousItHead = _itHead;
-          record != null;
-          record = record._next) {
+      for (
+        record = _previousItHead = _itHead;
+        record != null;
+        record = record._next
+      ) {
         record._nextPrevious = record._next;
       }
-      for (record = _additionsHead;
-          record != null;
-          record = record._nextAdded) {
+      for (
+        record = _additionsHead;
+        record != null;
+        record = record._nextAdded
+      ) {
         record.previousIndex = record.currentIndex;
       }
       _additionsHead = _additionsTail = null;
@@ -295,8 +312,12 @@ class DefaultIterableDiffer {
   /// - `index` is the position of the item in the collection
   ///
   /// @internal
-  CollectionChangeRecord _mismatch(CollectionChangeRecord? record, dynamic item,
-      dynamic itemTrackBy, int index) {
+  CollectionChangeRecord _mismatch(
+    CollectionChangeRecord? record,
+    dynamic item,
+    dynamic itemTrackBy,
+    int index,
+  ) {
     // The previous record after which we will append the current one.
     CollectionChangeRecord? previousRecord;
     if (record == null) {
@@ -329,7 +350,10 @@ class DefaultIterableDiffer {
       } else {
         // It is a new item: add it.
         record = _addAfter(
-            CollectionChangeRecord(item, itemTrackBy), previousRecord, index);
+          CollectionChangeRecord(item, itemTrackBy),
+          previousRecord,
+          index,
+        );
       }
     }
     return record;
@@ -363,8 +387,12 @@ class DefaultIterableDiffer {
   /// at the end.
   ///
   /// @internal
-  CollectionChangeRecord _verifyReinsertion(CollectionChangeRecord record,
-      dynamic item, dynamic itemTrackBy, int index) {
+  CollectionChangeRecord _verifyReinsertion(
+    CollectionChangeRecord record,
+    dynamic item,
+    dynamic itemTrackBy,
+    int index,
+  ) {
     var reinsertRecord = _unlinkedRecords?.get(itemTrackBy);
     if (reinsertRecord != null) {
       record = _reinsertAfter(reinsertRecord, record._prev, index);
@@ -396,8 +424,11 @@ class DefaultIterableDiffer {
     _identityChangesTail?._nextIdentityChange = null;
   }
 
-  CollectionChangeRecord _reinsertAfter(CollectionChangeRecord record,
-      CollectionChangeRecord? prevRecord, int index) {
+  CollectionChangeRecord _reinsertAfter(
+    CollectionChangeRecord record,
+    CollectionChangeRecord? prevRecord,
+    int index,
+  ) {
     if (!identical(_unlinkedRecords, null)) {
       _unlinkedRecords!.remove(record);
     }
@@ -418,16 +449,22 @@ class DefaultIterableDiffer {
     return record;
   }
 
-  CollectionChangeRecord _moveAfter(CollectionChangeRecord record,
-      CollectionChangeRecord? prevRecord, int index) {
+  CollectionChangeRecord _moveAfter(
+    CollectionChangeRecord record,
+    CollectionChangeRecord? prevRecord,
+    int index,
+  ) {
     _unlink(record);
     _insertAfter(record, prevRecord, index);
     _addToMoves(record, index);
     return record;
   }
 
-  CollectionChangeRecord _addAfter(CollectionChangeRecord record,
-      CollectionChangeRecord? prevRecord, int index) {
+  CollectionChangeRecord _addAfter(
+    CollectionChangeRecord record,
+    CollectionChangeRecord? prevRecord,
+    int index,
+  ) {
     _insertAfter(record, prevRecord, index);
     if (identical(_additionsTail, null)) {
       // todo(vicb)
@@ -445,8 +482,11 @@ class DefaultIterableDiffer {
     return record;
   }
 
-  CollectionChangeRecord _insertAfter(CollectionChangeRecord record,
-      CollectionChangeRecord? prevRecord, int index) {
+  CollectionChangeRecord _insertAfter(
+    CollectionChangeRecord record,
+    CollectionChangeRecord? prevRecord,
+    int index,
+  ) {
     // todo(vicb)
 
     // assert(record != prevRecord);
@@ -504,7 +544,9 @@ class DefaultIterableDiffer {
   }
 
   CollectionChangeRecord _addToMoves(
-      CollectionChangeRecord record, int toIndex) {
+    CollectionChangeRecord record,
+    int toIndex,
+  ) {
     // todo(vicb)
 
     // assert(record._nextMoved === null);
@@ -548,7 +590,9 @@ class DefaultIterableDiffer {
   }
 
   CollectionChangeRecord _addIdentityChange(
-      CollectionChangeRecord record, dynamic item) {
+    CollectionChangeRecord record,
+    dynamic item,
+  ) {
     record.item = item;
     if (identical(_identityChangesTail, null)) {
       _identityChangesTail = _identityChangesHead = record;
@@ -566,17 +610,21 @@ class DefaultIterableDiffer {
         list.add(record);
       }
       var previous = <Object>[];
-      for (var record = _previousItHead;
-          record != null;
-          record = record._nextPrevious) {
+      for (
+        var record = _previousItHead;
+        record != null;
+        record = record._nextPrevious
+      ) {
         previous.add(record);
       }
       var additions = <dynamic>[];
       forEachAddedItem((record) => additions.add(record));
       var moves = <dynamic>[];
-      for (var record = _movesHead;
-          record != null;
-          record = record._nextMoved) {
+      for (
+        var record = _movesHead;
+        record != null;
+        record = record._nextMoved
+      ) {
         moves.add(record);
       }
       var removals = <Object>[];
@@ -756,7 +804,10 @@ class _DuplicateMap {
 }
 
 int? _getPreviousIndex(
-    CollectionChangeRecord item, int addRemoveOffset, List<int?>? moveOffsets) {
+  CollectionChangeRecord item,
+  int addRemoveOffset,
+  List<int?>? moveOffsets,
+) {
   var previousIndex = item.previousIndex;
 
   if (previousIndex == null) return null;

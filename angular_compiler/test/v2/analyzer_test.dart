@@ -14,49 +14,37 @@ void main() {
 
     group('on opted-in code:', () {
       test('dynamic should not be explicitly anything', () async {
-        final lib = await resolve(
-          '''
+        final lib = await resolve('''
         dynamic topLevelField;
-        ''',
-          includeAngularDeps: false,
-        );
+        ''', includeAngularDeps: false);
         final field = lib.library.topLevelElements.last as VariableElement;
         expect(field.type.isExplicitlyNullable, isFalse);
         expect(field.type.isExplicitlyNonNullable, isFalse);
       });
 
       test('a non-nullable type should be explicitly non-nullable', () async {
-        final lib = await resolve(
-          '''
+        final lib = await resolve('''
           String topLevelField;
-          ''',
-          includeAngularDeps: false,
-        );
+          ''', includeAngularDeps: false);
         final field = lib.library.topLevelElements.last as VariableElement;
         expect(field.type.isExplicitlyNullable, isFalse);
         expect(field.type.isExplicitlyNonNullable, isTrue);
       });
 
       test('a nullable type should be explicitly nullable', () async {
-        final lib = await resolve(
-          '''
+        final lib = await resolve('''
           String? topLevelField;
-          ''',
-          includeAngularDeps: false,
-        );
+          ''', includeAngularDeps: false);
         final field = lib.library.topLevelElements.last as VariableElement;
         expect(field.type.isExplicitlyNullable, isTrue);
         expect(field.type.isExplicitlyNonNullable, isFalse);
       });
 
       test('a nullable FutureOr should be explicitly nullable', () async {
-        final lib = await resolve(
-          '''
+        final lib = await resolve('''
           import 'dart:async';
           FutureOr<String?> topLevelField;
-          ''',
-          includeAngularDeps: false,
-        );
+          ''', includeAngularDeps: false);
         final field = lib.library.topLevelElements.last as VariableElement;
         expect(field.type.isExplicitlyNullable, isTrue);
         expect(field.type.isExplicitlyNonNullable, isFalse);

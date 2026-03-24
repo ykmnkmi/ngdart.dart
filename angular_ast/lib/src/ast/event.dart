@@ -14,11 +14,8 @@ const _listEquals = ListEquality<dynamic>();
 /// Clients should not extend, implement, or mix-in this class.
 abstract mixin class EventAst implements TemplateAst {
   /// Create a new synthetic [EventAst] listening to [name].
-  factory EventAst(
-    String name,
-    String? value, [
-    List<String> reductions,
-  ]) = _SyntheticEventAst;
+  factory EventAst(String name, String? value, [List<String> reductions]) =
+      _SyntheticEventAst;
 
   /// Create a new synthetic [EventAst] that originated from [origin].
   factory EventAst.from(
@@ -106,10 +103,10 @@ class ParsedEventAst extends TemplateAst
     this.valueToken,
     this.equalSignToken,
   ]) : super.parsed(
-          prefixToken,
-          valueToken == null ? suffixToken : valueToken.rightQuote,
-          sourceFile,
-        );
+         prefixToken,
+         valueToken == null ? suffixToken : valueToken.rightQuote,
+         sourceFile,
+       );
 
   String get _nameWithoutParentheses {
     return nameToken.lexeme;
@@ -165,11 +162,7 @@ class _SyntheticEventAst extends SyntheticTemplateAst with EventAst {
   @override
   final List<String> reductions;
 
-  _SyntheticEventAst(
-    this.name,
-    this.value, [
-    this.reductions = const [],
-  ]);
+  _SyntheticEventAst(this.name, this.value, [this.reductions = const []]);
 
   _SyntheticEventAst.from(
     TemplateAst origin,

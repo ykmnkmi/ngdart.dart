@@ -191,7 +191,7 @@ const List<String> _schema = [
   '@svg:textPath^@svg:textContent|',
   '@svg:title^@svg:|',
   '@svg:use^@svg:graphics|',
-  '@svg:view^@svg:|#zoomAndPan'
+  '@svg:view^@svg:|#zoomAndPan',
 ];
 
 // TODO(b/165123682): case insensitive for attributes.
@@ -199,7 +199,7 @@ const Map<String, String> _attrToPropMap = {
   'class': 'className',
   'innerHtml': 'innerHTML',
   'readonly': 'readOnly',
-  'tabindex': 'tabIndex'
+  'tabindex': 'tabIndex',
 };
 
 const Map<String, String> _propToAttrMap = {
@@ -280,7 +280,9 @@ class DomElementSchemaRegistry extends ElementSchemaRegistry {
   static final Map<String, TemplateSecurityContext> _SECURITY_SCHEMA = {};
 
   void _registerSecuritySchema(
-      TemplateSecurityContext context, List<String> schemaElements) {
+    TemplateSecurityContext context,
+    List<String> schemaElements,
+  ) {
     var itemCount = schemaElements.length;
     for (var i = 0; i < itemCount; i++) {
       _SECURITY_SCHEMA[schemaElements[i]] = context;
@@ -288,8 +290,11 @@ class DomElementSchemaRegistry extends ElementSchemaRegistry {
   }
 
   void _initializeSecuritySchema() {
-    _registerSecuritySchema(TemplateSecurityContext.html,
-        ['iframe|srcdoc', '*|innerHTML', '*|outerHTML']);
+    _registerSecuritySchema(TemplateSecurityContext.html, [
+      'iframe|srcdoc',
+      '*|innerHTML',
+      '*|outerHTML',
+    ]);
     _registerSecuritySchema(TemplateSecurityContext.style, ['*|style']);
     _registerSecuritySchema(TemplateSecurityContext.url, [
       '*|formAction',
@@ -310,7 +315,7 @@ class DomElementSchemaRegistry extends ElementSchemaRegistry {
       'source|src',
       'source|srcset',
       'video|poster',
-      'video|src'
+      'video|src',
     ]);
     _registerSecuritySchema(TemplateSecurityContext.resourceUrl, [
       'applet|code',
@@ -326,7 +331,7 @@ class DomElementSchemaRegistry extends ElementSchemaRegistry {
       'object|codebase',
       'object|data',
       'script|src',
-      'track|src'
+      'track|src',
     ]);
   }
 

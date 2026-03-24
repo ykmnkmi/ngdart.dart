@@ -17,10 +17,9 @@ I18nMessage? i18nMessageFromPropertyBinding(
     value.ast.visit(visitor, context);
     return context.build(metadata);
   } on _I18nPropertyException catch (e) {
-    CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-      sourceSpan,
-      e.message,
-    ));
+    CompileContext.current.reportAndRecover(
+      BuildError.forSourceSpan(sourceSpan, e.message),
+    );
     return null;
   }
 }
@@ -39,7 +38,8 @@ class _I18nPropertyContext {
     final text = _messageBuffer.toString();
     if (text.trim().isEmpty) {
       throw _I18nPropertyException(
-          'Internationalized messages must contain text');
+        'Internationalized messages must contain text',
+      );
     }
     return I18nMessage(text, metadata);
   }
@@ -173,6 +173,7 @@ class _I18nPropertyVisitor extends AstVisitor<void, _I18nPropertyContext> {
 
   void _reportInvalidBinding(_I18nPropertyContext context) {
     throw _I18nPropertyException(
-        'Internationalized property bindings only support string literals');
+      'Internationalized property bindings only support string literals',
+    );
   }
 }

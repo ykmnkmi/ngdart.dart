@@ -22,7 +22,11 @@ abstract class LocationStrategy {
   String prepareExternalUrl(String internal);
   void pushState(Object? state, String title, String url, String queryParams);
   void replaceState(
-      Object? state, String title, String url, String queryParams);
+    Object? state,
+    String title,
+    String url,
+    String queryParams,
+  );
   void forward();
   void back();
   void onPopState(EventListener fn);

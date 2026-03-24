@@ -88,12 +88,10 @@ class Typed<T extends Object> {
   /// ```
   ///
   /// See [on] for details about this optional parameter.
-  const Typed({
-    this.on,
-  }) :
-        // This actually needs to be null, the compiler checks if typeArguments
-        // is non-null to determine which constructor was used.
-        typeArguments = null;
+  const Typed({this.on})
+    : // This actually needs to be null, the compiler checks if typeArguments
+      // is non-null to determine which constructor was used.
+      typeArguments = null;
 
   /// A constructor for a type with any type parameters as type arguments.
   ///
@@ -126,13 +124,10 @@ class Typed<T extends Object> {
   ///
   /// See the [typeArguments] and [on] fields for details about these
   /// parameters.
-  const Typed.of(
-    List<Object> typeArguments, {
-    this.on,
-  }) :
-        // We prevent passing in a non-null value (because this constructor
-        // requires an actual List). The compiler checks this field and whether
-        // it is null (or not) to determine which constructor was used.
-        // ignore: prefer_initializing_formals
-        typeArguments = typeArguments;
+  const Typed.of(List<Object> typeArguments, {this.on})
+    : // We prevent passing in a non-null value (because this constructor
+      // requires an actual List). The compiler checks this field and whether
+      // it is null (or not) to determine which constructor was used.
+      // ignore: prefer_initializing_formals
+      typeArguments = typeArguments;
 }

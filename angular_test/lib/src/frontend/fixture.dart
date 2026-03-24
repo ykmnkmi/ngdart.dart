@@ -66,13 +66,15 @@ class NgTestFixture<T> {
   /// });
   /// expect(fixture.text, contains('5 little piggies'));
   Future<void> update([void Function(T instance)? run]) {
-    return _testStabilizer.stabilize(runAndTrackSideEffects: () {
-      if (run != null) {
-        Future<void>.sync(() {
-          _rootComponentRef.update(run);
-        });
-      }
-    });
+    return _testStabilizer.stabilize(
+      runAndTrackSideEffects: () {
+        if (run != null) {
+          Future<void>.sync(() {
+            _rootComponentRef.update(run);
+          });
+        }
+      },
+    );
   }
 
   /// All text nodes within the fixture.

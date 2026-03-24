@@ -46,8 +46,11 @@ String fileName(AssetId id) {
 /// 'asset'.
 Uri _toAssetScheme(Uri absoluteUri) {
   if (!absoluteUri.isAbsolute) {
-    throw ArgumentError.value(absoluteUri.toString(), 'absoluteUri',
-        'Value passed must be an absolute uri');
+    throw ArgumentError.value(
+      absoluteUri.toString(),
+      'absoluteUri',
+      'Value passed must be an absolute uri',
+    );
   }
   if (absoluteUri.scheme == 'asset') {
     return absoluteUri;
@@ -59,10 +62,11 @@ Uri _toAssetScheme(Uri absoluteUri) {
 
   if (absoluteUri.pathSegments.length < 2) {
     throw FormatException(
-        'A package: URI must have at least 2 path '
-        'segments, for example '
-        'package:<package-name>/<path-to-dart-file>',
-        absoluteUri.toString());
+      'A package: URI must have at least 2 path '
+      'segments, for example '
+      'package:<package-name>/<path-to-dart-file>',
+      absoluteUri.toString(),
+    );
   }
 
   var pathSegments = absoluteUri.pathSegments.toList()..insert(1, 'lib');
@@ -76,7 +80,10 @@ String? toTemplateExtension(String? uri) =>
 /// Returns `uri` with its extension updated to `toExtension` if its
 /// extension is currently in `fromExtension`.
 String? _toExtension(
-    String? uri, Iterable<String> fromExtensions, String toExtension) {
+  String? uri,
+  Iterable<String> fromExtensions,
+  String toExtension,
+) {
   if (uri == null) return null;
   if (uri.endsWith(toExtension)) return uri;
   for (var extension in fromExtensions) {
@@ -86,10 +93,11 @@ String? _toExtension(
     }
   }
   throw ArgumentError.value(
-      uri,
-      'uri',
-      'Provided value ends with an unexpected extension. '
-          'Expected extension(s): [${fromExtensions.join(', ')}].');
+    uri,
+    'uri',
+    'Provided value ends with an unexpected extension. '
+        'Expected extension(s): [${fromExtensions.join(', ')}].',
+  );
 }
 
 const _templateExtension = '.template.dart';

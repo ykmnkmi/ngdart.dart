@@ -1,5 +1,4 @@
 @JS()
-
 library angular.test.bootstrap.run_app_test;
 
 import 'dart:async';
@@ -37,18 +36,22 @@ void main() {
   /// **NOTE**: We will use the JS API, since that is how users access it.
   void verifyTestability() {
     expect(component.injector.get(Testability), isNotNull);
-    var jsTestability = getAngularTestability(
-      rootDomContainer.children.first,
-    );
+    var jsTestability = getAngularTestability(rootDomContainer.children.first);
     expect(getAllAngularTestabilities(), isNot(hasLength(0)));
     expect(jsTestability.isStable(), isTrue, reason: 'Expected stability');
-    jsTestability.whenStable(allowInterop(expectAsync1((didWork) {
-      expect(didWork, isFalse, reason: 'Immediate invocation (no work)');
+    jsTestability.whenStable(
+      allowInterop(
+        expectAsync1((didWork) {
+          expect(didWork, isFalse, reason: 'Immediate invocation (no work)');
 
-      Future(expectAsync0(() {
-        verifyDomAndStyles(innerText: 'Hello Universe!');
-      }));
-    })));
+          Future(
+            expectAsync0(() {
+              verifyDomAndStyles(innerText: 'Hello Universe!');
+            }),
+          );
+        }),
+      ),
+    );
     runInApp(() => HelloWorldComponent.doAsyncTaskAndThenRename('Universe'));
   }
 
@@ -77,9 +80,7 @@ void main() {
     component = runApp(
       ng.createHelloWorldComponentFactory(),
       createInjector: (parent) {
-        return Injector.map({
-          ExceptionHandler: StubExceptionHandler(),
-        }, parent);
+        return Injector.map({ExceptionHandler: StubExceptionHandler()}, parent);
       },
     );
     expect(StubExceptionHandler.instanceWasCreated, isTrue);
@@ -146,9 +147,7 @@ void main() {
 @Component(
   selector: 'hello-world',
   template: '<h1>Hello {{name}}!</h1>',
-  styles: [
-    'h1 { height: 100px; }',
-  ],
+  styles: ['h1 { height: 100px; }'],
 )
 class HelloWorldComponent {
   static var name = 'World';

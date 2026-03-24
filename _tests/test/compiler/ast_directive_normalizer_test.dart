@@ -31,20 +31,12 @@ void main() {
     final logger = Logger('test');
     final sub = logger.onRecord.listen((r) => logs.add('$r'));
     addTearDown(sub.cancel);
-    reader = FakeAssetReader({
-      'package:a/a.dart': '',
-      'package:a/a.html': '',
-    });
+    reader = FakeAssetReader({'package:a/a.dart': '', 'package:a/a.html': ''});
     normalizer = AstDirectiveNormalizer(reader);
     metadata = CompileDirectiveMetadata(
       metadataType: CompileDirectiveMetadataType.Component,
-      type: CompileTypeMetadata(
-        name: 'A',
-        moduleUrl: 'asset:a/lib/a.dart',
-      ),
-      template: CompileTemplateMetadata(
-        template: 'a.html',
-      ),
+      type: CompileTypeMetadata(name: 'A', moduleUrl: 'asset:a/lib/a.dart'),
+      template: CompileTemplateMetadata(template: 'a.html'),
     );
     await scopeLogAsync(() => normalizer.normalizeDirective(metadata), logger);
     expect(logs, contains(contains('did you mean "templateUrl"')));
@@ -55,23 +47,12 @@ void main() {
     final logger = Logger('test');
     final sub = logger.onRecord.listen((r) => logs.add('$r'));
     addTearDown(sub.cancel);
-    reader = FakeAssetReader({
-      'package:a/a.dart': '',
-      'package:a/a.css': '',
-    });
+    reader = FakeAssetReader({'package:a/a.dart': '', 'package:a/a.css': ''});
     normalizer = AstDirectiveNormalizer(reader);
     metadata = CompileDirectiveMetadata(
       metadataType: CompileDirectiveMetadataType.Component,
-      type: CompileTypeMetadata(
-        name: 'A',
-        moduleUrl: 'asset:a/lib/a.dart',
-      ),
-      template: CompileTemplateMetadata(
-        styles: [
-          'a.css',
-        ],
-        template: '',
-      ),
+      type: CompileTypeMetadata(name: 'A', moduleUrl: 'asset:a/lib/a.dart'),
+      template: CompileTemplateMetadata(styles: ['a.css'], template: ''),
     );
     await scopeLogAsync(() => normalizer.normalizeDirective(metadata), logger);
     expect(logs, contains(contains('did you mean "styleUrls"')));
@@ -82,10 +63,7 @@ void main() {
     normalizer = AstDirectiveNormalizer(reader);
     metadata = CompileDirectiveMetadata(
       metadataType: CompileDirectiveMetadataType.Component,
-      type: CompileTypeMetadata(
-        name: 'A',
-        moduleUrl: 'asset:a/lib/a.dart',
-      ),
+      type: CompileTypeMetadata(name: 'A', moduleUrl: 'asset:a/lib/a.dart'),
       template: CompileTemplateMetadata(),
     );
     expect(normalizer.normalizeDirective(metadata), throwsBuildError);
@@ -106,11 +84,7 @@ void main() {
       ),
     );
     metadata = await normalizer.normalizeDirective(metadata);
-    expect(metadata.template!.ngContentSelectors, [
-      '*',
-      '.left',
-      '.right',
-    ]);
+    expect(metadata.template!.ngContentSelectors, ['*', '.left', '.right']);
   });
 
   test('should throw when ng-content select has no value', () async {
@@ -144,19 +118,13 @@ void main() {
             @import url('4.css');
           </style>
         ''',
-        styleUrls: [
-          '1.css',
-          '2.css',
-        ],
+        styleUrls: ['1.css', '2.css'],
       ),
     );
     metadata = await normalizer.normalizeDirective(metadata);
     expect(
       metadata.template!.styleUrls,
-      orderedEquals([
-        'package:a/1.css',
-        'package:a/2.css',
-      ]),
+      orderedEquals(['package:a/1.css', 'package:a/2.css']),
     );
   });
 
@@ -193,22 +161,15 @@ void main() {
             :host { padding: 10px; }
           </style>
         ''',
-        styleUrls: [
-          '1.css',
-          '2.css',
-        ],
-        styles: [
-          ':host { margin: 10px; }',
-        ],
+        styleUrls: ['1.css', '2.css'],
+        styles: [':host { margin: 10px; }'],
       ),
     );
     metadata = await normalizer.normalizeDirective(metadata);
     expect(metadata.template!.encapsulation, ViewEncapsulation.Emulated);
     expect(
       metadata.template!.styles,
-      [
-        contains(':host { margin: 10px; }'),
-      ],
+      [contains(':host { margin: 10px; }')],
       reason: 'Only one inline style should have been processed',
     );
   });

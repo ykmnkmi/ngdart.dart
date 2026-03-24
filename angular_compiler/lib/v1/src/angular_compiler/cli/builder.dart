@@ -39,7 +39,8 @@ class Compiler implements Generator {
   Builder asBuilder({String extension = '.template.dart'}) {
     return LibraryBuilder(
       this,
-      formatOutput: (s, v) =>
+      formatOutput:
+          (s, v) =>
           // Note: Use an absurdly long line width in order to speed up the
           // formatter. We still get a lot of other formatting, such as forced
           // line breaks (after semicolons for instance), spaces in argument
@@ -76,5 +77,7 @@ class Placeholder implements Builder {
 
   @override
   Future<void> build(BuildStep buildStep) => buildStep.writeAsString(
-      buildStep.inputId.changeExtension('.ng_placeholder'), '');
+    buildStep.inputId.changeExtension('.ng_placeholder'),
+    '',
+  );
 }

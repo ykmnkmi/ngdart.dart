@@ -125,9 +125,10 @@ class ParsedPropertyAst extends TemplateAst
     this.valueToken,
     this.equalSignToken,
   ]) : super.parsed(
-            prefixToken,
-            valueToken == null ? suffixToken : valueToken.rightQuote,
-            sourceFile) {
+         prefixToken,
+         valueToken == null ? suffixToken : valueToken.rightQuote,
+         sourceFile,
+       ) {
     if (_nameWithoutBrackets.split('.').length > 3) {}
   }
 
@@ -181,12 +182,7 @@ class ParsedPropertyAst extends TemplateAst
 }
 
 class _SyntheticPropertyAst extends SyntheticTemplateAst with PropertyAst {
-  _SyntheticPropertyAst(
-    this.name, [
-    this.value,
-    this.postfix,
-    this.unit,
-  ]);
+  _SyntheticPropertyAst(this.name, [this.value, this.postfix, this.unit]);
 
   _SyntheticPropertyAst.from(
     TemplateAst? origin,

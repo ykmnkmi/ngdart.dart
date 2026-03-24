@@ -11,7 +11,8 @@ void main() {
 
   test('should escape unsafe attributes', () async {
     final testBed = NgTestBed<UnsafeAttributeComponent>(
-        ng.createUnsafeAttributeComponentFactory());
+      ng.createUnsafeAttributeComponentFactory(),
+    );
     final testFixture = await testBed.create();
     final a = testFixture.rootElement.querySelector('a') as AnchorElement;
     expect(a.href, matches(r'.*/hello$'));
@@ -22,8 +23,9 @@ void main() {
   }, tags: 'fails-on-ci');
 
   test('should escape unsafe styles', () async {
-    final testBed =
-        NgTestBed<UnsafeStyleComponent>(ng.createUnsafeStyleComponentFactory());
+    final testBed = NgTestBed<UnsafeStyleComponent>(
+      ng.createUnsafeStyleComponentFactory(),
+    );
     final testFixture = await testBed.create();
     final div = testFixture.rootElement.querySelector('div')!;
     expect(div.style.background, matches('red'));
@@ -34,8 +36,9 @@ void main() {
   });
 
   test('should escape unsafe HTML', () async {
-    final testBed =
-        NgTestBed<UnsafeHtmlComponent>(ng.createUnsafeHtmlComponentFactory());
+    final testBed = NgTestBed<UnsafeHtmlComponent>(
+      ng.createUnsafeHtmlComponentFactory(),
+    );
     final testFixture = await testBed.create();
     final div = testFixture.rootElement.querySelector('div')!;
     expect(div.innerHtml, 'some <p>text</p>');
@@ -51,10 +54,7 @@ void main() {
       final srcdoc = '<div></div><script></script>';
       component.html = 'also <iframe srcdoc="$srcdoc"> content</iframe>';
     });
-    expect(
-      div.innerHtml,
-      'also ',
-    );
+    expect(div.innerHtml, 'also ');
   }, tags: 'fails-on-ci');
 }
 
@@ -74,10 +74,7 @@ class UnsafeStyleComponent {
   String backgroundStyle = 'red';
 }
 
-@Component(
-  selector: 'unsafe-html',
-  template: '<div [innerHtml]="html"></div>',
-)
+@Component(selector: 'unsafe-html', template: '<div [innerHtml]="html"></div>')
 class UnsafeHtmlComponent {
   String html = 'some <p>text</p>';
 }

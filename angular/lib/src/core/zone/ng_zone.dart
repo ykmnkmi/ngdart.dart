@@ -15,8 +15,9 @@ class NgZone {
   final _onTurnStart = StreamController<void>.broadcast(sync: true);
   final _onMicrotaskEmpty = StreamController<void>.broadcast(sync: true);
   final _onTurnDone = StreamController<void>.broadcast(sync: true);
-  final _onUncaughtError =
-      StreamController<UncaughtError>.broadcast(sync: true);
+  final _onUncaughtError = StreamController<UncaughtError>.broadcast(
+    sync: true,
+  );
 
   final _outerZone = Zone.current;
   late final Zone _innerZone;
@@ -93,12 +94,7 @@ class NgZone {
     parent.scheduleMicrotask(zone, safeMicrotask);
   }
 
-  R _run<R>(
-    Zone self,
-    ZoneDelegate parent,
-    Zone zone,
-    R Function() fn,
-  ) {
+  R _run<R>(Zone self, ZoneDelegate parent, Zone zone, R Function() fn) {
     return parent.run(zone, () {
       try {
         _onEnter();
@@ -134,14 +130,19 @@ class NgZone {
     T1 arg1,
     T2 arg2,
   ) {
-    return parent.runBinary(zone, (T1 arg1, T2 arg2) {
-      try {
-        _onEnter();
-        return fn(arg1, arg2);
-      } finally {
-        _onLeave();
-      }
-    }, arg1, arg2);
+    return parent.runBinary(
+      zone,
+      (T1 arg1, T2 arg2) {
+        try {
+          _onEnter();
+          return fn(arg1, arg2);
+        } finally {
+          _onLeave();
+        }
+      },
+      arg1,
+      arg2,
+    );
   }
 
   void _onEnter() {

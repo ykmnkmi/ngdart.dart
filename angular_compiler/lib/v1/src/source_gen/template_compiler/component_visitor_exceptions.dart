@@ -32,9 +32,11 @@ class ComponentVisitorExceptionHandler {
   Future<void> maybeReportErrors(Resolver resolver) async {
     if (_warnings.isNotEmpty) {
       final buildWarnings = await Future.wait(
-          _warnings.map((warning) => warning.resolve(resolver)));
-      buildWarnings
-          .forEach((buildWarning) => logWarning(buildWarning.toString()));
+        _warnings.map((warning) => warning.resolve(resolver)),
+      );
+      buildWarnings.forEach(
+        (buildWarning) => logWarning(buildWarning.toString()),
+      );
     }
     if (_errors.isEmpty) {
       return;
@@ -64,10 +66,7 @@ Future<ElementDeclarationResult> _resolvedClassResult(
   if (!await resolver.isLibrary(assetId)) {
     throw BuildError.withoutContext('Errors in part file $assetId');
   }
-  final library = await resolver.libraryFor(
-    assetId,
-    allowSyntaxErrors: true,
-  );
+  final library = await resolver.libraryFor(assetId, allowSyntaxErrors: true);
   final result = await element.session!.getResolvedLibraryByElement(library);
   if (result is ResolvedLibraryResult) {
     return result.getElementDeclaration(element)!;
@@ -78,9 +77,7 @@ Future<ElementDeclarationResult> _resolvedClassResult(
 Never _throwInvalidSummaryError(String summaryName) {
   // We don't have access to source information in summarized libraries,
   // but another build step will likely emit the root cause errors.
-  throw BuildError.withoutContext(
-    'Errors in summarized library $summaryName',
-  );
+  throw BuildError.withoutContext('Errors in summarized library $summaryName');
 }
 
 abstract class AsyncBuildError {
@@ -104,8 +101,9 @@ class AngularAnalysisError extends AsyncBuildError {
   Future<BuildError> resolve(Resolver resolver) async {
     final annotationSource = indexedAnnotation.annotation.toSource();
 
-    var hasOffsetInformation =
-        constantEvaluationErrors.any((error) => error.offset >= 0);
+    var hasOffsetInformation = constantEvaluationErrors.any(
+      (error) => error.offset >= 0,
+    );
 
     // If this code is called from a tool using [AnalysisResolvers], then
     //   1) [constantEvaluationErrors] already has source location information
@@ -113,8 +111,13 @@ class AngularAnalysisError extends AsyncBuildError {
     // So, we return immediately with the information in
     // [constantEvaluationErrors].
     if (hasOffsetInformation) {
-      return Future.value(_buildErrorForAnalysisErrors(constantEvaluationErrors,
-          indexedAnnotation.element, annotationSource));
+      return Future.value(
+        _buildErrorForAnalysisErrors(
+          constantEvaluationErrors,
+          indexedAnnotation.element,
+          annotationSource,
+        ),
+      );
     }
 
     ElementDeclarationResult result;
@@ -133,18 +136,25 @@ class AngularAnalysisError extends AsyncBuildError {
 
     // Only include the errors that are inside the annotation.
     return _buildErrorForAnalysisErrors(
-        result.resolvedUnit!.errors.where((error) =>
+      result.resolvedUnit!.errors.where(
+        (error) =>
             error.offset >= resolvedAnnotation.offset &&
-            error.offset <= resolvedAnnotation.end),
-        indexedAnnotation.element,
-        annotationSource);
+            error.offset <= resolvedAnnotation.end,
+      ),
+      indexedAnnotation.element,
+      annotationSource,
+    );
   }
 
-  BuildError _buildErrorForAnalysisErrors(Iterable<AnalysisError> errors,
-      Element element, String annnotationSouce) {
+  BuildError _buildErrorForAnalysisErrors(
+    Iterable<AnalysisError> errors,
+    Element element,
+    String annnotationSouce,
+  ) {
     String reason;
     if (element is ClassElement && annnotationSouce.startsWith('@Component')) {
-      reason = ''
+      reason =
+          ''
           'Compiling @Component-annotated class "${element.name}" '
           'failed.\n\n${messages.analysisFailureReasons}';
     } else {
@@ -161,11 +171,13 @@ class AngularAnalysisError extends AsyncBuildError {
           // TODO(b/180549869): remove the negative length check.
           if (sourceContent.isEmpty || e.length.isNegative) {
             return SourceSpanMessageTuple(
-                SourceSpan(
-                    SourceLocation(0, sourceUrl: sourceUrl, line: 0, column: 0),
-                    SourceLocation(0, sourceUrl: sourceUrl, line: 0, column: 0),
-                    ''),
-                '${e.message} [with offsets into source file missing]');
+              SourceSpan(
+                SourceLocation(0, sourceUrl: sourceUrl, line: 0, column: 0),
+                SourceLocation(0, sourceUrl: sourceUrl, line: 0, column: 0),
+                '',
+              ),
+              '${e.message} [with offsets into source file missing]',
+            );
           }
 
           return SourceSpanMessageTuple(
@@ -190,18 +202,28 @@ class UnresolvedExpressionError extends AsyncBuildError {
   final CompilationUnitElement compilationUnit;
 
   UnresolvedExpressionError(
-      this.expressions, this.componentType, this.compilationUnit);
+    this.expressions,
+    this.componentType,
+    this.compilationUnit,
+  );
 
   @override
-  Future<BuildError> resolve(Resolver resolver) =>
-      Future.value(_buildErrorForUnresolvedExpressions(
-          expressions, componentType, compilationUnit));
+  Future<BuildError> resolve(Resolver resolver) => Future.value(
+    _buildErrorForUnresolvedExpressions(
+      expressions,
+      componentType,
+      compilationUnit,
+    ),
+  );
 
   // TODO(deboer): Since we are checking ElementAnnotation.constantValueErrors,
   // all code paths that call this function are unreachable.
   // If we don't see any errors in the wild, delete this code.
-  BuildError _buildErrorForUnresolvedExpressions(Iterable<AstNode> expressions,
-      ClassElement componentType, CompilationUnitElement compilationUnit) {
+  BuildError _buildErrorForUnresolvedExpressions(
+    Iterable<AstNode> expressions,
+    ClassElement componentType,
+    CompilationUnitElement compilationUnit,
+  ) {
     return BuildError.withoutContext(
       messages.unresolvedSource(
         expressions.map((e) {
@@ -215,7 +237,8 @@ class UnresolvedExpressionError extends AsyncBuildError {
             'This argument *may* have not been resolved',
           );
         }),
-        reason: ''
+        reason:
+            ''
             'Compiling @Component annotated class "${componentType.name}" '
             'failed.\n'
             'NOTE: Your build triggered an error in the Angular error reporting\n'
@@ -239,12 +262,13 @@ class UnusedDirectiveTypeError extends ErrorMessageForAnnotation {
   }
 
   UnusedDirectiveTypeError(this.element, this.directiveType)
-      : super(
-            firstComponentAnnotation(element),
-            'Entry in "directiveTypes" missing corresponding entry in '
-            '"directives" for "${directiveType.name}".\n\n'
-            'If you recently removed "${directiveType.name}" from "directives", '
-            'please also remove its corresponding entry from "directiveTypes".');
+    : super(
+        firstComponentAnnotation(element),
+        'Entry in "directiveTypes" missing corresponding entry in '
+        '"directives" for "${directiveType.name}".\n\n'
+        'If you recently removed "${directiveType.name}" from "directives", '
+        'please also remove its corresponding entry from "directiveTypes".',
+      );
 }
 
 /// Find the ancestor node that should have the metadata and return
@@ -252,10 +276,10 @@ class UnusedDirectiveTypeError extends ErrorMessageForAnnotation {
 /// Angular only looks at metadata on class declarations,
 /// class members and formal parameters.
 List<Annotation> _metadataFromAncestry(AstNode node) {
-// NOTE: We check for [ClassMember] or [ClassDeclaration] explicitly
-// as some [AnnotatedNode]s in the ancestor chain do not have
-// the metadata we are looking for.  See
-// 519_missing_query_selector_test.dart for an example of this condition.
+  // NOTE: We check for [ClassMember] or [ClassDeclaration] explicitly
+  // as some [AnnotatedNode]s in the ancestor chain do not have
+  // the metadata we are looking for.  See
+  // 519_missing_query_selector_test.dart for an example of this condition.
   if (node is ClassMember ||
       node is ClassDeclaration ||
       node is EnumDeclaration ||
@@ -270,10 +294,8 @@ List<Annotation> _metadataFromAncestry(AstNode node) {
 class ErrorMessageForAnnotation extends AsyncBuildError {
   final IndexedAnnotation indexedAnnotation;
 
-  ErrorMessageForAnnotation(
-    this.indexedAnnotation,
-    String message,
-  ) : super(message);
+  ErrorMessageForAnnotation(this.indexedAnnotation, String message)
+    : super(message);
 
   @override
   Future<BuildError> resolve(Resolver resolver) async {

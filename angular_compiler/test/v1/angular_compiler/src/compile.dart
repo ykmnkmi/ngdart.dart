@@ -14,10 +14,7 @@ Future<T> _recordLogs<T>(
   final records = <LogRecord>[];
   final subscription = logger.onRecord.listen(records.add);
   return scopeLogAsync(() async {
-    return runWithContext(
-      CompileContext.forTesting(),
-      run,
-    ).then((result) {
+    return runWithContext(CompileContext.forTesting(), run).then((result) {
       subscription.cancel();
       onLog(records);
       return result;
@@ -35,11 +32,7 @@ Future<void> compilesExpecting(
   Object? /* Matcher | List<Matcher> | List<String> */ warnings,
 }) {
   return resolveLibrary(source).then((lib) {
-    return runsExpecting(
-      () => run(lib),
-      errors: errors,
-      warnings: warnings,
-    );
+    return runsExpecting(() => run(lib), errors: errors, warnings: warnings);
   });
 }
 

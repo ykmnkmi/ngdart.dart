@@ -17,8 +17,10 @@ class TokenReader {
   /// Returns [object] parsed into a [TokenElement].
   ///
   /// Only a [DartType] or `OpaqueToken` are currently supported.
-  TokenElement parseTokenObject(DartObject object,
-      [ParameterElement? element]) {
+  TokenElement parseTokenObject(
+    DartObject object, [
+    ParameterElement? element,
+  ]) {
     final constant = ConstantReader(object);
     if (constant.isNull) {
       final errorMsg = 'Annotation on element has errors and was unresolvable.';
@@ -141,7 +143,7 @@ class TokenReader {
   TokenElement parseTokenParameter(ParameterElement element) {
     final constTypeOrToken =
         $Inject.firstAnnotationOfExact(element)?.getField('token') ??
-            $OpaqueToken.firstAnnotationOf(element);
+        $OpaqueToken.firstAnnotationOf(element);
     return constTypeOrToken != null
         ? parseTokenObject(constTypeOrToken, element)
         : parseTokenType(element);

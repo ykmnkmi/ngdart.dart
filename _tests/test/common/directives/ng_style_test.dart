@@ -38,7 +38,8 @@ void main() {
 
     test('should cooperate with the style attribute', () async {
       var testBed = NgTestBed<MapUpdateWithDefaultTest>(
-          ng.createMapUpdateWithDefaultTestFactory());
+        ng.createMapUpdateWithDefaultTestFactory(),
+      );
       var testFixture = await testBed.create();
       var content = testFixture.rootElement.querySelector('div')!;
       await testFixture.update((MapUpdateWithDefaultTest component) {
@@ -53,23 +54,26 @@ void main() {
       expect(content.style.fontSize, '12px');
     });
 
-    test('should cooperate with the style.[styleName]="expr" special-case',
-        () async {
-      var testBed = NgTestBed<MapUpdateWithStyleExprTest>(
-          ng.createMapUpdateWithStyleExprTestFactory());
-      var testFixture = await testBed.create();
-      var content = testFixture.rootElement.querySelector('div')!;
-      await testFixture.update((MapUpdateWithStyleExprTest component) {
-        component.map = {'max-width': '40px'};
-      });
-      expect(content.style.maxWidth, '40px');
-      expect(content.style.fontSize, '12px');
-      await testFixture.update((MapUpdateWithStyleExprTest component) {
-        component.map!.remove('max-width');
-      });
-      expect(content.style.maxWidth, '');
-      expect(content.style.fontSize, '12px');
-    });
+    test(
+      'should cooperate with the style.[styleName]="expr" special-case',
+      () async {
+        var testBed = NgTestBed<MapUpdateWithStyleExprTest>(
+          ng.createMapUpdateWithStyleExprTestFactory(),
+        );
+        var testFixture = await testBed.create();
+        var content = testFixture.rootElement.querySelector('div')!;
+        await testFixture.update((MapUpdateWithStyleExprTest component) {
+          component.map = {'max-width': '40px'};
+        });
+        expect(content.style.maxWidth, '40px');
+        expect(content.style.fontSize, '12px');
+        await testFixture.update((MapUpdateWithStyleExprTest component) {
+          component.map!.remove('max-width');
+        });
+        expect(content.style.maxWidth, '');
+        expect(content.style.fontSize, '12px');
+      },
+    );
   });
 }
 

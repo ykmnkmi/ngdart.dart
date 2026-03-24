@@ -14,7 +14,9 @@ class NgTokenReader<T> {
   NgBaseToken<Object>? _peek;
 
   factory NgTokenReader(
-      SourceFile? source, Iterable<NgBaseToken<Object>> tokens) {
+    SourceFile? source,
+    Iterable<NgBaseToken<Object>> tokens,
+  ) {
     return NgTokenReader._(source, tokens.iterator);
   }
 

@@ -2,7 +2,7 @@ name: _tests
 description: Tests for AngularDart.
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.3
 
 resolution: workspace
 

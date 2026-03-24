@@ -113,11 +113,8 @@ abstract class CompileQuery {
     );
   }
 
-  CompileQuery._base(
-    this.metadata,
-    this._queryRoot,
-    this._boundDirective,
-  ) : _values = _NestedQueryValues(_queryRoot);
+  CompileQuery._base(this.metadata, this._queryRoot, this._boundDirective)
+    : _values = _NestedQueryValues(_queryRoot);
 
   /// Whether the query is only setting a single value, not a list-like object.
   ///
@@ -255,22 +252,26 @@ abstract class CompileQuery {
 
     final results = _buildQueryResults(value);
     // If the nested query has multiple results, wrap them in a list.
-    final expressions = results.values.length > 1
-        ? [o.literalArr(results.values)]
-        : results.values;
+    final expressions =
+        results.values.length > 1
+            ? [o.literalArr(results.values)]
+            : results.values;
 
     final adjustedExpressions = expressions.map(readFromNestedView).toList();
-    final adjustedValuesWithChangeDetectorRefs =
-        results.withChangeDetectorRefs.map((value) => _QueryValue(
-              readFromNestedView(value.value),
-              readFromNestedView(value.changeDetectorRef!),
-            ));
+    final adjustedValuesWithChangeDetectorRefs = results.withChangeDetectorRefs
+        .map(
+          (value) => _QueryValue(
+            readFromNestedView(value.value),
+            readFromNestedView(value.changeDetectorRef!),
+          ),
+        );
 
     // Choose which function to use based on whether the nested query returns
     // multiple results or a single result.
-    final mapNestedViews = _hasMultipleResults(value)
-        ? 'mapNestedViews'
-        : 'mapNestedViewsWithSingleResult';
+    final mapNestedViews =
+        _hasMultipleResults(value)
+            ? 'mapNestedViews'
+            : 'mapNestedViewsWithSingleResult';
 
     // Invokes `appElementN.mapNestedView`.
     return appElementN.callMethod(mapNestedViews, [
@@ -278,7 +279,8 @@ abstract class CompileQuery {
         [o.FnParam('nestedView', value.view!.classType)],
         [
           ..._createAddQueryChangeDetectorRefs(
-              adjustedValuesWithChangeDetectorRefs),
+            adjustedValuesWithChangeDetectorRefs,
+          ),
           o.ReturnStatement(o.literalVargs(adjustedExpressions)),
         ],
       ),
@@ -349,9 +351,9 @@ class _ListCompileQuery extends CompileQuery {
     ProviderSource? boundDirective, {
     required int? nodeIndex,
     required int queryIndex,
-  })  : _nodeIndex = nodeIndex,
-        _queryIndex = queryIndex,
-        super._base(metadata, queryRoot, boundDirective);
+  }) : _nodeIndex = nodeIndex,
+       _queryIndex = queryIndex,
+       super._base(metadata, queryRoot, boundDirective);
 
   ViewStorageItem? _dirtyFieldIfNeeded;
 
@@ -404,11 +406,13 @@ class _ListCompileQuery extends CompileQuery {
     if (!_queryResultOrigins.add(origin)) {
       return;
     }
-    final queryDirtyField = getPropertyInView(
-      _storage.buildReadExpr(_dirtyField),
-      origin,
-      _queryRoot,
-    ) as o.ReadPropExpr;
+    final queryDirtyField =
+        getPropertyInView(
+              _storage.buildReadExpr(_dirtyField),
+              origin,
+              _queryRoot,
+            )
+            as o.ReadPropExpr;
     origin.dirtyParentQueriesMethod.addStmt(
       queryDirtyField.set(o.literal(true)).toStmt(),
     );
@@ -421,14 +425,9 @@ class _ListCompileQuery extends CompileQuery {
     }
     final statements = <o.Statement>[
       ..._createUpdates(),
-      _storage.buildWriteExpr(_dirtyField, o.literal(false)).toStmt()
+      _storage.buildWriteExpr(_dirtyField, o.literal(false)).toStmt(),
     ];
-    return [
-      o.IfStmt(
-        _storage.buildReadExpr(_dirtyField),
-        statements,
-      ),
-    ];
+    return [o.IfStmt(_storage.buildReadExpr(_dirtyField), statements)];
   }
 
   @override
@@ -519,14 +518,15 @@ void addQueryToTokenMap(
 List<o.Statement> _createAddQueryChangeDetectorRefs(
   Iterable<_QueryValue> queriesWithChangeDetectorRefs,
 ) {
-  final queryChangeDetectorRefs =
-      o.importExpr(Views.view).prop('queryChangeDetectorRefs');
+  final queryChangeDetectorRefs = o
+      .importExpr(Views.view)
+      .prop('queryChangeDetectorRefs');
   return [
     for (final query in queriesWithChangeDetectorRefs)
       queryChangeDetectorRefs
           .key(query.value)
           .set(query.changeDetectorRef!)
-          .toStmt()
+          .toStmt(),
   ];
 }
 

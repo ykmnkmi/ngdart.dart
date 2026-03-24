@@ -18,65 +18,99 @@ void main() {
     });
 
     test('should yield the children', () {
-      expandEmptyNodes([
-        ProviderNode(0, 10, children: [
+      expandEmptyNodes(
+        [
+          ProviderNode(
+            0,
+            10,
+            children: [
+              ProviderNode(1, 5, providers: [a, b]),
+              ProviderNode(6, 10, providers: [c]),
+            ],
+          ),
+          ProviderNode(
+            11,
+            20,
+            children: [
+              ProviderNode(
+                13,
+                14,
+                children: [
+                  ProviderNode(14, 14, providers: [d]),
+                ],
+              ),
+            ],
+          ),
+        ],
+        [
           ProviderNode(1, 5, providers: [a, b]),
           ProviderNode(6, 10, providers: [c]),
-        ]),
-        ProviderNode(11, 20, children: [
-          ProviderNode(13, 14, children: [
-            ProviderNode(14, 14, providers: [d]),
-          ]),
-        ]),
-      ], [
-        ProviderNode(1, 5, providers: [a, b]),
-        ProviderNode(6, 10, providers: [c]),
-        ProviderNode(14, 14, providers: [d]),
-      ]);
+          ProviderNode(14, 14, providers: [d]),
+        ],
+      );
     });
   });
 
   group('expanding non-empty nodes', () {
     test('should do nothing', () {
-      expandEmptyNodes([
-        ProviderNode(0, 10, providers: [a, b])
-      ], [
-        ProviderNode(0, 10, providers: [a, b])
-      ]);
+      expandEmptyNodes(
+        [
+          ProviderNode(0, 10, providers: [a, b]),
+        ],
+        [
+          ProviderNode(0, 10, providers: [a, b]),
+        ],
+      );
     });
 
     test('should remove empty children', () {
-      expandEmptyNodes([
-        ProviderNode(0, 10, providers: [
-          a,
-          b,
-        ], children: [
-          ProviderNode(1, 5, children: [
-            ProviderNode(3, 3),
-          ]),
-          ProviderNode(6, 8),
-        ])
-      ], [
-        ProviderNode(0, 10, providers: [a, b]),
-      ]);
+      expandEmptyNodes(
+        [
+          ProviderNode(
+            0,
+            10,
+            providers: [a, b],
+            children: [
+              ProviderNode(1, 5, children: [ProviderNode(3, 3)]),
+              ProviderNode(6, 8),
+            ],
+          ),
+        ],
+        [
+          ProviderNode(0, 10, providers: [a, b]),
+        ],
+      );
     });
 
     test('should remove empty intermediate nodes', () {
-      expandEmptyNodes([
-        ProviderNode(4, 16, providers: [
-          a
-        ], children: [
-          ProviderNode(5, 16, children: [
-            ProviderNode(8, 10, providers: [b, c]),
-          ]),
-        ]),
-      ], [
-        ProviderNode(4, 16, providers: [
-          a
-        ], children: [
-          ProviderNode(8, 10, providers: [b, c]),
-        ]),
-      ]);
+      expandEmptyNodes(
+        [
+          ProviderNode(
+            4,
+            16,
+            providers: [a],
+            children: [
+              ProviderNode(
+                5,
+                16,
+                children: [
+                  ProviderNode(8, 10, providers: [b, c]),
+                ],
+              ),
+            ],
+          ),
+        ],
+        [
+          ProviderNode(
+            4,
+            16,
+            providers: [a],
+            children: [
+              ProviderNode(8, 10, providers: [b, c]),
+            ],
+          ),
+        ],
+      );
     });
   });
 }

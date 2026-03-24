@@ -37,17 +37,12 @@ class _JSTestabilityProxy implements _TestabilityProxy {
   /// TODO(b/168535057): Return `JsTestability` instead (needs testing).
   static Object _getAngularTestability(Element element) {
     final registry = unsafeCast<List<Object?>>(
-      js_util.getProperty(
-        _self,
-        'ngTestabilityRegistries',
-      ),
+      js_util.getProperty(_self, 'ngTestabilityRegistries'),
     );
     for (var i = 0; i < registry.length; i++) {
-      final result = unsafeCast<Object?>(js_util.callMethod(
-        registry[i]!,
-        'getAngularTestability',
-        [element],
-      ));
+      final result = unsafeCast<Object?>(
+        js_util.callMethod(registry[i]!, 'getAngularTestability', [element]),
+      );
       if (result != null) {
         return result;
       }
@@ -74,11 +69,9 @@ class _JSTestabilityProxy implements _TestabilityProxy {
     );
     final result = <dynamic>[];
     for (var i = 0; i < registry.length; i++) {
-      final testabilities = unsafeCast<List<Object?>>(js_util.callMethod(
-        registry[i]!,
-        'getAllAngularTestabilities',
-        [],
-      ));
+      final testabilities = unsafeCast<List<Object?>>(
+        js_util.callMethod(registry[i]!, 'getAllAngularTestabilities', []),
+      );
 
       // We can't rely on testabilities being a Dart List, since it's read
       // from a JS variable. It might have been created from DDC.
@@ -123,11 +116,7 @@ class _JSTestabilityProxy implements _TestabilityProxy {
     }
 
     for (var testability in testabilities) {
-      js_util.callMethod(
-        testability!,
-        'whenStable',
-        [allowInterop(decrement)],
-      );
+      js_util.callMethod(testability!, 'whenStable', [allowInterop(decrement)]);
     }
   }
 

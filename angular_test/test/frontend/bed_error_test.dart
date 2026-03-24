@@ -46,15 +46,13 @@ void main() {
   });
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-)
+@Component(selector: 'test', template: '')
 class CatchSynchronousErrors {
   static Future<void> _runTest() async {
-    final fixture = await NgTestBed<CatchSynchronousErrors>(
-      ng.createCatchSynchronousErrorsFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<CatchSynchronousErrors>(
+          ng.createCatchSynchronousErrorsFactory(),
+        ).create();
     expect(
       fixture.update((_) => throw StateError('Test')),
       throwsA(isStateError),
@@ -62,15 +60,13 @@ class CatchSynchronousErrors {
   }
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-)
+@Component(selector: 'test', template: '')
 class CatchAsynchronousErrors {
   static Future<void> _runTest() async {
-    final fixture = await NgTestBed<CatchAsynchronousErrors>(
-      ng.createCatchAsynchronousErrorsFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<CatchAsynchronousErrors>(
+          ng.createCatchAsynchronousErrorsFactory(),
+        ).create();
     expect(
       fixture.update((_) => Future.error(StateError('Test'))),
       throwsA(isStateError),
@@ -78,19 +74,13 @@ class CatchAsynchronousErrors {
   }
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-)
+@Component(selector: 'test', template: '')
 class CatchConstructorErrors {
   static Future<void> _runTest() async {
     final testBed = NgTestBed<CatchConstructorErrors>(
       ng.createCatchConstructorErrorsFactory(),
     );
-    expect(
-      testBed.create(),
-      throwsA(isStateError),
-    );
+    expect(testBed.create(), throwsA(isStateError));
   }
 
   CatchConstructorErrors() {
@@ -98,19 +88,13 @@ class CatchConstructorErrors {
   }
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-)
+@Component(selector: 'test', template: '')
 class CatchConstructorAsyncErrors {
   static Future<void> _runTest() async {
     final testBed = NgTestBed<CatchConstructorAsyncErrors>(
       ng.createCatchConstructorAsyncErrorsFactory(),
     );
-    expect(
-      testBed.create(),
-      throwsA(isStateError),
-    );
+    expect(testBed.create(), throwsA(isStateError));
   }
 
   CatchConstructorAsyncErrors() {
@@ -126,9 +110,10 @@ class CatchConstructorAsyncErrors {
 )
 class CatchNativeEventSynchronousErrors {
   static Future<void> _runTest() async {
-    final fixture = await NgTestBed<CatchNativeEventSynchronousErrors>(
-      ng.createCatchNativeEventSynchronousErrorsFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<CatchNativeEventSynchronousErrors>(
+          ng.createCatchNativeEventSynchronousErrorsFactory(),
+        ).create();
     expect(
       fixture.update((_) {
         fixture.rootElement.querySelector('button')!.click();
@@ -148,9 +133,10 @@ class CatchNativeEventSynchronousErrors {
 )
 class CatchNativeEventAsynchronousErrors {
   static Future<void> _runTest() async {
-    final fixture = await NgTestBed<CatchNativeEventSynchronousErrors>(
-      ng.createCatchNativeEventSynchronousErrorsFactory(),
-    ).create();
+    final fixture =
+        await NgTestBed<CatchNativeEventSynchronousErrors>(
+          ng.createCatchNativeEventSynchronousErrorsFactory(),
+        ).create();
     expect(
       fixture.update((_) {
         fixture.rootElement.querySelector('button')!.click();
@@ -164,19 +150,13 @@ class CatchNativeEventAsynchronousErrors {
   }
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-)
+@Component(selector: 'test', template: '')
 class CatchOnInitErrors implements OnInit {
   static Future<void> _runTest() async {
     final testBed = NgTestBed<CatchOnInitErrors>(
       ng.createCatchOnInitErrorsFactory(),
     );
-    expect(
-      testBed.create(),
-      throwsA(isStateError),
-    );
+    expect(testBed.create(), throwsA(isStateError));
   }
 
   @override
@@ -192,22 +172,17 @@ class CatchOnInitErrors implements OnInit {
 )
 class CatchInChangeDetection {
   static Future<void> _runTest() async {
-    final fixture = await NgTestBed<CatchInChangeDetection>(
-      ng.createCatchInChangeDetectionFactory(),
-    ).create();
-    expect(
-      fixture.update((c) => c.value = true),
-      throwsA(isStateError),
-    );
+    final fixture =
+        await NgTestBed<CatchInChangeDetection>(
+          ng.createCatchInChangeDetectionFactory(),
+        ).create();
+    expect(fixture.update((c) => c.value = true), throwsA(isStateError));
   }
 
   bool value = false;
 }
 
-@Component(
-  selector: 'child',
-  template: '',
-)
+@Component(selector: 'child', template: '')
 class ChildChangeDetectionError {
   @Input()
   set trueToError(bool trueToError) {
@@ -217,20 +192,16 @@ class ChildChangeDetectionError {
   }
 }
 
-@Component(
-  selector: 'test',
-  template: '<h1>Hello {{name}}</h1>',
-)
+@Component(selector: 'test', template: '<h1>Hello {{name}}</h1>')
 class NoExceptionsSwallowedTest {
   static Future<void> _runTest() async {
     final simpleHandler = _CapturingExceptionHandler();
-    final fixture = await NgTestBed<NoExceptionsSwallowedTest>(
-      ng.createNoExceptionsSwallowedTestFactory(),
-      rootInjector: (i) => Injector.map(
-        {ExceptionHandler: simpleHandler},
-        i,
-      ),
-    ).create();
+    final fixture =
+        await NgTestBed<NoExceptionsSwallowedTest>(
+          ng.createNoExceptionsSwallowedTestFactory(),
+          rootInjector:
+              (i) => Injector.map({ExceptionHandler: simpleHandler}, i),
+        ).create();
 
     expect(fixture.text, 'Hello Angular');
     await fixture.update((c) => c.name = 'World');

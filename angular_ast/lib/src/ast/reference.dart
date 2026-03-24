@@ -10,10 +10,8 @@ import '../visitor.dart';
 /// Clients should not extend, implement, or mix-in this class.
 abstract mixin class ReferenceAst implements TemplateAst {
   /// Create a new synthetic reference of [variable].
-  factory ReferenceAst(
-    String variable, [
-    String identifier,
-  ]) = _SyntheticReferenceAst;
+  factory ReferenceAst(String variable, [String identifier]) =
+      _SyntheticReferenceAst;
 
   /// Create a new synthetic reference of [variable] from AST node [origin].
   factory ReferenceAst.from(
@@ -97,10 +95,10 @@ class ParsedReferenceAst extends TemplateAst
     this.valueToken,
     this.equalSignToken,
   ]) : super.parsed(
-          prefixToken,
-          valueToken != null ? valueToken.rightQuote : nameToken,
-          sourceFile,
-        );
+         prefixToken,
+         valueToken != null ? valueToken.rightQuote : nameToken,
+         sourceFile,
+       );
 
   /// Offset of `variable` in `#variable="identifier"`.
   @override

@@ -14,14 +14,15 @@ const _i18nIndexForMeaning = 2;
 const _i18nIndexForSkip = 3;
 const _i18nIndexForAttribute = 4;
 final i18nRegExp = RegExp(
-    // Matches i18n prefix.
-    'i18n'
-    // Captures optional i18n parameter name.
-    r'(?:\.(?:(locale)|(meaning)|(skip)))?'
-    // Captures an attribute name following `:`, or matches end of input. This
-    // intentionally matches an empty attribute name so that it may be reported
-    // as an error when there's inevitably no matching attribute.
-    r'(?::(.*)|$)');
+  // Matches i18n prefix.
+  'i18n'
+  // Captures optional i18n parameter name.
+  r'(?:\.(?:(locale)|(meaning)|(skip)))?'
+  // Captures an attribute name following `:`, or matches end of input. This
+  // intentionally matches an empty attribute name so that it may be reported
+  // as an error when there's inevitably no matching attribute.
+  r'(?::(.*)|$)',
+);
 
 /// Matches any adjacent whitespace.
 final _whitespaceRegExp = RegExp(r'\s+');
@@ -193,10 +194,12 @@ class _I18nMetadataBuilder {
         _parameterRegExp,
         '',
       );
-      CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-        annotation.sourceSpan,
-        'A corresponding message description (@$descriptionName) is required',
-      ));
+      CompileContext.current.reportAndRecover(
+        BuildError.forSourceSpan(
+          annotation.sourceSpan,
+          'A corresponding message description (@$descriptionName) is required',
+        ),
+      );
     }
   }
 }

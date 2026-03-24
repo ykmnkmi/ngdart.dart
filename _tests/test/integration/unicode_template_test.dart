@@ -11,11 +11,7 @@ void main() {
     final fixture = await testBed.create();
     expect(
       fixture.text,
-      allOf([
-        contains('🎂'),
-        contains('ΓΔ'),
-        contains('↔↕'),
-      ]),
+      allOf([contains('🎂'), contains('ΓΔ'), contains('↔↕')]),
     );
   });
 }

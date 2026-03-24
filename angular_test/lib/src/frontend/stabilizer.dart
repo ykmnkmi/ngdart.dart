@@ -11,26 +11,26 @@ typedef NgTestStabilizerFactory = NgTestStabilizer Function(Injector);
 ///
 /// In the future we can consider opening up visibility, but for now we should
 /// ensure that only our own stabilizers have access to this specific zone hook.
-typedef AllowTimerHookZoneAccess = NgTestStabilizer Function(
-  Injector, [
-  TimerHookZone?,
-]);
+typedef AllowTimerHookZoneAccess =
+    NgTestStabilizer Function(Injector, [TimerHookZone?]);
 
 /// Returns a composed sequence of [factories] as a single stabilizer.
 NgTestStabilizerFactory composeStabilizers(
   Iterable<NgTestStabilizerFactory> factories,
 ) {
   return (Injector injector, [TimerHookZone? zone]) {
-    return _DelegatingNgTestStabilizer(factories.map((f) {
-      // Most (i.e. all user-land) stabilizers do not have access to the
-      // "secret" TimerHookZone. Only functions that are defined within this
-      // package may have them, so we pass the zone to those functions only.
-      if (f is AllowTimerHookZoneAccess) {
-        return f(injector, zone);
-      }
-      // All other factories just are given an injector.
-      return f(injector);
-    }));
+    return _DelegatingNgTestStabilizer(
+      factories.map((f) {
+        // Most (i.e. all user-land) stabilizers do not have access to the
+        // "secret" TimerHookZone. Only functions that are defined within this
+        // package may have them, so we pass the zone to those functions only.
+        if (f is AllowTimerHookZoneAccess) {
+          return f(injector, zone);
+        }
+        // All other factories just are given an injector.
+        return f(injector);
+      }),
+    );
   };
 }
 
@@ -142,7 +142,7 @@ class _DelegatingNgTestStabilizer extends NgTestStabilizer {
   bool _updatedAtLeastOnce = false;
 
   _DelegatingNgTestStabilizer(Iterable<NgTestStabilizer> stabilizers)
-      : _delegates = stabilizers.toList(growable: false);
+    : _delegates = stabilizers.toList(growable: false);
 
   @override
   bool get isStable => _delegates.every((delegate) => delegate.isStable);

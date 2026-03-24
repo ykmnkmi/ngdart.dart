@@ -22,11 +22,7 @@ void main() {
     final template = TemplateElement()..append(DivElement());
     final testBed = NgTestBed<MovesEmbeddedViewComponent>(
       ng.createMovesEmbeddedViewComponentFactory(),
-    ).addInjector(
-      (i) => Injector.map({
-        ANCHOR_ELEMENT: template,
-      }, i),
-    );
+    ).addInjector((i) => Injector.map({ANCHOR_ELEMENT: template}, i));
     final testFixture = await testBed.create();
     final viewport = testFixture.assertOnlyInstance.viewport!;
     expect(viewport.anchor.text, '');
@@ -44,15 +40,17 @@ void main() {
       await testBed.create();
     });
 
-    test("shouldn't be created when a directive property has the same name",
-        () async {
-      final testBed = NgTestBed<OverriddenPropertyComponent>(
-        ng.createOverriddenPropertyComponentFactory(),
-      );
-      final testFixture = await testBed.create();
-      final span = testFixture.rootElement.querySelector('span');
-      expect(span!.title, isEmpty);
-    });
+    test(
+      "shouldn't be created when a directive property has the same name",
+      () async {
+        final testBed = NgTestBed<OverriddenPropertyComponent>(
+          ng.createOverriddenPropertyComponentFactory(),
+        );
+        final testFixture = await testBed.create();
+        final span = testFixture.rootElement.querySelector('span');
+        expect(span!.title, isEmpty);
+      },
+    );
 
     test('should allow directive host property to update DOM', () async {
       final testBed = NgTestBed<DirectiveUpdatesDomComponent>(
@@ -147,17 +145,16 @@ void main() {
       final testFixture = await testBed.create();
       final use = testFixture.rootElement.querySelector('use')!;
       expect(
-          use.getAttributeNS('http://www.w3.org/1999/xlink', 'href'), isNull);
+        use.getAttributeNS('http://www.w3.org/1999/xlink', 'href'),
+        isNull,
+      );
       await testFixture.update((component) => component.value = '#id');
       expect(use.getAttributeNS('http://www.w3.org/1999/xlink', 'href'), '#id');
     });
   });
 }
 
-@Component(
-  selector: 'simple-imp-cmp',
-  template: '',
-)
+@Component(selector: 'simple-imp-cmp', template: '')
 class SimpleImperativeViewComponent {
   SimpleImperativeViewComponent(Element hostElement) {
     hostElement.append(Text('hello imp view'));
@@ -166,9 +163,7 @@ class SimpleImperativeViewComponent {
 
 const ANCHOR_ELEMENT = OpaqueToken('AnchorElement');
 
-@Directive(
-  selector: '[someImpvp]',
-)
+@Directive(selector: '[someImpvp]')
 class SomeImperativeViewport {
   ViewContainerRef vc;
   TemplateRef templateRef;
@@ -176,7 +171,10 @@ class SomeImperativeViewport {
   TemplateElement anchor;
 
   SomeImperativeViewport(
-      this.vc, this.templateRef, @Inject(ANCHOR_ELEMENT) this.anchor);
+    this.vc,
+    this.templateRef,
+    @Inject(ANCHOR_ELEMENT) this.anchor,
+  );
 
   @Input()
   set someImpvp(bool value) {
@@ -206,9 +204,7 @@ class MovesEmbeddedViewComponent {
   SomeImperativeViewport? viewport;
 }
 
-@Directive(
-  selector: '[has-property]',
-)
+@Directive(selector: '[has-property]')
 class PropertyDirective {
   @Input('property')
   String? value;
@@ -223,9 +219,7 @@ class UnknownPropertyOnDirectiveComponent {
   String value = 'Hello world!';
 }
 
-@Directive(
-  selector: '[title]',
-)
+@Directive(selector: '[title]')
 class DirectiveWithTitle {
   @Input()
   String? title;
@@ -240,9 +234,7 @@ class OverriddenPropertyComponent {
   String name = 'TITLE';
 }
 
-@Directive(
-  selector: '[title]',
-)
+@Directive(selector: '[title]')
 class DirectiveWithTitleAndHostProperty {
   @HostBinding()
   @Input()
@@ -258,9 +250,7 @@ class DirectiveUpdatesDomComponent {
   String name = 'TITLE';
 }
 
-@Directive(
-  selector: 'with-prop-decorators',
-)
+@Directive(selector: 'with-prop-decorators')
 class DirectiveWithPropDecorators {
   final StreamController<String> _streamController = StreamController<String>();
   Element? target;

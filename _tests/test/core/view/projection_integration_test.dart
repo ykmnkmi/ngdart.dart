@@ -10,11 +10,11 @@ void main() {
   group('projection', () {
     tearDown(disposeAnyRunningTest);
 
-    test(
-        'should support projecting text interpolation to a non bound '
+    test('should support projecting text interpolation to a non bound '
         'element with other bound elements after it', () async {
       var testBed = NgTestBed<NonBoundInterpolationTest>(
-          ng.createNonBoundInterpolationTestFactory());
+        ng.createNonBoundInterpolationTestFactory(),
+      );
       var fixture = await testBed.create();
       await fixture.update((component) {
         component.text = 'A';
@@ -23,33 +23,40 @@ void main() {
     });
     test('should project content components', () async {
       var testBed = NgTestBed<ProjectComponentTest>(
-          ng.createProjectComponentTestFactory());
+        ng.createProjectComponentTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'SIMPLE(0|1|2)');
     });
-    test('should not show the light dom even if there is no content tag',
-        () async {
-      var testBed = NgTestBed<NoLightDomTest>(ng.createNoLightDomTestFactory());
-      var fixture = await testBed.create();
-      expect(fixture.text, isEmpty);
-    });
+    test(
+      'should not show the light dom even if there is no content tag',
+      () async {
+        var testBed = NgTestBed<NoLightDomTest>(
+          ng.createNoLightDomTestFactory(),
+        );
+        var fixture = await testBed.create();
+        expect(fixture.text, isEmpty);
+      },
+    );
     test('should support multiple content tags', () async {
       var testBed = NgTestBed<MultipleContentTagsTest>(
-          ng.createMultipleContentTagsTestFactory());
+        ng.createMultipleContentTagsTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, '(A, BC)');
     });
     test('should redistribute only direct children', () async {
       var testBed = NgTestBed<OnlyDirectChildrenTest>(
-          ng.createOnlyDirectChildrenTestFactory());
+        ng.createOnlyDirectChildrenTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, '(, BAC)');
     });
-    test(
-        'should redistribute direct child viewcontainers '
+    test('should redistribute direct child viewcontainers '
         'when the light dom changes', () async {
-      var testBed =
-          NgTestBed<LightDomChangeTest>(ng.createLightDomChangeTestFactory());
+      var testBed = NgTestBed<LightDomChangeTest>(
+        ng.createLightDomChangeTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, '(, B)');
       await fixture.update((component) {
@@ -62,16 +69,17 @@ void main() {
       expect(fixture.text, '(, B)');
     });
     test('should support nested components', () async {
-      var testBed =
-          NgTestBed<NestedComponentTest>(ng.createNestedComponentTestFactory());
+      var testBed = NgTestBed<NestedComponentTest>(
+        ng.createNestedComponentTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'OUTER(SIMPLE(AB))');
     });
-    test(
-        'should support nesting with content being '
+    test('should support nesting with content being '
         'direct child of a nested component', () async {
       var testBed = NgTestBed<NestedDirectChildTest>(
-          ng.createNestedDirectChildTestFactory());
+        ng.createNestedDirectChildTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'OUTER(INNER(INNERINNER(,BC)))');
       await fixture.update((component) {
@@ -80,8 +88,9 @@ void main() {
       expect(fixture.text, 'OUTER(INNER(INNERINNER(A,BC)))');
     });
     test('should redistribute when the shadow dom changes', () async {
-      var testBed =
-          NgTestBed<ShadowDomChangeTest>(ng.createShadowDomChangeTestFactory());
+      var testBed = NgTestBed<ShadowDomChangeTest>(
+        ng.createShadowDomChangeTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, '(, BC)');
       await fixture.update((component) {
@@ -95,30 +104,35 @@ void main() {
     });
     test('should support text nodes after content tags', () async {
       var testBed = NgTestBed<TextNodeAfterContentTest>(
-          ng.createTextNodeAfterContentTestFactory());
+        ng.createTextNodeAfterContentTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'P,text');
     });
     test('should support text nodes after style tags', () async {
       var testBed = NgTestBed<TextNodeAfterStyleTest>(
-          ng.createTextNodeAfterStyleTestFactory());
+        ng.createTextNodeAfterStyleTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'P,text');
     });
     test('should support moving non projected light dom around', () async {
-      var testBed =
-          NgTestBed<MoveLightDomTest>(ng.createMoveLightDomTestFactory());
+      var testBed = NgTestBed<MoveLightDomTest>(
+        ng.createMoveLightDomTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'START()END');
       await fixture.update((component) {
-        component.projectDirective!
-            .show(component.manualViewportDirective!.templateRef);
+        component.projectDirective!.show(
+          component.manualViewportDirective!.templateRef,
+        );
       });
       expect(fixture.text, 'START(A)END');
     });
     test('should support moving project light dom around', () async {
       var testBed = NgTestBed<MoveProjectedLightDomTest>(
-          ng.createMoveProjectedLightDomTestFactory());
+        ng.createMoveProjectedLightDomTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'SIMPLE()START()END');
       await fixture.update((component) {
@@ -127,20 +141,23 @@ void main() {
       expect(fixture.text, 'SIMPLE()START(A)END');
     });
     test('should support moving ng-content around', () async {
-      var testBed =
-          NgTestBed<MoveNgContentTest>(ng.createMoveNgContentTestFactory());
+      var testBed = NgTestBed<MoveNgContentTest>(
+        ng.createMoveNgContentTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, '(, B)START()END');
       await fixture.update((component) {
-        component.projectDirective!
-            .show(component.conditional!.viewport!.templateRef);
+        component.projectDirective!.show(
+          component.conditional!.viewport!.templateRef,
+        );
       });
       expect(fixture.text, '(, B)START(A)END');
       // Stamping ng-content multiple times should not produce the content
       // multiple times.
       await fixture.update((MoveNgContentTest component) {
-        component.projectDirective!
-            .show(component.conditional!.viewport!.templateRef);
+        component.projectDirective!.show(
+          component.conditional!.viewport!.templateRef,
+        );
       });
       expect(fixture.text, '(, B)START(A)END');
     });
@@ -148,8 +165,9 @@ void main() {
     // Note: This does not use a ng-content element, but is still important as
     // we are merging proto views independent of the presence of ng-content.
     test('should still allow to implement recursive trees', () async {
-      var testBed =
-          NgTestBed<RecursiveTreeTest>(ng.createRecursiveTreeTestFactory());
+      var testBed = NgTestBed<RecursiveTreeTest>(
+        ng.createRecursiveTreeTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'TREE(0:)');
       await fixture.update((component) {
@@ -157,11 +175,11 @@ void main() {
       });
       expect(fixture.text, 'TREE(0:TREE(1:))');
     });
-    test(
-        'should still allow to implement a recursive '
+    test('should still allow to implement a recursive '
         'tree via multiple components', () async {
       var testBed = NgTestBed<RecursiveTreeMultipleComponentTest>(
-          ng.createRecursiveTreeMultipleComponentTestFactory());
+        ng.createRecursiveTreeMultipleComponentTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(fixture.text, 'TREE(0:)');
       await fixture.update((component) {
@@ -173,62 +191,75 @@ void main() {
       });
       expect(fixture.text, 'TREE(0:TREE2(1:TREE(2:)))');
     });
-    test('should support nested conditionals that contain ng-contents',
-        () async {
-      var testBed = NgTestBed<NestedConditionalTest>(
-          ng.createNestedConditionalTestFactory());
-      var fixture = await testBed.create();
-      expect(fixture.text, 'MAIN()');
-      await fixture.update((component) {
-        component.conditional!.viewports!.first.show();
-      });
-      expect(fixture.text, 'MAIN(FIRST())');
-      await fixture.update((component) {
-        component.conditional!.viewports![1].show();
-      });
-      expect(fixture.text, 'MAIN(FIRST(SECOND(a)))');
-    });
-    test('should allow to switch the order of nested components via ng-content',
-        () async {
-      var testBed =
-          NgTestBed<SwitchOrderTest>(ng.createSwitchOrderTestFactory());
-      var fixture = await testBed.create();
-      expect(
+    test(
+      'should support nested conditionals that contain ng-contents',
+      () async {
+        var testBed = NgTestBed<NestedConditionalTest>(
+          ng.createNestedConditionalTestFactory(),
+        );
+        var fixture = await testBed.create();
+        expect(fixture.text, 'MAIN()');
+        await fixture.update((component) {
+          component.conditional!.viewports!.first.show();
+        });
+        expect(fixture.text, 'MAIN(FIRST())');
+        await fixture.update((component) {
+          component.conditional!.viewports![1].show();
+        });
+        expect(fixture.text, 'MAIN(FIRST(SECOND(a)))');
+      },
+    );
+    test(
+      'should allow to switch the order of nested components via ng-content',
+      () async {
+        var testBed = NgTestBed<SwitchOrderTest>(
+          ng.createSwitchOrderTestFactory(),
+        );
+        var fixture = await testBed.create();
+        expect(
           fixture.rootElement.innerHtml,
           '<cmp-a><cmp-b><cmp-d><d>cmp-d</d></cmp-d></cmp-b>'
-          '<cmp-c><c>cmp-c</c></cmp-c></cmp-a>');
-    });
+          '<cmp-c><c>cmp-c</c></cmp-c></cmp-a>',
+        );
+      },
+    );
     test('should create nested components in the right order', () async {
-      var testBed =
-          NgTestBed<CorrectOrderTest>(ng.createCorrectOrderTestFactory());
+      var testBed = NgTestBed<CorrectOrderTest>(
+        ng.createCorrectOrderTestFactory(),
+      );
       var fixture = await testBed.create();
       expect(
-          fixture.rootElement.innerHtml,
-          '<cmp-a1>a1<cmp-b11>b11</cmp-b11><cmp-b12>b12</cmp-b12></cmp-a1>'
-          '<cmp-a2>a2<cmp-b21>b21</cmp-b21><cmp-b22>b22</cmp-b22></cmp-a2>');
+        fixture.rootElement.innerHtml,
+        '<cmp-a1>a1<cmp-b11>b11</cmp-b11><cmp-b12>b12</cmp-b12></cmp-a1>'
+        '<cmp-a2>a2<cmp-b21>b21</cmp-b21><cmp-b22>b22</cmp-b22></cmp-a2>',
+      );
     });
-    test('should project filled view containers into a view container',
-        () async {
-      var testBed = NgTestBed<NestedProjectionTest>(
-          ng.createNestedProjectionTestFactory());
-      var fixture = await testBed.create();
-      expect(fixture.text, '(, D)');
-      await fixture.update((component) {
-        component.conditional!.viewport!.show();
-      });
-      expect(fixture.text, '(AC, D)');
-      await fixture.update((component) {
-        component.viewport!.show();
-      });
-      expect(fixture.text, '(ABC, D)');
-      await fixture.update((component) {
-        component.conditional!.viewport!.hide();
-      });
-      expect(fixture.text, '(, D)');
-    });
+    test(
+      'should project filled view containers into a view container',
+      () async {
+        var testBed = NgTestBed<NestedProjectionTest>(
+          ng.createNestedProjectionTestFactory(),
+        );
+        var fixture = await testBed.create();
+        expect(fixture.text, '(, D)');
+        await fixture.update((component) {
+          component.conditional!.viewport!.show();
+        });
+        expect(fixture.text, '(AC, D)');
+        await fixture.update((component) {
+          component.viewport!.show();
+        });
+        expect(fixture.text, '(ABC, D)');
+        await fixture.update((component) {
+          component.conditional!.viewport!.hide();
+        });
+        expect(fixture.text, '(, D)');
+      },
+    );
     test('should support <ng-content> as root of an embedded view', () async {
-      final testBed =
-          NgTestBed<TestNgIfNgContent>(ng.createTestNgIfNgContentFactory());
+      final testBed = NgTestBed<TestNgIfNgContent>(
+        ng.createTestNgIfNgContentFactory(),
+      );
       final fixture = await testBed.create();
       expect(fixture.text, 'Hello world!');
     });
@@ -246,7 +277,8 @@ class NonBoundInterpolationTest {
 
 @Component(
   selector: 'simple',
-  template: 'SIMPLE('
+  template:
+      'SIMPLE('
       '<div><ng-content></ng-content></div>'
       '<div [tabIndex]="0">EL</div>)',
 )
@@ -267,10 +299,7 @@ class ProjectComponentTest {}
 )
 class ProjectComponentSimple {}
 
-@Component(
-  selector: 'other',
-  template: '{{1}}',
-)
+@Component(selector: 'other', template: '{{1}}')
 class ProjectComponentOther {}
 
 @Component(
@@ -282,7 +311,8 @@ class NoLightDomTest {}
 
 @Component(
   selector: 'multiple-content-tags-test',
-  template: '<multiple-content-tags>'
+  template:
+      '<multiple-content-tags>'
       '<div>B</div>'
       '<div>C</div>'
       '<div class="left">A</div>'
@@ -293,7 +323,8 @@ class MultipleContentTagsTest {}
 
 @Component(
   selector: 'only-direct-children-test',
-  template: '<multiple-content-tags>'
+  template:
+      '<multiple-content-tags>'
       '<div>B<div class="left">A</div></div>'
       '<div>C</div>'
       '</multiple-content-tags>',
@@ -303,7 +334,8 @@ class OnlyDirectChildrenTest {}
 
 @Component(
   selector: 'light-dom-change-test',
-  template: '<multiple-content-tags>'
+  template:
+      '<multiple-content-tags>'
       '<template manual class="left"><div>A1</div></template>'
       '<div>B</div>'
       '</multiple-content-tags>',
@@ -316,7 +348,8 @@ class LightDomChangeTest {
 
 @Component(
   selector: 'nested-component-test',
-  template: '<outer-with-indirect-nested>'
+  template:
+      '<outer-with-indirect-nested>'
       '<div>A</div>'
       '<div>B</div>'
       '</outer-with-indirect-nested>',
@@ -326,7 +359,8 @@ class NestedComponentTest {}
 
 @Component(
   selector: 'nested-direct-child-test',
-  template: '<outer>'
+  template:
+      '<outer>'
       '<template manual class="left"><div>A</div></template>'
       '<div>B</div>'
       '<div>C</div>'
@@ -340,7 +374,8 @@ class NestedDirectChildTest {
 
 @Component(
   selector: 'shadow-dom-change-test',
-  template: '<conditional-content>'
+  template:
+      '<conditional-content>'
       '<div class="left">A</div>'
       '<div>B</div>'
       '<div>C</div>'
@@ -386,7 +421,8 @@ class TextNodeAfterStyleComponent {
 
 @Component(
   selector: 'move-light-dom-test',
-  template: '<empty>'
+  template:
+      '<empty>'
       '  <template manual><div>A</div></template>'
       '</empty>'
       'START(<div project></div>)END',
@@ -402,7 +438,8 @@ class MoveLightDomTest {
 
 @Component(
   selector: 'move-projected-light-dom-test',
-  template: '<simple><template manual><div>A</div></template></simple>'
+  template:
+      '<simple><template manual><div>A</div></template></simple>'
       'START(<div project></div>)END',
   directives: [Simple, ManualViewportDirective, ProjectDirective],
 )
@@ -416,7 +453,8 @@ class MoveProjectedLightDomTest {
 
 @Component(
   selector: 'move-ng-content-test',
-  template: '<conditional-content>'
+  template:
+      '<conditional-content>'
       '<div class="left">A</div>'
       '<div>B</div>'
       '</conditional-content>'
@@ -477,7 +515,8 @@ class CorrectOrderTest {}
 
 @Component(
   selector: 'nested-projection-test',
-  template: '<conditional-content>'
+  template:
+      '<conditional-content>'
       '<div class="left">A</div>'
       '<template manual class="left">B</template>'
       '<div class="left">C</div>'
@@ -503,11 +542,7 @@ class Simple {
   String stringProp = '';
 }
 
-@Component(
-  selector: 'empty',
-  template: '',
-  directives: [],
-)
+@Component(selector: 'empty', template: '', directives: [])
 class Empty {}
 
 @Component(
@@ -518,9 +553,7 @@ class Empty {}
 )
 class MultipleContentTagsComponent {}
 
-@Directive(
-  selector: '[manual]',
-)
+@Directive(selector: '[manual]')
 class ManualViewportDirective {
   ViewContainerRef vc;
   TemplateRef templateRef;
@@ -536,9 +569,7 @@ class ManualViewportDirective {
   }
 }
 
-@Directive(
-  selector: '[project]',
-)
+@Directive(selector: '[project]')
 class ProjectDirective {
   ViewContainerRef vc;
   ProjectDirective(this.vc);
@@ -560,7 +591,8 @@ class OuterWithIndirectNestedComponent {}
 
 @Component(
   selector: 'outer',
-  template: 'OUTER(<inner>'
+  template:
+      'OUTER(<inner>'
       '<ng-content select=".left" ngProjectAs=".left"></ng-content>'
       '<ng-content></ng-content>'
       '</inner>)',
@@ -570,7 +602,8 @@ class OuterComponent {}
 
 @Component(
   selector: 'inner',
-  template: 'INNER(<innerinner>'
+  template:
+      'INNER(<innerinner>'
       '<ng-content select=".left" ngProjectAs=".left"></ng-content>'
       '<ng-content></ng-content></innerinner>)',
   directives: [InnerInnerComponent],
@@ -579,7 +612,8 @@ class InnerComponent {}
 
 @Component(
   selector: 'innerinner',
-  template: 'INNERINNER('
+  template:
+      'INNERINNER('
       '<ng-content select=".left"></ng-content>,'
       '<ng-content></ng-content>)',
   directives: [],
@@ -588,7 +622,8 @@ class InnerInnerComponent {}
 
 @Component(
   selector: 'conditional-content',
-  template: '<div>(<div *manual>'
+  template:
+      '<div>(<div *manual>'
       '<ng-content select=".left"></ng-content></div>,&ngsp;'
       '<ng-content></ng-content>)</div>',
   directives: [ManualViewportDirective],
@@ -600,7 +635,8 @@ class ConditionalContentComponent {
 
 @Component(
   selector: 'conditional-text',
-  template: 'MAIN(<template manual>'
+  template:
+      'MAIN(<template manual>'
       'FIRST(<template manual>SECOND(<ng-content></ng-content>)</template>)'
       '</template>)',
   directives: [ManualViewportDirective],
@@ -684,32 +720,16 @@ class CmpB {}
 )
 class CmpA {}
 
-@Component(
-  selector: 'cmp-b11',
-  template: '{{\'b11\'}}',
-  directives: [],
-)
+@Component(selector: 'cmp-b11', template: '{{\'b11\'}}', directives: [])
 class CmpB11 {}
 
-@Component(
-  selector: 'cmp-b12',
-  template: '{{\'b12\'}}',
-  directives: [],
-)
+@Component(selector: 'cmp-b12', template: '{{\'b12\'}}', directives: [])
 class CmpB12 {}
 
-@Component(
-  selector: 'cmp-b21',
-  template: '{{\'b21\'}}',
-  directives: [],
-)
+@Component(selector: 'cmp-b21', template: '{{\'b21\'}}', directives: [])
 class CmpB21 {}
 
-@Component(
-  selector: 'cmp-b22',
-  template: '{{\'b22\'}}',
-  directives: [],
-)
+@Component(selector: 'cmp-b22', template: '{{\'b22\'}}', directives: [])
 class CmpB22 {}
 
 @Component(

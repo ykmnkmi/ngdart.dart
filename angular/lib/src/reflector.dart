@@ -38,7 +38,7 @@ export 'meta.dart'
 // already considered the "slow" path, this isn't a regression.
 //
 // TODO(b/161737141): If `di.dart` is removed first, type this API.
-final _components = <Object, Object /*ComponentFactory*/ >{};
+final _components = <Object, Object /*ComponentFactory*/>{};
 
 /// Registers [component] as the static factory for [type].
 ///
@@ -53,7 +53,8 @@ void registerComponent(Type type, Object /*ComponentFactory*/ component) {
 /// Returns the static factory for [type].
 ///
 /// TODO(b/161737141): If `di.dart` is removed first, type this API.
-/*ComponentFactory*/ dynamic getComponent(Type type) {
+/*ComponentFactory*/
+dynamic getComponent(Type type) {
   final component = _components[type];
   if (component == null) {
     throw StateError('Could not find a component factory for $type.');

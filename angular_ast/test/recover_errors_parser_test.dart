@@ -3,10 +3,7 @@ import 'package:angular_ast/angular_ast.dart';
 
 final recoveringExceptionHandler = RecoveringExceptionHandler();
 
-List<StandaloneTemplateAst> parse(
-  String template, {
-  bool desugar = false,
-}) {
+List<StandaloneTemplateAst> parse(String template, {bool desugar = false}) {
   recoveringExceptionHandler.exceptions.clear();
   return const NgParser().parse(
     template,
@@ -188,52 +185,66 @@ void main() {
   });
 
   test('Should drop invalid decorators on ng-container', () {
-    final asts = parse('<ng-container '
-        '*star="expr" '
-        'attr="value" '
-        '[prop]="expr" '
-        '(event)="expr" '
-        'let-var="expr" '
-        '#ref '
-        '@annotation>'
-        '</ng-container>');
+    final asts = parse(
+      '<ng-container '
+      '*star="expr" '
+      'attr="value" '
+      '[prop]="expr" '
+      '(event)="expr" '
+      'let-var="expr" '
+      '#ref '
+      '@annotation>'
+      '</ng-container>',
+    );
     expect(asts, hasLength(1));
 
     final ngContainer = asts[0];
     expect(ngContainer, const TypeMatcher<ContainerAst>());
-    expect(astsToString(asts),
-        '<ng-container @annotation *star="expr"></ng-container>');
+    expect(
+      astsToString(asts),
+      '<ng-container @annotation *star="expr"></ng-container>',
+    );
 
     final exceptions = recoveringExceptionHandler.exceptions;
     expect(exceptions, hasLength(5));
 
     final attrException = exceptions[0];
-    expect(attrException.errorCode,
-        ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER);
+    expect(
+      attrException.errorCode,
+      ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER,
+    );
     expect(attrException.offset, 27);
     expect(attrException.length, 12);
 
     final propException = exceptions[1];
-    expect(propException.errorCode,
-        ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER);
+    expect(
+      propException.errorCode,
+      ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER,
+    );
     expect(propException.offset, 40);
     expect(propException.length, 13);
 
     final eventException = exceptions[2];
-    expect(eventException.errorCode,
-        ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER);
+    expect(
+      eventException.errorCode,
+      ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER,
+    );
     expect(eventException.offset, 54);
     expect(eventException.length, 14);
 
     final letException = exceptions[3];
-    expect(letException.errorCode,
-        ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER);
+    expect(
+      letException.errorCode,
+      ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER,
+    );
     expect(letException.offset, 69);
     expect(letException.length, 14);
 
     final refException = exceptions[4];
-    expect(refException.errorCode,
-        ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER);
+    expect(
+      refException.errorCode,
+      ParserErrorCode.INVALID_DECORATOR_IN_NGCONTAINER,
+    );
     expect(refException.offset, 84);
     expect(refException.length, 4);
   });
@@ -251,7 +262,9 @@ void main() {
     expect((ngContent as EmbeddedContentAst).closeComplement.isSynthetic, true);
 
     expect(
-        astsToString(asts), '<div><ng-content select="*"></ng-content></div>');
+      astsToString(asts),
+      '<div><ng-content select="*"></ng-content></div>',
+    );
 
     checkException(ParserErrorCode.NGCONTENT_MUST_CLOSE_IMMEDIATELY, 5, 12);
   });
@@ -267,9 +280,13 @@ void main() {
     expect(ngContent, TypeMatcher<EmbeddedContentAst>());
     expect(ngContent.isSynthetic, true);
     expect(
-        (ngContent as EmbeddedContentAst).closeComplement.isSynthetic, false);
+      (ngContent as EmbeddedContentAst).closeComplement.isSynthetic,
+      false,
+    );
     expect(
-        astsToString(asts), '<div><ng-content select="*"></ng-content></div>');
+      astsToString(asts),
+      '<div><ng-content select="*"></ng-content></div>',
+    );
 
     checkException(ParserErrorCode.DANGLING_CLOSE_ELEMENT, 5, 13);
   });
@@ -292,14 +309,20 @@ void main() {
 
     expect(ngcontent1.isSynthetic, false);
     expect(
-        (ngcontent1 as EmbeddedContentAst).closeComplement.isSynthetic, true);
+      (ngcontent1 as EmbeddedContentAst).closeComplement.isSynthetic,
+      true,
+    );
 
     expect(ngcontent2.isSynthetic, true);
     expect(
-        (ngcontent2 as EmbeddedContentAst).closeComplement.isSynthetic, false);
+      (ngcontent2 as EmbeddedContentAst).closeComplement.isSynthetic,
+      false,
+    );
 
-    expect(astsToString(asts),
-        '<ng-content select="*"></ng-content><div></div><ng-content select="*"></ng-content>');
+    expect(
+      astsToString(asts),
+      '<ng-content select="*"></ng-content><div></div><ng-content select="*"></ng-content>',
+    );
 
     var exceptions = recoveringExceptionHandler.exceptions;
     expect(exceptions.length, 2);
@@ -336,8 +359,10 @@ void main() {
   });
 
   test('Should resolve dangling open template', () {
-    var asts = parse('<div><template ngFor let-item [ngForOf]="items" '
-        'let-i="index"></div>');
+    var asts = parse(
+      '<div><template ngFor let-item [ngForOf]="items" '
+      'let-i="index"></div>',
+    );
     expect(asts.length, 1);
 
     var div = asts[0];
@@ -347,12 +372,15 @@ void main() {
     expect(template, TypeMatcher<EmbeddedTemplateAst>());
     expect(template.isSynthetic, false);
     expect(
-        (template as EmbeddedTemplateAst).closeComplement!.isSynthetic, true);
+      (template as EmbeddedTemplateAst).closeComplement!.isSynthetic,
+      true,
+    );
 
     expect(
-        astsToString(asts),
-        '<div><template ngFor [ngForOf]="items" let-item let-i="index">'
-        '</template></div>');
+      astsToString(asts),
+      '<div><template ngFor [ngForOf]="items" let-item let-i="index">'
+      '</template></div>',
+    );
 
     checkException(ParserErrorCode.CANNOT_FIND_MATCHING_CLOSE, 5, 57);
   });
@@ -368,23 +396,28 @@ void main() {
     expect(template, TypeMatcher<EmbeddedTemplateAst>());
     expect(template.isSynthetic, true);
     expect(
-        (template as EmbeddedTemplateAst).closeComplement!.isSynthetic, false);
+      (template as EmbeddedTemplateAst).closeComplement!.isSynthetic,
+      false,
+    );
     expect(astsToString(asts), '<div><template></template></div>');
 
     checkException(ParserErrorCode.DANGLING_CLOSE_ELEMENT, 5, 11);
   });
 
   test('Should handle template used with void end', () {
-    var asts = parse('<template ngFor let-item [ngForOf]="items" '
-        'let-i="index"/></template>');
+    var asts = parse(
+      '<template ngFor let-item [ngForOf]="items" '
+      'let-i="index"/></template>',
+    );
     expect(asts.length, 1);
 
     var ngContent = asts[0];
     expect(ngContent, TypeMatcher<EmbeddedTemplateAst>());
     expect(
-        astsToString(asts),
-        '<template ngFor [ngForOf]="items" let-item let-i="index">'
-        '</template>');
+      astsToString(asts),
+      '<template ngFor [ngForOf]="items" let-item let-i="index">'
+      '</template>',
+    );
 
     checkException(ParserErrorCode.NONVOID_ELEMENT_USING_VOID_END, 56, 2);
   });

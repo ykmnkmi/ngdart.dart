@@ -11,15 +11,23 @@ void main() {
   group('debugClearComponentStyles()', () {
     test('should clear component styles from DOM', () async {
       await expectTextFontStyle(
-          ng.createItalicTextComponentFactory(), 'italic');
+        ng.createItalicTextComponentFactory(),
+        'italic',
+      );
       await expectTextFontStyle(
-          ng.createNormalTextComponentFactory(), 'normal');
+        ng.createNormalTextComponentFactory(),
+        'normal',
+      );
     });
     test('should allow reloading the same component styles', () async {
       await expectTextFontStyle(
-          ng.createItalicTextComponentFactory(), 'italic');
+        ng.createItalicTextComponentFactory(),
+        'italic',
+      );
       await expectTextFontStyle(
-          ng.createItalicTextComponentFactory(), 'italic');
+        ng.createItalicTextComponentFactory(),
+        'italic',
+      );
     });
   });
 }
@@ -50,8 +58,5 @@ Future<void> expectTextFontStyle(
 )
 class ItalicTextComponent {}
 
-@Component(
-  selector: 'test',
-  template: '<p class="text"></p>',
-)
+@Component(selector: 'test', template: '<p class="text"></p>')
 class NormalTextComponent {}

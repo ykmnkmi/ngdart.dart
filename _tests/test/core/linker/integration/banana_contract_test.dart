@@ -49,9 +49,7 @@ void main() {
 
 @Component(
   selector: 'rejection-case',
-  directives: [
-    ExampleInputComponent,
-  ],
+  directives: [ExampleInputComponent],
   template: r'''
     <example-input [(value)]="value"></example-input>
   ''',
@@ -75,10 +73,7 @@ class RejectionCaseComponent {
   ExampleInputComponent? input;
 }
 
-@Component(
-  selector: 'example-input',
-  template: '',
-)
+@Component(selector: 'example-input', template: '')
 class ExampleInputComponent {
   final _valueChange = StreamController<bool>.broadcast();
 

@@ -93,10 +93,7 @@ void _runTests(ExpressionParser Function() createParser) {
         checkAction('-1', '0 - 1');
       });
       test('should fail to parse unary + expressions', () {
-        expectActionError(
-          '+1',
-          _throwsParseException,
-        );
+        expectActionError('+1', _throwsParseException);
       });
       test('should parse unary ! expressions', () {
         checkAction('!true');
@@ -218,23 +215,17 @@ void _runTests(ExpressionParser Function() createParser) {
       });
       test('should throw when encountering interpolation', () {
         expectActionError(
-            '{{a()}}',
-            throwsWith(
-                'Got interpolation ({{}}) where expression was expected'));
+          '{{a()}}',
+          throwsWith('Got interpolation ({{}}) where expression was expected'),
+        );
       });
       test('should not support multiple statements', () {
-        expect(
-          () => parseAction('1;2'),
-          _throwsParseException,
-        );
+        expect(() => parseAction('1;2'), _throwsParseException);
       });
     });
     group('general error handling', () {
       test('should throw on an unexpected token', () {
-        expectActionError(
-          'f(1,2) trac',
-          _throwsParseException,
-        );
+        expectActionError('f(1,2) trac', _throwsParseException);
       });
       test('should throw a reasonable error for unconsumed tokens', () {
         expectActionError(')', _throwsParseException);
@@ -276,19 +267,16 @@ void _runTests(ExpressionParser Function() createParser) {
         expect(parseBinding('someExpr', 'location').location, 'location');
       });
       test('should throw on multiple statements', () {
-        expect(
-          () => parseBinding('1;2'),
-          _throwsParseException,
-        );
+        expect(() => parseBinding('1;2'), _throwsParseException);
       });
       test('should throw on assignment', () {
         expect(() => parseBinding('a=2'), _throwsParseException);
       });
       test('should throw when encountering interpolation', () {
         expectBindingError(
-            '{{a.b}}',
-            throwsWith(
-                'Got interpolation ({{}}) where expression was expected'));
+          '{{a.b}}',
+          throwsWith('Got interpolation ({{}}) where expression was expected'),
+        );
       });
       test('should parse conditional expression', () {
         checkBinding('a < b ? a : b');
@@ -298,7 +286,9 @@ void _runTests(ExpressionParser Function() createParser) {
       });
       test('should retain // in string literals', () {
         checkBinding(
-            '''"http://www.google.com"''', '''"http://www.google.com"''');
+          '''"http://www.google.com"''',
+          '''"http://www.google.com"''',
+        );
       });
     });
     group('parseInterpolation', () {
@@ -318,21 +308,28 @@ void _runTests(ExpressionParser Function() createParser) {
       });
       test('should throw on empty interpolation expressions', () {
         expect(
-            () => parseInterpolation('{{}}'),
-            throwsWith(
-                'Parser Error: Blank expressions are not allowed in interpolated strings'));
+          () => parseInterpolation('{{}}'),
+          throwsWith(
+            'Parser Error: Blank expressions are not allowed in interpolated strings',
+          ),
+        );
         expect(
-            () => parseInterpolation('foo {{  }}'),
-            throwsWith(
-                'Parser Error: Blank expressions are not allowed in interpolated strings'));
+          () => parseInterpolation('foo {{  }}'),
+          throwsWith(
+            'Parser Error: Blank expressions are not allowed in interpolated strings',
+          ),
+        );
       });
       test('should parse conditional expression', () {
         checkInterpolation('{{ a < b ? a : b }}');
       });
       test('should parse expression with newline characters', () {
-        checkInterpolation('''{{ \'foo\' +
+        checkInterpolation(
+          '''{{ \'foo\' +
  \'bar\' +
- \'baz\' }}''', '''{{ "foo" + "bar" + "baz" }}''');
+ \'baz\' }}''',
+          '''{{ "foo" + "bar" + "baz" }}''',
+        );
       });
       group('non-comment slashes should parse in', () {
         test('single quote strings', () {
@@ -351,10 +348,7 @@ void _runTests(ExpressionParser Function() createParser) {
 
       group('comments should fail in', () {
         test('interpolation expressions', () {
-          expectInterpolationError(
-            '{{a //comment}}',
-            _throwsParseException,
-          );
+          expectInterpolationError('{{a //comment}}', _throwsParseException);
         });
 
         test('after string literals', () {

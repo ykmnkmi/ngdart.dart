@@ -134,16 +134,15 @@ class _GetValue<T extends ValueTest> {
 
   Future<void> runTest() async {
     final fixture = await NgTestBed<T>(_factory).create();
-    await fixture.update(expectAsync1((comp) {
-      expect(comp.child!.value, comp.expected);
-    }));
+    await fixture.update(
+      expectAsync1((comp) {
+        expect(comp.child!.value, comp.expected);
+      }),
+    );
   }
 }
 
-@Component(
-  selector: 'child',
-  template: r'{{value}}',
-)
+@Component(selector: 'child', template: r'{{value}}')
 class ChildComponent {
   @Input()
   dynamic value;

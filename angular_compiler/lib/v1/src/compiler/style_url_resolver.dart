@@ -31,9 +31,11 @@ StyleWithImports extractStyleUrls(String baseUrl, String cssText) {
   return StyleWithImports(modifiedCssText, foundUrls);
 }
 
-final _cssImportRe = RegExp(r'@import\s+(?:url\()?\s*(?:(?:['
-    "'"
-    r'"]([^'
-    "'"
-    r'"]*))|([^;\)\s]*))[^;]*;?');
+final _cssImportRe = RegExp(
+  r'@import\s+(?:url\()?\s*(?:(?:['
+  "'"
+  r'"]([^'
+  "'"
+  r'"]*))|([^;\)\s]*))[^;]*;?',
+);
 final _urlWithSchemaRe = RegExp('^([^:/?#]+):');

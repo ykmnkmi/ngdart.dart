@@ -7,7 +7,9 @@ import 'invalid_pipe_argument_exception.dart' show InvalidPipeArgumentException;
 
 class _ObservableStrategy {
   StreamSubscription<Object?> createSubscription(
-      Stream<Object?> stream, void Function(Object?) updateLatestValue) {
+    Stream<Object?> stream,
+    void Function(Object?) updateLatestValue,
+  ) {
     return stream.listen(updateLatestValue);
   }
 
@@ -22,7 +24,9 @@ class _ObservableStrategy {
 
 class _PromiseStrategy {
   dynamic createSubscription(
-      Future<dynamic> async, dynamic Function(dynamic) updateLatestValue) {
+    Future<dynamic> async,
+    dynamic Function(dynamic) updateLatestValue,
+  ) {
     return async.then(updateLatestValue);
   }
 
@@ -111,7 +115,9 @@ class AsyncPipe implements OnDestroy {
     _obj = obj;
     _strategy = _selectStrategy(obj);
     _subscription = _strategy.createSubscription(
-        obj, (Object? value) => _updateLatestValue(obj, value));
+      obj,
+      (Object? value) => _updateLatestValue(obj, value),
+    );
   }
 
   dynamic _selectStrategy(dynamic /* Stream | Future | EventEmitter */ obj) {

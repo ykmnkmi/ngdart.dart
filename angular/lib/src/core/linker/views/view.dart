@@ -187,8 +187,7 @@ abstract class View implements ChangeDetectorRef {
     Object token,
     int nodeIndex,
     Object? notFoundResult,
-  ) =>
-      notFoundResult;
+  ) => notFoundResult;
 
   /// The dependency lookup implementation for [injectorGet].
   ///
@@ -276,30 +275,24 @@ class _ElementInjector extends Injector {
   _ElementInjector(this._view, this._nodeIndex);
 
   @override
-  T provideUntyped<T>(
-    Object token, [
-    Object? orElse = throwIfNotFound,
-  ]) =>
+  T provideUntyped<T>(Object token, [Object? orElse = throwIfNotFound]) =>
       unsafeCast(_view.inject(token, _nodeIndex, orElse));
 
   @override
   Object? injectFromAncestryOptional(
     Object token, [
     Object? orElse = throwIfNotFound,
-  ]) =>
-      throw UnimplementedError();
+  ]) => throw UnimplementedError();
 
   @override
   Object? injectFromParentOptional(
     Object token, [
     Object? orElse = throwIfNotFound,
-  ]) =>
-      throw UnimplementedError();
+  ]) => throw UnimplementedError();
 
   @override
   Object? injectFromSelfOptional(
     Object token, [
     Object? orElse = throwIfNotFound,
-  ]) =>
-      throw UnimplementedError();
+  ]) => throw UnimplementedError();
 }

@@ -267,6 +267,5 @@ class ViewContainer extends ComponentLoader implements ViewContainerRef {
   ComponentRef<T> loadNextTo<T extends Object>(
     ComponentFactory<T> component, {
     Injector? injector,
-  }) =>
-      loadNextToLocation(component, this, injector: injector);
+  }) => loadNextToLocation(component, this, injector: injector);
 }

@@ -57,12 +57,8 @@ void main() {
 @Component(
   selector: 'test',
   template: '<router-outlet [routes]="routes"></router-outlet>',
-  directives: [
-    RouterOutlet,
-  ],
-  providers: [
-    routerProvidersTest,
-  ],
+  directives: [RouterOutlet],
+  providers: [routerProvidersTest],
 )
 class TestComponent {
   final Router router;

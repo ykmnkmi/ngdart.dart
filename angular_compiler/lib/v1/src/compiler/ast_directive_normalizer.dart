@@ -25,10 +25,7 @@ class AstDirectiveNormalizer {
     }
     return CompileDirectiveMetadata.from(
       directive,
-      template: await _normalizeTemplate(
-        directive.type!,
-        directive.template,
-      ),
+      template: await _normalizeTemplate(directive.type!, directive.template),
     );
   }
 
@@ -182,7 +179,7 @@ class AstDirectiveNormalizer {
         else
           throw BuildError.withoutContext(
             'Invalid Style URL: "$url" (from "$moduleUrl").',
-          )
+          ),
     ];
   }
 

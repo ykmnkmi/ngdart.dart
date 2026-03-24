@@ -30,8 +30,11 @@ import 'invalid_pipe_argument_exception.dart' show InvalidPipeArgumentException;
 class ReplacePipe {
   const ReplacePipe();
 
-  dynamic transform(dynamic value, dynamic /* String | RegExp */ pattern,
-      dynamic /* Function | String */ replacement) {
+  dynamic transform(
+    dynamic value,
+    dynamic /* String | RegExp */ pattern,
+    dynamic /* Function | String */ replacement,
+  ) {
     if (value == null) {
       return value;
     }

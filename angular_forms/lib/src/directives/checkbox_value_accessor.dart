@@ -18,7 +18,8 @@ const CHECKBOX_VALUE_ACCESSOR = ExistingProvider.forToken(
 /// <input type="checkbox" ngControl="rememberLogin">
 /// ```
 @Directive(
-  selector: 'input[type=checkbox][ngControl],'
+  selector:
+      'input[type=checkbox][ngControl],'
       'input[type=checkbox][ngFormControl],'
       'input[type=checkbox][ngModel]',
   providers: [CHECKBOX_VALUE_ACCESSOR],
@@ -29,7 +30,7 @@ class CheckboxControlValueAccessor extends Object
   final InputElement _element;
 
   CheckboxControlValueAccessor(HtmlElement element)
-      : _element = element as InputElement;
+    : _element = element as InputElement;
 
   @HostListener('change', ['\$event.target.checked'])
   void handleChange(bool checked) {

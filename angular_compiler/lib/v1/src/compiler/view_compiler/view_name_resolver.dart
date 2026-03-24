@@ -86,7 +86,11 @@ class ViewNameResolver implements NameResolver {
     List<o.Expression> args,
   ) {
     return CompilePipe.createCallPipeExpression(
-        _state.view!, name, input, args);
+      _state.view!,
+      name,
+      input,
+      args,
+    );
   }
 
   @override

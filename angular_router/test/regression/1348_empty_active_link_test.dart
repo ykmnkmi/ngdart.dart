@@ -20,10 +20,7 @@ void main() {
   });
 }
 
-@Component(
-  selector: 'index',
-  template: '',
-)
+@Component(selector: 'index', template: '')
 class IndexComponent {}
 
 @Component(
@@ -32,17 +29,15 @@ class IndexComponent {}
     <a [routerLink]="indexPath" [routerLinkActive]="activeClassName"></a>
     <router-outlet [routes]="routes"></router-outlet>
   ''',
-  directives: [
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet,
-  ],
+  directives: [RouterLink, RouterLinkActive, RouterOutlet],
 )
 class AppComponent {
   static const activeClassName = 'active';
   static const indexPath = '/';
   static final routes = [
     RouteDefinition(
-        path: indexPath, component: ng.createIndexComponentFactory()),
+      path: indexPath,
+      component: ng.createIndexComponentFactory(),
+    ),
   ];
 }

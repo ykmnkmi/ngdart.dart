@@ -8,9 +8,7 @@ import 'package:angular/src/core/application_ref.dart';
 /// Returns an application injector factory for [providers], if any.
 InjectorFactory testInjectorFactory(List<Object> providers) {
   return (parent) {
-    return ReflectiveInjector.resolveAndCreate([
-      providers,
-    ], parent);
+    return ReflectiveInjector.resolveAndCreate([providers], parent);
   };
 }
 
@@ -69,10 +67,7 @@ Future<ComponentRef<E>> bootstrapForTest<E extends Object>(
       await Future<void>.value();
       await onErrorSub.cancel();
       if (caughtError != null) {
-        return Future.error(
-          caughtError!.error,
-          caughtError!.stackTrace,
-        );
+        return Future.error(caughtError!.error, caughtError!.stackTrace);
       }
       return componentRef;
     });

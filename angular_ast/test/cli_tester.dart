@@ -9,9 +9,10 @@ Iterable<NgToken> tokenize(String html) {
   return const NgLexer().tokenize(html, exceptionHandler);
 }
 
-String untokenize(Iterable<NgToken> tokens) => tokens
-    .fold(StringBuffer(), (buffer, token) => buffer..write(token.lexeme))
-    .toString();
+String untokenize(Iterable<NgToken> tokens) =>
+    tokens
+        .fold(StringBuffer(), (buffer, token) => buffer..write(token.lexeme))
+        .toString();
 
 void main() {
   String input;

@@ -14,26 +14,24 @@ void main() {
     );
     final fixture = await testBed.create();
     expect(fixture.text, '0');
-    await fixture.update((comp) => comp
-      ..a = 1
-      ..b = 2);
+    await fixture.update(
+      (comp) =>
+          comp
+            ..a = 1
+            ..b = 2,
+    );
     expect(fixture.text, '3');
   });
 }
 
-@GenerateInjector([
-  Provider(MathService),
-])
+@GenerateInjector([Provider(MathService)])
 final InjectorFactory mathInjector = ng_generated.mathInjector$Injector;
 
 class MathService {
   num add(num a, num b) => a + b;
 }
 
-@Component(
-  selector: 'example',
-  template: '{{math.add(a, b)}}',
-)
+@Component(selector: 'example', template: '{{math.add(a, b)}}')
 class ExampleComp {
   final MathService math;
 

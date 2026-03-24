@@ -48,9 +48,7 @@ import 'package:angular/src/utilities.dart';
 ///
 /// [ex]: https://angulardart.dev/examples/template-syntax#ngClass
 /// [guide]: https://webdev.dartlang.org/angular/guide/template-syntax.html#ngClass
-@Directive(
-  selector: '[ngClass]',
-)
+@Directive(selector: '[ngClass]')
 class NgClass implements DoCheck, OnDestroy {
   // Separator used to split string to parts - can be any number of
   // whitespaces, new lines or tabs.

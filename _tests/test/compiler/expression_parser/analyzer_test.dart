@@ -198,13 +198,7 @@ void main() {
     });
 
     test('should allow non-root assignments', () {
-      expect(
-        parse(
-          'z(x = y)',
-          allowAssignments: true,
-        ),
-        'z(x = y)',
-      );
+      expect(parse('z(x = y)', allowAssignments: true), 'z(x = y)');
     });
   });
 }

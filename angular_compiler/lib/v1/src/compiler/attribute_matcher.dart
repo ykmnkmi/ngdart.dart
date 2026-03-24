@@ -34,8 +34,8 @@ class HyphenAttributeMatcher extends AttributeMatcher {
   final String _prefix;
 
   HyphenAttributeMatcher(String name, String? value)
-      : _prefix = '$value-',
-        super(name, value);
+    : _prefix = '$value-',
+      super(name, value);
 
   @override
   bool matches(String? value) =>
@@ -92,7 +92,7 @@ class SetAttributeMatcher extends AttributeMatcher {
 /// https://www.w3.org/TR/selectors4/#attribute-substrings
 class SubstringAttributeMatcher extends AttributeMatcher {
   SubstringAttributeMatcher(String name, String? substring)
-      : super(name, substring);
+    : super(name, substring);
 
   @override
   bool matches(String? value) => value!.contains(this.value!);

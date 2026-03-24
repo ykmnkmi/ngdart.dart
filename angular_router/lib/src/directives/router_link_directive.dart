@@ -20,9 +20,7 @@ import '../url.dart';
 /// ```
 ///
 /// The [routerLink] can contain queryParameters or a fragment, ie: /heroes?a=1.
-@Directive(
-  selector: '[routerLink]',
-)
+@Directive(selector: '[routerLink]')
 class RouterLink implements OnDestroy {
   final Router _router;
   final Location _location;
@@ -98,9 +96,12 @@ class RouterLink implements OnDestroy {
     if (_target == null || _target == '_self') {
       event.preventDefault();
       _router.navigate(
-          url.path,
-          NavigationParams(
-              queryParameters: url.queryParameters, fragment: url.fragment));
+        url.path,
+        NavigationParams(
+          queryParameters: url.queryParameters,
+          fragment: url.fragment,
+        ),
+      );
     }
   }
 }

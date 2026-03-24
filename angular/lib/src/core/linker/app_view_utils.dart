@@ -12,10 +12,7 @@ class AppViewUtils {
   final String appId;
   final EventManager eventManager;
 
-  AppViewUtils(
-    @APP_ID this.appId,
-    this.eventManager,
-  );
+  AppViewUtils(@APP_ID this.appId, this.eventManager);
 }
 
 /// Creates a document fragment from [trustedHtml].

@@ -14,7 +14,8 @@ void main() {
 
     test('should have error on invalid input', () async {
       var testBed = NgTestBed<AccessorTestComponent>(
-          ng.createAccessorTestComponentFactory());
+        ng.createAccessorTestComponentFactory(),
+      );
       var fixture = await testBed.create();
 
       await fixture.update((AccessorTestComponent c) {
@@ -30,7 +31,8 @@ void main() {
 
     test('shouldn\'t have error on valid input', () async {
       var testBed = NgTestBed<AccessorTestComponent>(
-          ng.createAccessorTestComponentFactory());
+        ng.createAccessorTestComponentFactory(),
+      );
       var fixture = await testBed.create();
 
       await fixture.update((AccessorTestComponent c) {
@@ -40,8 +42,11 @@ void main() {
         expect(c.value, 5);
         expect(model.value, 5);
         expect(model.control.rawValue, '5');
-        expect(model.control.errors, null,
-            reason: 'Valid value should not have an error');
+        expect(
+          model.control.errors,
+          null,
+          reason: 'Valid value should not have an error',
+        );
       });
     });
   });

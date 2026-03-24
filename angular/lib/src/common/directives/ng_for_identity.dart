@@ -17,18 +17,13 @@ import 'package:angular/src/meta.dart';
 /// * Only supports the `$implicit` and `index` local variables.
 ///
 /// This API is **experimental** and subject to change or removal.
-@Directive(
-  selector: '[ngForIdentity][ngForIdentityOf]',
-)
+@Directive(selector: '[ngForIdentity][ngForIdentityOf]')
 @experimental
 class NgForIdentity<T> {
   final TemplateRef _template;
   final ViewContainerRef _container;
 
-  const NgForIdentity(
-    this._template,
-    this._container,
-  );
+  const NgForIdentity(this._template, this._container);
 
   @Input()
   set ngForIdentityOf(Iterable<T>? elements) {

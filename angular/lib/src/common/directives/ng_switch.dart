@@ -72,10 +72,7 @@ class SwitchView {
 /// [ex]: https://angulardart.dev/examples/template-syntax#ngSwitch
 /// [guide]: https://webdev.dartlang.org/angular/guide/structural-directives.html#ngSwitch
 ///
-@Directive(
-  selector: '[ngSwitch]',
-  visibility: Visibility.all,
-)
+@Directive(selector: '[ngSwitch]', visibility: Visibility.all)
 class NgSwitch {
   dynamic _switchValue;
   bool _useDefault = false;
@@ -167,9 +164,7 @@ class NgSwitch {
 ///
 /// See [NgSwitch] for more details and example.
 ///
-@Directive(
-  selector: '[ngSwitchWhen],[ngSwitchCase]',
-)
+@Directive(selector: '[ngSwitchWhen],[ngSwitchCase]')
 class NgSwitchWhen {
   final NgSwitch _switch;
   final SwitchView _view;
@@ -201,13 +196,16 @@ class NgSwitchWhen {
 ///
 /// See [NgSwitch] for more details and example.
 ///
-@Directive(
-  selector: '[ngSwitchDefault]',
-)
+@Directive(selector: '[ngSwitchDefault]')
 class NgSwitchDefault {
-  NgSwitchDefault(ViewContainerRef viewContainer, TemplateRef templateRef,
-      @Host() NgSwitch switchDirective) {
+  NgSwitchDefault(
+    ViewContainerRef viewContainer,
+    TemplateRef templateRef,
+    @Host() NgSwitch switchDirective,
+  ) {
     switchDirective._registerView(
-        _WHEN_DEFAULT, SwitchView(viewContainer, templateRef));
+      _WHEN_DEFAULT,
+      SwitchView(viewContainer, templateRef),
+    );
   }
 }

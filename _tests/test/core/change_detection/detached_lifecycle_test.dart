@@ -16,20 +16,18 @@ void main() {
       ng.createTestDetachedViaStrategyFactory(),
     );
 
-    final fixture = await testBed.create(beforeChangeDetection: (comp) {
-      comp.logs = logs;
-    });
-
-    expect(
-      logs,
-      [
-        'ngAfterChanges',
-        'ngOnInit',
-        'ngAfterContentInit',
-        'ngAfterViewInit',
-      ],
-      reason: 'Despite starting detached, all events are invoked',
+    final fixture = await testBed.create(
+      beforeChangeDetection: (comp) {
+        comp.logs = logs;
+      },
     );
+
+    expect(logs, [
+      'ngAfterChanges',
+      'ngOnInit',
+      'ngAfterContentInit',
+      'ngAfterViewInit',
+    ], reason: 'Despite starting detached, all events are invoked');
 
     expect(
       fixture.text,
@@ -42,11 +40,9 @@ void main() {
       comp.text = 'Hello Galaxy';
     });
 
-    expect(
-      logs,
-      ['ngAfterChanges'],
-      reason: 'Change detection events are still being executed',
-    );
+    expect(logs, [
+      'ngAfterChanges',
+    ], reason: 'Change detection events are still being executed');
 
     expect(
       fixture.text,
@@ -60,11 +56,9 @@ void main() {
       comp.child!.reattach();
     });
 
-    expect(
-      logs,
-      ['ngAfterChanges'],
-      reason: 'Change detection events are executed after attach',
-    );
+    expect(logs, [
+      'ngAfterChanges',
+    ], reason: 'Change detection events are executed after attach');
 
     expect(
       fixture.text,
@@ -73,75 +67,69 @@ void main() {
     );
   });
 
-  test('ChangeDetectorRef.detach() shoud behave in an expected manner',
-      () async {
-    final testBed = NgTestBed<TestDetachedViaRef>(
-      ng.createTestDetachedViaRefFactory(),
-    );
+  test(
+    'ChangeDetectorRef.detach() shoud behave in an expected manner',
+    () async {
+      final testBed = NgTestBed<TestDetachedViaRef>(
+        ng.createTestDetachedViaRefFactory(),
+      );
 
-    final fixture = await testBed.create(beforeChangeDetection: (comp) {
-      comp.logs = logs;
-    });
+      final fixture = await testBed.create(
+        beforeChangeDetection: (comp) {
+          comp.logs = logs;
+        },
+      );
 
-    expect(
-      logs,
-      [
+      expect(logs, [
         'ngAfterChanges',
         'ngOnInit',
         'ngAfterContentInit',
         'ngAfterViewInit',
-      ],
-      reason: 'Despite starting detached, all events are invoked',
-    );
+      ], reason: 'Despite starting detached, all events are invoked');
 
-    expect(
-      fixture.text,
-      isNot(contains('Hello World')),
-      reason: 'Initial bindings were never read',
-    );
+      expect(
+        fixture.text,
+        isNot(contains('Hello World')),
+        reason: 'Initial bindings were never read',
+      );
 
-    await fixture.update((comp) {
-      comp.logs = logs = [];
-      comp.text = 'Hello Galaxy';
-    });
+      await fixture.update((comp) {
+        comp.logs = logs = [];
+        comp.text = 'Hello Galaxy';
+      });
 
-    expect(
-      logs,
-      ['ngAfterChanges'],
-      reason: 'Change detection events are still being executed',
-    );
+      expect(logs, [
+        'ngAfterChanges',
+      ], reason: 'Change detection events are still being executed');
 
-    expect(
-      fixture.text,
-      isNot(contains('Hello Galaxy')),
-      reason: 'Updated bindings were not read',
-    );
+      expect(
+        fixture.text,
+        isNot(contains('Hello Galaxy')),
+        reason: 'Updated bindings were not read',
+      );
 
-    await fixture.update((comp) {
-      comp.logs = logs = [];
-      // ignore: deprecated_member_use
-      comp.child!.reattach();
-    });
+      await fixture.update((comp) {
+        comp.logs = logs = [];
+        // ignore: deprecated_member_use
+        comp.child!.reattach();
+      });
 
-    expect(
-      logs,
-      ['ngAfterChanges'],
-      reason: 'Change detection events are executed after attach',
-    );
+      expect(logs, [
+        'ngAfterChanges',
+      ], reason: 'Change detection events are executed after attach');
 
-    expect(
-      fixture.text,
-      contains('Hello Galaxy'),
-      reason: 'Change detection bindings are updated after attach',
-    );
-  });
+      expect(
+        fixture.text,
+        contains('Hello Galaxy'),
+        reason: 'Change detection bindings are updated after attach',
+      );
+    },
+  );
 }
 
 @Component(
   selector: 'test-1',
-  directives: [
-    DetachedViaStrategy,
-  ],
+  directives: [DetachedViaStrategy],
   template: r'''
     <detached-via-strategy [logs]="logs" [text]="text">
       <button></button>
@@ -159,9 +147,7 @@ class TestDetachedViaStrategy {
 
 @Component(
   selector: 'test-2',
-  directives: [
-    DetachedViaRef,
-  ],
+  directives: [DetachedViaRef],
   template: r'''
     <detached-via-ref [logs]="logs" [text]="text">
       <button></button>

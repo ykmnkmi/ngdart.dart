@@ -21,23 +21,27 @@ void main() {
       fixture = await testBed.create();
     });
 
-    test(
-        'should invoke lifecycle methods '
+    test('should invoke lifecycle methods '
         'ngOnInit > ngDoCheck > ngAfterContentChecked', () async {
       var startUp = log.toString();
       expect(
-          startUp.startsWith('ngAfterChanges; ngOnInit; ngDoCheck; '
-              'ngAfterContentInit; '
-              'ngAfterContentChecked; child_ngDoCheck; '
-              'ngAfterViewInit; ngAfterViewChecked'),
-          isTrue);
+        startUp.startsWith(
+          'ngAfterChanges; ngOnInit; ngDoCheck; '
+          'ngAfterContentInit; '
+          'ngAfterContentChecked; child_ngDoCheck; '
+          'ngAfterViewInit; ngAfterViewChecked',
+        ),
+        isTrue,
+      );
       log.clear();
       await fixture.update((MyComp _) {});
       expect(
         log.toString(),
         // We run more than one cycle, but this is what we really care about.
-        startsWith('ngDoCheck; ngAfterContentChecked; child_ngDoCheck; '
-            'ngAfterViewChecked'),
+        startsWith(
+          'ngDoCheck; ngAfterContentChecked; child_ngDoCheck; '
+          'ngAfterViewChecked',
+        ),
       );
     });
   });
@@ -59,9 +63,7 @@ class Log {
   String toString() => logItems.join('; ');
 }
 
-@Directive(
-  selector: '[lifecycle-dir]',
-)
+@Directive(selector: '[lifecycle-dir]')
 class LifecycleDir implements DoCheck {
   final Log _log;
   LifecycleDir(this._log);

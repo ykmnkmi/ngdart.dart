@@ -69,8 +69,8 @@ class ReflectableReader {
     this.outputExtension = _defaultOutputExtension,
     this.recordComponentFactories = true,
     this.recordInjectableFactories = true,
-  })  : hasInput = _nullHasInput,
-        isLibrary = _nullIsLibrary;
+  }) : hasInput = _nullHasInput,
+       isLibrary = _nullIsLibrary;
 
   static FutureOr<bool> _nullHasInput(_) => false;
   static Future<bool> _nullIsLibrary(_) async => false;
@@ -89,8 +89,11 @@ class ReflectableReader {
       }
     }
     if (recordInjectableFactories) {
-      registerFunctions.addAll(_resolveFunctions(
-          library.topLevelElements.whereType<ExecutableElement>()));
+      registerFunctions.addAll(
+        _resolveFunctions(
+          library.topLevelElements.whereType<ExecutableElement>(),
+        ),
+      );
     }
     var urlsNeedingInitReflector = const <String>[];
 
@@ -130,7 +133,8 @@ class ReflectableReader {
   }
 
   DependencyInvocation<ExecutableElement>? _resolveFunction(
-      ExecutableElement element) {
+    ExecutableElement element,
+  ) {
     if ($Injectable.firstAnnotationOfExact(element) == null) {
       return null;
     }
@@ -150,7 +154,8 @@ class ReflectableReader {
   }
 
   Iterable<DependencyInvocation<ExecutableElement>> _resolveFunctions(
-          Iterable<ExecutableElement> elements) =>
+    Iterable<ExecutableElement> elements,
+  ) =>
       elements
           .map(_resolveFunction)
           .whereType<DependencyInvocation<ExecutableElement>>();
@@ -163,38 +168,43 @@ class ReflectableReader {
   Future<List<String>> _resolveNeedsReflector(LibraryElement library) async {
     final directives = [
       ...library.definingCompilationUnit.libraryImports,
-      ...library.definingCompilationUnit.libraryExports
+      ...library.definingCompilationUnit.libraryExports,
     ];
     final results = <String>[];
-    await Future.wait(directives.map((d) async {
-      DirectiveUri uri;
-      if (d is LibraryImportElement) {
-        if (d.prefix is DeferredImportElementPrefix) {
-          // Do not link to deferred code.
-          return false;
-        }
+    await Future.wait(
+      directives.map((d) async {
+        DirectiveUri uri;
+        if (d is LibraryImportElement) {
+          if (d.prefix is DeferredImportElementPrefix) {
+            // Do not link to deferred code.
+            return false;
+          }
 
-        uri = d.uri;
-      } else if (d is LibraryExportElement) {
-        uri = d.uri;
-      } else {
-        throw TypeError();
-      }
-      String uriString;
-      if (uri is DirectiveUriWithRelativeUriString) {
-        uriString = uri.relativeUriString;
-      } else {
-        throw UnimplementedError();
-      }
-      if (await _needsInitReflector(
-          d, uriString, library.source.uri.toString())) {
-        // Always link to the .template.dart file equivalent of a file.
-        if (!uriString.endsWith(outputExtension)) {
-          uriString = _withOutputExtension(uriString);
+          uri = d.uri;
+        } else if (d is LibraryExportElement) {
+          uri = d.uri;
+        } else {
+          throw TypeError();
         }
-        results.add(uriString);
-      }
-    }));
+        String uriString;
+        if (uri is DirectiveUriWithRelativeUriString) {
+          uriString = uri.relativeUriString;
+        } else {
+          throw UnimplementedError();
+        }
+        if (await _needsInitReflector(
+          d,
+          uriString,
+          library.source.uri.toString(),
+        )) {
+          // Always link to the .template.dart file equivalent of a file.
+          if (!uriString.endsWith(outputExtension)) {
+            uriString = _withOutputExtension(uriString);
+          }
+          results.add(uriString);
+        }
+      }),
+    );
     return results..sort();
   }
 
@@ -220,7 +230,9 @@ class ReflectableReader {
       return await isLibrary(outputUri) || await hasInput(uriPath);
     } catch (e) {
       throw BuildError.forElement(
-          directive, 'Could not parse URI. Additional information:\n$e\n');
+        directive,
+        'Could not parse URI. Additional information:\n$e\n',
+      );
     }
   }
 

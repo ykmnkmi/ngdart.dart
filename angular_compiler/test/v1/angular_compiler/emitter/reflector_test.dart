@@ -65,7 +65,8 @@ void main() {
 
   test('should register constructors for injectable services', () async {
     final reflector = ReflectableReader.noLinking();
-    final output = await reflector.resolve(await resolveLibrary(r'''
+    final output = await reflector.resolve(
+      await resolveLibrary(r'''
       const someToken = OpaqueToken('someToken');
       class A {}
       class B {}
@@ -93,7 +94,8 @@ void main() {
       class ExampleServiceWithDynamicDeps2 {
         ExampleServiceWithDynamicDeps2(@someToken a);
       }
-    '''));
+    '''),
+    );
     final emitter = ReflectableEmitter(
       output,
       nullLibrary,
@@ -181,10 +183,12 @@ void main() {
     );
   });
 
-  test('should register dependencies for injectable top-level function',
-      () async {
-    final reflector = ReflectableReader.noLinking();
-    final output = await reflector.resolve(await resolveLibrary(r'''
+  test(
+    'should register dependencies for injectable top-level function',
+    () async {
+      final reflector = ReflectableReader.noLinking();
+      final output = await reflector.resolve(
+        await resolveLibrary(r'''
       const someToken = OpaqueToken('someToken');
       class SomeDependency {};
       class A {}
@@ -217,15 +221,16 @@ void main() {
 
       @Injectable()
       G createG(@Host() SomeDependency s);
-    '''));
-    final emitter = ReflectableEmitter(
-      output,
-      nullLibrary,
-      reflectorSource: libReflection,
-    );
-    expect(
-      dartfmt(emitter.emitInitReflector()),
-      dartfmt(r'''
+    '''),
+      );
+      final emitter = ReflectableEmitter(
+        output,
+        nullLibrary,
+        reflectorSource: libReflection,
+      );
+      expect(
+        dartfmt(emitter.emitInitReflector()),
+        dartfmt(r'''
         // ignore_for_file: no_leading_underscores_for_library_prefixes
         var _visited = false;
         void initReflector() {
@@ -281,12 +286,14 @@ void main() {
           );
         }
       '''),
-    );
-  });
+      );
+    },
+  );
 
   test('should register dependencies for injectable static methods', () async {
     final reflector = ReflectableReader.noLinking();
-    final output = await reflector.resolve(await resolveLibrary(r'''
+    final output = await reflector.resolve(
+      await resolveLibrary(r'''
       const someToken = OpaqueToken('someToken');
       class SomeDependency {};
       class A {}
@@ -321,7 +328,8 @@ void main() {
         @Injectable()
         static G createG(@Host() SomeDependency s);
       }
-    '''));
+    '''),
+    );
     final emitter = ReflectableEmitter(
       output,
       nullLibrary,

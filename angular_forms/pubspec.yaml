@@ -4,7 +4,7 @@ repository: https://github.com/angulardart/angular
 version: 5.0.0
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.3
 
 resolution: workspace
 

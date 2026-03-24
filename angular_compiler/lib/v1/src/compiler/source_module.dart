@@ -3,8 +3,5 @@ class DartSourceOutput {
   final String outputUrl;
   final String sourceCode;
 
-  DartSourceOutput({
-    required this.outputUrl,
-    required this.sourceCode,
-  });
+  DartSourceOutput({required this.outputUrl, required this.sourceCode});
 }

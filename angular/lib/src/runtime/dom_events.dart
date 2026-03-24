@@ -235,7 +235,7 @@ const _keyCodeNames = {
   122: 'f11',
   123: 'f12',
   144: 'numlock',
-  145: 'scrolllock'
+  145: 'scrolllock',
 };
 
 /// Determines whether a given modifier key name is currently active.
@@ -243,5 +243,5 @@ final _modifiers = <String, bool Function(KeyboardEvent)>{
   'alt': (event) => event.altKey,
   'control': (event) => event.ctrlKey,
   'meta': (event) => event.metaKey,
-  'shift': (event) => event.shiftKey
+  'shift': (event) => event.shiftKey,
 };

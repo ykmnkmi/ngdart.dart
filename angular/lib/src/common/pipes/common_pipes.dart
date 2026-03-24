@@ -20,5 +20,5 @@ const commonPipes = [
   PercentPipe,
   CurrencyPipe,
   DatePipe,
-  ReplacePipe
+  ReplacePipe,
 ];

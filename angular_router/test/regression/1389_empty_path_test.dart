@@ -19,11 +19,7 @@ void main() {
   });
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-  providers: routerProvidersTest,
-)
+@Component(selector: 'test', template: '', providers: routerProvidersTest)
 class TestComponent {
   final Router router;
 

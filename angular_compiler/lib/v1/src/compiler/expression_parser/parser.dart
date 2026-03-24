@@ -17,7 +17,7 @@ class ParseException extends BuildError {
     String errLocation, [
     dynamic ctxLocation,
   ]) : _message =
-            'Parser Error: $message $errLocation [$input] in $ctxLocation';
+           'Parser Error: $message $errLocation [$input] in $ctxLocation';
 
   @override
   String toString() => _message;
@@ -91,11 +91,7 @@ abstract class ExpressionParser {
     if (result == null) {
       return null;
     }
-    return ASTWithSource(
-      result,
-      input,
-      location,
-    );
+    return ASTWithSource(result, input, location);
   }
 
   /// Override to implement [parseAction].
@@ -162,10 +158,11 @@ abstract class ExpressionParser {
     var parts = jsSplit(input, _findInterpolation);
     if (parts.length > 1) {
       throw ParseException(
-          'Got interpolation ({{}}) where expression was expected',
-          input,
-          'at column ${_findInterpolationErrorColumn(parts, 1)} in',
-          location);
+        'Got interpolation ({{}}) where expression was expected',
+        input,
+        'at column ${_findInterpolationErrorColumn(parts, 1)} in',
+        location,
+      );
     }
   }
 

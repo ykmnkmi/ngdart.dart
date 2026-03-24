@@ -14,17 +14,11 @@ abstract mixin class LetBindingAst implements TemplateAst {
   /// Create a new synthetic [LetBindingAst] listening to [name].
   /// [value] is an optional parameter, which indicates that the variable is
   /// bound to a the value '$implicit'.
-  factory LetBindingAst(
-    String name, [
-    String value,
-  ]) = _SyntheticLetBindingAst;
+  factory LetBindingAst(String name, [String value]) = _SyntheticLetBindingAst;
 
   /// Create a new synthetic [LetBindingAst] that originated from [origin].
-  factory LetBindingAst.from(
-    TemplateAst? origin,
-    String name, [
-    String value,
-  ]) = _SyntheticLetBindingAst.from;
+  factory LetBindingAst.from(TemplateAst? origin, String name, [String value]) =
+      _SyntheticLetBindingAst.from;
 
   /// Create a new [LetBindingAst] parsed from tokens in [sourceFile].
   /// The [prefixToken] is the 'let-' component, the [elementDecoratorToken]
@@ -97,10 +91,10 @@ class ParsedLetBindingAst extends TemplateAst
     this.valueToken,
     this.equalSignToken,
   ]) : super.parsed(
-          prefixToken,
-          valueToken == null ? nameToken : valueToken.rightQuote,
-          sourceFile,
-        );
+         prefixToken,
+         valueToken == null ? nameToken : valueToken.rightQuote,
+         sourceFile,
+       );
 
   /// Name of the variable following `let-`.
   @override
@@ -142,9 +136,6 @@ class _SyntheticLetBindingAst extends SyntheticTemplateAst with LetBindingAst {
 
   _SyntheticLetBindingAst(this.name, [this.value]);
 
-  _SyntheticLetBindingAst.from(
-    TemplateAst? origin,
-    this.name, [
-    this.value,
-  ]) : super.from(origin);
+  _SyntheticLetBindingAst.from(TemplateAst? origin, this.name, [this.value])
+    : super.from(origin);
 }

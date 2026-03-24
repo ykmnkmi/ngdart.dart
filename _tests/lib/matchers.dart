@@ -28,8 +28,10 @@ class _HasTextContent extends Matcher {
     void _,
     void __,
   ) {
-    mismatchDescription.add('Text content of element: '
-        '\'${_elementText(item)}\'');
+    mismatchDescription.add(
+      'Text content of element: '
+      '\'${_elementText(item)}\'',
+    );
     return mismatchDescription;
   }
 }

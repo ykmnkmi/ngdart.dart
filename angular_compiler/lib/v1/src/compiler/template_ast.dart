@@ -111,8 +111,15 @@ class BoundElementPropertyAst implements TemplateAst {
   final SourceSpan sourceSpan;
   final TemplateSecurityContext? securityContext;
 
-  BoundElementPropertyAst(this.namespace, this.name, this.type,
-      this.securityContext, this.value, this.unit, this.sourceSpan);
+  BoundElementPropertyAst(
+    this.namespace,
+    this.name,
+    this.type,
+    this.securityContext,
+    this.value,
+    this.unit,
+    this.sourceSpan,
+  );
 
   @override
   R visit<R, C, CO extends C>(TemplateAstVisitor<R, C> visitor, CO context) =>
@@ -190,7 +197,7 @@ class VariableAst implements TemplateAst {
   OutputType? get type => fromDartType(dartType, resolveBounds: false);
 
   VariableAst(this.name, String? value, this.sourceSpan)
-      : value = value != null && value.isNotEmpty ? value : implicitValue;
+    : value = value != null && value.isNotEmpty ? value : implicitValue;
 
   @override
   R visit<R, C, CO extends C>(TemplateAstVisitor<R, C> visitor, CO context) =>
@@ -399,7 +406,11 @@ class BoundDirectiveEventAst implements TemplateAst {
   final SourceSpan sourceSpan;
 
   BoundDirectiveEventAst(
-      this.memberName, this.templateName, this.handler, this.sourceSpan);
+    this.memberName,
+    this.templateName,
+    this.handler,
+    this.sourceSpan,
+  );
 
   @override
   R visit<R, C, CO extends C>(TemplateAstVisitor<R, C> visitor, CO context) =>
@@ -414,8 +425,12 @@ class DirectiveAst implements TemplateAst {
   @override
   final SourceSpan sourceSpan;
 
-  DirectiveAst(this.directive,
-      {required this.inputs, required this.outputs, required this.sourceSpan});
+  DirectiveAst(
+    this.directive, {
+    required this.inputs,
+    required this.outputs,
+    required this.sourceSpan,
+  });
 
   bool get hasHostProperties => directive.hostProperties.isNotEmpty;
 
@@ -496,7 +511,7 @@ enum ProviderAstType {
   Directive,
 
   /// Provider that is used by compiled code itself such as TemplateRef.
-  Builtin
+  Builtin,
 }
 
 /// Position where content is to be projected (instance of <ng-content> in
@@ -509,8 +524,12 @@ class NgContentAst implements TemplateAst {
 
   final ReferenceAst? reference;
 
-  NgContentAst(this.index, this.ngContentIndex, this.sourceSpan,
-      [this.reference]);
+  NgContentAst(
+    this.index,
+    this.ngContentIndex,
+    this.sourceSpan, [
+    this.reference,
+  ]);
 
   @override
   R visit<R, C, CO extends C>(TemplateAstVisitor<R, C> visitor, CO context) =>
@@ -529,7 +548,7 @@ enum PropertyBindingType {
   cssClass,
 
   /// A binding to a style rule (e.g. [style.rule]='expression').
-  style
+  style,
 }
 
 /// A visitor for [TemplateAst] trees that will process each node.
@@ -555,7 +574,10 @@ abstract class TemplateAstVisitor<R, C> {
 /// Visit every node in a list of [TemplateAst]s with the given
 /// [TemplateAstVisitor].
 List<R> templateVisitAll<R, C>(
-    TemplateAstVisitor<R, C> visitor, List<TemplateAst> asts, C context) {
+  TemplateAstVisitor<R, C> visitor,
+  List<TemplateAst> asts,
+  C context,
+) {
   var result = <R>[];
   for (var ast in asts) {
     var astResult = ast.visit(visitor, context);

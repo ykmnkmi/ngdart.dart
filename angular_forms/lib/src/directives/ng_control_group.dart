@@ -55,9 +55,7 @@ import 'validators.dart' show ValidatorFn;
 /// form.
 @Directive(
   selector: '[ngControlGroup]',
-  providers: [
-    ExistingProvider(ControlContainer, NgControlGroup),
-  ],
+  providers: [ExistingProvider(ControlContainer, NgControlGroup)],
   exportAs: 'ngForm',
 )
 class NgControlGroup extends ControlContainer<AbstractControlGroup>

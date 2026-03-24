@@ -31,15 +31,8 @@ import 'view.dart';
 /// or [createAndProject]. This is necessary to implement certain hierarchical
 /// dependency injection semantics.
 abstract class ComponentView<T extends Object> extends RenderView {
-  ComponentView(
-    View parentView,
-    int parentIndex,
-    int changeDetectionMode,
-  ) : _data = _ComponentViewData(
-          parentView,
-          parentIndex,
-          changeDetectionMode,
-        );
+  ComponentView(View parentView, int parentIndex, int changeDetectionMode)
+    : _data = _ComponentViewData(parentView, parentIndex, changeDetectionMode);
 
   @override
   late final T ctx;
@@ -312,7 +305,7 @@ class _ComponentViewData implements RenderViewData {
   void _updateShouldSkipChangeDetection() {
     _shouldSkipChangeDetection =
         _changeDetectionMode == ChangeDetectionStrategy.Checked ||
-            _changeDetectionMode == ChangeDetectionStrategy.Detached ||
-            _changeDetectorState == ChangeDetectorState.Errored;
+        _changeDetectionMode == ChangeDetectionStrategy.Detached ||
+        _changeDetectorState == ChangeDetectorState.Errored;
   }
 }

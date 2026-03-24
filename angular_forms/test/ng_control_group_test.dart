@@ -16,8 +16,9 @@ void main() {
     tearDown(() => disposeAnyRunningTest());
 
     setUp(() async {
-      var testBed =
-          NgTestBed<NgControlGroupTest>(ng.createNgControlGroupTestFactory());
+      var testBed = NgTestBed<NgControlGroupTest>(
+        ng.createNgControlGroupTestFactory(),
+      );
       fixture = await testBed.create();
     });
 
@@ -50,10 +51,7 @@ void main() {
 
 @Component(
   selector: 'ng-control-group-test',
-  directives: [
-    formDirectives,
-    NgIf,
-  ],
+  directives: [formDirectives, NgIf],
   template: '''
 <div [ngFormModel]="formModel">
   <div [ngControlGroup]="'group'" #controlGroup="ngForm" [ngDisabled]="disabled">
@@ -72,7 +70,7 @@ class NgControlGroupTest {
   bool disabled = false;
 
   ControlGroup formModel = FormBuilder.controlGroup({
-    'group': FormBuilder.controlGroup({'login': Control(null)})
+    'group': FormBuilder.controlGroup({'login': Control(null)}),
   });
 
   ControlGroup get groupModel => formModel.controls['group'] as ControlGroup;

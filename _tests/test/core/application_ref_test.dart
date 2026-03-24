@@ -22,16 +22,14 @@ void main() {
 
     // Setup global variables that need to exist before using bootstrap.
     // TODO: Move this to a common place. It's duplicated all over.
-    appViewUtils = AppViewUtils(
-      'appId',
-      EventManager(ngZone),
-    );
+    appViewUtils = AppViewUtils('appId', EventManager(ngZone));
   });
 
   group('dispose should ', () {
     test('destroy bootstrapped components', () {
-      final comp =
-          appRef.bootstrap<HelloComponent>(ng.createHelloComponentFactory());
+      final comp = appRef.bootstrap<HelloComponent>(
+        ng.createHelloComponentFactory(),
+      );
       final view = comp.hostView;
       expect(view.destroyed, isFalse);
 
@@ -117,10 +115,7 @@ void main() {
   });
 }
 
-@Component(
-  selector: 'hello-component',
-  template: 'Hello World',
-)
+@Component(selector: 'hello-component', template: 'Hello World')
 class HelloComponent {}
 
 class _NullExceptionHandler implements ExceptionHandler {

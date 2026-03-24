@@ -18,18 +18,22 @@ abstract class NgAssetReader {
   String resolveUrl(String baseUrl, String url) {
     final normalizedBase = _normalize(baseUrl);
     final normalizedUrl = _normalize(url);
-    final asset =
-        AssetId.resolve(normalizedUrl, from: AssetId.resolve(normalizedBase));
+    final asset = AssetId.resolve(
+      normalizedUrl,
+      from: AssetId.resolve(normalizedBase),
+    );
     return asset.uri.toString();
   }
 
-  Uri _normalize(String url) => Uri.parse(assetToPackageUrl(Uri.parse(url))
-      .toString()
-      // Normalization for Windows URLs.
-      // See https://github.com/angulardart/angular/issues/723.
-      .replaceAll('..%5C', '')
-      // Other normalization.
-      .replaceAll('%7C', r'/'));
+  Uri _normalize(String url) => Uri.parse(
+    assetToPackageUrl(Uri.parse(url))
+        .toString()
+        // Normalization for Windows URLs.
+        // See https://github.com/angulardart/angular/issues/723.
+        .replaceAll('..%5C', '')
+        // Other normalization.
+        .replaceAll('%7C', r'/'),
+  );
 }
 
 class _BuildStepAssetReader extends NgAssetReader {

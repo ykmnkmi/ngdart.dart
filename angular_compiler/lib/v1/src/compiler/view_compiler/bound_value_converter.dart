@@ -41,35 +41,37 @@ abstract class BoundValueConverter
   /// The [implicitReceiver] is the receiver on which bound expressions are
   /// implicitly invoked. For example, if [implicitReceiver] is the variable
   /// `ctx`, the expression `foo(bar)` is rewritten as `ctx.foo(ctx.bar)`.
-  factory BoundValueConverter.forView(
-    CompileView view,
-  ) = _ViewBoundValueConverter;
+  factory BoundValueConverter.forView(CompileView view) =
+      _ViewBoundValueConverter;
 
   /// Creates a new [BoundValueConverter] with a scoped [NameResolver].
   BoundValueConverter scopeNamespace();
 
   o.Expression? convertSourceToExpression(
-          ir.BindingSource source, o.OutputType? type) =>
-      source.accept(this, type);
+    ir.BindingSource source,
+    o.OutputType? type,
+  ) => source.accept(this, type);
 
   o.Expression _createI18nMessage(I18nMessage message);
 
   @override
-  o.Expression visitBoundExpression(ir.BoundExpression boundExpression,
-          [o.OutputType? type]) =>
-      convertCdExpressionToIr(
-        _nameResolver!,
-        _implicitReceiver,
-        boundExpression.expression.ast,
-        boundExpression.sourceSpan,
-        _metadata!,
-        boundType: type,
-      );
+  o.Expression visitBoundExpression(
+    ir.BoundExpression boundExpression, [
+    o.OutputType? type,
+  ]) => convertCdExpressionToIr(
+    _nameResolver!,
+    _implicitReceiver,
+    boundExpression.expression.ast,
+    boundExpression.sourceSpan,
+    _metadata!,
+    boundType: type,
+  );
 
   @override
-  o.Expression visitBoundI18nMessage(ir.BoundI18nMessage boundI18nMessage,
-          [_]) =>
-      _createI18nMessage(boundI18nMessage.value);
+  o.Expression visitBoundI18nMessage(
+    ir.BoundI18nMessage boundI18nMessage, [
+    _,
+  ]) => _createI18nMessage(boundI18nMessage.value);
 
   @override
   o.Expression visitStringLiteral(ir.StringLiteral stringLiteral, [_]) =>
@@ -123,15 +125,12 @@ abstract class BoundValueConverter
         else if (handler is ir.ComplexEventHandler)
           ..._convertToStatements(handler)
         else
-          throw ArgumentError('Unknown ${ir.EventHandler} type: $handler')
+          throw ArgumentError('Unknown ${ir.EventHandler} type: $handler'),
     ];
   }
 
   o.Expression _wrapHandler(o.Expression handlerExpr, int? numArgs) =>
-      o.InvokeMemberMethodExpr(
-        'eventHandler$numArgs',
-        [handlerExpr],
-      );
+      o.InvokeMemberMethodExpr('eventHandler$numArgs', [handlerExpr]);
 
   o.Expression _createEventHandler(List<o.Statement> statements);
 }
@@ -146,21 +145,23 @@ class _DirectiveBoundValueConverter extends BoundValueConverter {
 
   @override
   BoundValueConverter scopeNamespace() => _DirectiveBoundValueConverter(
-        _metadata,
-        _implicitReceiver,
-        _nameResolver!.scope(),
-      );
+    _metadata,
+    _implicitReceiver,
+    _nameResolver!.scope(),
+  );
 
   @override
   o.Expression _createI18nMessage(I18nMessage message) {
     throw UnsupportedError(
-        'Cannot create internationalized message expression without a view');
+      'Cannot create internationalized message expression without a view',
+    );
   }
 
   @override
   o.Expression _createEventHandler(List<o.Statement> statements) {
     throw UnsupportedError(
-        'Cannot create event handler expression without a view');
+      'Cannot create event handler expression without a view',
+    );
   }
 }
 
@@ -169,11 +170,11 @@ class _ViewBoundValueConverter extends BoundValueConverter {
   final CompileView _view;
 
   _ViewBoundValueConverter(this._view, {NameResolver? nameResolver})
-      : super(
-          _view.component,
-          DetectChangesVars.cachedCtx,
-          nameResolver ?? _view.nameResolver,
-        );
+    : super(
+        _view.component,
+        DetectChangesVars.cachedCtx,
+        nameResolver ?? _view.nameResolver,
+      );
 
   @override
   o.Expression _createI18nMessage(I18nMessage message) =>

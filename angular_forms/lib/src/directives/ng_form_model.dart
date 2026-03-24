@@ -81,9 +81,7 @@ import 'validators.dart' show ValidatorFn;
 /// ```
 @Directive(
   selector: '[ngFormModel]',
-  providers: [
-    ExistingProvider(ControlContainer, NgFormModel),
-  ],
+  providers: [ExistingProvider(ControlContainer, NgFormModel)],
   exportAs: 'ngForm',
   visibility: Visibility.all,
 )

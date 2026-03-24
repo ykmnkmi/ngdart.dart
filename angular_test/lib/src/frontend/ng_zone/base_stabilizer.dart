@@ -28,9 +28,7 @@ abstract class BaseNgZoneStabilizer<T extends Timer> extends NgTestStabilizer {
   static void _noSideEffects() {}
 
   @override
-  Future<bool> update([
-    void Function()? runAndTrackSideEffects,
-  ]) {
+  Future<bool> update([void Function()? runAndTrackSideEffects]) {
     // Future.sync() ensures that any errors thrown by `runAndTrackSideEffects`
     // are propagated through the returned Future instead of being thrown
     // synchronously.

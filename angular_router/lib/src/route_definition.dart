@@ -33,10 +33,10 @@ abstract class RouteDefinition {
     bool? useAsDefault,
     dynamic additionalData,
     RoutePath? routePath,
-  })  : assert(path != null || routePath != null),
-        path = Url.trimSlashes(path ?? routePath!.path),
-        useAsDefault = useAsDefault ?? routePath?.useAsDefault ?? false,
-        additionalData = additionalData ?? routePath?.additionalData;
+  }) : assert(path != null || routePath != null),
+       path = Url.trimSlashes(path ?? routePath!.path),
+       useAsDefault = useAsDefault ?? routePath?.useAsDefault ?? false,
+       additionalData = additionalData ?? routePath?.additionalData;
 
   /// Runs a dev-mode assertion that the definition is valid.
   ///
@@ -156,16 +156,22 @@ abstract class RouteDefinition {
   }
 
   /// Returns as a regular expression that matches this route.
-  RegExp toRegExp() => RegExp('/?' +
-      path.replaceAll(_findParameters,
-          r"((?:[\w'\.\-~!\$&\(\)\*\+,;=:@]|%[0-9a-fA-F]{2})+)"));
+  RegExp toRegExp() => RegExp(
+    '/?' +
+        path.replaceAll(
+          _findParameters,
+          r"((?:[\w'\.\-~!\$&\(\)\*\+,;=:@]|%[0-9a-fA-F]{2})+)",
+        ),
+  );
 
   /// Returns as a valid URL with [paramValues] filled into [parameters].
   String toUrl([Map<String, String> paramValues = const {}]) {
     var url = '/' + path;
     for (final parameter in parameters) {
       url = url.replaceFirst(
-          ':$parameter', Uri.encodeComponent(paramValues[parameter]!));
+        ':$parameter',
+        Uri.encodeComponent(paramValues[parameter]!),
+      );
     }
     return url;
   }
@@ -185,11 +191,11 @@ class ComponentRouteDefinition extends RouteDefinition {
     dynamic additionalData,
     RoutePath? routePath,
   }) : super._(
-          path: path,
-          useAsDefault: useAsDefault,
-          additionalData: additionalData,
-          routePath: routePath,
-        );
+         path: path,
+         useAsDefault: useAsDefault,
+         additionalData: additionalData,
+         routePath: routePath,
+       );
 
   @override
   void assertValid() {
@@ -219,10 +225,11 @@ class DeferredRouteDefinition extends RouteDefinition {
     dynamic additionalData,
     RoutePath? routePath,
   }) : super._(
-            path: path,
-            useAsDefault: useAsDefault,
-            additionalData: additionalData,
-            routePath: routePath);
+         path: path,
+         useAsDefault: useAsDefault,
+         additionalData: additionalData,
+         routePath: routePath,
+       );
 }
 
 class RedirectRouteDefinition extends RouteDefinition {
@@ -236,10 +243,11 @@ class RedirectRouteDefinition extends RouteDefinition {
     dynamic additionalData,
     RoutePath? routePath,
   }) : super._(
-            path: path,
-            useAsDefault: useAsDefault,
-            additionalData: additionalData,
-            routePath: routePath);
+         path: path,
+         useAsDefault: useAsDefault,
+         additionalData: additionalData,
+         routePath: routePath,
+       );
 
   @override
   void assertValid() {
@@ -251,10 +259,13 @@ class RedirectRouteDefinition extends RouteDefinition {
     }
     var pathParameters = parameters;
     var unknownRedirectToParameters = _redirectToParameters.where(
-        (redirectToParameter) => !pathParameters.contains(redirectToParameter));
+      (redirectToParameter) => !pathParameters.contains(redirectToParameter),
+    );
     if (unknownRedirectToParameters.isNotEmpty) {
-      throw StateError('Parameters in `redirectTo` are not in `path`: '
-          '$unknownRedirectToParameters');
+      throw StateError(
+        'Parameters in `redirectTo` are not in `path`: '
+        '$unknownRedirectToParameters',
+      );
     }
   }
 
@@ -263,7 +274,9 @@ class RedirectRouteDefinition extends RouteDefinition {
     var url = redirectTo;
     for (final parameter in _redirectToParameters) {
       url = url.replaceFirst(
-          ':$parameter', Uri.encodeComponent(paramValues[parameter]!));
+        ':$parameter',
+        Uri.encodeComponent(paramValues[parameter]!),
+      );
     }
     return url;
   }

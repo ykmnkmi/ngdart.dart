@@ -13,11 +13,11 @@ void main() {
     );
     expect(
       testBed.create(),
-      throwsA(predicate(
-        (e) => '$e'.contains(
-          'Expression has changed after it was checked',
+      throwsA(
+        predicate(
+          (e) => '$e'.contains('Expression has changed after it was checked'),
         ),
-      )),
+      ),
     );
   });
 
@@ -43,11 +43,12 @@ void main() {
       );
       expect(
         testBed.create(),
-        throwsA(predicate(
-          (e) => '$e'.contains(
-            'An expression bound in an AngularDart template',
+        throwsA(
+          predicate(
+            (e) =>
+                '$e'.contains('An expression bound in an AngularDart template'),
           ),
-        )),
+        ),
       );
     });
 
@@ -57,11 +58,12 @@ void main() {
       );
       expect(
         testBed.create(),
-        throwsA(predicate(
-          (e) => '$e'.contains(
-            'An expression bound in an AngularDart template',
+        throwsA(
+          predicate(
+            (e) =>
+                '$e'.contains('An expression bound in an AngularDart template'),
           ),
-        )),
+        ),
       );
     });
 
@@ -102,10 +104,7 @@ class NonPrimitiveBinding {
   Duration get value => _value = Duration(seconds: _value.inSeconds + 1);
 }
 
-@Component(
-  selector: 'bind-anything',
-  template: '',
-)
+@Component(selector: 'bind-anything', template: '')
 class BindAnythingComponent {
   @Input()
   Object? value;

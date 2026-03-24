@@ -56,9 +56,7 @@ import 'shared.dart' show setUpControl;
 /// ```
 @Directive(
   selector: '[ngFormControl]',
-  providers: [
-    ExistingProvider(NgControl, NgFormControl),
-  ],
+  providers: [ExistingProvider(NgControl, NgFormControl)],
   exportAs: 'ngForm',
 )
 class NgFormControl extends NgControl implements AfterChanges {
@@ -84,12 +82,12 @@ class NgFormControl extends NgControl implements AfterChanges {
   dynamic viewModel;
 
   NgFormControl(
-      @Optional() @Self() @Inject(NG_VALIDATORS) List<dynamic>? validators,
-      @Optional()
-      @Self()
-      @Inject(ngValueAccessor)
-      List<ControlValueAccessor<dynamic>>? valueAccessors)
-      : super(valueAccessors, validators);
+    @Optional() @Self() @Inject(NG_VALIDATORS) List<dynamic>? validators,
+    @Optional()
+    @Self()
+    @Inject(ngValueAccessor)
+    List<ControlValueAccessor<dynamic>>? valueAccessors,
+  ) : super(valueAccessors, validators);
 
   @override
   @Output('ngModelChange')

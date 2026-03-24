@@ -8,7 +8,8 @@ import 'package:angular_compiler/v1/src/compiler/template_parser/recursive_templ
 import 'package:angular_compiler/v1/src/compiler/view_compiler/view_compiler_utils.dart';
 import 'package:angular_compiler/v2/context.dart';
 
-const String optedOutValidator = 'If your project uses selector css styling '
+const String optedOutValidator =
+    'If your project uses selector css styling '
     'heavily, or the templates contain external custom elements not supported by '
     'ACX, then this feature might not be a good fit for your project. To prevent '
     'compilation errors, please add your project to the disallow list in '
@@ -30,7 +31,7 @@ class MissingDirectiveValidator
     'debugid',
     'debug-id',
     'debugId',
-    'data-test-id'
+    'data-test-id',
   };
 
   MissingDirectiveValidator(this._registry);
@@ -38,8 +39,9 @@ class MissingDirectiveValidator
   @override
   void visitElement(ng.ElementAst ast, [_]) {
     final selectorsGroup = _selectorsGroup(ast.directives);
-    final skipValidationSelectors =
-        CssSelector.parse(ast.skipSchemaValidationForSelector);
+    final skipValidationSelectors = CssSelector.parse(
+      ast.skipSchemaValidationForSelector,
+    );
     // checks whether a selector in @skipSchemaValidationFor is unused.
     if (ast.skipSchemaValidationForSelector.isNotEmpty &&
         _hasUnusedSelector(ast, skipValidationSelectors)) {
@@ -57,7 +59,9 @@ class MissingDirectiveValidator
         detectHtmlElementFromTagName(elementName) ||
         _hasMatchedSelector(selectorsGroup, elementName) ||
         _matchedSelectorWithElement(
-            ast.matchedNgContentSelectors, elementName) ||
+          ast.matchedNgContentSelectors,
+          elementName,
+        ) ||
         hasElementInAllowlist(elementName) ||
         elementName.startsWith('@svg'))) {
       CompileContext.current.reportAndRecover(
@@ -109,24 +113,21 @@ class MissingDirectiveValidator
 
   static Iterable<List<CssSelector>> _selectorsGroup(
     List<ng.DirectiveAst> directives,
-  ) =>
-      directives.map(
-        (directive) => CssSelector.parse(directive.directive.selector!),
-      );
+  ) => directives.map(
+    (directive) => CssSelector.parse(directive.directive.selector!),
+  );
 
   static bool _hasMatchedSelector(
     Iterable<List<CssSelector>> selectorsGroup,
     String name,
-  ) =>
-      selectorsGroup.any(
-        (selectors) => selectors.any((selector) => selector.element == name),
-      );
+  ) => selectorsGroup.any(
+    (selectors) => selectors.any((selector) => selector.element == name),
+  );
 
   static bool _matchedSelectorWithElement(
     List<CssSelector> selectors,
     String name,
-  ) =>
-      selectors.any((selector) => selector.element == name);
+  ) => selectors.any((selector) => selector.element == name);
 
   @override
   void visitEmbeddedTemplate(ng.EmbeddedTemplateAst ast, [_]) {
@@ -149,12 +150,16 @@ class MissingDirectiveValidator
       return;
     }
     if (!(_matchedSelectorWithAttribute(
-            context.skipValidationSelectors, ast.name) ||
+          context.skipValidationSelectors,
+          ast.name,
+        ) ||
         _registry.hasAttribute(context.elementName, ast.name) ||
         _matchesInput(context.directives, ast.name) ||
         _matchedDirectiveWithAttribute(context.selectorsGroup, ast.name) ||
         _matchedSelectorWithAttribute(
-            context.matchedNgContentSelectors, ast.name) ||
+          context.matchedNgContentSelectors,
+          ast.name,
+        ) ||
         hasAttributeInAllowlist(context.elementName, ast.name) ||
         isAriaAttribute(ast.name) ||
         context.attributeDeps.contains(ast.name) ||
@@ -187,20 +192,18 @@ class MissingDirectiveValidator
   static bool _matchedDirectiveWithAttribute(
     Iterable<List<CssSelector>> selectorsGroup,
     String name,
-  ) =>
-      selectorsGroup.any(
-        (selectors) => selectors.any(
-          (selector) => selector.attrs.any((matcher) => matcher.name == name),
-        ),
-      );
+  ) => selectorsGroup.any(
+    (selectors) => selectors.any(
+      (selector) => selector.attrs.any((matcher) => matcher.name == name),
+    ),
+  );
 
   static bool _matchedSelectorWithAttribute(
     List<CssSelector> selectors,
     String name,
-  ) =>
-      selectors.any(
-        (selector) => selector.attrs.any((matcher) => matcher.name == name),
-      );
+  ) => selectors.any(
+    (selector) => selector.attrs.any((matcher) => matcher.name == name),
+  );
 
   static bool _isTestAttribute(String name) => _testAttributes.contains(name);
 
@@ -211,7 +214,9 @@ class MissingDirectiveValidator
   void visitEvent(ng.BoundEventAst ast, [_MissingDirectiveContext? context]) {
     var name = _extractEventName(ast.name);
     if (!(_matchedSelectorWithAttribute(
-            context!.skipValidationSelectors, ast.name) ||
+          context!.skipValidationSelectors,
+          ast.name,
+        ) ||
         // HTML events are not case sensitive.
         isNativeHtmlEvent(name.toLowerCase()) ||
         _registry.hasEvent(context.elementName, name) ||

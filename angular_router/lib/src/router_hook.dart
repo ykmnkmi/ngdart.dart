@@ -71,7 +71,9 @@ abstract class RouterHook {
   /// }
   /// ```
   Future<NavigationParams> navigationParams(
-      String path, NavigationParams params) async {
+    String path,
+    NavigationParams params,
+  ) async {
     // Provided as a default if someone extends or mixes-in this interface.
     return params;
   }
@@ -97,8 +99,11 @@ abstract class RouterHook {
   ///   }
   /// }
   /// ```
-  Future<bool> canActivate(Object componentInstance, RouterState? oldState,
-      RouterState newState) async {
+  Future<bool> canActivate(
+    Object componentInstance,
+    RouterState? oldState,
+    RouterState newState,
+  ) async {
     // Provided as a default if someone extends or mixes-in this interface.
     return true;
   }
@@ -123,8 +128,11 @@ abstract class RouterHook {
   ///   }
   /// }
   /// ```
-  Future<bool> canDeactivate(Object componentInstance, RouterState oldState,
-      RouterState newState) async {
+  Future<bool> canDeactivate(
+    Object componentInstance,
+    RouterState oldState,
+    RouterState newState,
+  ) async {
     // Provided as a default if someone extends or mixes-in this interface.
     return true;
   }
@@ -171,8 +179,11 @@ abstract class RouterHook {
   ///   }
   /// }
   /// ```
-  Future<bool> canReuse(Object componentInstance, RouterState oldState,
-      RouterState newState) async {
+  Future<bool> canReuse(
+    Object componentInstance,
+    RouterState oldState,
+    RouterState newState,
+  ) async {
     // Provided as a default if someone extends or mixes-in this interface.
     return false;
   }

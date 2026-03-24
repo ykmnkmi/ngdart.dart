@@ -159,14 +159,11 @@ void main() {
           TypeTokenElement(linkTypeOf($Example.thisType)),
           null,
           urlOf($createExample),
-          dependencies: DependencyInvocation(
-            $createExample,
-            [
-              DependencyElement(
-                TypeTokenElement(linkTypeOf($DependencyA.thisType)),
-              ),
-            ],
-          ),
+          dependencies: DependencyInvocation($createExample, [
+            DependencyElement(
+              TypeTokenElement(linkTypeOf($DependencyA.thisType)),
+            ),
+          ]),
         ),
       );
     });
@@ -178,14 +175,11 @@ void main() {
           TypeTokenElement(linkTypeOf($Example.thisType)),
           null,
           urlOf($createExample),
-          dependencies: DependencyInvocation(
-            $createExample,
-            [
-              DependencyElement(
-                TypeTokenElement(linkTypeOf($DependencyB.thisType)),
-              ),
-            ],
-          ),
+          dependencies: DependencyInvocation($createExample, [
+            DependencyElement(
+              TypeTokenElement(linkTypeOf($DependencyB.thisType)),
+            ),
+          ]),
         ),
       );
     });
@@ -197,20 +191,16 @@ void main() {
           TypeTokenElement(linkTypeOf($Example.thisType)),
           null,
           urlOf($Example_create),
-          dependencies: DependencyInvocation(
-            $Example_create,
-            [
-              DependencyElement(
-                TypeTokenElement(linkTypeOf($DependencyA.thisType)),
-              ),
-            ],
-          ),
+          dependencies: DependencyInvocation($Example_create, [
+            DependencyElement(
+              TypeTokenElement(linkTypeOf($DependencyA.thisType)),
+            ),
+          ]),
         ),
       );
     });
 
-    test(
-        'using useFactory: ... to define the invocation of static method '
+    test('using useFactory: ... to define the invocation of static method '
         'with deps: ...', () {
       expect(
         reader.parseProvider(providers[12]),
@@ -218,22 +208,18 @@ void main() {
           TypeTokenElement(linkTypeOf($Example.thisType)),
           null,
           urlOf($Example_create),
-          dependencies: DependencyInvocation(
-            $Example_create,
-            [
-              DependencyElement(
-                TypeTokenElement(linkTypeOf($DependencyB.thisType)),
-              ),
-            ],
-          ),
+          dependencies: DependencyInvocation($Example_create, [
+            DependencyElement(
+              TypeTokenElement(linkTypeOf($DependencyB.thisType)),
+            ),
+          ]),
         ),
       );
     });
 
     test('using useValue: ... to define a constant invocation', () {
-      final useValue = reader.parseProvider(
-        providers[5],
-      ) as UseValueProviderElement;
+      final useValue =
+          reader.parseProvider(providers[5]) as UseValueProviderElement;
       expect(
         useValue.token,
         TypeTokenElement(const TypeLink('Duration', 'dart:core')),
@@ -242,16 +228,14 @@ void main() {
     });
 
     test('using useValue: ... to define a literal', () {
-      final useValue = reader.parseProvider(
-        providers[7],
-      ) as UseValueProviderElement;
+      final useValue =
+          reader.parseProvider(providers[7]) as UseValueProviderElement;
       expect(useValue.useValue!.toStringValue(), 'Hello World');
     });
 
     test('using useValue: ... to define a literal and constant invocation', () {
-      final useValue = reader.parseProvider(
-        providers[8],
-      ) as UseValueProviderElement;
+      final useValue =
+          reader.parseProvider(providers[8]) as UseValueProviderElement;
       expect(useValue.useValue!.toListValue(), isNotEmpty);
     });
 

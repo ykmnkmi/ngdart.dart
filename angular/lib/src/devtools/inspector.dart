@@ -87,14 +87,14 @@ invocations. Please contact angulardart-eng@ if you encounter this error.
     final onTurnStartSubscription = applicationRef.zone.onTurnStart
         .throttle(updateInterval, trailing: true)
         .listen((_) {
-      postEvent('angular.update', {});
-    });
+          postEvent('angular.update', {});
+        });
 
-    _applicationRef = applicationRef
-      ..registerDisposeListener(() {
-        onTurnStartSubscription.cancel();
-        _dispose();
-      });
+    _applicationRef =
+        applicationRef..registerDisposeListener(() {
+          onTurnStartSubscription.cancel();
+          _dispose();
+        });
   }
 
   /// Frees all object references held by this service.
@@ -169,23 +169,26 @@ invocations. Please contact angulardart-eng@ if you encounter this error.
         completer.completeError('The inspected app was disposed');
       }
 
-      return completer.future.then((result) {
-        return ServiceExtensionResponse.result(result);
-      }, onError: (Object exception, StackTrace stackTrace) {
-        final context =
-            'The following exception was thrown while handling the service '
-            'extension "$method"';
-        // This could be null if the error was thrown because there's no active
-        // application.
-        applicationRef?.exceptionHandler('$context:\n$exception', stackTrace);
-        return ServiceExtensionResponse.error(
-          ServiceExtensionResponse.extensionError,
-          json.encode({
-            'exception': exception.toString(),
-            'stackTrace': stackTrace.toString(),
-          }),
-        );
-      });
+      return completer.future.then(
+        (result) {
+          return ServiceExtensionResponse.result(result);
+        },
+        onError: (Object exception, StackTrace stackTrace) {
+          final context =
+              'The following exception was thrown while handling the service '
+              'extension "$method"';
+          // This could be null if the error was thrown because there's no active
+          // application.
+          applicationRef?.exceptionHandler('$context:\n$exception', stackTrace);
+          return ServiceExtensionResponse.error(
+            ServiceExtensionResponse.extensionError,
+            json.encode({
+              'exception': exception.toString(),
+              'stackTrace': stackTrace.toString(),
+            }),
+          );
+        },
+      );
     });
   }
 
@@ -315,9 +318,11 @@ invocations. Please contact angulardart-eng@ if you encounter this error.
     final data = _nodeToData[currentNode];
 
     void collectChildNodes(ListBuilder<InspectorNode> b) {
-      for (var node = treeWalker.firstChild();
-          node != null;
-          node = treeWalker.nextSibling()) {
+      for (
+        var node = treeWalker.firstChild();
+        node != null;
+        node = treeWalker.nextSibling()
+      ) {
         _collectNodes(treeWalker, groupName, b);
       }
     }
@@ -351,9 +356,12 @@ invocations. Please contact angulardart-eng@ if you encounter this error.
       if (data.directives.isNotEmpty) {
         b.directives.replace([
           for (final directive in data.directives)
-            InspectorDirective((b) => b
-              ..name = directive.runtimeType.toString()
-              ..id = _referenceCounter.toId(directive, groupName)),
+            InspectorDirective(
+              (b) =>
+                  b
+                    ..name = directive.runtimeType.toString()
+                    ..id = _referenceCounter.toId(directive, groupName),
+            ),
         ]);
       }
       b.children.update(updateChildren);
@@ -376,9 +384,11 @@ invocations. Please contact angulardart-eng@ if you encounter this error.
     final currentNode = treeWalker.currentNode;
     final componentView = _nodeToData[currentNode]?.componentView;
     final children = componentView != null ? <Map<String, Object>>[] : result;
-    for (var node = treeWalker.firstChild();
-        node != null;
-        node = treeWalker.nextSibling()) {
+    for (
+      var node = treeWalker.firstChild();
+      node != null;
+      node = treeWalker.nextSibling()
+    ) {
       _collectJson(treeWalker, groupName, children);
     }
     if (componentView != null) {

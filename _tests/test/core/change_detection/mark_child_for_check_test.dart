@@ -9,8 +9,9 @@ void main() {
 
   group('markChildForCheck() should update', () {
     test('content child', () async {
-      final testBed =
-          NgTestBed<TestContentChild>(ng.createTestContentChildFactory());
+      final testBed = NgTestBed<TestContentChild>(
+        ng.createTestContentChildFactory(),
+      );
       final testFixture = await testBed.create();
       expect(testFixture.text, isEmpty);
       await testFixture.update((component) => component.child!.update('a'));
@@ -18,8 +19,9 @@ void main() {
     });
 
     test('content children', () async {
-      final testBed =
-          NgTestBed<TestContentChildren>(ng.createTestContentChildrenFactory());
+      final testBed = NgTestBed<TestContentChildren>(
+        ng.createTestContentChildrenFactory(),
+      );
       final testFixture = await testBed.create();
       expect(testFixture.text, isEmpty);
       await testFixture.update((component) => component.child!.update('a'));
@@ -35,8 +37,9 @@ void main() {
     });
 
     test('view children', () async {
-      final testBed =
-          NgTestBed<TestViewChildren>(ng.createTestViewChildrenFactory());
+      final testBed = NgTestBed<TestViewChildren>(
+        ng.createTestViewChildrenFactory(),
+      );
       final testFixture = await testBed.create();
       expect(testFixture.text, isEmpty);
       await testFixture.update((component) => component.update('a'));
@@ -47,7 +50,8 @@ void main() {
     group('existing provider', () {
       test('content children', () async {
         final testBed = NgTestBed<TestExistingProviderContentChildren>(
-            ng.createTestExistingProviderContentChildrenFactory());
+          ng.createTestExistingProviderContentChildrenFactory(),
+        );
         final testFixture = await testBed.create();
         expect(testFixture.text, isEmpty);
         await testFixture.update((component) => component.child!.update('a'));
@@ -56,7 +60,8 @@ void main() {
 
       test('view children', () async {
         final testBed = NgTestBed<TestExistingProviderViewChildren>(
-            ng.createTestExistingProviderViewChildrenFactory());
+          ng.createTestExistingProviderViewChildrenFactory(),
+        );
         final testFixture = await testBed.create();
         expect(testFixture.text, isEmpty);
         await testFixture.update((component) => component.update('a'));
@@ -67,7 +72,8 @@ void main() {
     group('nested', () {
       test('content children', () async {
         final testBed = NgTestBed<TestEmbeddedContentChildren>(
-            ng.createTestEmbeddedContentChildrenFactory());
+          ng.createTestEmbeddedContentChildrenFactory(),
+        );
         final testFixture = await testBed.create();
         expect(testFixture.text, isEmpty);
         await testFixture.update((component) => component.child!.update('a'));
@@ -86,7 +92,8 @@ void main() {
 
       test('view children', () async {
         final testBed = NgTestBed<TestEmbeddedViewChildren>(
-            ng.createTestEmbeddedViewChildrenFactory());
+          ng.createTestEmbeddedViewChildrenFactory(),
+        );
         final testFixture = await testBed.create();
         expect(testFixture.text, isEmpty);
         await testFixture.update((component) {
@@ -115,10 +122,7 @@ class Child {
   var value = '';
 }
 
-@Component(
-  selector: 'has-content-child',
-  template: '<ng-content></ng-content>',
-)
+@Component(selector: 'has-content-child', template: '<ng-content></ng-content>')
 class HasContentChild {
   HasContentChild(this._changeDetectorRef);
 
@@ -191,11 +195,7 @@ class TestContentChildren {
   HasContentChildren? child;
 }
 
-@Component(
-  selector: 'test',
-  template: '<child></child>',
-  directives: [Child],
-)
+@Component(selector: 'test', template: '<child></child>', directives: [Child])
 class TestViewChild {
   TestViewChild(this._changeDetectorRef);
 
@@ -242,9 +242,7 @@ abstract class HasValue {
 @Component(
   selector: 'child',
   template: '{{value}}',
-  providers: [
-    ExistingProvider(HasValue, ChildWithExistingProvider),
-  ],
+  providers: [ExistingProvider(HasValue, ChildWithExistingProvider)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class ChildWithExistingProvider implements HasValue {

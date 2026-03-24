@@ -10,10 +10,7 @@ void main() {
   test('should record a no-op', () async {
     final testLib = await resolveLibrary('');
     final output = await ReflectableReader.noLinking().resolve(testLib);
-    expect(
-      output,
-      ReflectableOutput(),
-    );
+    expect(output, ReflectableOutput());
   });
 
   test('should record a factory', () async {
@@ -34,9 +31,7 @@ void main() {
             ),
             [
               DependencyElement(
-                TypeTokenElement(
-                  const TypeLink('DateTime', 'dart:core'),
-                ),
+                TypeTokenElement(const TypeLink('DateTime', 'dart:core')),
               ),
             ],
           ),
@@ -56,22 +51,19 @@ void main() {
     final clazz = testLib.definingCompilationUnit.classes.first;
     expect(
       output,
-      ReflectableOutput(registerClasses: [
-        ReflectableClass(
-          element: clazz,
-          name: 'Example',
-          factory: DependencyInvocation(
-            clazz.unnamedConstructor,
-            [
+      ReflectableOutput(
+        registerClasses: [
+          ReflectableClass(
+            element: clazz,
+            name: 'Example',
+            factory: DependencyInvocation(clazz.unnamedConstructor, [
               DependencyElement(
-                TypeTokenElement(
-                  const TypeLink('Duration', 'dart:core'),
-                ),
+                TypeTokenElement(const TypeLink('Duration', 'dart:core')),
               ),
-            ],
+            ]),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   });
 
@@ -97,10 +89,7 @@ void main() {
       final output = await reader.resolve(testLib);
       expect(
         output.urlsNeedingInitReflector,
-        unorderedEquals([
-          'foo.template.dart',
-          'bar.template.dart',
-        ]),
+        unorderedEquals(['foo.template.dart', 'bar.template.dart']),
       );
     });
 
@@ -111,12 +100,7 @@ void main() {
         import 'bar.dart';
       ''');
       final output = await reader.resolve(testLib);
-      expect(
-        output.urlsNeedingInitReflector,
-        [
-          'foo.template.dart',
-        ],
-      );
+      expect(output.urlsNeedingInitReflector, ['foo.template.dart']);
     });
 
     test('should link to a file that will have a .template.dart', () async {
@@ -126,12 +110,7 @@ void main() {
         import 'bar.dart';
       ''');
       final output = await reader.resolve(testLib);
-      expect(
-        output.urlsNeedingInitReflector,
-        [
-          'foo.template.dart',
-        ],
-      );
+      expect(output.urlsNeedingInitReflector, ['foo.template.dart']);
     });
   });
 
@@ -141,12 +120,16 @@ void main() {
     var pleaseThrow = 'please.throw';
     setUp(() {
       reader = ReflectableReader(
-        hasInput: (input) => input.contains(pleaseThrow)
-            ? throw Exception('bad input $input')
-            : false,
-        isLibrary: (lib) async => lib.contains(pleaseThrow)
-            ? throw Exception('bad library $lib')
-            : false,
+        hasInput:
+            (input) =>
+                input.contains(pleaseThrow)
+                    ? throw Exception('bad input $input')
+                    : false,
+        isLibrary:
+            (lib) async =>
+                lib.contains(pleaseThrow)
+                    ? throw Exception('bad library $lib')
+                    : false,
       );
     });
 

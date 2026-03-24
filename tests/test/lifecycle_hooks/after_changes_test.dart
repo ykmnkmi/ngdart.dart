@@ -11,11 +11,13 @@ void main() {
     final testBed = NgTestBed<TestAfterChanges>(
       ng.createTestAfterChangesFactory(),
     );
-    final fixture = await testBed.create(beforeChangeDetection: (instance) {
-      instance
-        ..name = 'Buzz Lightyear'
-        ..email = 'buzz@starcommand.com';
-    });
+    final fixture = await testBed.create(
+      beforeChangeDetection: (instance) {
+        instance
+          ..name = 'Buzz Lightyear'
+          ..email = 'buzz@starcommand.com';
+      },
+    );
     expect(fixture.text, 'Buzz Lightyear (buzz@starcommand.com)');
     expect(AfterChangesExample.ngAfterChangesCalled, 1);
   });
@@ -70,9 +72,11 @@ void main() {
     final testBed = NgTestBed<TestAfterChangesDirective>(
       ng.createTestAfterChangesDirectiveFactory(),
     );
-    final fixture = await testBed.create(beforeChangeDetection: (instance) {
-      instance.name = 'Buzz Lightyear';
-    });
+    final fixture = await testBed.create(
+      beforeChangeDetection: (instance) {
+        instance.name = 'Buzz Lightyear';
+      },
+    );
     expect(AfterChangesDirectiveExample.ngAfterChangesCalled, 1);
 
     await fixture.update((i) => i.name = 'Woody');
@@ -85,9 +89,7 @@ void main() {
 
 @Component(
   selector: 'test-after-changes-example',
-  directives: [
-    AfterChangesExample,
-  ],
+  directives: [AfterChangesExample],
   template: r'''
     <after-changes-example [name]="name" [email]="email">
     </after-changes-example>
@@ -98,10 +100,7 @@ class TestAfterChanges {
   String? email;
 }
 
-@Component(
-  selector: 'after-changes-example',
-  template: '{{nameAndEmail}}',
-)
+@Component(selector: 'after-changes-example', template: '{{nameAndEmail}}')
 class AfterChangesExample implements AfterChanges {
   static var ngAfterChangesCalled = 0;
 
@@ -130,9 +129,7 @@ class AfterChangesExample implements AfterChanges {
 
 @Component(
   selector: 'test-after-changes-directive',
-  directives: [
-    AfterChangesDirectiveExample,
-  ],
+  directives: [AfterChangesDirectiveExample],
   template: r'''
     <div after-changes-directive [name]="name">
     </div>
@@ -142,9 +139,7 @@ class TestAfterChangesDirective {
   String? name;
 }
 
-@Directive(
-  selector: '[after-changes-directive]',
-)
+@Directive(selector: '[after-changes-directive]')
 class AfterChangesDirectiveExample implements AfterChanges {
   static var ngAfterChangesCalled = 0;
 

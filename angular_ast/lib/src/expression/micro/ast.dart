@@ -15,10 +15,7 @@ class NgMicroAst {
   final List<PropertyAst> properties;
 
   @literal
-  const NgMicroAst({
-    required this.letBindings,
-    required this.properties,
-  });
+  const NgMicroAst({required this.letBindings, required this.properties});
 
   @override
   bool operator ==(Object o) {

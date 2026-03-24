@@ -41,9 +41,7 @@ class TestContainer {}
 )
 class ChildComponent extends SomeDirective {}
 
-@Directive(
-  selector: '[someDirective]',
-)
+@Directive(selector: '[someDirective]')
 class SomeDirective {
   @HostBinding('attr.role')
   static const hostRole = 'button';

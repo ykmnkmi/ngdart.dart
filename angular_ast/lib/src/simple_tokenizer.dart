@@ -28,33 +28,37 @@ class NgSimpleScanner {
       match.group(group) != null;
 
   static final _allTextMatches = RegExp(r'([^\<]+)|(<!--)|(<)');
-  static final _allElementMatches = RegExp(r'(\])|' //1  ]
-      r'(\!)|' //2  !
-      r'(\-)|' //3  -
-      r'(\))|' //4  )
-      r'(>)|' //5  >
-      r'(\/)|' //6  /
-      r'(\[)|' //7  [
-      r'(\()|' //8  (
-      r'([\s]+)|' //9 whitespace
-      //10 any alphanumeric + '-' + '_' + ':'
-      r'([a-zA-Z]([\w\_\-:])*[a-zA-Z0-9]?)|'
-      r'("([^"\\]+|\\.)*"?)|' //12 closed double quote (includes group 13)
-      r"('([^'\\]+|\\.)*'?)|" //14 closed single quote (includes group 15)
-      r'(<)|' //16 <
-      r'(=)|' //17 =
-      r'(\*)|' //18 *
-      r'(\#)|' //19 #
-      r'(\.)|' //20 .
-      r'(\%)|' //21 %
-      r'(\\)|' //22 \
-      r'(\@)'); //23 @
+  static final _allElementMatches = RegExp(
+    r'(\])|' //1  ]
+    r'(\!)|' //2  !
+    r'(\-)|' //3  -
+    r'(\))|' //4  )
+    r'(>)|' //5  >
+    r'(\/)|' //6  /
+    r'(\[)|' //7  [
+    r'(\()|' //8  (
+    r'([\s]+)|' //9 whitespace
+    //10 any alphanumeric + '-' + '_' + ':'
+    r'([a-zA-Z]([\w\_\-:])*[a-zA-Z0-9]?)|'
+    r'("([^"\\]+|\\.)*"?)|' //12 closed double quote (includes group 13)
+    r"('([^'\\]+|\\.)*'?)|" //14 closed single quote (includes group 15)
+    r'(<)|' //16 <
+    r'(=)|' //17 =
+    r'(\*)|' //18 *
+    r'(\#)|' //19 #
+    r'(\.)|' //20 .
+    r'(\%)|' //21 %
+    r'(\\)|' //22 \
+    r'(\@)',
+  ); //23 @
   static final _commentEnd = RegExp('-->');
   static final _mustaches = RegExp(r'({{)|(}})');
   static final _newline = RegExp('\n');
-  static final _escape = RegExp(r'&#([0-9]{2,4});|' // 1 decimal
-      '&#x([0-9A-Fa-f]{2,4});|' // 2 hex
-      '&([a-zA-Z]+);'); // 3 named
+  static final _escape = RegExp(
+    r'&#([0-9]{2,4});|' // 1 decimal
+    '&#x([0-9A-Fa-f]{2,4});|' // 2 hex
+    '&([a-zA-Z]+);',
+  ); // 3 named
 
   static final _doctypeBegin = RegExp(r'(<!DOCTYPE)|(>)');
   static final _gt = RegExp(r'>');
@@ -131,7 +135,9 @@ class NgSimpleScanner {
       }
       _scanner.position = endOffset;
       return _newTextToken(
-          offset, _scanner.string.substring(offset, endOffset));
+        offset,
+        _scanner.string.substring(offset, endOffset),
+      );
     }
     return scanText();
   }
@@ -235,7 +241,9 @@ class NgSimpleScanner {
       }
     }
     return NgSimpleToken.unexpectedChar(
-        offset, String.fromCharCode(_scanner.readChar()));
+      offset,
+      String.fromCharCode(_scanner.readChar()),
+    );
   }
 
   NgSimpleToken scanText() {
@@ -257,7 +265,9 @@ class NgSimpleScanner {
           if (mustacheStart != offset) {
             _scanner.position = mustacheStart;
             return _newTextToken(
-                offset, _scanner.substring(offset, mustacheStart));
+              offset,
+              _scanner.substring(offset, mustacheStart),
+            );
           }
 
           // Mustache exists and text doesn't precede it - return mustache.
@@ -288,7 +298,9 @@ class NgSimpleScanner {
       }
     }
     return NgSimpleToken.unexpectedChar(
-        offset, String.fromCharCode(_scanner.readChar()));
+      offset,
+      String.fromCharCode(_scanner.readChar()),
+    );
   }
 
   NgSimpleToken scanInterpolation() {
@@ -346,7 +358,9 @@ class NgSimpleScanner {
       return NgSimpleToken.mustacheEnd(matchStartOffset);
     }
     return NgSimpleToken.unexpectedChar(
-        offset, String.fromCharCode(_scanner.readChar()));
+      offset,
+      String.fromCharCode(_scanner.readChar()),
+    );
   }
 
   void resetState() {

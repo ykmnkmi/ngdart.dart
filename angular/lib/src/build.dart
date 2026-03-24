@@ -51,10 +51,7 @@ Builder templateCompiler(
   // determined in an action, and it's easier for them just to invoke us always
   // with the same builder, and we determine here whether to outline or not.
   final outline = config.remove(_useTemplateOutlinesInstead) != null;
-  final flags = CompilerFlags.parseRaw(
-    config,
-    defaultFlags,
-  );
+  final flags = CompilerFlags.parseRaw(config, defaultFlags);
   if (outline) {
     return TemplateOutliner(
       extension: outlineExtension,
@@ -102,9 +99,7 @@ PostProcessBuilder placeholderCleanup(_) {
 PostProcessBuilder componentSourceCleanup(BuilderOptions options) {
   return FileDeletingBuilder.withExcludes(
     const ['.html', '.css'],
-    List<String>.from(
-      options.config['exclude'] as List? ?? const [],
-    ),
+    List<String>.from(options.config['exclude'] as List? ?? const []),
     isEnabled: options.config['enabled'] == true,
   );
 }

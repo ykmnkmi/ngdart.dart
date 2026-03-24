@@ -14,7 +14,7 @@ class ModuleReader {
   final ProviderReader _providerReader;
 
   const ModuleReader({ProviderReader providerReader = const ProviderReader()})
-      : _providerReader = providerReader;
+    : _providerReader = providerReader;
 
   /// Returns whether an object represents a constant [List].
   @protected
@@ -106,10 +106,11 @@ class ModuleReader {
     final items = o.toListValue()!;
     final include =
         items.where((item) => isModule(item)).map(parseModule).toList();
-    final provide = items
-        .where((item) => !isModule(item))
-        .map(_providerReader.parseProvider)
-        .toList();
+    final provide =
+        items
+            .where((item) => !isModule(item))
+            .map(_providerReader.parseProvider)
+            .toList();
 
     return ModuleElement(provide: provide, include: include);
   }
@@ -171,8 +172,5 @@ class ModuleElement {
   @override
   String toString() =>
       'ModuleElement ' +
-      {
-        'provide': '$provide',
-        'include': '$include',
-      }.toString();
+      {'provide': '$provide', 'include': '$include'}.toString();
 }

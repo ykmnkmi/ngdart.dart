@@ -8,32 +8,36 @@ import '../resolve_util.dart';
 
 void main() {
   group('inferExpressionType', () {
-    test('should resolve return type of method with implicit receiver',
-        () async {
-      final analyzedClass = await analyzeClass('''
+    test(
+      'should resolve return type of method with implicit receiver',
+      () async {
+        final analyzedClass = await analyzeClass('''
         class AppComponent {
           final List<String> _names;
           List<String> getNames() => _names;
         }''');
-      final expression = MethodCall(ImplicitReceiver(), 'getNames', []);
-      final type = getExpressionType(expression, analyzedClass);
-      expect(typeToCode(type), 'List<String>');
-    });
+        final expression = MethodCall(ImplicitReceiver(), 'getNames', []);
+        final type = getExpressionType(expression, analyzedClass);
+        expect(typeToCode(type), 'List<String>');
+      },
+    );
 
-    test('should resolve return type of method with explicit receiver',
-        () async {
-      final analyzedClass = await analyzeClass('''
+    test(
+      'should resolve return type of method with explicit receiver',
+      () async {
+        final analyzedClass = await analyzeClass('''
         class AppComponent {
           final List<String> names;
         }''');
-      final namesExpr = PropertyRead(ImplicitReceiver(), 'names');
-      final rangeExpr = MethodCall(namesExpr, 'getRange', [
-        LiteralPrimitive(1),
-        LiteralPrimitive(4),
-      ]);
-      final type = getExpressionType(rangeExpr, analyzedClass);
-      expect(typeToCode(type), 'Iterable<String>');
-    });
+        final namesExpr = PropertyRead(ImplicitReceiver(), 'names');
+        final rangeExpr = MethodCall(namesExpr, 'getRange', [
+          LiteralPrimitive(1),
+          LiteralPrimitive(4),
+        ]);
+        final type = getExpressionType(rangeExpr, analyzedClass);
+        expect(typeToCode(type), 'Iterable<String>');
+      },
+    );
 
     test('should resolve property type with implicit receiver', () async {
       final analyzedClass = await analyzeClass('''
@@ -82,8 +86,9 @@ void main() {
           final int eight = 8;
         }
       ''');
-      var analyzedClass =
-          AnalyzedClass(library.getClass('SubComponent') as ClassElement);
+      var analyzedClass = AnalyzedClass(
+        library.getClass('SubComponent') as ClassElement,
+      );
       final sevenExpr = PropertyRead(ImplicitReceiver(), 'seven');
       final eightExpr = PropertyRead(ImplicitReceiver(), 'eight');
       final someNumberExpr = PropertyRead(ImplicitReceiver(), 'someNumber');

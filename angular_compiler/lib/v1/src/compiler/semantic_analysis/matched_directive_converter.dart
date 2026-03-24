@@ -27,8 +27,14 @@ List<ir.MatchedDirective> convertMatchedDirectives(
   for (var directive in directives) {
     index++;
     var providerSource = compileElement.directiveInstances[index];
-    matchedDirectives.add(convertMatchedDirective(
-        directive, providerSource, compileElement, compileDirectiveMetadata));
+    matchedDirectives.add(
+      convertMatchedDirective(
+        directive,
+        providerSource,
+        compileElement,
+        compileDirectiveMetadata,
+      ),
+    );
   }
   return matchedDirectives;
 }
@@ -80,8 +86,10 @@ ir.MatchedDirective convertMatchedDirective(
 
 Set<ir.Lifecycle> _lifecycles(core.CompileDirectiveMetadata directive) =>
     ir.Lifecycle.values
-        .where((lifecycle) =>
-            directive.lifecycleHooks.contains(_lifecyclesAsIr[lifecycle]))
+        .where(
+          (lifecycle) =>
+              directive.lifecycleHooks.contains(_lifecyclesAsIr[lifecycle]),
+        )
         .toSet();
 
 const _lifecyclesAsIr = {

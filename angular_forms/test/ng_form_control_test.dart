@@ -16,8 +16,9 @@ void main() {
     tearDown(() => disposeAnyRunningTest());
 
     setUp(() async {
-      var testBed =
-          NgTestBed<NgFormControlTest>(ng.createNgFormControlTestFactory());
+      var testBed = NgTestBed<NgFormControlTest>(
+        ng.createNgFormControlTestFactory(),
+      );
       fixture = await testBed.create();
     });
 
@@ -72,7 +73,8 @@ void main() {
 
     setUp(() async {
       var testBed = NgTestBed<NgFormControlInitTest>(
-          ng.createNgFormControlInitTestFactory());
+        ng.createNgFormControlInitTestFactory(),
+      );
       fixture = await testBed.create();
     });
 
@@ -88,9 +90,7 @@ void main() {
 
 @Component(
   selector: 'ng-form-control-test',
-  directives: [
-    formDirectives,
-  ],
+  directives: [formDirectives],
   template: '''
 <div ngForm>
   <input [ngFormControl]="loginControl" #login="ngForm" #input required />
@@ -107,12 +107,12 @@ class NgFormControlTest {
   Control loginControl = Control(null);
 }
 
-@Directive(selector: '[dummy]', providers: [
-  ExistingProvider.forToken(
-    ngValueAccessor,
-    DummyControlValueAccessor,
-  )
-])
+@Directive(
+  selector: '[dummy]',
+  providers: [
+    ExistingProvider.forToken(ngValueAccessor, DummyControlValueAccessor),
+  ],
+)
 class DummyControlValueAccessor implements ControlValueAccessor<dynamic> {
   final writeValueCalls = [];
 
@@ -131,10 +131,7 @@ class DummyControlValueAccessor implements ControlValueAccessor<dynamic> {
 
 @Component(
   selector: 'ng-form-control-test',
-  directives: [
-    formDirectives,
-    DummyControlValueAccessor,
-  ],
+  directives: [formDirectives, DummyControlValueAccessor],
   template: '''
 <div ngForm>
   <input [ngFormControl]="loginControl" ngModel="Test" dummy />

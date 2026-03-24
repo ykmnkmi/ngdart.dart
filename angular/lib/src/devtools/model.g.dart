@@ -6,16 +6,21 @@ part of 'model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializers _$serializers = (new Serializers().toBuilder()
-      ..add(InspectorDirective.serializer)
-      ..add(InspectorNode.serializer)
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(InspectorDirective)]),
-          () => new ListBuilder<InspectorDirective>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(InspectorNode)]),
-          () => new ListBuilder<InspectorNode>()))
-    .build();
+Serializers _$serializers =
+    (new Serializers().toBuilder()
+          ..add(InspectorDirective.serializer)
+          ..add(InspectorNode.serializer)
+          ..addBuilderFactory(
+            const FullType(BuiltList, const [
+              const FullType(InspectorDirective),
+            ]),
+            () => new ListBuilder<InspectorDirective>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, const [const FullType(InspectorNode)]),
+            () => new ListBuilder<InspectorNode>(),
+          ))
+        .build();
 Serializer<InspectorNode> _$inspectorNodeSerializer =
     new _$InspectorNodeSerializer();
 Serializer<InspectorDirective> _$inspectorDirectiveSerializer =
@@ -28,33 +33,48 @@ class _$InspectorNodeSerializer implements StructuredSerializer<InspectorNode> {
   final String wireName = 'InspectorNode';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, InspectorNode object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    InspectorNode object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'directives',
-      serializers.serialize(object.directives,
-          specifiedType: const FullType(
-              BuiltList, const [const FullType(InspectorDirective)])),
+      serializers.serialize(
+        object.directives,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(InspectorDirective),
+        ]),
+      ),
       'children',
-      serializers.serialize(object.children,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(InspectorNode)])),
+      serializers.serialize(
+        object.children,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(InspectorNode),
+        ]),
+      ),
     ];
     Object? value;
     value = object.component;
     if (value != null) {
       result
         ..add('component')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(InspectorDirective)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(InspectorDirective),
+          ),
+        );
     }
     return result;
   }
 
   @override
   InspectorNode deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new InspectorNodeBuilder();
 
     final iterator = serialized.iterator;
@@ -64,21 +84,35 @@ class _$InspectorNodeSerializer implements StructuredSerializer<InspectorNode> {
       final Object? value = iterator.current;
       switch (key) {
         case 'component':
-          result.component.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(InspectorDirective))!
-              as InspectorDirective);
+          result.component.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(InspectorDirective),
+                )!
+                as InspectorDirective,
+          );
           break;
         case 'directives':
-          result.directives.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(InspectorDirective)]))!
-              as BuiltList<Object?>);
+          result.directives.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(InspectorDirective),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
           break;
         case 'children':
-          result.children.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(InspectorNode)]))!
-              as BuiltList<Object?>);
+          result.children.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(InspectorNode),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
           break;
       }
     }
@@ -96,8 +130,10 @@ class _$InspectorDirectiveSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, InspectorDirective object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    InspectorDirective object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
@@ -110,8 +146,10 @@ class _$InspectorDirectiveSerializer
 
   @override
   InspectorDirective deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new InspectorDirectiveBuilder();
 
     final iterator = serialized.iterator;
@@ -121,12 +159,17 @@ class _$InspectorDirectiveSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'name':
-          result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+          result.name =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String;
           break;
         case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+          result.id =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int;
           break;
       }
     }
@@ -146,13 +189,21 @@ class _$InspectorNode extends InspectorNode {
   factory _$InspectorNode([void Function(InspectorNodeBuilder)? updates]) =>
       (new InspectorNodeBuilder()..update(updates)).build();
 
-  _$InspectorNode._(
-      {this.component, required this.directives, required this.children})
-      : super._() {
+  _$InspectorNode._({
+    this.component,
+    required this.directives,
+    required this.children,
+  }) : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        directives, 'InspectorNode', 'directives');
+      directives,
+      'InspectorNode',
+      'directives',
+    );
     BuiltValueNullFieldError.checkNotNull(
-        children, 'InspectorNode', 'children');
+      children,
+      'InspectorNode',
+      'children',
+    );
   }
 
   @override
@@ -173,8 +224,12 @@ class _$InspectorNode extends InspectorNode {
 
   @override
   int get hashCode {
-    return $jf($jc($jc($jc(0, component.hashCode), directives.hashCode),
-        children.hashCode));
+    return $jf(
+      $jc(
+        $jc($jc(0, component.hashCode), directives.hashCode),
+        children.hashCode,
+      ),
+    );
   }
 
   @override
@@ -237,11 +292,13 @@ class InspectorNodeBuilder
   _$InspectorNode build() {
     _$InspectorNode _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           new _$InspectorNode._(
-              component: _component?.build(),
-              directives: directives.build(),
-              children: children.build());
+            component: _component?.build(),
+            directives: directives.build(),
+            children: children.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -253,7 +310,10 @@ class InspectorNodeBuilder
         children.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'InspectorNode', _$failedField, e.toString());
+          'InspectorNode',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -268,9 +328,9 @@ class _$InspectorDirective extends InspectorDirective {
   @override
   final int id;
 
-  factory _$InspectorDirective(
-          [void Function(InspectorDirectiveBuilder)? updates]) =>
-      (new InspectorDirectiveBuilder()..update(updates)).build();
+  factory _$InspectorDirective([
+    void Function(InspectorDirectiveBuilder)? updates,
+  ]) => (new InspectorDirectiveBuilder()..update(updates)).build();
 
   _$InspectorDirective._({required this.name, required this.id}) : super._() {
     BuiltValueNullFieldError.checkNotNull(name, 'InspectorDirective', 'name');
@@ -279,8 +339,8 @@ class _$InspectorDirective extends InspectorDirective {
 
   @override
   InspectorDirective rebuild(
-          void Function(InspectorDirectiveBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(InspectorDirectiveBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   InspectorDirectiveBuilder toBuilder() =>
@@ -345,12 +405,20 @@ class InspectorDirectiveBuilder
 
   @override
   _$InspectorDirective build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         new _$InspectorDirective._(
-            name: BuiltValueNullFieldError.checkNotNull(
-                name, 'InspectorDirective', 'name'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, 'InspectorDirective', 'id'));
+          name: BuiltValueNullFieldError.checkNotNull(
+            name,
+            'InspectorDirective',
+            'name',
+          ),
+          id: BuiltValueNullFieldError.checkNotNull(
+            id,
+            'InspectorDirective',
+            'id',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

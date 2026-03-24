@@ -29,7 +29,9 @@ void main() {
     );
     final testFixture = await testBed.create();
     expect(
-        testFixture.assertOnlyInstance.anchor!.getAttribute('href'), '#/foo');
+      testFixture.assertOnlyInstance.anchor!.getAttribute('href'),
+      '#/foo',
+    );
     await testFixture.update((c) {
       c.anchor!.click();
     });

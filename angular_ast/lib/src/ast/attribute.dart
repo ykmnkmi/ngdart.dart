@@ -103,10 +103,10 @@ class ParsedAttributeAst extends TemplateAst
     this.equalSignToken,
     this.mustaches,
   ]) : super.parsed(
-          nameToken,
-          valueToken == null ? nameToken : valueToken.rightQuote,
-          sourceFile,
-        );
+         nameToken,
+         valueToken == null ? nameToken : valueToken.rightQuote,
+         sourceFile,
+       );
 
   /// Static attribute name.
   @override

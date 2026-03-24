@@ -79,7 +79,7 @@ class _TemplateHumanizer implements TemplateAstVisitor<void, void> {
       BoundEventAst,
       ast.name,
       null, // TODO: remove
-      _expressionUnparser.unparse(ast.handler.expression)
+      _expressionUnparser.unparse(ast.handler.expression),
     ];
     result.add(_appendContext(ast, res));
   }
@@ -91,7 +91,7 @@ class _TemplateHumanizer implements TemplateAstVisitor<void, void> {
       ast.type,
       ast.name,
       ..._humanizeBoundValue(ast.value),
-      ast.unit
+      ast.unit,
     ];
     result.add(_appendContext(ast, res));
   }
@@ -142,7 +142,7 @@ class _TemplateHumanizer implements TemplateAstVisitor<void, void> {
     final res = [
       BoundDirectivePropertyAst,
       ast.memberName,
-      ..._humanizeBoundValue(ast.value)
+      ..._humanizeBoundValue(ast.value),
     ];
     result.add(_appendContext(ast, res));
   }
@@ -253,7 +253,7 @@ class _TemplateContentProjectionHumanizer
   void visitBoundText(BoundTextAst ast, _) {
     result.add([
       '''#text(${_expressionUnparser.unparse(ast.value)})''',
-      ast.ngContentIndex
+      ast.ngContentIndex,
     ]);
   }
 

@@ -170,76 +170,49 @@ void main() {
   });
 }
 
-@Component(
-  selector: 'host-binding-static',
-  template: '',
-)
+@Component(selector: 'host-binding-static', template: '')
 class HostBindingStaticTitle {
   @HostBinding('title')
   static const hostTitle = 'Hello World';
 }
 
-@Component(
-  selector: 'host-binding-instance',
-  template: '',
-)
+@Component(selector: 'host-binding-instance', template: '')
 class HostBindingInstanceTitle {
   @HostBinding('title')
   final hostTitle = 'Hello World';
 }
 
-@Component(
-  selector: 'host-binding-static-not-inherited',
-  template: '',
-)
+@Component(selector: 'host-binding-static-not-inherited', template: '')
 class HostBindingStaticTitleNotInherited extends HostBindingStaticTitle {}
 
-@Component(
-  selector: 'host-binding-instance-inherited',
-  template: '',
-)
+@Component(selector: 'host-binding-instance-inherited', template: '')
 class HostBindingInstanceTitleInherited extends HostBindingInstanceTitle {}
 
-@Component(
-  selector: 'host-binding-tab-index',
-  template: '',
-)
+@Component(selector: 'host-binding-tab-index', template: '')
 class HostBindingTabIndex0 {
   @HostBinding('tabIndex')
   static const hostTabIndex = 0;
 }
 
-@Component(
-  selector: 'host-binding-tab-index',
-  template: '',
-)
+@Component(selector: 'host-binding-tab-index', template: '')
 class HostBindingTabIndexNegative1 {
   @HostBinding('tabIndex')
   static const hostTabIndex = -1;
 }
 
-@Component(
-  selector: 'host-binding-static-class',
-  template: '',
-)
+@Component(selector: 'host-binding-static-class', template: '')
 class HostBindingStaticClass {
   @HostBinding('class')
   static const hostClass = 'themeable';
 }
 
-@Component(
-  selector: 'host-binding-static-class',
-  template: '',
-)
+@Component(selector: 'host-binding-static-class', template: '')
 class HostBindingInstanceClass {
   @HostBinding('class')
   var hostClass = 'themeable';
 }
 
-@Component(
-  selector: 'host-binding-conditional-attribute',
-  template: '',
-)
+@Component(selector: 'host-binding-conditional-attribute', template: '')
 class HostBindingConditionalAttribute {
   // Old Style
   @HostBinding('attr.disabled')
@@ -250,10 +223,7 @@ class HostBindingConditionalAttribute {
   bool disabledBackingValue = false;
 }
 
-@Component(
-  selector: 'host-binding-conditional-attribute-statics',
-  template: '',
-)
+@Component(selector: 'host-binding-conditional-attribute-statics', template: '')
 class HostBindingConditionalStatics {
   @HostBinding('attr.disabled.if')
   static const bool disabled = true;
@@ -263,29 +233,20 @@ class HostBindingConditionalStatics {
   static bool get ariaDisabled => disabled;
 }
 
-@Component(
-  selector: 'host-binding-conditional-attribute',
-  template: '',
-)
+@Component(selector: 'host-binding-conditional-attribute', template: '')
 class HostBindingConditionalClass {
   @HostBinding('class.fancy')
   var fancy = false;
 }
 
-@Component(
-  selector: 'host-binding-multi',
-  template: '',
-)
+@Component(selector: 'host-binding-multi', template: '')
 class HostBindingMulti {
   @HostBinding('class')
   @HostBinding('title')
   static const hostClassAndTitle = 'hello';
 }
 
-@Component(
-  selector: 'host-listener-click',
-  template: '',
-)
+@Component(selector: 'host-listener-click', template: '')
 class HostListenerClick {
   @HostListener('click')
   void onClick() => clickHandler();
@@ -295,16 +256,10 @@ class HostListenerClick {
   void Function() clickHandler = () => throw UnimplementedError();
 }
 
-@Component(
-  selector: 'host-listener-inherited-click',
-  template: '',
-)
+@Component(selector: 'host-listener-inherited-click', template: '')
 class HostListenerInheritedClick extends HostListenerClick {}
 
-@Component(
-  selector: 'host-listener-multi',
-  template: '',
-)
+@Component(selector: 'host-listener-multi', template: '')
 class HostListenerMulti {
   @HostListener('blur')
   @HostListener('focus')

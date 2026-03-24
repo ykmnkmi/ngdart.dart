@@ -68,9 +68,10 @@ void main() {
 
     ClassElement? classNamed(String name) => library.getClass(name);
 
-    FunctionElement functionNamed(String name) =>
-        library.definingCompilationUnit.functions
-            .firstWhere((e) => e.name == name);
+    FunctionElement functionNamed(String name) => library
+        .definingCompilationUnit
+        .functions
+        .firstWhere((e) => e.name == name);
 
     test('a function with no parameters', () {
       final function = functionNamed('createExample0');
@@ -321,8 +322,9 @@ void main() {
     });
 
     test('a static method with a parameter annotated with an OpaqueToken', () {
-      final method =
-          classNamed('Creator')!.getMethod('createExampleInjectToken');
+      final method = classNamed(
+        'Creator',
+      )!.getMethod('createExampleInjectToken');
       final deps = reader.parseDependencies(method);
       expect(deps.positional, [
         DependencyElement(
@@ -338,19 +340,21 @@ void main() {
       ]);
     });
 
-    test('a static method with an untyped parameter annotated with @Inject',
-        () {
-      final method = classNamed('Creator')!.getMethod('createExampleDynamic');
-      final deps = reader.parseDependencies(method);
-      expect(deps.positional, [
-        DependencyElement(
-          TypeTokenElement(
-            TypeLink('Engine', 'asset:test_lib/lib/test_lib.dart'),
+    test(
+      'a static method with an untyped parameter annotated with @Inject',
+      () {
+        final method = classNamed('Creator')!.getMethod('createExampleDynamic');
+        final deps = reader.parseDependencies(method);
+        expect(deps.positional, [
+          DependencyElement(
+            TypeTokenElement(
+              TypeLink('Engine', 'asset:test_lib/lib/test_lib.dart'),
+            ),
+            type: TypeTokenElement.$dynamic,
           ),
-          type: TypeTokenElement.$dynamic,
-        ),
-      ]);
-    });
+        ]);
+      },
+    );
 
     test('a class with a default constructor', () {
       final clazz = classNamed('Example');

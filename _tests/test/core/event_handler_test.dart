@@ -116,16 +116,20 @@ void main() {
     });
   });
 
-  test('should support top-level methods tear-offs for events', () async {
-    final testBed = NgTestBed<TestTopLevelMethods>(
-      ng.createTestTopLevelMethodsFactory(),
-    );
-    final fixture = await testBed.create();
-    overrideTopLevelDoCapture = expectAsync0(() {});
-    await fixture.update((_) {
-      fixture.rootElement.querySelector('button')!.click();
-    });
-  }, skip: 'https://github.com/angulardart/angular/issues/1670');
+  test(
+    'should support top-level methods tear-offs for events',
+    () async {
+      final testBed = NgTestBed<TestTopLevelMethods>(
+        ng.createTestTopLevelMethodsFactory(),
+      );
+      final fixture = await testBed.create();
+      overrideTopLevelDoCapture = expectAsync0(() {});
+      await fixture.update((_) {
+        fixture.rootElement.querySelector('button')!.click();
+      });
+    },
+    skip: 'https://github.com/angulardart/angular/issues/1670',
+  );
 
   test('should support top-level methods invoked for events', () async {
     final testBed = NgTestBed<TestTopLevelMethodsDirect>(
@@ -138,16 +142,20 @@ void main() {
     });
   });
 
-  test('should support static methods tear-offs for events', () async {
-    final testBed = NgTestBed<TestStaticMethods>(
-      ng.createTestStaticMethodsFactory(),
-    );
-    final fixture = await testBed.create();
-    TestStaticMethods.overrideDoCapture = expectAsync0(() {});
-    await fixture.update((_) {
-      fixture.rootElement.querySelector('button')!.click();
-    });
-  }, skip: 'https://github.com/angulardart/angular/issues/1670');
+  test(
+    'should support static methods tear-offs for events',
+    () async {
+      final testBed = NgTestBed<TestStaticMethods>(
+        ng.createTestStaticMethodsFactory(),
+      );
+      final fixture = await testBed.create();
+      TestStaticMethods.overrideDoCapture = expectAsync0(() {});
+      await fixture.update((_) {
+        fixture.rootElement.querySelector('button')!.click();
+      });
+    },
+    skip: 'https://github.com/angulardart/angular/issues/1670',
+  );
 
   test('should support static methods invoked for events', () async {
     final testBed = NgTestBed<TestStaticMethodsDirect>(
@@ -160,16 +168,20 @@ void main() {
     });
   });
 
-  test('should support chained method tear-offs for events', () async {
-    final testBed = NgTestBed<TestChainedMethods>(
-      ng.createTestChainedMethodsFactory(),
-    );
-    final fixture = await testBed.create();
-    fixture.assertOnlyInstance.bar.overrideDoCapture = expectAsync0(() {});
-    await fixture.update((_) {
-      fixture.rootElement.querySelector('button')!.click();
-    });
-  }, skip: 'https://github.com/angulardart/angular/issues/1670');
+  test(
+    'should support chained method tear-offs for events',
+    () async {
+      final testBed = NgTestBed<TestChainedMethods>(
+        ng.createTestChainedMethodsFactory(),
+      );
+      final fixture = await testBed.create();
+      fixture.assertOnlyInstance.bar.overrideDoCapture = expectAsync0(() {});
+      await fixture.update((_) {
+        fixture.rootElement.querySelector('button')!.click();
+      });
+    },
+    skip: 'https://github.com/angulardart/angular/issues/1670',
+  );
 
   test('should support chained method invoked for events', () async {
     final testBed = NgTestBed<TestChainedMethodsDirect>(
@@ -185,7 +197,8 @@ void main() {
   // All exceptions thrown in event listeners should be caught for logging.
   test('should be able to catch a thrown event listener error', () async {
     final testBed = NgTestBed<ComponentWithHostEventThatThrows>(
-        ng.createComponentWithHostEventThatThrowsFactory());
+      ng.createComponentWithHostEventThatThrowsFactory(),
+    );
     final fixture = await testBed.create();
     expect(
       fixture.update((_) => fixture.rootElement.click()),
@@ -239,10 +252,7 @@ class SuperClick {
   final _clicks = StreamController<void>();
 }
 
-@Component(
-  selector: 'test',
-  template: r'<button (click)="foo()"></button>',
-)
+@Component(selector: 'test', template: r'<button (click)="foo()"></button>')
 class TestNamedArgsWithDefaultValue1 {
   final captured = <String>[];
 
@@ -251,10 +261,7 @@ class TestNamedArgsWithDefaultValue1 {
   }
 }
 
-@Component(
-  selector: 'test',
-  template: r'<button (click)="foo"></button>',
-)
+@Component(selector: 'test', template: r'<button (click)="foo"></button>')
 class TestNamedArgsWithDefaultValue2 {
   final captured = <String>[];
 
@@ -389,10 +396,7 @@ class Bar {
   }
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-)
+@Component(selector: 'test', template: '')
 class ComponentWithHostEventThatThrows {
   @HostListener('click')
   void onClick() => throw IntentionalError();

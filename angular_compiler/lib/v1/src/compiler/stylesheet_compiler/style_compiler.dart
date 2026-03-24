@@ -37,20 +37,35 @@ class StyleCompiler {
   /// resources.
   StylesCompileResult compileComponent(ir.Component component) {
     var requiresShim = component.encapsulation == ir.ViewEncapsulation.emulated;
-    return _compileStyles(_getStylesVarName(component.name), component.styles,
-        component.styleUrls, requiresShim);
+    return _compileStyles(
+      _getStylesVarName(component.name),
+      component.styles,
+      component.styleUrls,
+      requiresShim,
+    );
   }
 
   StylesCompileResult compileHostComponent(ir.Component component) {
     return _compileStyles(
-        _getStylesVarName('${component.name}Host'), [], [], true);
+      _getStylesVarName('${component.name}Host'),
+      [],
+      [],
+      true,
+    );
   }
 
   StylesCompileResult compileStylesheet(
-      String stylesheetUrl, String cssText, bool isShimmed) {
+    String stylesheetUrl,
+    String cssText,
+    bool isShimmed,
+  ) {
     var styleWithImports = extractStyleUrls(stylesheetUrl, cssText);
-    return _compileStyles(_getStylesVarName(), [styleWithImports.style],
-        styleWithImports.styleUrls, isShimmed);
+    return _compileStyles(
+      _getStylesVarName(),
+      [styleWithImports.style],
+      styleWithImports.styleUrls,
+      isShimmed,
+    );
   }
 
   StylesCompileResult _compileStyles(
@@ -81,23 +96,28 @@ class StyleCompiler {
     final listShouldBeConst = styleExpressions.isEmpty;
     final statement = o
         .variable(stylesVar)
-        .set(o.literalArr(
+        .set(
+          o.literalArr(
             styleExpressions,
             o.ArrayType(
               null,
               listShouldBeConst ? [o.TypeModifier.Const] : const [],
-            )))
-        .toDeclStmt(
-      o.ArrayType(o.OBJECT_TYPE),
-      [o.StmtModifier.Final],
-    );
+            ),
+          ),
+        )
+        .toDeclStmt(o.ArrayType(o.OBJECT_TYPE), [o.StmtModifier.Final]);
     return StylesCompileResult([statement], stylesVar);
   }
 
-  String _shimIfNeeded(String style, bool shim) => shim
-      ? shimShadowCss(style, _viewClass, _hostClass,
-          useLegacyEncapsulation: _config.useLegacyStyleEncapsulation)
-      : style;
+  String _shimIfNeeded(String style, bool shim) =>
+      shim
+          ? shimShadowCss(
+            style,
+            _viewClass,
+            _hostClass,
+            useLegacyEncapsulation: _config.useLegacyStyleEncapsulation,
+          )
+          : style;
 }
 
 /// Returns variable name to use to access styles for a particular component

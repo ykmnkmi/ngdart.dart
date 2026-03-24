@@ -84,5 +84,5 @@ const List<Type> formDirectives = [
   RequiredValidator,
   MinLengthValidator,
   MaxLengthValidator,
-  PatternValidator
+  PatternValidator,
 ];

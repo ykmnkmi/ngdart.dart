@@ -84,12 +84,14 @@ class _NormalizedComponentVisitor extends RecursiveElementVisitor<void> {
           directiveTypes,
           _exceptionHandler,
         );
-        components.add(NormalizedComponentWithViewDirectives(
-          component: directive,
-          directives: directives,
-          directiveTypes: directiveTypes,
-          pipes: pipes,
-        ));
+        components.add(
+          NormalizedComponentWithViewDirectives(
+            component: directive,
+            directives: directives,
+            directiveTypes: directiveTypes,
+            pipes: pipes,
+          ),
+        );
       } else {
         directives.add(directive);
       }
@@ -116,8 +118,9 @@ class _NormalizedComponentVisitor extends RecursiveElementVisitor<void> {
   List<CompilePipeMetadata> _visitPipes(ClassElement element) {
     final values = _getResolvedArgumentsOrFail(element, 'pipes');
     return visitAll(values, (value) {
-      return typeDeclarationOf(value)
-          ?.accept(PipeVisitor(_library, _exceptionHandler));
+      return typeDeclarationOf(
+        value,
+      )?.accept(PipeVisitor(_library, _exceptionHandler));
     });
   }
 
@@ -135,8 +138,12 @@ class _NormalizedComponentVisitor extends RecursiveElementVisitor<void> {
     final annotationInfo =
         annotationWhere(element, safeMatcher(isComponent), _exceptionHandler)!;
     if (annotationInfo.hasErrors) {
-      _exceptionHandler.handle(AngularAnalysisError(
-          annotationInfo.constantEvaluationErrors, annotationInfo));
+      _exceptionHandler.handle(
+        AngularAnalysisError(
+          annotationInfo.constantEvaluationErrors,
+          annotationInfo,
+        ),
+      );
       return [];
     }
     final annotation = annotationInfo.annotation;
@@ -160,22 +167,26 @@ class _NormalizedComponentVisitor extends RecursiveElementVisitor<void> {
             //   directives: 'Ha Ha!'
             //
             // ... was attempted to be used.
-            _exceptionHandler.handle(UnresolvedExpressionError(
-              [(argument as NamedExpression).expression],
-              element,
-              annotationImpl.compilationUnit,
-            ));
+            _exceptionHandler.handle(
+              UnresolvedExpressionError(
+                [(argument as NamedExpression).expression],
+                element,
+                annotationImpl.compilationUnit,
+              ),
+            );
             break;
           }
           final values =
               (argument as NamedExpression).expression as ListLiteral;
           if (values.elements.isNotEmpty &&
               values.elements.any(_isUnresolvedOrNotAnExpression)) {
-            _exceptionHandler.handle(UnresolvedExpressionError(
-              values.elements.where(_isUnresolvedOrNotAnExpression),
-              element,
-              annotationImpl.compilationUnit,
-            ));
+            _exceptionHandler.handle(
+              UnresolvedExpressionError(
+                values.elements.where(_isUnresolvedOrNotAnExpression),
+                element,
+                annotationImpl.compilationUnit,
+              ),
+            );
           }
         }
       }
@@ -235,14 +246,20 @@ class _ComponentVisitor
 
     for (var index = 0; index < element.metadata.length; index++) {
       final annotation = element.metadata[index];
-      final annotationInfo =
-          AnnotationInformation(element, annotation, index, _exceptionHandler);
+      final annotationInfo = AnnotationInformation(
+        element,
+        annotation,
+        index,
+        _exceptionHandler,
+      );
       final constantValue = annotationInfo.constantValue;
       if (constantValue == null) {
-        _exceptionHandler.handleWarning(AngularAnalysisError(
-          annotationInfo.constantEvaluationErrors,
-          annotationInfo,
-        ));
+        _exceptionHandler.handleWarning(
+          AngularAnalysisError(
+            annotationInfo.constantEvaluationErrors,
+            annotationInfo,
+          ),
+        );
       } else if (safeMatcher(isDirective)(annotation)) {
         directiveInfo = annotationInfo;
       } else if ($ChangeDetectionLink.isExactlyType(constantValue.type!)) {
@@ -290,12 +307,18 @@ class _ComponentVisitor
     bool isGetter = false,
     bool isSetter = false,
   }) {
-    for (var annotationIndex = 0;
-        annotationIndex < element.metadata.length;
-        annotationIndex++) {
+    for (
+      var annotationIndex = 0;
+      annotationIndex < element.metadata.length;
+      annotationIndex++
+    ) {
       var annotation = element.metadata[annotationIndex];
       final annotationInfo = AnnotationInformation(
-          element, annotation, annotationIndex, _exceptionHandler);
+        element,
+        annotation,
+        annotationIndex,
+        _exceptionHandler,
+      );
       if (annotationInfo.isInputType) {
         if (isSetter && element.isPublic) {
           // TODO(b/198420237): remove this explicit `bool` type when no longer
@@ -312,16 +335,21 @@ class _ComponentVisitor
           }
           final propertyType = setter.parameters.first.type;
           // Resolves unspecified or bounded generic type parameters.
-          final resolvedType =
-              setter.library.typeSystem.resolveToBound(propertyType);
+          final resolvedType = setter.library.typeSystem.resolveToBound(
+            propertyType,
+          );
           final typeName = getTypeName(resolvedType);
           _addPropertyBindingTo(
-              isField ? _fieldInputs : _setterInputs, annotation, element,
-              immutableBindings: _inputs);
+            isField ? _fieldInputs : _setterInputs,
+            annotation,
+            element,
+            immutableBindings: _inputs,
+          );
           if (typeName != null) {
             if (isPrimitiveTypeName(typeName)) {
-              _inputTypes[element.displayName] =
-                  CompileTypeMetadata(name: typeName);
+              _inputTypes[element.displayName] = CompileTypeMetadata(
+                name: typeName,
+              );
             } else {
               // Convert any generic type parameters from the input's type to
               // our internal output AST.
@@ -341,15 +369,19 @@ class _ComponentVisitor
             }
           }
         } else {
-          log.severe('@Input can only be used on a public setter or non-final '
-              'field, but was found on $element.');
+          log.severe(
+            '@Input can only be used on a public setter or non-final '
+            'field, but was found on $element.',
+          );
         }
       } else if (annotationInfo.isOutputType) {
         if (isGetter && element.isPublic) {
           _addPropertyBindingTo(_outputs, annotation, element);
         } else {
-          log.severe('@Output can only be used on a public getter or field, '
-              'but was found on $element.');
+          log.severe(
+            '@Output can only be used on a public getter or field, '
+            'but was found on $element.',
+          );
         }
       } else if (annotationInfo.isContentType) {
         if (isSetter && element.isPublic) {
@@ -372,8 +404,10 @@ class _ComponentVisitor
           }
           _queries.add(contentQuery);
         } else {
-          log.severe('@ContentChild or @ContentChildren can only be used on a '
-              'public setter or non-final field, but was found on $element.');
+          log.severe(
+            '@ContentChild or @ContentChildren can only be used on a '
+            'public setter or non-final field, but was found on $element.',
+          );
         }
       } else if (annotationInfo.isViewType) {
         if (isSetter && element.isPublic) {
@@ -396,8 +430,10 @@ class _ComponentVisitor
           }
           _viewQueries.add(viewQuery);
         } else {
-          log.severe('@ViewChild or @ViewChildren can only be used on a public '
-              'setter or non-final field, but was found on $element.');
+          log.severe(
+            '@ViewChild or @ViewChildren can only be used on a public '
+            'setter or non-final field, but was found on $element.',
+          );
         }
       }
     }
@@ -405,31 +441,37 @@ class _ComponentVisitor
 
   void _refuseLateFinalInputs(FieldElement field) {
     if (field.isLate && field.isFinal) {
-      CompileContext.current.reportAndRecover(BuildError.forElement(
-        field,
-        'Inputs cannot be "late final".\n\n'
-        'See go/angular-dart-null-safety-faq#inputs.',
-      ));
+      CompileContext.current.reportAndRecover(
+        BuildError.forElement(
+          field,
+          'Inputs cannot be "late final".\n\n'
+          'See go/angular-dart-null-safety-faq#inputs.',
+        ),
+      );
     }
   }
 
   void _refuseNonNullableSingleChildQueries(Element member, DartType type) {
     if (type.isExplicitlyNonNullable) {
-      CompileContext.current.reportAndRecover(BuildError.forElement(
-        member,
-        'ViewChild and ContentChild queries must be nullable.\n\n'
-        'See go/angular-dart-null-safety-faq#viewchild-contentchild.',
-      ));
+      CompileContext.current.reportAndRecover(
+        BuildError.forElement(
+          member,
+          'ViewChild and ContentChild queries must be nullable.\n\n'
+          'See go/angular-dart-null-safety-faq#viewchild-contentchild.',
+        ),
+      );
     }
   }
 
   void _refuseLateQueries(FieldElement field) {
     if (field.isLate) {
-      CompileContext.current.reportAndRecover(BuildError.forElement(
-        field,
-        'View and content queries cannot be "late".\n\n'
-        'See go/angular-dart-null-safety-faq.',
-      ));
+      CompileContext.current.reportAndRecover(
+        BuildError.forElement(
+          field,
+          'View and content queries cannot be "late".\n\n'
+          'See go/angular-dart-null-safety-faq.',
+        ),
+      );
     }
   }
 
@@ -439,8 +481,11 @@ class _ComponentVisitor
   /// itself is invalid (e.g. a setter without parameters or a body).
   PropertyAccessorElement? _setterFor(Element element) {
     // Resolves specified generic type parameters.
-    final setter = _directiveClassElement!.thisType
-        .lookUpSetter2(element.displayName, element.library!)!;
+    final setter =
+        _directiveClassElement!.thisType.lookUpSetter2(
+          element.displayName,
+          element.library!,
+        )!;
     if (setter.parameters.isEmpty) {
       CompileContext.current.reportAndRecover(
         BuildError.forElement(
@@ -454,12 +499,17 @@ class _ComponentVisitor
   }
 
   List<CompileTokenMetadata> _getSelectors(
-      AnnotationInformation annotationInfo) {
+    AnnotationInformation annotationInfo,
+  ) {
     var value = annotationInfo.constantValue;
     var selector = getField(value, 'selector');
     if (isNull(selector)) {
-      _exceptionHandler.handle(ErrorMessageForAnnotation(annotationInfo,
-          'Missing selector argument for "@${value!.type!.element!.name!}"'));
+      _exceptionHandler.handle(
+        ErrorMessageForAnnotation(
+          annotationInfo,
+          'Missing selector argument for "@${value!.type!.element!.name!}"',
+        ),
+      );
       return [];
     }
     var selectorString = selector?.toStringValue();
@@ -472,10 +522,13 @@ class _ComponentVisitor
     var selectorType = selector!.toTypeValue();
     if (selectorType == null) {
       // NOTE(deboer): This code is untested and probably unreachable.
-      _exceptionHandler.handle(ErrorMessageForAnnotation(
+      _exceptionHandler.handle(
+        ErrorMessageForAnnotation(
           annotationInfo,
           'Only a value of `String` or `Type` for "@${value!.type!.element!.name!}" is '
-          'supported'));
+          'supported',
+        ),
+      );
       return [];
     }
     return [
@@ -503,30 +556,30 @@ class _ComponentVisitor
       descendants: coerceBool(value, 'descendants', defaultTo: false),
       first: coerceBool(value, 'first', defaultTo: false),
       propertyName: propertyName,
-      isElementType: propertyType?.element != null &&
+      isElementType:
+          propertyType?.element != null &&
               _htmlElement.isAssignableFromType(propertyType!) ||
           // A bit imprecise, but this will cover 'Iterable' and 'List'.
           _coreIterable.isAssignableFromType(propertyType!) &&
               propertyType is ParameterizedType &&
-              _htmlElement
-                  .isAssignableFromType(propertyType.typeArguments.first),
-      read: readType != null
-          ? CompileTokenMetadata(
-              identifier: CompileIdentifierMetadata(
-                name: readType.getDisplayString(),
-                moduleUrl: moduleUrl(readType.element!),
+              _htmlElement.isAssignableFromType(
+                propertyType.typeArguments.first,
               ),
-            )
-          : null,
+      read:
+          readType != null
+              ? CompileTokenMetadata(
+                identifier: CompileIdentifierMetadata(
+                  name: readType.getDisplayString(),
+                  moduleUrl: moduleUrl(readType.element!),
+                ),
+              )
+              : null,
     );
   }
 
   void _addHostBinding(Element element, DartObject value) {
-    final property = coerceString(
-      value,
-      'hostPropertyName',
-      defaultTo: element.name,
-    )!;
+    final property =
+        coerceString(value, 'hostPropertyName', defaultTo: element.name)!;
     // Allows using static members for @HostBinding. For example:
     //
     // class Foo {
@@ -542,9 +595,10 @@ class _ComponentVisitor
         return;
       }
       var classId = CompileIdentifierMetadata(
-          name: _directiveClassElement!.name,
-          moduleUrl: moduleUrl(_directiveClassElement!.library),
-          analyzedClass: AnalyzedClass(_directiveClassElement!));
+        name: _directiveClassElement!.name,
+        moduleUrl: moduleUrl(_directiveClassElement!.library),
+        analyzedClass: AnalyzedClass(_directiveClassElement!),
+      );
       bindTo = ast.PropertyRead(ast.StaticRead(classId), element.name!);
     }
     _hostBindings[property] = bindTo;
@@ -581,8 +635,12 @@ class _ComponentVisitor
     final propertyName = element.displayName;
     final bindingName =
         coerceString(value, 'bindingPropertyName', defaultTo: propertyName)!;
-    _prohibitBindingChange(element.enclosingElement3 as ClassElement?,
-        propertyName, bindingName, immutableBindings ?? bindings);
+    _prohibitBindingChange(
+      element.enclosingElement3 as ClassElement?,
+      propertyName,
+      bindingName,
+      immutableBindings ?? bindings,
+    );
     bindings[propertyName] = bindingName;
   }
 
@@ -630,8 +688,12 @@ class _ComponentVisitor
     final annotationValue = directiveInfo.constantValue;
 
     if (directiveInfo.hasErrors) {
-      _exceptionHandler.handle(AngularAnalysisError(
-          directiveInfo.constantEvaluationErrors, directiveInfo));
+      _exceptionHandler.handle(
+        AngularAnalysisError(
+          directiveInfo.constantEvaluationErrors,
+          directiveInfo,
+        ),
+      );
       return null;
     }
 
@@ -641,9 +703,10 @@ class _ComponentVisitor
       CompileTypeMetadataVisitor(_library, directiveInfo, _exceptionHandler),
     );
 
-    final template = isComponent
-        ? _createTemplateMetadata(directiveInfo, componentType)
-        : CompileTemplateMetadata();
+    final template =
+        isComponent
+            ? _createTemplateMetadata(directiveInfo, componentType)
+            : CompileTemplateMetadata();
 
     // _createTemplateMetadata failed to create the metadata.
     if (template == null) return null;
@@ -654,10 +717,12 @@ class _ComponentVisitor
 
     final selector = coerceString(annotationValue, 'selector');
     if (selector == null || selector.isEmpty) {
-      _exceptionHandler.handle(ErrorMessageForAnnotation(
-        directiveInfo,
-        'Selector is required, got "$selector"',
-      ));
+      _exceptionHandler.handle(
+        ErrorMessageForAnnotation(
+          directiveInfo,
+          'Selector is required, got "$selector"',
+        ),
+      );
     }
 
     var changeDetection = _changeDetection(element, annotationValue);
@@ -668,16 +733,21 @@ class _ComponentVisitor
         linkInfo != null;
     if (isChangeDetectionLink &&
         !(isComponent && changeDetection == ChangeDetectionStrategy.OnPush)) {
-      _exceptionHandler.handle(ErrorMessageForAnnotation(linkInfo,
-          'Only supported on components that use "OnPush" change detection'));
+      _exceptionHandler.handle(
+        ErrorMessageForAnnotation(
+          linkInfo,
+          'Only supported on components that use "OnPush" change detection',
+        ),
+      );
     }
 
     return CompileDirectiveMetadata(
       type: componentType,
       originType: componentType,
-      metadataType: isComponent
-          ? CompileDirectiveMetadataType.Component
-          : CompileDirectiveMetadataType.Directive,
+      metadataType:
+          isComponent
+              ? CompileDirectiveMetadataType.Component
+              : CompileDirectiveMetadataType.Directive,
       selector: coerceString(annotationValue, 'selector'),
       exportAs: coerceString(annotationValue, 'exportAs'),
       changeDetection: changeDetection,
@@ -705,9 +775,13 @@ class _ComponentVisitor
   }
 
   void _validateLifecycleHooks(
-      List<LifecycleHooks> lifecycleHooks, ClassElement element, bool isComp) {
+    List<LifecycleHooks> lifecycleHooks,
+    ClassElement element,
+    bool isComp,
+  ) {
     if (lifecycleHooks.contains(LifecycleHooks.doCheck)) {
-      final ngDoCheck = element.getMethod('ngDoCheck') ??
+      final ngDoCheck =
+          element.getMethod('ngDoCheck') ??
           element.lookUpInheritedMethod('ngDoCheck', element.library);
       if (ngDoCheck != null && ngDoCheck.isAsynchronous) {
         CompileContext.current.reportAndRecover(
@@ -732,8 +806,12 @@ class _ComponentVisitor
     var templateContent = coerceString(template, 'template');
     var templateUrl = coerceString(template, 'templateUrl');
     if (templateContent != null && templateUrl != null) {
-      _exceptionHandler.handle(ErrorMessageForAnnotation(annotationInfo,
-          'Cannot supply both "template" and "templateUrl" for an @Component'));
+      _exceptionHandler.handle(
+        ErrorMessageForAnnotation(
+          annotationInfo,
+          'Cannot supply both "template" and "templateUrl" for an @Component',
+        ),
+      );
       return null;
     }
     // Verify that templateUrl can be parsed.
@@ -741,10 +819,13 @@ class _ComponentVisitor
       try {
         Uri.parse(templateUrl);
       } on FormatException catch (formatException) {
-        _exceptionHandler.handle(ErrorMessageForAnnotation(
+        _exceptionHandler.handle(
+          ErrorMessageForAnnotation(
             annotationInfo,
             '@Component.templateUrl is not a valid URI. '
-            'Parsing produced an error: ${formatException.message}'));
+            'Parsing produced an error: ${formatException.message}',
+          ),
+        );
         return null;
       }
     }
@@ -780,9 +861,12 @@ class _ComponentVisitor
                 .annotationAst
                 .arguments
                 ?.arguments
-                .firstWhereOrNull((argument) =>
-                    argument is NamedExpression &&
-                    (argument as NamedExpression).name.label.name == 'template')
+                .firstWhereOrNull(
+                  (argument) =>
+                      argument is NamedExpression &&
+                      (argument as NamedExpression).name.label.name ==
+                          'template',
+                )
             as NamedExpression?;
     if (templateExpression != null) {
       if (templateExpression.expression is SingleStringLiteral) {
@@ -798,11 +882,11 @@ class _ComponentVisitor
   }
 
   ViewEncapsulation _encapsulation(DartObject? value) => coerceEnum(
-        value,
-        'encapsulation',
-        ViewEncapsulation.values,
-        defaultTo: ViewEncapsulation.Emulated,
-      );
+    value,
+    'encapsulation',
+    ViewEncapsulation.values,
+    defaultTo: ViewEncapsulation.Emulated,
+  );
 
   int _changeDetection(ClassElement clazz, DartObject? value) {
     return coerceInt(
@@ -815,17 +899,16 @@ class _ComponentVisitor
   List<CompileProviderMetadata> _extractProviders(
     AnnotationInformation annotationInfo,
     String providerField,
-  ) =>
-      visitAll(
-        const ModuleReader().extractProviderObjects(
-          getField(annotationInfo.constantValue, providerField),
-        ),
-        CompileTypeMetadataVisitor(
-          _library,
-          annotationInfo,
-          _exceptionHandler,
-        ).createProviderMetadata,
-      );
+  ) => visitAll(
+    const ModuleReader().extractProviderObjects(
+      getField(annotationInfo.constantValue, providerField),
+    ),
+    CompileTypeMetadataVisitor(
+      _library,
+      annotationInfo,
+      _exceptionHandler,
+    ).createProviderMetadata,
+  );
 
   List<CompileIdentifierMetadata> _extractExports(
     AnnotationInformation<ClassElement> annotationInfo,
@@ -835,15 +918,18 @@ class _ComponentVisitor
     var exports = <CompileIdentifierMetadata>[];
 
     // There is an implicit "export" for the directive class itself
-    exports.add(CompileIdentifierMetadata(
+    exports.add(
+      CompileIdentifierMetadata(
         name: element.name,
         moduleUrl: moduleUrl(element.library),
-        analyzedClass: AnalyzedClass(element)));
+        analyzedClass: AnalyzedClass(element),
+      ),
+    );
 
     var arguments = annotation.annotationAst.arguments!.arguments;
-    var exportsArg = arguments
-        .whereType<NamedExpression>()
-        .firstWhereOrNull((arg) => arg.name.label.name == 'exports');
+    var exportsArg = arguments.whereType<NamedExpression>().firstWhereOrNull(
+      (arg) => arg.name.label.name == 'exports',
+    );
     if (exportsArg == null || exportsArg.expression is! ListLiteral) {
       return exports;
     }
@@ -851,8 +937,12 @@ class _ComponentVisitor
     var staticNames = (exportsArg.expression as ListLiteral).elements;
     for (var staticName in staticNames) {
       if (staticName is! Identifier) {
-        _exceptionHandler.handle(ErrorMessageForAnnotation(annotationInfo,
-            'Item $staticName in the "exports" field must be an identifier'));
+        _exceptionHandler.handle(
+          ErrorMessageForAnnotation(
+            annotationInfo,
+            'Item $staticName in the "exports" field must be an identifier',
+          ),
+        );
         return exports;
       }
     }
@@ -866,10 +956,13 @@ class _ComponentVisitor
       if (id is PrefixedIdentifier) {
         // We only allow prefixed identifiers to have library prefixes.
         if (id.prefix.staticElement is! PrefixElement) {
-          _exceptionHandler.handle(ErrorMessageForAnnotation(
+          _exceptionHandler.handle(
+            ErrorMessageForAnnotation(
               annotationInfo,
               'Item $id in the "exports" field must be either a simple '
-              'identifier or an identifier with a library prefix'));
+              'identifier or an identifier with a library prefix',
+            ),
+          );
           return exports;
         }
         name = id.identifier.name;
@@ -887,16 +980,23 @@ class _ComponentVisitor
       }
 
       // TODO(het): Also store the `DartType` since we know it statically.
-      exports.add(CompileIdentifierMetadata(
-        name: name,
-        prefix: prefix,
-        moduleUrl: moduleUrl(staticElement!.library!),
-        analyzedClass: analyzedClass,
-      ));
+      exports.add(
+        CompileIdentifierMetadata(
+          name: name,
+          prefix: prefix,
+          moduleUrl: moduleUrl(staticElement!.library!),
+          analyzedClass: analyzedClass,
+        ),
+      );
     }
     if (unresolvedExports.isNotEmpty) {
-      _exceptionHandler.handle(UnresolvedExpressionError(unresolvedExports,
-          _directiveClassElement!, annotation.compilationUnit));
+      _exceptionHandler.handle(
+        UnresolvedExpressionError(
+          unresolvedExports,
+          _directiveClassElement!,
+          annotation.compilationUnit,
+        ),
+      );
     }
     return exports;
   }
@@ -904,10 +1004,11 @@ class _ComponentVisitor
 
 /// Ensures that all entries in [directiveTypes] match an entry in [directives].
 void _errorOnUnusedDirectiveTypes(
-    ClassElement element,
-    List<CompileDirectiveMetadata?> directives,
-    List<CompileTypedMetadata> directiveTypes,
-    ComponentVisitorExceptionHandler exceptionHandler) {
+  ClassElement element,
+  List<CompileDirectiveMetadata?> directives,
+  List<CompileTypedMetadata> directiveTypes,
+  ComponentVisitorExceptionHandler exceptionHandler,
+) {
   if (directiveTypes.isEmpty) return;
 
   // Creates a unique key given a module URL and symbol name.
@@ -935,7 +1036,8 @@ void _prohibitBindingChange(
   if (bindings.containsKey(propertyName) &&
       bindings[propertyName] != bindingName) {
     log.severe(
-        "'${element!.displayName}' overwrites the binding name of property "
-        "'$propertyName' from '${bindings[propertyName]}' to '$bindingName'.");
+      "'${element!.displayName}' overwrites the binding name of property "
+      "'$propertyName' from '${bindings[propertyName]}' to '$bindingName'.",
+    );
   }
 }

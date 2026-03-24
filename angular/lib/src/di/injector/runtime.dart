@@ -6,10 +6,7 @@ import 'package:meta/meta.dart';
 import '../errors.dart' as errors;
 import '../injector.dart';
 
-const _globalSingletonServices = [
-  'ApplicationRef',
-  'NgZone',
-];
+const _globalSingletonServices = ['ApplicationRef', 'NgZone'];
 
 /// An injector that resolves [Provider] instances with runtime information.
 abstract class ReflectiveInjector implements Injector {
@@ -163,12 +160,13 @@ class _RuntimeInjector extends HierarchicalInjector
 
   @override
   dynamic resolveAndInstantiate(Object providerOrType) {
-    final provider = providerOrType is Provider
-        ? providerOrType
-        : Provider(
-            providerOrType,
-            useClass: unsafeCast<Type>(providerOrType),
-          );
+    final provider =
+        providerOrType is Provider
+            ? providerOrType
+            : Provider(
+              providerOrType,
+              useClass: unsafeCast<Type>(providerOrType),
+            );
     if (_staticOnlyResolveAndCreate) {
       _assertStaticProviders([provider]);
     }
@@ -361,19 +359,20 @@ void _assertGlobalSingletonService(Iterable<Provider<void>> providers) {
       // Error message copied from .../cli/messages/messages.dart to avoid
       // circular dependency.
       throw UnsupportedError(
-          '"$tokenName" is an app-wide, singleton service provided by the '
-          'framework that cannot be overridden or manually provided.\n'
-          '\n'
-          'If you are providing this service to fix a missing provider error, '
-          'you likely have created an injector that is disconnected from the '
-          "app's injector hierarchy. This can occur when instantiating an "
-          'injector and you omit the parent injector argument, or explicitly '
-          'configure an empty parent injector. Please check your injector '
-          "constructors to make sure the current context's injector is passed "
-          'as the parent.\n'
-          '\n'
-          'If you are instead providing this service in order to unit test an '
-          'injector, please see http://go/angulardart/style/testing.');
+        '"$tokenName" is an app-wide, singleton service provided by the '
+        'framework that cannot be overridden or manually provided.\n'
+        '\n'
+        'If you are providing this service to fix a missing provider error, '
+        'you likely have created an injector that is disconnected from the '
+        "app's injector hierarchy. This can occur when instantiating an "
+        'injector and you omit the parent injector argument, or explicitly '
+        'configure an empty parent injector. Please check your injector '
+        "constructors to make sure the current context's injector is passed "
+        'as the parent.\n'
+        '\n'
+        'If you are instead providing this service in order to unit test an '
+        'injector, please see http://go/angulardart/style/testing.',
+      );
     }
   }
 }

@@ -16,9 +16,7 @@ void main() {
       )
       class TestComponent {}
     ''',
-      errors: [
-        contains('The "tabindex" attribute expects an integer value'),
-      ],
+      errors: [contains('The "tabindex" attribute expects an integer value')],
     );
   });
 }

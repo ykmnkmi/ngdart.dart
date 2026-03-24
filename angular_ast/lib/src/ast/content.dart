@@ -74,7 +74,11 @@ abstract mixin class EmbeddedContentAst implements StandaloneTemplateAst {
 
   @override
   int get hashCode => hash4(
-      selector.hashCode, ngProjectAs.hashCode, reference, closeComplement);
+    selector.hashCode,
+    ngProjectAs.hashCode,
+    reference,
+    closeComplement,
+  );
 
   @override
   String toString() =>
@@ -107,11 +111,7 @@ class ParsedEmbeddedContentAst extends TemplateAst with EmbeddedContentAst {
     this.selectAttribute,
     this.ngProjectAsAttribute,
     this.reference,
-  ]) : super.parsed(
-          startElementToken,
-          endElementToken,
-          sourceFile,
-        );
+  ]) : super.parsed(startElementToken, endElementToken, sourceFile);
 
   @override
   String? get selector {
@@ -143,8 +143,11 @@ class _SyntheticEmbeddedContentAst extends SyntheticTemplateAst
   @override
   late CloseElementAst closeComplement;
 
-  _SyntheticEmbeddedContentAst(
-      [this.selector = '*', this.ngProjectAs, this.reference]) {
+  _SyntheticEmbeddedContentAst([
+    this.selector = '*',
+    this.ngProjectAs,
+    this.reference,
+  ]) {
     closeComplement = CloseElementAst('ng-content');
   }
 

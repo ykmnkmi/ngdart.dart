@@ -64,10 +64,8 @@ class ExceptionHandler {
     Object? stackTrace,
     @Deprecated('No longer supported. Remove this argument.') String? reason,
   ]) {
-    window.console.error(ExceptionHandler.exceptionToString(
-      exception,
-      stackTrace,
-      reason,
-    ));
+    window.console.error(
+      ExceptionHandler.exceptionToString(exception, stackTrace, reason),
+    );
   }
 }

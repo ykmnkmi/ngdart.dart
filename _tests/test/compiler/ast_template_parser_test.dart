@@ -23,11 +23,12 @@ import 'template_humanizer_util.dart';
 
 const someModuleUrl = 'package:someModule';
 
-typedef ParseTemplate = List<TemplateAst> Function(
-  String template,
-  List<CompileDirectiveMetadata> directives, [
-  List<CompilePipeMetadata> pipes,
-]);
+typedef ParseTemplate =
+    List<TemplateAst> Function(
+      String template,
+      List<CompileDirectiveMetadata> directives, [
+      List<CompilePipeMetadata> pipes,
+    ]);
 
 class ArrayConsole {
   List<String> logs = [];
@@ -66,13 +67,15 @@ void main() {
 
   final console = ArrayConsole();
   final ngIf = createCompileDirectiveMetadata(
-      selector: '[ngIf]',
-      type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'NgIf'),
-      inputs: ['ngIf']);
+    selector: '[ngIf]',
+    type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'NgIf'),
+    inputs: ['ngIf'],
+  );
   final component = createCompileDirectiveMetadata(
-      selector: 'root',
-      type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Root'),
-      metadataType: CompileDirectiveMetadataType.Component);
+    selector: 'root',
+    type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Root'),
+    metadataType: CompileDirectiveMetadataType.Component,
+  );
 
   late ParseTemplate _parse;
 
@@ -81,9 +84,10 @@ void main() {
     List<CompileDirectiveMetadata> directive = const [],
     List<CompilePipeMetadata> pipes = const [],
   ]) {
-    return runZoned(() => _parse(template, directive, pipes), zoneValues: {
-      #buildLog: Logger.root,
-    });
+    return runZoned(
+      () => _parse(template, directive, pipes),
+      zoneValues: {#buildLog: Logger.root},
+    );
   }
 
   void setUpParser({
@@ -128,14 +132,14 @@ void main() {
       group('nodes without bindings', () {
         test('should parse text nodes', () {
           expect(humanizeTplAst(parse('a', [])), [
-            [TextAst, 'a']
+            [TextAst, 'a'],
           ]);
         });
 
         test('should parse elements with attributes', () {
           expect(humanizeTplAst(parse('<div a="b"></div>', [])), [
             [ElementAst, 'div'],
-            [AttrAst, 'a', 'b']
+            [AttrAst, 'a', 'b'],
           ]);
         });
       });
@@ -143,14 +147,14 @@ void main() {
       test('should parse char codes', () {
         expect(humanizeTplAst(parse('<div>&lt;</div>', [])), [
           [ElementAst, 'div'],
-          [TextAst, '<']
+          [TextAst, '<'],
         ]);
       });
 
       test('should parse ngContent', () {
         var parsed = parse('<ng-content select="a"></ng-content>', []);
         expect(humanizeTplAst(parsed), [
-          [NgContentAst]
+          [NgContentAst],
         ]);
       });
 
@@ -158,7 +162,7 @@ void main() {
         var parsed = parse('<svg><ng-content></ng-content></svg>', []);
         expect(humanizeTplAst(parsed), [
           [ElementAst, '@svg:svg'],
-          [NgContentAst]
+          [NgContentAst],
         ]);
       });
 
@@ -171,7 +175,7 @@ void main() {
 
       test('should parse bound text nodes', () {
         expect(humanizeTplAst(parse('{{a}}', [])), [
-          [BoundTextAst, '{{ a }}']
+          [BoundTextAst, '{{ a }}'],
         ]);
       });
 
@@ -184,8 +188,8 @@ void main() {
               PropertyBindingType.property,
               'someProp',
               'v',
-              null
-            ]
+              null,
+            ],
           ]);
         });
 
@@ -197,8 +201,8 @@ void main() {
               PropertyBindingType.property,
               'some-prop',
               'v',
-              null
-            ]
+              null,
+            ],
           ]);
         });
 
@@ -210,8 +214,8 @@ void main() {
               PropertyBindingType.property,
               'mappedProp',
               'v',
-              null
-            ]
+              null,
+            ],
           ]);
         });
 
@@ -223,51 +227,57 @@ void main() {
               PropertyBindingType.attribute,
               'someAttr',
               'v',
-              null
-            ]
+              null,
+            ],
           ]);
         });
 
         test('should parse and dash case bound classes', () {
           expect(
-              humanizeTplAst(parse('<div [class.some-class]="v"></div>', [])), [
-            [ElementAst, 'div'],
+            humanizeTplAst(parse('<div [class.some-class]="v"></div>', [])),
             [
-              BoundElementPropertyAst,
-              PropertyBindingType.cssClass,
-              'some-class',
-              'v',
-              null
-            ]
-          ]);
+              [ElementAst, 'div'],
+              [
+                BoundElementPropertyAst,
+                PropertyBindingType.cssClass,
+                'some-class',
+                'v',
+                null,
+              ],
+            ],
+          );
         });
 
         test('should parse mixed case bound classes', () {
           expect(
-              humanizeTplAst(parse('<div [class.someClass]="v"></div>', [])), [
-            [ElementAst, 'div'],
+            humanizeTplAst(parse('<div [class.someClass]="v"></div>', [])),
             [
-              BoundElementPropertyAst,
-              PropertyBindingType.cssClass,
-              'someClass',
-              'v',
-              null
-            ]
-          ]);
+              [ElementAst, 'div'],
+              [
+                BoundElementPropertyAst,
+                PropertyBindingType.cssClass,
+                'someClass',
+                'v',
+                null,
+              ],
+            ],
+          );
         });
 
         test('should parse mixed case bound styles', () {
           expect(
-              humanizeTplAst(parse('<div [style.someStyle]="v"></div>', [])), [
-            [ElementAst, 'div'],
+            humanizeTplAst(parse('<div [style.someStyle]="v"></div>', [])),
             [
-              BoundElementPropertyAst,
-              PropertyBindingType.style,
-              'someStyle',
-              'v',
-              null
-            ]
-          ]);
+              [ElementAst, 'div'],
+              [
+                BoundElementPropertyAst,
+                PropertyBindingType.style,
+                'someStyle',
+                'v',
+                null,
+              ],
+            ],
+          );
         });
 
         test('should report invalid prefixes', () {
@@ -275,9 +285,7 @@ void main() {
             () => parse('<p [atTr.foo]></p>', []),
             throwsA(
               predicate(
-                (e) => '$e'.contains(
-                  'Invalid property name \'atTr.foo\'',
-                ),
+                (e) => '$e'.contains('Invalid property name \'atTr.foo\''),
               ),
             ),
           );
@@ -285,9 +293,7 @@ void main() {
             () => parse('<p [sTyle.foo]></p>', []),
             throwsA(
               predicate(
-                (e) => '$e'.contains(
-                  'Invalid property name \'sTyle.foo\'',
-                ),
+                (e) => '$e'.contains('Invalid property name \'sTyle.foo\''),
               ),
             ),
           );
@@ -295,9 +301,7 @@ void main() {
             () => parse('<p [Class.foo]></p>', []),
             throwsA(
               predicate(
-                (e) => '$e'.contains(
-                  'Invalid property name \'Class.foo\'',
-                ),
+                (e) => '$e'.contains('Invalid property name \'Class.foo\''),
               ),
             ),
           );
@@ -305,16 +309,13 @@ void main() {
             () => parse('<p [bar.foo]></p>', []),
             throwsA(
               predicate(
-                (e) => '$e'.contains(
-                  'Invalid property name \'bar.foo\'',
-                ),
+                (e) => '$e'.contains('Invalid property name \'bar.foo\''),
               ),
             ),
           );
         });
 
-        test(
-            'should parse bound properties via [...] and not report '
+        test('should parse bound properties via [...] and not report '
             'them as attributes', () {
           expect(humanizeTplAst(parse('<div [prop]="v"></div>', [])), [
             [ElementAst, 'div'],
@@ -323,13 +324,12 @@ void main() {
               PropertyBindingType.property,
               'prop',
               'v',
-              null
-            ]
+              null,
+            ],
           ]);
         });
 
-        test(
-            'should parse bound properties via bind- and not report '
+        test('should parse bound properties via bind- and not report '
             'them as attributes', () {
           expect(humanizeTplAst(parse('<div bind-prop="v"></div>', [])), [
             [ElementAst, 'div'],
@@ -338,13 +338,12 @@ void main() {
               PropertyBindingType.property,
               'prop',
               'v',
-              null
-            ]
+              null,
+            ],
           ]);
         });
 
-        test(
-            'should parse bound properties via {{...}} and not report them '
+        test('should parse bound properties via {{...}} and not report them '
             'as attributes', () {
           expect(humanizeTplAst(parse('<div prop="{{v}}"></div>', [])), [
             [ElementAst, 'div'],
@@ -353,8 +352,8 @@ void main() {
               PropertyBindingType.property,
               'prop',
               '{{ v }}',
-              null
-            ]
+              null,
+            ],
           ]);
         });
       });
@@ -365,57 +364,54 @@ void main() {
             () => parse('<div (window:event)="v"></div>'),
             throwsA(
               predicate(
-                (e) => '$e'.contains(
-                  '":" is not allowed in event names',
-                ),
+                (e) => '$e'.contains('":" is not allowed in event names'),
               ),
             ),
           );
         });
 
-        test(
-            'should parse bound events via (...) and not report them '
+        test('should parse bound events via (...) and not report them '
             'as attributes', () {
           expect(humanizeTplAst(parse('<div (event)="v"></div>', [])), [
             [ElementAst, 'div'],
-            [BoundEventAst, 'event', null, 'v']
+            [BoundEventAst, 'event', null, 'v'],
           ]);
         });
 
         test('should parse event names case sensitive', () {
           expect(humanizeTplAst(parse('<div (some-event)="v"></div>', [])), [
             [ElementAst, 'div'],
-            [BoundEventAst, 'some-event', null, 'v']
+            [BoundEventAst, 'some-event', null, 'v'],
           ]);
           expect(humanizeTplAst(parse('<div (someEvent)="v"></div>', [])), [
             [ElementAst, 'div'],
-            [BoundEventAst, 'someEvent', null, 'v']
+            [BoundEventAst, 'someEvent', null, 'v'],
           ]);
         });
 
-        test(
-            'should parse bound events via on- and not report them '
+        test('should parse bound events via on- and not report them '
             'as attributes', () {
           expect(humanizeTplAst(parse('<div on-event="v"></div>', [])), [
             [ElementAst, 'div'],
-            [BoundEventAst, 'event', null, 'v']
+            [BoundEventAst, 'event', null, 'v'],
           ]);
         });
 
-        test(
-            'should allow events on explicit embedded templates that are '
+        test('should allow events on explicit embedded templates that are '
             'emitted by a directive', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: 'template',
-              outputs: ['e'],
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'));
+            selector: 'template',
+            outputs: ['e'],
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          );
           expect(
-              humanizeTplAst(parse('<template (e)="f"></template>', [dirA])), [
-            [EmbeddedTemplateAst],
-            [DirectiveAst, dirA],
-            [BoundDirectiveEventAst, 'e', 'f'],
-          ]);
+            humanizeTplAst(parse('<template (e)="f"></template>', [dirA])),
+            [
+              [EmbeddedTemplateAst],
+              [DirectiveAst, dirA],
+              [BoundDirectiveEventAst, 'e', 'f'],
+            ],
+          );
         });
       });
 
@@ -427,65 +423,70 @@ void main() {
             PropertyBindingType.property,
             'prop',
             'v',
-            null
+            null,
           ],
-          [BoundEventAst, 'propChange', null, 'v = \$event']
+          [BoundEventAst, 'propChange', null, 'v = \$event'],
         ]);
       });
 
       group('directives', () {
-        test(
-            'should order directives by the directives array in the View '
+        test('should order directives by the directives array in the View '
             'and match them only once', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: '[a]',
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'));
+            selector: '[a]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          );
           var dirB = createCompileDirectiveMetadata(
-              selector: '[b]',
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirB'));
+            selector: '[b]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirB'),
+          );
           var dirC = createCompileDirectiveMetadata(
-              selector: '[c]',
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirC'));
+            selector: '[c]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirC'),
+          );
           expect(
-              humanizeTplAst(parse(
-                  '<div a c b [a]="foo" [b]="bar"></div>', [dirA, dirB, dirC])),
+            humanizeTplAst(
+              parse('<div a c b [a]="foo" [b]="bar"></div>', [
+                dirA,
+                dirB,
+                dirC,
+              ]),
+            ),
+            [
+              [ElementAst, 'div'],
+              [AttrAst, 'a', ''],
+              [AttrAst, 'c', ''],
+              [AttrAst, 'b', ''],
               [
-                [ElementAst, 'div'],
-                [AttrAst, 'a', ''],
-                [AttrAst, 'c', ''],
-                [AttrAst, 'b', ''],
-                [
-                  BoundElementPropertyAst,
-                  PropertyBindingType.property,
-                  'a',
-                  'foo',
-                  null
-                ],
-                [
-                  BoundElementPropertyAst,
-                  PropertyBindingType.property,
-                  'b',
-                  'bar',
-                  null
-                ],
-                [DirectiveAst, dirA],
-                [DirectiveAst, dirB],
-                [DirectiveAst, dirC]
-              ]);
+                BoundElementPropertyAst,
+                PropertyBindingType.property,
+                'a',
+                'foo',
+                null,
+              ],
+              [
+                BoundElementPropertyAst,
+                PropertyBindingType.property,
+                'b',
+                'bar',
+                null,
+              ],
+              [DirectiveAst, dirA],
+              [DirectiveAst, dirB],
+              [DirectiveAst, dirC],
+            ],
+          );
         });
 
         test('should locate directives in property bindings', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: '[a=b]',
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'));
+            selector: '[a=b]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          );
           var dirB = createCompileDirectiveMetadata(
-              selector: '[b]',
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirB'));
+            selector: '[b]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirB'),
+          );
           expect(humanizeTplAst(parse('<div [a]="b"></div>', [dirA, dirB])), [
             [ElementAst, 'div'],
             [
@@ -493,115 +494,126 @@ void main() {
               PropertyBindingType.property,
               'a',
               'b',
-              null
+              null,
             ],
-            [DirectiveAst, dirA]
+            [DirectiveAst, dirA],
           ]);
         });
 
         test('should locate directives in event bindings', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: '[a]',
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirB'));
+            selector: '[a]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirB'),
+          );
           // TODO(b/135435578): Validate an attribute selector can bind to
           // an event.
           expect(humanizeTplAst(parse('<div (a)="b"></div>', [dirA])), [
             [ElementAst, 'div'],
             [BoundEventAst, 'a', null, 'b'],
-            [DirectiveAst, dirA]
+            [DirectiveAst, dirA],
           ]);
         });
 
         test('should parse directive properties', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: 'div',
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              inputs: ['aProp']);
+            selector: 'div',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            inputs: ['aProp'],
+          );
           expect(humanizeTplAst(parse('<div [aProp]="expr"></div>', [dirA])), [
             [ElementAst, 'div'],
             [DirectiveAst, dirA],
-            [BoundDirectivePropertyAst, 'aProp', 'expr']
+            [BoundDirectivePropertyAst, 'aProp', 'expr'],
           ]);
         });
 
         test('should parse renamed directive properties', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: 'div',
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              inputs: ['b:a']);
+            selector: 'div',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            inputs: ['b:a'],
+          );
           expect(humanizeTplAst(parse('<div [a]="expr"></div>', [dirA])), [
             [ElementAst, 'div'],
             [DirectiveAst, dirA],
-            [BoundDirectivePropertyAst, 'b', 'expr']
+            [BoundDirectivePropertyAst, 'b', 'expr'],
           ]);
         });
 
         test('should parse literal directive properties', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: 'div',
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              inputs: ['a']);
+            selector: 'div',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            inputs: ['a'],
+          );
           expect(humanizeTplAst(parse('<div a="literal"></div>', [dirA])), [
             [ElementAst, 'div'],
             [AttrAst, 'a', 'literal'],
             [DirectiveAst, dirA],
-            [BoundDirectivePropertyAst, 'a', '"literal"']
+            [BoundDirectivePropertyAst, 'a', '"literal"'],
           ]);
         });
 
-        test('should favor explicit bound properties over literal properties',
-            () {
-          var dirA = createCompileDirectiveMetadata(
+        test(
+          'should favor explicit bound properties over literal properties',
+          () {
+            var dirA = createCompileDirectiveMetadata(
               selector: 'div',
               type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              inputs: ['a']);
-          expect(
+              inputs: ['a'],
+            );
+            expect(
               humanizeTplAst(
-                  parse('<div a="literal" [a]="\'literal2\'"></div>', [dirA])),
+                parse('<div a="literal" [a]="\'literal2\'"></div>', [dirA]),
+              ),
               [
                 [ElementAst, 'div'],
                 [AttrAst, 'a', 'literal'],
                 [DirectiveAst, dirA],
-                [BoundDirectivePropertyAst, 'a', '"literal2"']
-              ]);
-        });
+                [BoundDirectivePropertyAst, 'a', '"literal2"'],
+              ],
+            );
+          },
+        );
 
         test('should parse directive properties with no value', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: '[a]',
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              inputs: ['a', 'b']);
+            selector: '[a]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            inputs: ['a', 'b'],
+          );
           expect(humanizeTplAst(parse('<div a [b]></div>', [dirA])), [
             [ElementAst, 'div'],
             [AttrAst, 'a', ''],
             [DirectiveAst, dirA],
             [BoundDirectivePropertyAst, 'a', ''],
-            [BoundDirectivePropertyAst, 'b', '']
+            [BoundDirectivePropertyAst, 'b', ''],
           ]);
         });
 
         test('should support optional directive properties', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: 'div',
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              inputs: ['a']);
+            selector: 'div',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            inputs: ['a'],
+          );
           expect(humanizeTplAst(parse('<div></div>', [dirA])), [
             [ElementAst, 'div'],
-            [DirectiveAst, dirA]
+            [DirectiveAst, dirA],
           ]);
         });
 
         test('should sort inputs based on directive ordering', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: 'div',
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              inputs: ['a', 'b']);
+            selector: 'div',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            inputs: ['a', 'b'],
+          );
           expect(humanizeTplAst(parse('<div [b]="b" [a]="a"></div>', [dirA])), [
             [ElementAst, 'div'],
             [DirectiveAst, dirA],
             [BoundDirectivePropertyAst, 'a', 'a'],
-            [BoundDirectivePropertyAst, 'b', 'b']
+            [BoundDirectivePropertyAst, 'b', 'b'],
           ]);
         });
       });
@@ -645,45 +657,59 @@ void main() {
             value = value.substring(10);
           }
           return CompileDiDependencyMetadata(
-              token: createToken(value),
-              isOptional: isOptional,
-              isSelf: isSelf,
-              isHost: isHost,
-              isAttribute: isAttribute);
+            token: createToken(value),
+            isOptional: isOptional,
+            isSelf: isSelf,
+            isHost: isHost,
+            isAttribute: isAttribute,
+          );
         }
 
-        CompileProviderMetadata createProvider(String token,
-            {bool multi = false, List<String> deps = const []}) {
+        CompileProviderMetadata createProvider(
+          String token, {
+          bool multi = false,
+          List<String> deps = const [],
+        }) {
           return CompileProviderMetadata(
-              token: createToken(token),
-              multi: multi,
-              useClass:
-                  CompileTypeMetadata(name: '''provider${nextProviderId++}'''),
-              deps: deps.map(createDep).toList());
+            token: createToken(token),
+            multi: multi,
+            useClass: CompileTypeMetadata(
+              name: '''provider${nextProviderId++}''',
+            ),
+            deps: deps.map(createDep).toList(),
+          );
         }
 
-        CompileDirectiveMetadata createDir(String selector,
-            {List<CompileProviderMetadata> providers = const [],
-            List<CompileProviderMetadata> viewProviders = const [],
-            List<String> deps = const [],
-            List<String> queries = const []}) {
+        CompileDirectiveMetadata createDir(
+          String selector, {
+          List<CompileProviderMetadata> providers = const [],
+          List<CompileProviderMetadata> viewProviders = const [],
+          List<String> deps = const [],
+          List<String> queries = const [],
+        }) {
           var isComponent = !selector.startsWith('[');
           return createCompileDirectiveMetadata(
-              selector: selector,
-              type: CompileTypeMetadata(
-                  moduleUrl: someModuleUrl,
-                  name: selector,
-                  diDeps: deps.map(createDep).toList()),
-              metadataType: isComponent
-                  ? CompileDirectiveMetadataType.Component
-                  : CompileDirectiveMetadataType.Directive,
-              template: CompileTemplateMetadata(ngContentSelectors: []),
-              providers: providers,
-              viewProviders: viewProviders,
-              queries: queries
-                  .map((value) =>
-                      CompileQueryMetadata(selectors: [createToken(value)]))
-                  .toList());
+            selector: selector,
+            type: CompileTypeMetadata(
+              moduleUrl: someModuleUrl,
+              name: selector,
+              diDeps: deps.map(createDep).toList(),
+            ),
+            metadataType:
+                isComponent
+                    ? CompileDirectiveMetadataType.Component
+                    : CompileDirectiveMetadataType.Directive,
+            template: CompileTemplateMetadata(ngContentSelectors: []),
+            providers: providers,
+            viewProviders: viewProviders,
+            queries:
+                queries
+                    .map(
+                      (value) =>
+                          CompileQueryMetadata(selectors: [createToken(value)]),
+                    )
+                    .toList(),
+          );
         }
 
         setUp(() {
@@ -712,7 +738,9 @@ void main() {
           var elAst = parse('<div dirA></div>', [dirA])[0] as ElementAst;
           expect(elAst.providers, hasLength(2));
           expect(
-              elAst.providers[1].providerType, ProviderAstType.PublicService);
+            elAst.providers[1].providerType,
+            ProviderAstType.PublicService,
+          );
           expect(elAst.providers[1].providers, orderedEquals([provider]));
         });
 
@@ -722,7 +750,9 @@ void main() {
           var elAst = parse('<my-comp></my-comp>', [comp])[0] as ElementAst;
           expect(elAst.providers, hasLength(2));
           expect(
-              elAst.providers[1].providerType, ProviderAstType.PrivateService);
+            elAst.providers[1].providerType,
+            ProviderAstType.PrivateService,
+          );
           expect(elAst.providers[1].providers, orderedEquals([provider]));
         });
 
@@ -735,8 +765,10 @@ void main() {
           var elAst =
               parse('<div dirA dirB></div>', [dirA, dirB])[0] as ElementAst;
           expect(elAst.providers, hasLength(4));
-          expect(elAst.providers[2].providers,
-              orderedEquals([provider0, provider2]));
+          expect(
+            elAst.providers[2].providers,
+            orderedEquals([provider0, provider2]),
+          );
           expect(elAst.providers[3].providers, orderedEquals([provider1]));
         });
 
@@ -819,8 +851,14 @@ void main() {
           var dir1 = createDir('[dir1]', deps: ['type:[dir0]']);
           var dir2 = createDir('[dir2]', deps: ['type:[dir1]']);
           var comp = createDir('my-comp');
-          var elAst = parse('<my-comp dir2 dir0 dir1></my-comp>',
-              [comp, dir2, dir0, dir1])[0] as ElementAst;
+          var elAst =
+              parse('<my-comp dir2 dir0 dir1></my-comp>', [
+                    comp,
+                    dir2,
+                    dir0,
+                    dir1,
+                  ])[0]
+                  as ElementAst;
           expect(elAst.providers, hasLength(4));
           expect(elAst.directives[0].directive, comp);
           expect(elAst.directives[1].directive, dir0);
@@ -828,29 +866,35 @@ void main() {
           expect(elAst.directives[3].directive, dir2);
         });
 
-        test('should mark directives and dependencies of directives as eager',
-            () {
-          var provider0 = createProvider('service0');
-          var provider1 = createProvider('service1');
-          var dirA = createDir('[dirA]',
-              providers: [provider0, provider1], deps: ['service0']);
-          var elAst = parse('<div dirA></div>', [dirA])[0] as ElementAst;
-          expect(elAst.providers, hasLength(3));
-          expect(elAst.providers[0].providers, orderedEquals([provider0]));
-          expect(elAst.providers[0].eager, true);
-          expect(elAst.providers[1].providers[0].useClass, dirA.type);
-          expect(elAst.providers[1].eager, true);
-          expect(elAst.providers[2].providers, orderedEquals([provider1]));
-          expect(elAst.providers[2].eager, false);
-        });
+        test(
+          'should mark directives and dependencies of directives as eager',
+          () {
+            var provider0 = createProvider('service0');
+            var provider1 = createProvider('service1');
+            var dirA = createDir(
+              '[dirA]',
+              providers: [provider0, provider1],
+              deps: ['service0'],
+            );
+            var elAst = parse('<div dirA></div>', [dirA])[0] as ElementAst;
+            expect(elAst.providers, hasLength(3));
+            expect(elAst.providers[0].providers, orderedEquals([provider0]));
+            expect(elAst.providers[0].eager, true);
+            expect(elAst.providers[1].providers[0].useClass, dirA.type);
+            expect(elAst.providers[1].eager, true);
+            expect(elAst.providers[2].providers, orderedEquals([provider1]));
+            expect(elAst.providers[2].eager, false);
+          },
+        );
 
         test('should mark dependencies on parent elements as eager', () {
           var provider0 = createProvider('service0');
           var provider1 = createProvider('service1');
           var dirA = createDir('[dirA]', providers: [provider0, provider1]);
           var dirB = createDir('[dirB]', deps: ['service0']);
-          var elAst = parse('<div dirA><div dirB></div></div>', [dirA, dirB])[0]
-              as ElementAst;
+          var elAst =
+              parse('<div dirA><div dirB></div></div>', [dirA, dirB])[0]
+                  as ElementAst;
           expect(elAst.providers, hasLength(3));
           expect(elAst.providers[0].providers[0].useClass, dirA.type);
           expect(elAst.providers[0].eager, true);
@@ -863,8 +907,11 @@ void main() {
         test('should mark queried providers as eager', () {
           var provider0 = createProvider('service0');
           var provider1 = createProvider('service1');
-          var dirA = createDir('[dirA]',
-              providers: [provider0, provider1], queries: ['service0']);
+          var dirA = createDir(
+            '[dirA]',
+            providers: [provider0, provider1],
+            queries: ['service0'],
+          );
           var elAst = parse('<div dirA></div>', [dirA])[0] as ElementAst;
           expect(elAst.providers, hasLength(3));
           expect(elAst.providers[0].providers[0].useClass, dirA.type);
@@ -875,30 +922,30 @@ void main() {
           expect(elAst.providers[2].eager, false);
         });
 
-        test('should not mark dependencies accross embedded views as eager',
-            () {
-          var provider0 = createProvider('service0');
-          var dirA = createDir('[dirA]', providers: [provider0]);
-          var dirB = createDir('[dirB]', deps: ['service0']);
-          var elAst =
-              parse('<div dirA><div *ngIf dirB></div></div>', [dirA, dirB])[0]
-                  as ElementAst;
-          expect(elAst.providers, hasLength(2));
-          expect(elAst.providers[0].providers[0].useClass, dirA.type);
-          expect(elAst.providers[0].eager, true);
-          expect(elAst.providers[1].providers, orderedEquals([provider0]));
-          expect(elAst.providers[1].eager, false);
-        });
+        test(
+          'should not mark dependencies accross embedded views as eager',
+          () {
+            var provider0 = createProvider('service0');
+            var dirA = createDir('[dirA]', providers: [provider0]);
+            var dirB = createDir('[dirB]', deps: ['service0']);
+            var elAst =
+                parse('<div dirA><div *ngIf dirB></div></div>', [dirA, dirB])[0]
+                    as ElementAst;
+            expect(elAst.providers, hasLength(2));
+            expect(elAst.providers[0].providers[0].useClass, dirA.type);
+            expect(elAst.providers[0].eager, true);
+            expect(elAst.providers[1].providers, orderedEquals([provider0]));
+            expect(elAst.providers[1].eager, false);
+          },
+        );
 
         test('should report missing @Self() deps as errors', () {
           var dirA = createDir('[dirA]', deps: ['self:provider0']);
           expect(
             () => parse('<div dirA></div>', [dirA]),
-            throwsA(predicate(
-              (e) => '$e'.contains(
-                'No provider for provider0',
-              ),
-            )),
+            throwsA(
+              predicate((e) => '$e'.contains('No provider for provider0')),
+            ),
           );
         });
 
@@ -913,11 +960,9 @@ void main() {
           var dirA = createDir('[dirA]', deps: ['host:provider0']);
           expect(
             () => parse('<div dirA></div>', [dirA]),
-            throwsA(predicate(
-              (e) => '$e'.contains(
-                'No provider for provider0',
-              ),
-            )),
+            throwsA(
+              predicate((e) => '$e'.contains('No provider for provider0')),
+            ),
           );
         });
 
@@ -935,11 +980,13 @@ void main() {
           );
           expect(
             () => parse('<div cycleDirective></div>', [cycle]),
-            throwsA(predicate(
-              (e) => '$e'.contains(
-                'Cannot instantiate cyclic dependency! [cycleDirective]',
+            throwsA(
+              predicate(
+                (e) => '$e'.contains(
+                  'Cannot instantiate cyclic dependency! [cycleDirective]',
+                ),
               ),
-            )),
+            ),
           );
         });
 
@@ -947,11 +994,7 @@ void main() {
           var needsHost = createDir('[needsHost]', deps: ['host:service']);
           expect(
             () => parse('<div needsHost></div>', [needsHost]),
-            throwsA(predicate(
-              (e) => '$e'.contains(
-                'No provider for service',
-              ),
-            )),
+            throwsA(predicate((e) => '$e'.contains('No provider for service'))),
           );
         });
 
@@ -968,23 +1011,18 @@ void main() {
                   <div needsDirectiveFromSelf></div>
                 </div>
               ''',
-              [
-                needsDirectiveFromSelf,
-                simpleDirective,
-              ],
+              [needsDirectiveFromSelf, simpleDirective],
             ),
-            throwsA(predicate(
-              (e) => '$e'.contains(
-                'No provider for [simpleDirective]',
+            throwsA(
+              predicate(
+                (e) => '$e'.contains('No provider for [simpleDirective]'),
               ),
-            )),
+            ),
           );
         });
 
         test('should pass missing directives check with @Attribute', () {
-          setUpParser(
-            elementSchemaRegistry: DomElementSchemaRegistry(),
-          );
+          setUpParser(elementSchemaRegistry: DomElementSchemaRegistry());
           var comp = createDir('comp', deps: ['attribute:attrX']);
           expect(humanizeTplAst(parse('<comp attrX></comp>', [comp])), [
             [ElementAst, 'comp'],
@@ -997,100 +1035,105 @@ void main() {
       });
 
       group('references', () {
-        test(
-            'should parse references via #... and not report '
+        test('should parse references via #... and not report '
             'them as attributes', () {
           expect(humanizeTplAst(parse('<div #a></div>', [])), [
             [ElementAst, 'div'],
-            [ReferenceAst, 'a', null]
+            [ReferenceAst, 'a', null],
           ]);
         });
 
         test('should parse camel case references', () {
           expect(humanizeTplAst(parse('<div #someA></div>', [])), [
             [ElementAst, 'div'],
-            [ReferenceAst, 'someA', null]
+            [ReferenceAst, 'someA', null],
           ]);
         });
 
         test('should assign references with empty value to the element', () {
           expect(humanizeTplAst(parse('<div #a></div>', [])), [
             [ElementAst, 'div'],
-            [ReferenceAst, 'a', null]
+            [ReferenceAst, 'a', null],
           ]);
         });
 
         test('should assign references to directives via exportAs', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: '[a]',
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              exportAs: 'dirA');
+            selector: '[a]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            exportAs: 'dirA',
+          );
           expect(humanizeTplAst(parse('<div a #a="dirA"></div>', [dirA])), [
             [ElementAst, 'div'],
             [AttrAst, 'a', ''],
             [ReferenceAst, 'a', identifierToken(dirA.type)],
-            [DirectiveAst, dirA]
+            [DirectiveAst, dirA],
           ]);
         });
 
-        test(
-            'should report references with values that dont match a '
+        test('should report references with values that dont match a '
             'directive as errors', () {
           expect(
-              () => parse('<div #a="dirA"></div>', []),
-              throwsWith('Template parse errors for (TestComp):\n'
-                  'line 1, column 6 of path://to/test-comp: ParseErrorLevel.FATAL: There is no directive with "exportAs" set to "dirA"\n'
-                  '  ,\n'
-                  '1 | #a="dirA"\n'
-                  '  | ^^^^^^^^^\n'
-                  "  '"));
+            () => parse('<div #a="dirA"></div>', []),
+            throwsWith(
+              'Template parse errors for (TestComp):\n'
+              'line 1, column 6 of path://to/test-comp: ParseErrorLevel.FATAL: There is no directive with "exportAs" set to "dirA"\n'
+              '  ,\n'
+              '1 | #a="dirA"\n'
+              '  | ^^^^^^^^^\n'
+              "  '",
+            ),
+          );
         }, skip: 'Don\'t handle errors yet.');
 
         test('should report invalid reference names', () {
           expect(
             () => parse('<div #a-b></div>'),
-            throwsA(predicate(
-              (e) => '$e'.contains(
-                '"-" is not allowed in reference names',
+            throwsA(
+              predicate(
+                (e) => '$e'.contains('"-" is not allowed in reference names'),
               ),
-            )),
+            ),
           );
         });
 
         test('should report variables as errors', () {
           expect(
             () => parse('<div let-a></div>'),
-            throwsA(predicate(
-              (e) => '$e'.contains(
-                'binding can only be used in \'template\' element',
+            throwsA(
+              predicate(
+                (e) => '$e'.contains(
+                  'binding can only be used in \'template\' element',
+                ),
               ),
-            )),
+            ),
           );
         });
 
         test('should assign references with empty value to components', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: '[a]',
-              metadataType: CompileDirectiveMetadataType.Component,
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-              exportAs: 'dirA',
-              template: CompileTemplateMetadata(ngContentSelectors: []));
+            selector: '[a]',
+            metadataType: CompileDirectiveMetadataType.Component,
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            exportAs: 'dirA',
+            template: CompileTemplateMetadata(ngContentSelectors: []),
+          );
           expect(humanizeTplAst(parse('<div a #a></div>', [dirA])), [
             [ElementAst, 'div'],
             [AttrAst, 'a', ''],
             [ReferenceAst, 'a', identifierToken(dirA.type)],
-            [DirectiveAst, dirA]
+            [DirectiveAst, dirA],
           ]);
         });
 
         test('should not locate directives in references', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: '[a]',
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'));
+            selector: '[a]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          );
           expect(humanizeTplAst(parse('<div #a></div>', [dirA])), [
             [ElementAst, 'div'],
-            [ReferenceAst, 'a', null]
+            [ReferenceAst, 'a', null],
           ]);
         });
       });
@@ -1098,48 +1141,50 @@ void main() {
       group('explicit templates', () {
         test('should create embedded templates for <template> elements', () {
           expect(humanizeTplAst(parse('<template></template>', [])), [
-            [EmbeddedTemplateAst]
+            [EmbeddedTemplateAst],
           ]);
           expect(humanizeTplAst(parse('<TEMPLATE></TEMPLATE>', [])), [
-            [EmbeddedTemplateAst]
+            [EmbeddedTemplateAst],
           ]);
         });
 
-        test(
-            'should create embedded templates for <template> elements '
+        test('should create embedded templates for <template> elements '
             'regardless the namespace', () {
           expect(
-              humanizeTplAst(parse('<svg><template></template></svg>', [])), [
-            [ElementAst, '@svg:svg'],
-            [EmbeddedTemplateAst]
-          ]);
+            humanizeTplAst(parse('<svg><template></template></svg>', [])),
+            [
+              [ElementAst, '@svg:svg'],
+              [EmbeddedTemplateAst],
+            ],
+          );
         });
 
         test('should support references via #...', () {
           expect(humanizeTplAst(parse('<template #a></template>', [])), [
             [EmbeddedTemplateAst],
-            [ReferenceAst, 'a', identifierToken(Identifiers.TemplateRef)]
+            [ReferenceAst, 'a', identifierToken(Identifiers.TemplateRef)],
           ]);
         });
 
         test('should parse variables via let-...', () {
           expect(humanizeTplAst(parse('<template let-a="b"></template>', [])), [
             [EmbeddedTemplateAst],
-            [VariableAst, 'a', 'b']
+            [VariableAst, 'a', 'b'],
           ]);
         });
 
         test('should not locate directives in variables', () {
           var dirA = createCompileDirectiveMetadata(
-              selector: '[a]',
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'));
+            selector: '[a]',
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          );
           expect(
-              humanizeTplAst(parse('<template let-a="b"></template>', [dirA])),
-              [
-                [EmbeddedTemplateAst],
-                [VariableAst, 'a', 'b']
-              ]);
+            humanizeTplAst(parse('<template let-a="b"></template>', [dirA])),
+            [
+              [EmbeddedTemplateAst],
+              [VariableAst, 'a', 'b'],
+            ],
+          );
         });
       });
 
@@ -1149,55 +1194,58 @@ void main() {
             [EmbeddedTemplateAst],
             [AttrAst, 'ngIf', ''],
             [VariableAst, 'a', 'b'],
-            [ElementAst, 'div']
+            [ElementAst, 'div'],
           ]);
         });
 
         group('directives', () {
           test('should locate directives in property bindings', () {
             var dirA = createCompileDirectiveMetadata(
-                selector: '[a=b]',
-                type:
-                    CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-                inputs: ['a']);
+              selector: '[a=b]',
+              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+              inputs: ['a'],
+            );
             var dirB = createCompileDirectiveMetadata(
-                selector: '[b]',
-                type: CompileTypeMetadata(
-                    moduleUrl: someModuleUrl, name: 'DirB'));
+              selector: '[b]',
+              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirB'),
+            );
             expect(
-                humanizeTplAst(parse('<div *a="b" b></div>', [dirA, dirB])), [
-              [EmbeddedTemplateAst],
-              [DirectiveAst, dirA],
-              [BoundDirectivePropertyAst, 'a', 'b'],
-              [ElementAst, 'div'],
-              [AttrAst, 'b', ''],
-              [DirectiveAst, dirB]
-            ]);
+              humanizeTplAst(parse('<div *a="b" b></div>', [dirA, dirB])),
+              [
+                [EmbeddedTemplateAst],
+                [DirectiveAst, dirA],
+                [BoundDirectivePropertyAst, 'a', 'b'],
+                [ElementAst, 'div'],
+                [AttrAst, 'b', ''],
+                [DirectiveAst, dirB],
+              ],
+            );
           });
 
           test('should not locate directives in variables', () {
             var dirA = createCompileDirectiveMetadata(
-                selector: '[a]',
-                type: CompileTypeMetadata(
-                    moduleUrl: someModuleUrl, name: 'DirA'));
+              selector: '[a]',
+              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+            );
             expect(
-                humanizeTplAst(parse('<div *foo="let a=b"></div>', [dirA])), [
-              [EmbeddedTemplateAst],
-              [AttrAst, 'foo', ''],
-              [VariableAst, 'a', 'b'],
-              [ElementAst, 'div']
-            ]);
+              humanizeTplAst(parse('<div *foo="let a=b"></div>', [dirA])),
+              [
+                [EmbeddedTemplateAst],
+                [AttrAst, 'foo', ''],
+                [VariableAst, 'a', 'b'],
+                [ElementAst, 'div'],
+              ],
+            );
           });
         });
 
-        test(
-            'should work with *... and use the attribute name as '
+        test('should work with *... and use the attribute name as '
             'property binding name', () {
           expect(humanizeTplAst(parse('<div *ngIf="test"></div>', [ngIf])), [
             [EmbeddedTemplateAst],
             [DirectiveAst, ngIf],
             [BoundDirectivePropertyAst, 'ngIf', 'test'],
-            [ElementAst, 'div']
+            [ElementAst, 'div'],
           ]);
         });
 
@@ -1207,7 +1255,7 @@ void main() {
             [AttrAst, 'ngIf', ''],
             [DirectiveAst, ngIf],
             [BoundDirectivePropertyAst, 'ngIf', ''],
-            [ElementAst, 'div']
+            [ElementAst, 'div'],
           ]);
         });
       });
@@ -1223,8 +1271,9 @@ void main() {
         });
 
         test('should internationalize container text', () {
-          final ast =
-              parse('<ng-container @i18n="description">message</ng-container>');
+          final ast = parse(
+            '<ng-container @i18n="description">message</ng-container>',
+          );
           final humanizedAst = humanizeTplAst(ast);
           expect(humanizedAst, [
             [NgContainerAst],
@@ -1346,9 +1395,12 @@ void main() {
             selector: 'test',
             inputs: ['input'],
           );
-          final ast = parse('''
+          final ast = parse(
+            '''
             <test [input]="'A message.'" @i18n:input="A description."></test>
-          ''', [directive]);
+          ''',
+            [directive],
+          );
           final humanizedAst = humanizeTplAst(ast);
           expect(humanizedAst, [
             [ElementAst, 'test'],
@@ -1357,7 +1409,7 @@ void main() {
               BoundDirectivePropertyAst,
               'input',
               'A message.',
-              'A description.'
+              'A description.',
             ],
           ]);
         });
@@ -1401,9 +1453,7 @@ void main() {
           expect(
             () => parse('<div [title]="f(x)" @i18n:title="Description"></div>'),
             throwsA(
-              predicate(
-                (e) => '$e'.contains('only support string literals'),
-              ),
+              predicate((e) => '$e'.contains('only support string literals')),
             ),
           );
         });
@@ -1412,33 +1462,19 @@ void main() {
       test('catch invalid annotations', () {
         expect(
           () => parse('<div @unknown></div>'),
-          throwsA(
-            predicate(
-              (e) => '$e'.contains(
-                'Invalid annotation',
-              ),
-            ),
-          ),
+          throwsA(predicate((e) => '$e'.contains('Invalid annotation'))),
         );
       });
 
       group('catch missing', () {
         setUp(() {
-          setUpParser(
-            elementSchemaRegistry: DomElementSchemaRegistry(),
-          );
+          setUpParser(elementSchemaRegistry: DomElementSchemaRegistry());
         });
 
         test('element', () {
           expect(
             () => parse('<unknown></unknown>', []),
-            throwsA(
-              predicate(
-                (e) => '$e'.contains(
-                  "Can't find '<unknown>'",
-                ),
-              ),
-            ),
+            throwsA(predicate((e) => '$e'.contains("Can't find '<unknown>'"))),
           );
         });
 
@@ -1457,11 +1493,11 @@ void main() {
 
         test('@Output', () {
           final comp = createCompileDirectiveMetadata(
-              selector: 'comp',
-              metadataType: CompileDirectiveMetadataType.Component,
-              outputs: ['e'],
-              type:
-                  CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Comp'));
+            selector: 'comp',
+            metadataType: CompileDirectiveMetadataType.Component,
+            outputs: ['e'],
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Comp'),
+          );
           expect(
             () => parse('<comp (unknownE)="f"></comp>', [comp]),
             throwsA(
@@ -1478,10 +1514,7 @@ void main() {
           final dirA = createCompileDirectiveMetadata(
             selector: 'dirA',
             inputs: ['prop'],
-            type: CompileTypeMetadata(
-              moduleUrl: someModuleUrl,
-              name: 'dirA',
-            ),
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'dirA'),
           );
           expect(
             () => parse('<div invalidProp="value"></div>', [dirA]),
@@ -1498,46 +1531,58 @@ void main() {
         group('@skipSchemaValidationFor', () {
           test('element', () {
             expect(
-                humanizeTplAst(parse(
-                    '<unknown @skipSchemaValidationFor="unknown"></unknown>',
-                    [])),
-                [
-                  [ElementAst, 'unknown'],
-                ]);
+              humanizeTplAst(
+                parse(
+                  '<unknown @skipSchemaValidationFor="unknown"></unknown>',
+                  [],
+                ),
+              ),
+              [
+                [ElementAst, 'unknown'],
+              ],
+            );
           });
 
           test('attribute', () {
             final dirA = createCompileDirectiveMetadata(
-                selector: 'dirA',
-                inputs: ['prop'],
-                type: CompileTypeMetadata(
-                    moduleUrl: someModuleUrl, name: 'dirA'));
+              selector: 'dirA',
+              inputs: ['prop'],
+              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'dirA'),
+            );
             expect(
-                humanizeTplAst(parse(
-                    '<div @skipSchemaValidationFor="[invalidProp]" invalidProp="value"></div>',
-                    [dirA])),
-                [
-                  [ElementAst, 'div'],
-                  [AttrAst, 'invalidProp', 'value'],
-                ]);
+              humanizeTplAst(
+                parse(
+                  '<div @skipSchemaValidationFor="[invalidProp]" invalidProp="value"></div>',
+                  [dirA],
+                ),
+              ),
+              [
+                [ElementAst, 'div'],
+                [AttrAst, 'invalidProp', 'value'],
+              ],
+            );
           });
 
           test('event', () {
             final comp = createCompileDirectiveMetadata(
-                selector: 'comp',
-                metadataType: CompileDirectiveMetadataType.Component,
-                outputs: ['e'],
-                type: CompileTypeMetadata(
-                    moduleUrl: someModuleUrl, name: 'Comp'));
+              selector: 'comp',
+              metadataType: CompileDirectiveMetadataType.Component,
+              outputs: ['e'],
+              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Comp'),
+            );
             expect(
-                humanizeTplAst(parse(
-                    '<comp @skipSchemaValidationFor="[unknownE]" (unknownE)="f"></comp>',
-                    [comp])),
-                [
-                  [ElementAst, 'comp'],
-                  [BoundEventAst, 'unknownE', null, 'f'],
-                  [DirectiveAst, comp],
-                ]);
+              humanizeTplAst(
+                parse(
+                  '<comp @skipSchemaValidationFor="[unknownE]" (unknownE)="f"></comp>',
+                  [comp],
+                ),
+              ),
+              [
+                [ElementAst, 'comp'],
+                [BoundEventAst, 'unknownE', null, 'f'],
+                [DirectiveAst, comp],
+              ],
+            );
           });
 
           test('annotation without value', () {
@@ -1573,26 +1618,35 @@ void main() {
         group('SkipValidaitonSelectors for ACX', () {
           test('element', () {
             expect(
-                humanizeTplAst(
-                    parse('<material-content></material-content>', [])),
-                [
-                  [ElementAst, 'material-content'],
-                ]);
+              humanizeTplAst(
+                parse('<material-content></material-content>', []),
+              ),
+              [
+                [ElementAst, 'material-content'],
+              ],
+            );
           });
 
           test('attribute', () {
             final materialIconComp = createCompileDirectiveMetadata(
-                selector: 'material-icon',
-                type: CompileTypeMetadata(
-                    moduleUrl: someModuleUrl, name: 'materialIconComp'));
+              selector: 'material-icon',
+              type: CompileTypeMetadata(
+                moduleUrl: someModuleUrl,
+                name: 'materialIconComp',
+              ),
+            );
             expect(
-                humanizeTplAst(parse('<material-icon baseline></material-icon>',
-                    [materialIconComp])),
-                [
-                  [ElementAst, 'material-icon'],
-                  [AttrAst, 'baseline', ''],
-                  [DirectiveAst, materialIconComp],
-                ]);
+              humanizeTplAst(
+                parse('<material-icon baseline></material-icon>', [
+                  materialIconComp,
+                ]),
+              ),
+              [
+                [ElementAst, 'material-icon'],
+                [AttrAst, 'baseline', ''],
+                [DirectiveAst, materialIconComp],
+              ],
+            );
           });
         });
 
@@ -1612,10 +1666,11 @@ void main() {
 
         test('should recognize <ng-content> select in element', () {
           final comp = createCompileDirectiveMetadata(
-              selector: 'comp',
-              metadataType: CompileDirectiveMetadataType.Component,
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Comp'),
-              template: CompileTemplateMetadata(ngContentSelectors: ['foo']));
+            selector: 'comp',
+            metadataType: CompileDirectiveMetadataType.Component,
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Comp'),
+            template: CompileTemplateMetadata(ngContentSelectors: ['foo']),
+          );
           expect(humanizeTplAst(parse('<comp><foo></foo></comp>', [comp])), [
             [ElementAst, 'comp'],
             [DirectiveAst, comp],
@@ -1624,40 +1679,46 @@ void main() {
         });
 
         test(
-            'should recognize <ng-content> select in embedded template element',
-            () {
-          final comp = createCompileDirectiveMetadata(
+          'should recognize <ng-content> select in embedded template element',
+          () {
+            final comp = createCompileDirectiveMetadata(
               selector: 'comp',
               metadataType: CompileDirectiveMetadataType.Component,
               type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Comp'),
-              template:
-                  CompileTemplateMetadata(ngContentSelectors: ['[filter]']));
-          expect(
+              template: CompileTemplateMetadata(
+                ngContentSelectors: ['[filter]'],
+              ),
+            );
+            expect(
               humanizeTplAst(
-                  parse('<comp><template filter></template></comp>', [comp])),
+                parse('<comp><template filter></template></comp>', [comp]),
+              ),
               [
                 [ElementAst, 'comp'],
                 [DirectiveAst, comp],
                 [EmbeddedTemplateAst],
-                [AttrAst, 'filter', '']
-              ]);
-        });
+                [AttrAst, 'filter', ''],
+              ],
+            );
+          },
+        );
 
         test('should recognize <ng-content> select in attribute', () {
           final comp = createCompileDirectiveMetadata(
-              selector: 'comp',
-              metadataType: CompileDirectiveMetadataType.Component,
-              type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Comp'),
-              template:
-                  CompileTemplateMetadata(ngContentSelectors: ['[header]']));
+            selector: 'comp',
+            metadataType: CompileDirectiveMetadataType.Component,
+            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'Comp'),
+            template: CompileTemplateMetadata(ngContentSelectors: ['[header]']),
+          );
           expect(
-              humanizeTplAst(parse('<comp><div header></div></comp>', [comp])),
-              [
-                [ElementAst, 'comp'],
-                [DirectiveAst, comp],
-                [ElementAst, 'div'],
-                [AttrAst, 'header', '']
-              ]);
+            humanizeTplAst(parse('<comp><div header></div></comp>', [comp])),
+            [
+              [ElementAst, 'comp'],
+              [DirectiveAst, comp],
+              [ElementAst, 'div'],
+              [AttrAst, 'header', ''],
+            ],
+          );
         });
 
         test('should recognize attribute in <template>', () {
@@ -1665,69 +1726,83 @@ void main() {
             [EmbeddedTemplateAst],
             [DirectiveAst, ngIf],
             [BoundDirectivePropertyAst, 'ngIf', 'foo'],
-            [ElementAst, 'div']
+            [ElementAst, 'div'],
           ]);
         });
 
         test('should recognize a11y attributes', () {
           expect(
-              humanizeTplAst(parse(
-                  '<div role="button" aria-hidden="true"></div>', [ngIf])),
-              [
-                [ElementAst, 'div'],
-                [AttrAst, 'role', 'button'],
-                [AttrAst, 'aria-hidden', 'true']
-              ]);
+            humanizeTplAst(
+              parse('<div role="button" aria-hidden="true"></div>', [ngIf]),
+            ),
+            [
+              [ElementAst, 'div'],
+              [AttrAst, 'role', 'button'],
+              [AttrAst, 'aria-hidden', 'true'],
+            ],
+          );
         });
 
         test('should recognize native event with reductions', () {
           expect(humanizeTplAst(parse('<div (keydown.enter)="f"></div>', [])), [
             [ElementAst, 'div'],
-            [BoundEventAst, 'keydown.enter', null, 'f']
+            [BoundEventAst, 'keydown.enter', null, 'f'],
           ]);
         });
 
         test('should recognize custom event', () {
           // (row-selection) is a custom event in <material-table>.
           final materialTableComp = createCompileDirectiveMetadata(
-              selector: 'material-table',
-              type: CompileTypeMetadata(
-                  moduleUrl: someModuleUrl, name: 'materialTableComp'));
+            selector: 'material-table',
+            type: CompileTypeMetadata(
+              moduleUrl: someModuleUrl,
+              name: 'materialTableComp',
+            ),
+          );
           expect(
-              humanizeTplAst(parse(
-                  '<material-table (row-selection)="f"></material-table>',
-                  [materialTableComp])),
-              [
-                [ElementAst, 'material-table'],
-                [BoundEventAst, 'row-selection', null, 'f'],
-                [DirectiveAst, materialTableComp],
-              ]);
+            humanizeTplAst(
+              parse('<material-table (row-selection)="f"></material-table>', [
+                materialTableComp,
+              ]),
+            ),
+            [
+              [ElementAst, 'material-table'],
+              [BoundEventAst, 'row-selection', null, 'f'],
+              [DirectiveAst, materialTableComp],
+            ],
+          );
         });
 
         test('should recognize PageLoader attributes', () {
           expect(
-              humanizeTplAst(parse(
-                  '<div debug-id="a" debugid="b" debugId="c" data-test-id="d"></div>',
-                  [])),
-              [
-                [ElementAst, 'div'],
-                [AttrAst, 'debug-id', 'a'],
-                [AttrAst, 'debugid', 'b'],
-                [AttrAst, 'debugId', 'c'],
-                [AttrAst, 'data-test-id', 'd'],
-              ]);
+            humanizeTplAst(
+              parse(
+                '<div debug-id="a" debugid="b" debugId="c" data-test-id="d"></div>',
+                [],
+              ),
+            ),
+            [
+              [ElementAst, 'div'],
+              [AttrAst, 'debug-id', 'a'],
+              [AttrAst, 'debugid', 'b'],
+              [AttrAst, 'debugId', 'c'],
+              [AttrAst, 'data-test-id', 'd'],
+            ],
+          );
         });
 
         test('should treat attribute and event in HTML case insensitive', () {
           expect(
-              humanizeTplAst(
-                  parse('<div cLAsS="foo" iD="bar" (cLiCk)="f"></div>', [])),
-              [
-                [ElementAst, 'div'],
-                [AttrAst, 'cLAsS', 'foo'],
-                [AttrAst, 'iD', 'bar'],
-                [BoundEventAst, 'cLiCk', null, 'f'],
-              ]);
+            humanizeTplAst(
+              parse('<div cLAsS="foo" iD="bar" (cLiCk)="f"></div>', []),
+            ),
+            [
+              [ElementAst, 'div'],
+              [AttrAst, 'cLAsS', 'foo'],
+              [AttrAst, 'iD', 'bar'],
+              [BoundEventAst, 'cLiCk', null, 'f'],
+            ],
+          );
           // Doesn't throw errors;
         });
       });
@@ -1740,247 +1815,309 @@ void main() {
       });
 
       CompileDirectiveMetadata createComp(
-          String selector, List<String> ngContentSelectors) {
+        String selector,
+        List<String> ngContentSelectors,
+      ) {
         return createCompileDirectiveMetadata(
-            selector: selector,
-            metadataType: CompileDirectiveMetadataType.Component,
-            type: CompileTypeMetadata(
-                moduleUrl: someModuleUrl, name: '''SomeComp${compCounter++}'''),
-            template: CompileTemplateMetadata(
-                ngContentSelectors: ngContentSelectors));
+          selector: selector,
+          metadataType: CompileDirectiveMetadataType.Component,
+          type: CompileTypeMetadata(
+            moduleUrl: someModuleUrl,
+            name: '''SomeComp${compCounter++}''',
+          ),
+          template: CompileTemplateMetadata(
+            ngContentSelectors: ngContentSelectors,
+          ),
+        );
       }
 
       CompileDirectiveMetadata createDir(String selector) {
         return createCompileDirectiveMetadata(
-            selector: selector,
-            type: CompileTypeMetadata(
-                moduleUrl: someModuleUrl, name: '''SomeDir${compCounter++}'''));
+          selector: selector,
+          type: CompileTypeMetadata(
+            moduleUrl: someModuleUrl,
+            name: '''SomeDir${compCounter++}''',
+          ),
+        );
       }
 
       group('project text nodes', () {
         test('should project text nodes with wildcard selector', () {
           expect(
-              humanizeContentProjection(parse('<div>hello</div>', [
-                createComp('div', ['*'])
-              ])),
-              [
-                ['div', null],
-                ['#text(hello)', 0]
-              ]);
+            humanizeContentProjection(
+              parse('<div>hello</div>', [
+                createComp('div', ['*']),
+              ]),
+            ),
+            [
+              ['div', null],
+              ['#text(hello)', 0],
+            ],
+          );
         });
       });
 
       group('project elements', () {
         test('should project elements with wildcard selector', () {
           expect(
-              humanizeContentProjection(parse('<div><span></span></div>', [
-                createComp('div', ['*'])
-              ])),
-              [
-                ['div', null],
-                ['span', 0]
-              ]);
+            humanizeContentProjection(
+              parse('<div><span></span></div>', [
+                createComp('div', ['*']),
+              ]),
+            ),
+            [
+              ['div', null],
+              ['span', 0],
+            ],
+          );
         });
 
         test('should project elements with css selector', () {
           expect(
-              humanizeContentProjection(parse('<div><a x></a><b></b></div>', [
-                createComp('div', ['a[x]'])
-              ])),
-              [
-                ['div', null],
-                ['a', 0],
-                ['b', null]
-              ]);
+            humanizeContentProjection(
+              parse('<div><a x></a><b></b></div>', [
+                createComp('div', ['a[x]']),
+              ]),
+            ),
+            [
+              ['div', null],
+              ['a', 0],
+              ['b', null],
+            ],
+          );
         });
       });
 
       group('embedded templates', () {
         test('should project embedded templates with wildcard selector', () {
           expect(
-              humanizeContentProjection(
-                  parse('<div><template></template></div>', [
-                createComp('div', ['*'])
-              ])),
-              [
-                ['div', null],
-                ['template', 0]
-              ]);
+            humanizeContentProjection(
+              parse('<div><template></template></div>', [
+                createComp('div', ['*']),
+              ]),
+            ),
+            [
+              ['div', null],
+              ['template', 0],
+            ],
+          );
         });
 
         test('should project embedded templates with css selector', () {
           expect(
-              humanizeContentProjection(parse(
-                  '<div><template x></template><template></template></div>', [
-                createComp('div', ['template[x]'])
-              ])),
-              [
-                ['div', null],
-                ['template', 0],
-                ['template', null]
-              ]);
+            humanizeContentProjection(
+              parse('<div><template x></template><template></template></div>', [
+                createComp('div', ['template[x]']),
+              ]),
+            ),
+            [
+              ['div', null],
+              ['template', 0],
+              ['template', null],
+            ],
+          );
         });
       });
 
       group('ng-content', () {
         test('should project ng-content with wildcard selector', () {
           expect(
+            humanizeContentProjection(
+              parse('<div><ng-content></ng-content></div>', [
+                createComp('div', ['*']),
+              ]),
+            ),
+            [
+              ['div', null],
+              ['ng-content', 0],
+            ],
+          );
+        });
+
+        test(
+          'should project ng-content with ngProjectAs and wildcard selector',
+          () {
+            expect(
               humanizeContentProjection(
-                  parse('<div><ng-content></ng-content></div>', [
-                createComp('div', ['*'])
-              ])),
-              [
-                ['div', null],
-                ['ng-content', 0]
-              ]);
-        });
-
-        test('should project ng-content with ngProjectAs and wildcard selector',
-            () {
-          expect(
-              humanizeContentProjection(parse(
-                  '<div><ng-content ngProjectAs="[x]"></ng-content></div>', [
-                createComp('div', ['*'])
-              ])),
-              [
-                ['div', null],
-                ['ng-content', 0]
-              ]);
-        });
-
-        test('should project ng-content with ngProjectAs', () {
-          expect(
-              humanizeContentProjection(parse(
-                  '<div><ng-content ngProjectAs="[x]"></ng-content><ng-content></ng-content></div>',
+                parse(
+                  '<div><ng-content ngProjectAs="[x]"></ng-content></div>',
                   [
-                    createComp('div', ['[x]'])
-                  ])),
+                    createComp('div', ['*']),
+                  ],
+                ),
+              ),
               [
                 ['div', null],
                 ['ng-content', 0],
-                ['ng-content', null]
-              ]);
+              ],
+            );
+          },
+        );
+
+        test('should project ng-content with ngProjectAs', () {
+          expect(
+            humanizeContentProjection(
+              parse(
+                '<div><ng-content ngProjectAs="[x]"></ng-content><ng-content></ng-content></div>',
+                [
+                  createComp('div', ['[x]']),
+                ],
+              ),
+            ),
+            [
+              ['div', null],
+              ['ng-content', 0],
+              ['ng-content', null],
+            ],
+          );
         });
 
         test('should project ng-content with css selector', () {
           expect(
-              humanizeContentProjection(parse(
-                  '<div><ng-content ngProjectAs="ng-content[x]"></ng-content><ng-content></ng-content></div>',
-                  [
-                    createComp('div', ['ng-content[x]'])
-                  ])),
-              [
-                ['div', null],
-                ['ng-content', 0],
-                ['ng-content', null]
-              ]);
+            humanizeContentProjection(
+              parse(
+                '<div><ng-content ngProjectAs="ng-content[x]"></ng-content><ng-content></ng-content></div>',
+                [
+                  createComp('div', ['ng-content[x]']),
+                ],
+              ),
+            ),
+            [
+              ['div', null],
+              ['ng-content', 0],
+              ['ng-content', null],
+            ],
+          );
         });
       });
 
       test('should project into the first matching ng-content', () {
         expect(
-            humanizeContentProjection(parse('<div>hello<b></b><a></a></div>', [
-              createComp('div', ['a', 'b', '*'])
-            ])),
-            [
-              ['div', null],
-              ['#text(hello)', 2],
-              ['b', 1],
-              ['a', 0]
-            ]);
+          humanizeContentProjection(
+            parse('<div>hello<b></b><a></a></div>', [
+              createComp('div', ['a', 'b', '*']),
+            ]),
+          ),
+          [
+            ['div', null],
+            ['#text(hello)', 2],
+            ['b', 1],
+            ['a', 0],
+          ],
+        );
       });
 
       test('should project into wildcard ng-content last', () {
         expect(
-            humanizeContentProjection(parse('<div>hello<a></a></div>', [
-              createComp('div', ['*', 'a'])
-            ])),
-            [
-              ['div', null],
-              ['#text(hello)', 0],
-              ['a', 1]
-            ]);
+          humanizeContentProjection(
+            parse('<div>hello<a></a></div>', [
+              createComp('div', ['*', 'a']),
+            ]),
+          ),
+          [
+            ['div', null],
+            ['#text(hello)', 0],
+            ['a', 1],
+          ],
+        );
       });
 
       test('should only project direct child nodes', () {
         expect(
-            humanizeContentProjection(
-                parse('<div><span><a></a></span><a></a></div>', [
-              createComp('div', ['a'])
-            ])),
-            [
-              ['div', null],
-              ['span', null],
-              ['a', null],
-              ['a', 0]
-            ]);
+          humanizeContentProjection(
+            parse('<div><span><a></a></span><a></a></div>', [
+              createComp('div', ['a']),
+            ]),
+          ),
+          [
+            ['div', null],
+            ['span', null],
+            ['a', null],
+            ['a', 0],
+          ],
+        );
       });
 
       test('should project nodes of nested components', () {
         expect(
-            humanizeContentProjection(parse('<a><b>hello</b></a>', [
+          humanizeContentProjection(
+            parse('<a><b>hello</b></a>', [
               createComp('a', ['*']),
-              createComp('b', ['*'])
-            ])),
-            [
-              ['a', null],
-              ['b', 0],
-              ['#text(hello)', 0]
-            ]);
+              createComp('b', ['*']),
+            ]),
+          ),
+          [
+            ['a', null],
+            ['b', 0],
+            ['#text(hello)', 0],
+          ],
+        );
       });
 
       test('should match the element when there is an inline template', () {
         expect(
-            humanizeContentProjection(parse('<div><b *ngIf="cond"></b></div>', [
+          humanizeContentProjection(
+            parse('<div><b *ngIf="cond"></b></div>', [
               createComp('div', ['a', 'b']),
-              ngIf
-            ])),
-            [
-              ['div', null],
-              ['template', 1],
-              ['b', null]
-            ]);
+              ngIf,
+            ]),
+          ),
+          [
+            ['div', null],
+            ['template', 1],
+            ['b', null],
+          ],
+        );
       });
 
-      test('should not match the element when there is a explicit template',
-          () {
-        expect(
+      test(
+        'should not match the element when there is a explicit template',
+        () {
+          expect(
             humanizeContentProjection(
-                parse('<div><template [ngIf]="cond"><b></b></template></div>', [
-              createComp('div', ['a', 'b']),
-              ngIf
-            ])),
+              parse('<div><template [ngIf]="cond"><b></b></template></div>', [
+                createComp('div', ['a', 'b']),
+                ngIf,
+              ]),
+            ),
             [
               ['div', null],
               ['template', null],
-              ['b', null]
-            ]);
-      });
+              ['b', null],
+            ],
+          );
+        },
+      );
 
       group('ngProjectAs', () {
         test('should override <ng-content>', () {
           expect(
-              humanizeContentProjection(parse(
-                  '<div><ng-content ngProjectAs="b"></ng-content></div>', [
-                createComp('div', ['ng-content', 'b'])
-              ])),
-              [
-                ['div', null],
-                ['ng-content', 1]
-              ]);
+            humanizeContentProjection(
+              parse('<div><ng-content ngProjectAs="b"></ng-content></div>', [
+                createComp('div', ['ng-content', 'b']),
+              ]),
+            ),
+            [
+              ['div', null],
+              ['ng-content', 1],
+            ],
+          );
         });
       });
 
       test('should support other directives before the component', () {
         expect(
-            humanizeContentProjection(parse('<div>hello</div>', [
+          humanizeContentProjection(
+            parse('<div>hello</div>', [
               createDir('div'),
-              createComp('div', ['*'])
-            ])),
-            [
-              ['div', null],
-              ['#text(hello)', 0]
-            ]);
+              createComp('div', ['*']),
+            ]),
+          ),
+          [
+            ['div', null],
+            ['#text(hello)', 0],
+          ],
+        );
       });
     });
 
@@ -2018,9 +2155,7 @@ void main() {
             // TODO(b/155395608): Remove the first case.
             throwsA(
               predicate(
-                (e) => '$e'.contains(
-                  'Unexpected token \'b\' at column 3',
-                ),
+                (e) => '$e'.contains('Unexpected token \'b\' at column 3'),
               ),
             ),
             throwsA(
@@ -2034,87 +2169,102 @@ void main() {
         );
       });
 
-      test(
-          'should not throw on invalid property names if the property is '
+      test('should not throw on invalid property names if the property is '
           'used by a directive', () {
         var dirA = createCompileDirectiveMetadata(
-            selector: 'div',
-            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-            inputs: ['invalidProp']);
+          selector: 'div',
+          type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          inputs: ['invalidProp'],
+        );
         // Should not throw:
         parse('<div [invalid-prop]></div>', [dirA]);
       });
 
-      test('should not allow more than 1 component per element', () {
-        var dirA = createCompileDirectiveMetadata(
+      test(
+        'should not allow more than 1 component per element',
+        () {
+          var dirA = createCompileDirectiveMetadata(
             selector: 'div',
             metadataType: CompileDirectiveMetadataType.Component,
             type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-            template: CompileTemplateMetadata(ngContentSelectors: []));
-        var dirB = createCompileDirectiveMetadata(
+            template: CompileTemplateMetadata(ngContentSelectors: []),
+          );
+          var dirB = createCompileDirectiveMetadata(
             selector: 'div',
             metadataType: CompileDirectiveMetadataType.Component,
             type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirB'),
-            template: CompileTemplateMetadata(ngContentSelectors: []));
-        expect(
+            template: CompileTemplateMetadata(ngContentSelectors: []),
+          );
+          expect(
             () => parse('<div></div>', [dirB, dirA]),
-            throwsWith('Template parse errors:\n'
-                'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: More than one component: DirB,DirA\n'
-                '  ,\n'
-                '1 | <div>\n'
-                '  | ^^^^^\n'
-                "  '"));
-      }, skip: 'Doesn\'t throw yet.');
+            throwsWith(
+              'Template parse errors:\n'
+              'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: More than one component: DirB,DirA\n'
+              '  ,\n'
+              '1 | <div>\n'
+              '  | ^^^^^\n'
+              "  '",
+            ),
+          );
+        },
+        skip: 'Doesn\'t throw yet.',
+      );
 
-      test(
-          'should not allow components or element bindings nor dom events '
+      test('should not allow components or element bindings nor dom events '
           'on explicit embedded templates', () {
         var dirA = createCompileDirectiveMetadata(
-            selector: '[a]',
-            metadataType: CompileDirectiveMetadataType.Component,
-            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-            template: CompileTemplateMetadata(ngContentSelectors: []));
+          selector: '[a]',
+          metadataType: CompileDirectiveMetadataType.Component,
+          type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          template: CompileTemplateMetadata(ngContentSelectors: []),
+        );
         expect(
-            () => parse('<template [a]="b" (e)="f"></template>', [dirA]),
-            throwsWith('Template parse errors:\n'
-                'line 1, column 19 of path://to/test-comp: ParseErrorLevel.FATAL: Event binding e not emitted by any directive on an embedded template\n'
-                '  ,\n'
-                '1 | (e)="f"\n'
-                '  | ^^^^^^^\n\n'
-                "  '"
-                'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: Components on an embedded template: DirA\n'
-                '  ,\n'
-                '1 | <template [a]="b" (e)="f">\n'
-                '  | ^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n'
-                "  '"
-                'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: Property binding a not used by any directive on an embedded template\n'
-                '  ,\n'
-                '1 | <template [a]="b" (e)="f">\n'
-                '  | ^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
-                "  '"));
+          () => parse('<template [a]="b" (e)="f"></template>', [dirA]),
+          throwsWith(
+            'Template parse errors:\n'
+            'line 1, column 19 of path://to/test-comp: ParseErrorLevel.FATAL: Event binding e not emitted by any directive on an embedded template\n'
+            '  ,\n'
+            '1 | (e)="f"\n'
+            '  | ^^^^^^^\n\n'
+            "  '"
+            'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: Components on an embedded template: DirA\n'
+            '  ,\n'
+            '1 | <template [a]="b" (e)="f">\n'
+            '  | ^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n'
+            "  '"
+            'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: Property binding a not used by any directive on an embedded template\n'
+            '  ,\n'
+            '1 | <template [a]="b" (e)="f">\n'
+            '  | ^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+            "  '",
+          ),
+        );
       }, skip: 'Doesn\'t throw yet.');
 
-      test(
-          'should not allow components or element bindings on inline '
+      test('should not allow components or element bindings on inline '
           'embedded templates', () {
         var dirA = createCompileDirectiveMetadata(
-            selector: '[a]',
-            metadataType: CompileDirectiveMetadataType.Component,
-            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-            template: CompileTemplateMetadata(ngContentSelectors: []));
+          selector: '[a]',
+          metadataType: CompileDirectiveMetadataType.Component,
+          type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          template: CompileTemplateMetadata(ngContentSelectors: []),
+        );
         expect(
-            () => parse('<div *a="b"></div>', [dirA]),
-            throwsWith('Template parse errors:\n'
-                'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: Components on an embedded template: DirA\n'
-                '  ,\n'
-                '1 | <div *a="b">\n'
-                '  | ^^^^^^^^^^^^\n\n'
-                "  '"
-                'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: Property binding a not used by any directive on an embedded template\n'
-                '  ,\n'
-                '1 | <div *a="b">\n'
-                '  | ^^^^^^^^^^^^\n'
-                "  '"));
+          () => parse('<div *a="b"></div>', [dirA]),
+          throwsWith(
+            'Template parse errors:\n'
+            'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: Components on an embedded template: DirA\n'
+            '  ,\n'
+            '1 | <div *a="b">\n'
+            '  | ^^^^^^^^^^^^\n\n'
+            "  '"
+            'line 1, column 1 of path://to/test-comp: ParseErrorLevel.FATAL: Property binding a not used by any directive on an embedded template\n'
+            '  ,\n'
+            '1 | <div *a="b">\n'
+            '  | ^^^^^^^^^^^^\n'
+            "  '",
+          ),
+        );
       }, skip: 'Doesn\'t throw yet.');
 
       test('should prevent binding event attributes', () async {
@@ -2190,9 +2340,8 @@ void main() {
           () => parse('<div (a)="b()" (a)="c()"></div>'),
           throwsA(
             predicate(
-              (e) => '$e'.contains(
-                'Found multiple events with the same name: a.',
-              ),
+              (e) =>
+                  '$e'.contains('Found multiple events with the same name: a.'),
             ),
           ),
         );
@@ -2242,9 +2391,8 @@ void main() {
           () => parse('<p @i18n="description"></p>', []),
           throwsA(
             predicate(
-              (e) => '$e'.contains(
-                'Internationalized messages must contain text',
-              ),
+              (e) =>
+                  '$e'.contains('Internationalized messages must contain text'),
             ),
           ),
         );
@@ -2294,9 +2442,7 @@ void main() {
           () => parse('<p @i18n="description" @i18n.locale></p>'),
           throwsA(
             predicate(
-              (e) => '$e'.contains(
-                'Requires a value to specify a locale',
-              ),
+              (e) => '$e'.contains('Requires a value to specify a locale'),
             ),
           ),
         );
@@ -2322,49 +2468,61 @@ void main() {
         );
         expect(
           () => parse(
-              '<test [input]="1 + 2" @i18n:input="A description."></test>',
-              [directive]),
-          throwsWith('Internationalized property bindings only support string '
-              'literals\n'
-              '  ,\n'
-              '1 | <test [input]="1 + 2" @i18n:input="A description."></test>\n'
-              '  |       ^^^^^^^^^^^^^^^\n'
-              "  '"),
+            '<test [input]="1 + 2" @i18n:input="A description."></test>',
+            [directive],
+          ),
+          throwsWith(
+            'Internationalized property bindings only support string '
+            'literals\n'
+            '  ,\n'
+            '1 | <test [input]="1 + 2" @i18n:input="A description."></test>\n'
+            '  |       ^^^^^^^^^^^^^^^\n'
+            "  '",
+          ),
         );
       });
 
       group('should prevent unmatched attribute or property', () {
         test('on container', () {
           expect(
-              () => parse('<ng-container @i18n:="Description"></ng-container>'),
-              throwsWith('Attempted to internationalize "", but no matching '
-                  'attribute or property found\n'
-                  '  ,\n'
-                  '1 | <ng-container @i18n:="Description"></ng-container>\n'
-                  '  |               ^^^^^^^^^^^^^^^^^^^^\n'
-                  "  '"));
+            () => parse('<ng-container @i18n:="Description"></ng-container>'),
+            throwsWith(
+              'Attempted to internationalize "", but no matching '
+              'attribute or property found\n'
+              '  ,\n'
+              '1 | <ng-container @i18n:="Description"></ng-container>\n'
+              '  |               ^^^^^^^^^^^^^^^^^^^^\n'
+              "  '",
+            ),
+          );
         });
 
         test('on element', () {
           expect(
-              () => parse('<input @i18n:placeholder="Description">'),
-              throwsWith('Attempted to internationalize "placeholder", but no '
-                  'matching attribute or property found\n'
-                  '  ,\n'
-                  '1 | <input @i18n:placeholder="Description">\n'
-                  '  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
-                  "  '"));
+            () => parse('<input @i18n:placeholder="Description">'),
+            throwsWith(
+              'Attempted to internationalize "placeholder", but no '
+              'matching attribute or property found\n'
+              '  ,\n'
+              '1 | <input @i18n:placeholder="Description">\n'
+              '  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+              "  '",
+            ),
+          );
         });
 
         test('on template', () {
           expect(
-              () => parse('<template @i18n:input="Description"></template>'),
-              throwsWith('Attempted to internationalize "input", but no '
-                  'matching attribute or property found\n'
-                  '  ,\n'
-                  '1 | <template @i18n:input="Description"></template>\n'
-                  '  |           ^^^^^^^^^^^^^^^^^^^^^^^^^\n'
-                  "  '"));
+            () => parse('<template @i18n:input="Description"></template>'),
+            throwsWith(
+              'Attempted to internationalize "input", but no '
+              'matching attribute or property found\n'
+              '  ,\n'
+              '1 | <template @i18n:input="Description"></template>\n'
+              '  |           ^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+              "  '",
+            ),
+          );
         });
       });
     });
@@ -2372,72 +2530,76 @@ void main() {
     group('ignore elements', () {
       test('should ignore <script> elements', () {
         expect(humanizeTplAst(parse('<script></script>a', [])), [
-          [TextAst, 'a']
+          [TextAst, 'a'],
         ]);
       });
 
       test('should ignore <style> elements', () {
         expect(humanizeTplAst(parse('<style></style>a', [])), [
-          [TextAst, 'a']
+          [TextAst, 'a'],
         ]);
       });
 
       group('<link rel="stylesheet">', () {
-        test(
-            'should keep <link rel="stylesheet"> elements if they '
+        test('should keep <link rel="stylesheet"> elements if they '
             'have an absolute non package: url', () {
           expect(
-              humanizeTplAst(
-                  parse('<link rel="stylesheet" href="http://someurl">a', [])),
-              [
-                [ElementAst, 'link'],
-                [AttrAst, 'rel', 'stylesheet'],
-                [AttrAst, 'href', 'http://someurl'],
-                [TextAst, 'a']
-              ]);
+            humanizeTplAst(
+              parse('<link rel="stylesheet" href="http://someurl">a', []),
+            ),
+            [
+              [ElementAst, 'link'],
+              [AttrAst, 'rel', 'stylesheet'],
+              [AttrAst, 'href', 'http://someurl'],
+              [TextAst, 'a'],
+            ],
+          );
         });
 
-        test(
-            'should keep <link rel="stylesheet"> elements if they '
+        test('should keep <link rel="stylesheet"> elements if they '
             'have no uri', () {
           expect(humanizeTplAst(parse('<link rel="stylesheet">a', [])), [
             [ElementAst, 'link'],
             [AttrAst, 'rel', 'stylesheet'],
-            [TextAst, 'a']
+            [TextAst, 'a'],
           ]);
           expect(humanizeTplAst(parse('<link REL="stylesheet">a', [])), [
             [ElementAst, 'link'],
             [AttrAst, 'REL', 'stylesheet'],
-            [TextAst, 'a']
+            [TextAst, 'a'],
           ]);
         });
 
-        test(
-            'should ignore <link rel="stylesheet"> elements if they have '
+        test('should ignore <link rel="stylesheet"> elements if they have '
             'a relative uri', () {
           expect(
-              humanizeTplAst(
-                  parse('<link rel="stylesheet" href="./other.css">a', [])),
-              [
-                [TextAst, 'a']
-              ]);
+            humanizeTplAst(
+              parse('<link rel="stylesheet" href="./other.css">a', []),
+            ),
+            [
+              [TextAst, 'a'],
+            ],
+          );
           expect(
-              humanizeTplAst(
-                  parse('<link rel="stylesheet" HREF="./other.css">a', [])),
-              [
-                [TextAst, 'a']
-              ]);
+            humanizeTplAst(
+              parse('<link rel="stylesheet" HREF="./other.css">a', []),
+            ),
+            [
+              [TextAst, 'a'],
+            ],
+          );
         });
 
-        test(
-            'should ignore <link rel="stylesheet"> elements if they '
+        test('should ignore <link rel="stylesheet"> elements if they '
             'have a package: uri', () {
           expect(
-              humanizeTplAst(parse(
-                  '<link rel="stylesheet" href="package:somePackage">a', [])),
-              [
-                [TextAst, 'a']
-              ]);
+            humanizeTplAst(
+              parse('<link rel="stylesheet" href="package:somePackage">a', []),
+            ),
+            [
+              [TextAst, 'a'],
+            ],
+          );
         });
       });
     });
@@ -2446,122 +2608,137 @@ void main() {
       test('should support ng-content', () {
         var parsed = parse('<ng-content select="a"></ng-content>', []);
         expect(humanizeTplAstSourceSpans(parsed), [
-          [NgContentAst, '<ng-content select="a">']
+          [NgContentAst, '<ng-content select="a">'],
         ]);
       });
 
       test('should support embedded template', () {
         expect(humanizeTplAstSourceSpans(parse('<template></template>', [])), [
-          [EmbeddedTemplateAst, '<template>']
+          [EmbeddedTemplateAst, '<template>'],
         ]);
       });
 
       test('should support element and attributes', () {
         expect(
-            humanizeTplAstSourceSpans(parse('<div key="value"></div>', [])), [
-          [ElementAst, 'div', '<div key="value">'],
-          [AttrAst, 'key', 'value', 'key="value"']
-        ]);
+          humanizeTplAstSourceSpans(parse('<div key="value"></div>', [])),
+          [
+            [ElementAst, 'div', '<div key="value">'],
+            [AttrAst, 'key', 'value', 'key="value"'],
+          ],
+        );
       });
 
       test('should support references', () {
         expect(humanizeTplAstSourceSpans(parse('<div #a></div>', [])), [
           [ElementAst, 'div', '<div #a>'],
-          [ReferenceAst, 'a', null, '#a']
+          [ReferenceAst, 'a', null, '#a'],
         ]);
       });
 
       test('should support variables', () {
         expect(
-            humanizeTplAstSourceSpans(
-                parse('<template let-a="b"></template>', [])),
-            [
-              [EmbeddedTemplateAst, '<template let-a="b">'],
-              [VariableAst, 'a', 'b', 'let-a="b"']
-            ]);
+          humanizeTplAstSourceSpans(
+            parse('<template let-a="b"></template>', []),
+          ),
+          [
+            [EmbeddedTemplateAst, '<template let-a="b">'],
+            [VariableAst, 'a', 'b', 'let-a="b"'],
+          ],
+        );
       });
 
       test('should support element property', () {
         expect(
-            humanizeTplAstSourceSpans(parse('<div [someProp]="v"></div>', [])),
+          humanizeTplAstSourceSpans(parse('<div [someProp]="v"></div>', [])),
+          [
+            [ElementAst, 'div', '<div [someProp]="v">'],
             [
-              [ElementAst, 'div', '<div [someProp]="v">'],
-              [
-                BoundElementPropertyAst,
-                PropertyBindingType.property,
-                'someProp',
-                'v',
-                null,
-                '[someProp]="v"'
-              ]
-            ]);
+              BoundElementPropertyAst,
+              PropertyBindingType.property,
+              'someProp',
+              'v',
+              null,
+              '[someProp]="v"',
+            ],
+          ],
+        );
       });
 
       test('should support bound text', () {
         expect(humanizeTplAstSourceSpans(parse('{{a}}', [])), [
-          [BoundTextAst, '{{ a }}', '{{a}}']
+          [BoundTextAst, '{{ a }}', '{{a}}'],
         ]);
       });
 
       test('should support text nodes', () {
         expect(humanizeTplAstSourceSpans(parse('a', [])), [
-          [TextAst, 'a', 'a']
+          [TextAst, 'a', 'a'],
         ]);
       });
 
       test('should support directive', () {
         var dirA = createCompileDirectiveMetadata(
-            selector: '[a]',
-            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'));
+          selector: '[a]',
+          type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+        );
         var comp = createCompileDirectiveMetadata(
-            selector: 'div',
-            metadataType: CompileDirectiveMetadataType.Component,
-            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'ZComp'),
-            template: CompileTemplateMetadata(ngContentSelectors: []));
+          selector: 'div',
+          metadataType: CompileDirectiveMetadataType.Component,
+          type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'ZComp'),
+          template: CompileTemplateMetadata(ngContentSelectors: []),
+        );
         expect(
-            humanizeTplAstSourceSpans(parse('<div a></div>', [dirA, comp])), [
-          [ElementAst, 'div', '<div a>'],
-          [AttrAst, 'a', '', 'a'],
-          [DirectiveAst, dirA, '<div a>'],
-          [DirectiveAst, comp, '<div a>']
-        ]);
+          humanizeTplAstSourceSpans(parse('<div a></div>', [dirA, comp])),
+          [
+            [ElementAst, 'div', '<div a>'],
+            [AttrAst, 'a', '', 'a'],
+            [DirectiveAst, dirA, '<div a>'],
+            [DirectiveAst, comp, '<div a>'],
+          ],
+        );
       });
 
       test('should support directive in namespace', () {
         var tagSel = createCompileDirectiveMetadata(
-            selector: 'circle',
-            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'elDir'));
+          selector: 'circle',
+          type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'elDir'),
+        );
         var attrSel = createCompileDirectiveMetadata(
-            selector: '[href]',
-            type:
-                CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'attrDir'));
+          selector: '[href]',
+          type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'attrDir'),
+        );
         expect(
-            humanizeTplAstSourceSpans(parse(
-                '<svg><circle /><use xlink:href="Port" /></svg>',
-                [tagSel, attrSel])),
-            [
-              [ElementAst, '@svg:svg', '<svg>'],
-              [ElementAst, '@svg:circle', '<circle />'],
-              [DirectiveAst, tagSel, '<circle />'],
-              [ElementAst, '@svg:use', '<use xlink:href="Port" />'],
-              [AttrAst, '@xlink:href', 'Port', 'xlink:href="Port"'],
-              [DirectiveAst, attrSel, '<use xlink:href="Port" />']
-            ]);
+          humanizeTplAstSourceSpans(
+            parse('<svg><circle /><use xlink:href="Port" /></svg>', [
+              tagSel,
+              attrSel,
+            ]),
+          ),
+          [
+            [ElementAst, '@svg:svg', '<svg>'],
+            [ElementAst, '@svg:circle', '<circle />'],
+            [DirectiveAst, tagSel, '<circle />'],
+            [ElementAst, '@svg:use', '<use xlink:href="Port" />'],
+            [AttrAst, '@xlink:href', 'Port', 'xlink:href="Port"'],
+            [DirectiveAst, attrSel, '<use xlink:href="Port" />'],
+          ],
+        );
       });
 
       test('should support directive property', () {
         var dirA = createCompileDirectiveMetadata(
-            selector: 'div',
-            type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
-            inputs: ['aProp']);
+          selector: 'div',
+          type: CompileTypeMetadata(moduleUrl: someModuleUrl, name: 'DirA'),
+          inputs: ['aProp'],
+        );
         expect(
-            humanizeTplAstSourceSpans(
-                parse('<div [aProp]="foo"></div>', [dirA])),
-            [
-              [ElementAst, 'div', '<div [aProp]="foo">'],
-              [DirectiveAst, dirA, '<div [aProp]="foo">'],
-              [BoundDirectivePropertyAst, 'aProp', 'foo', '[aProp]="foo"']
-            ]);
+          humanizeTplAstSourceSpans(parse('<div [aProp]="foo"></div>', [dirA])),
+          [
+            [ElementAst, 'div', '<div [aProp]="foo">'],
+            [DirectiveAst, dirA, '<div [aProp]="foo">'],
+            [BoundDirectivePropertyAst, 'aProp', 'foo', '[aProp]="foo"'],
+          ],
+        );
       });
     });
 
@@ -2576,16 +2753,13 @@ void main() {
         parse(r'{{$pipe.test(a)}}', [], [testPipe]);
       });
 
-      test(
-          'should report pipes as error that have not been defined '
+      test('should report pipes as error that have not been defined '
           'as dependencies', () {
         expect(
           () => parse(r'{{$pipe.test(a)}}'),
           throwsA(
             predicate(
-              (e) => '$e'.contains(
-                'The pipe \'test\' could not be found.',
-              ),
+              (e) => '$e'.contains('The pipe \'test\' could not be found.'),
             ),
           ),
         );
@@ -2601,9 +2775,8 @@ void main() {
           () => parse(r'{{$pipe.test(a, 12)}}', [], [testPipe]),
           throwsA(
             predicate(
-              (e) => '$e'.contains(
-                "'test' was invoked with too many arguments",
-              ),
+              (e) =>
+                  '$e'.contains("'test' was invoked with too many arguments"),
             ),
           ),
         );

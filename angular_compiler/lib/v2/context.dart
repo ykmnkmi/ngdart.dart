@@ -31,10 +31,7 @@ final _compileContextKey = Object();
 ///
 /// **NOTE**: Unless you are specifically testing [runWithContext], tests should
 /// use [CompileContext.overrideForTesting] instead to set the current context.
-Future<T> runWithContext<T>(
-  CompileContext instance,
-  Future<T> Function() run,
-) {
+Future<T> runWithContext<T>(CompileContext instance, Future<T> Function() run) {
   ArgumentError.checkNotNull(instance, 'instance');
   // A call to runZoned with "onError" becomes a special kind of zone called an
   // "Error Zone", which no longer guarantees completion (that is, the function
@@ -77,9 +74,7 @@ Future<T> runWithContext<T>(
     zoneSpecification: ZoneSpecification(
       print: (_, __, ___, line) => log.info(line),
     ),
-    zoneValues: {
-      _compileContextKey: instance,
-    },
+    zoneValues: {_compileContextKey: instance},
   )?.then((result) {
     if (!buildCompletedOrFailed.isCompleted) {
       buildCompletedOrFailed.complete(result);
@@ -163,14 +158,16 @@ abstract class CompileContext {
   static Never _failNoCompileContextConfigured() {
     var errorMessage = 'No CompileContext configured.';
     if (isDevMode) {
-      errorMessage = ''
+      errorMessage =
+          ''
           '$errorMessage\n'
           'During tests that invoke parts of the compiler it is required to '
           'use CompileContext.overrideForTesting to initialize a default '
           'context. This can be done once in `main()`, in `setUpAll()`, or '
           'piece-meal per test if special behavior is desired.';
     } else {
-      errorMessage = ''
+      errorMessage =
+          ''
           '$errorMessage\n'
           'This should not happen, and might be the result of using part of '
           'the compiler outside of the normal build process.';

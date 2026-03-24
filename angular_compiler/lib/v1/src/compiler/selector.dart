@@ -1,16 +1,17 @@
 import 'attribute_matcher.dart';
 import 'html_tags.dart' show getHtmlTagDefinition;
 
-final _selectorRegExp = RegExp(r'(:not\()|' // ":not("
-    r'([-\w]+)|' // "tag-name"
-    r'(?:\.([-\w]+))|' // ".class"
-    // <attr-matcher> := [ '~' | '|' | '^' | '$' | '*' ]? '='
-    // <attr-selector> := '[' <name> ']' |
-    //                    '[' <name> <attr-matcher> <value> ']'
-    '(?:\\[([-\\w]+)(?:([~|^\$*]?=)([\'"]?)([^\\]\'"]*)\\6)?\\])|'
-    r'(\))|' // ")"
-    r'(\s*,\s*)' // ","
-    );
+final _selectorRegExp = RegExp(
+  r'(:not\()|' // ":not("
+  r'([-\w]+)|' // "tag-name"
+  r'(?:\.([-\w]+))|' // ".class"
+  // <attr-matcher> := [ '~' | '|' | '^' | '$' | '*' ]? '='
+  // <attr-selector> := '[' <name> ']' |
+  //                    '[' <name> <attr-matcher> <value> ']'
+  '(?:\\[([-\\w]+)(?:([~|^\$*]?=)([\'"]?)([^\\]\'"]*)\\6)?\\])|'
+  r'(\))|' // ")"
+  r'(\s*,\s*)', // ","
+);
 
 class _MatcherTuple<T> {
   final AttributeMatcher matcher;
@@ -196,8 +197,11 @@ class SelectorMatcher<T> {
   }
 
   /// Add an object that can be found later on by calling `match`.
-  void _addSelectable(CssSelector cssSelector, T callbackCtxt,
-      SelectorListContext? listContext) {
+  void _addSelectable(
+    CssSelector cssSelector,
+    T callbackCtxt,
+    SelectorListContext? listContext,
+  ) {
     var matcher = this;
     var element = cssSelector.element;
     var classNames = cssSelector.classNames;
@@ -235,8 +239,11 @@ class SelectorMatcher<T> {
     }
   }
 
-  void _addTerminal(Map<String, List<SelectorContext<T>>> map, String name,
-      SelectorContext<T> selectable) {
+  void _addTerminal(
+    Map<String, List<SelectorContext<T>>> map,
+    String name,
+    SelectorContext<T> selectable,
+  ) {
     var terminalList = map[name];
     if (terminalList == null) {
       terminalList = [];
@@ -246,7 +253,9 @@ class SelectorMatcher<T> {
   }
 
   SelectorMatcher<T> _addPartial(
-      Map<String, SelectorMatcher<T>> map, String name) {
+    Map<String, SelectorMatcher<T>> map,
+    String name,
+  ) {
     var matcher = map[name];
     if (matcher == null) {
       matcher = SelectorMatcher<T>();
@@ -258,7 +267,9 @@ class SelectorMatcher<T> {
   /// Find the objects that have been added via `addSelectable`
   /// whose css selector is contained in the given css selector.
   bool match(
-      CssSelector cssSelector, void Function(CssSelector, T)? matchedCallback) {
+    CssSelector cssSelector,
+    void Function(CssSelector, T)? matchedCallback,
+  ) {
     var result = false;
     var element = cssSelector.element;
     var classNames = cssSelector.classNames;
@@ -267,17 +278,27 @@ class SelectorMatcher<T> {
     }
     result =
         _matchTerminal(_elementMap, element, cssSelector, matchedCallback) ||
-            result;
-    result = _matchPartial(
-            _elementPartialMap, element, cssSelector, matchedCallback) ||
+        result;
+    result =
+        _matchPartial(
+          _elementPartialMap,
+          element,
+          cssSelector,
+          matchedCallback,
+        ) ||
         result;
     for (var index = 0; index < classNames.length; index++) {
       var className = classNames[index];
       result =
           _matchTerminal(_classMap, className, cssSelector, matchedCallback) ||
-              result;
-      result = _matchPartial(
-              _classPartialMap, className, cssSelector, matchedCallback) ||
+          result;
+      result =
+          _matchPartial(
+            _classPartialMap,
+            className,
+            cssSelector,
+            matchedCallback,
+          ) ||
           result;
     }
     for (var attr in cssSelector.attrs) {
@@ -302,8 +323,12 @@ class SelectorMatcher<T> {
     return result;
   }
 
-  bool _matchTerminal(Map<String, List<SelectorContext<T>>> map, name,
-      CssSelector cssSelector, void Function(CssSelector, T)? matchedCallback) {
+  bool _matchTerminal(
+    Map<String, List<SelectorContext<T>>> map,
+    name,
+    CssSelector cssSelector,
+    void Function(CssSelector, T)? matchedCallback,
+  ) {
     if (name == null) {
       return false;
     }
@@ -323,8 +348,12 @@ class SelectorMatcher<T> {
     return result;
   }
 
-  bool _matchPartial(Map<String, SelectorMatcher<T>> map, name,
-      CssSelector cssSelector, void Function(CssSelector, T)? matchedCallback) {
+  bool _matchPartial(
+    Map<String, SelectorMatcher<T>> map,
+    name,
+    CssSelector cssSelector,
+    void Function(CssSelector, T)? matchedCallback,
+  ) {
     if (name == null) {
       return false;
     }
@@ -357,13 +386,17 @@ class SelectorContext<T> {
     notSelectors = selector.notSelectors;
   }
   bool finalize(
-      CssSelector cssSelector, void Function(CssSelector, T)? callback) {
+    CssSelector cssSelector,
+    void Function(CssSelector, T)? callback,
+  ) {
     var result = true;
     var listContext = this.listContext;
     if (notSelectors.isNotEmpty &&
         (listContext == null || !listContext.alreadyMatched)) {
-      var notMatcher =
-          SelectorMatcher.createNotMatcher(notSelectors, cbContext);
+      var notMatcher = SelectorMatcher.createNotMatcher(
+        notSelectors,
+        cbContext,
+      );
       result = !notMatcher.match(cssSelector, null);
     }
     if (result &&

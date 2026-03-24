@@ -48,8 +48,12 @@ class ProviderForest {
     int upperBound,
   ) {
     for (final node in nodes) {
-      final indexCondition =
-          _createIndexCondition(node.start, node.end, lowerBound, upperBound);
+      final indexCondition = _createIndexCondition(
+        node.start,
+        node.end,
+        lowerBound,
+        upperBound,
+      );
       if (node.children.isEmpty && node.providers.length == 1) {
         // If this node has exactly one provider, we can combine the `nodeIndex`
         // check and `token` checks into a single if-statement.
@@ -59,9 +63,11 @@ class ProviderForest {
         //    }
         final provider = node.providers[0];
         final tokenCondition = _createTokenCondition(provider.tokens);
-        target.add(o.IfStmt(tokenCondition.and(indexCondition), [
-          o.ReturnStatement(provider.expression),
-        ]));
+        target.add(
+          o.IfStmt(tokenCondition.and(indexCondition), [
+            o.ReturnStatement(provider.expression),
+          ]),
+        );
       } else {
         // Otherwise, we wrap all of the `token` checks in a shared `nodeIndex`
         // if-statement.
@@ -78,9 +84,9 @@ class ProviderForest {
         _build(node.children, conditionalStatements, node.start, node.end);
         for (final provider in node.providers) {
           final tokenCondition = _createTokenCondition(provider.tokens);
-          conditionalStatements.add(o.IfStmt(tokenCondition, [
-            o.ReturnStatement(provider.expression),
-          ]));
+          conditionalStatements.add(
+            o.IfStmt(tokenCondition, [o.ReturnStatement(provider.expression)]),
+          );
         }
         target.add(o.IfStmt(indexCondition, conditionalStatements));
       }
@@ -119,8 +125,10 @@ class ProviderForest {
   /// Creates an expression to check if 'token' is identical to any [tokens].
   static o.Expression _createTokenCondition(List<CompileTokenMetadata> tokens) {
     return tokens
-        .map((token) =>
-            InjectMethodVars.token.identical(createDiTokenExpression(token)))
+        .map(
+          (token) =>
+              InjectMethodVars.token.identical(createDiTokenExpression(token)),
+        )
         .reduce((expression, condition) => expression.or(condition));
   }
 
@@ -169,7 +177,7 @@ class ProviderForest {
             node.end,
             providers: node.providers,
             children: childrenWithProviders.toList(),
-          )
+          ),
         ];
       }
     });

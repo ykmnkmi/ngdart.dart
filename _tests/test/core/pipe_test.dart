@@ -14,16 +14,19 @@ void main() {
     expect(fixture.text, contains('Piped: Apr 29, 2014'));
   });
 
-  test('should support type arguments on transform return and parameter types',
-      () async {
-    final testBed = NgTestBed<NopComponent>(ng.createNopComponentFactory());
-    final testFixture = await testBed.create();
-    expect(testFixture.text, '[1, 2, 3]');
-  });
+  test(
+    'should support type arguments on transform return and parameter types',
+    () async {
+      final testBed = NgTestBed<NopComponent>(ng.createNopComponentFactory());
+      final testFixture = await testBed.create();
+      expect(testFixture.text, '[1, 2, 3]');
+    },
+  );
 
   test('pure pipe should only be invoked when its input changes', () async {
     final testBed = NgTestBed<TestPurePipeComponent>(
-        ng.createTestPurePipeComponentFactory());
+      ng.createTestPurePipeComponentFactory(),
+    );
     final testFixture = await testBed.create();
     // Initial invocation.
     expect(PurePipe.singleton.invocations, equals(1));
@@ -35,25 +38,29 @@ void main() {
     expect(PurePipe.singleton.invocations, equals(2));
   });
 
-  test('should pass a pipe with multiple arguments as argument to function',
-      () async {
-    final testBed =
-        NgTestBed<TestOptionalArgument>(ng.createTestOptionalArgumentFactory());
-    final testFixture = await testBed.create(
-      beforeChangeDetection: (component) {
-        component
-          ..prefix = '('
-          ..suffix = ')'
-          ..value = 'Hello';
-      },
-    );
-    expect(testFixture.text, contains('(Hello).'));
-    expect(testFixture.text, contains('(Hello)!'));
-  });
+  test(
+    'should pass a pipe with multiple arguments as argument to function',
+    () async {
+      final testBed = NgTestBed<TestOptionalArgument>(
+        ng.createTestOptionalArgumentFactory(),
+      );
+      final testFixture = await testBed.create(
+        beforeChangeDetection: (component) {
+          component
+            ..prefix = '('
+            ..suffix = ')'
+            ..value = 'Hello';
+        },
+      );
+      expect(testFixture.text, contains('(Hello).'));
+      expect(testFixture.text, contains('(Hello)!'));
+    },
+  );
 
   test('a missing @Optional() pipe dependency does not throw', () async {
     var testBed = NgTestBed<TestOptionalAnnotation>(
-        ng.createTestOptionalAnnotationFactory());
+      ng.createTestOptionalAnnotationFactory(),
+    );
     expect(testBed.create(), completes);
   });
 }
@@ -64,9 +71,7 @@ void main() {
     Unpiped:&ngsp;{{now}}
     Piped:&ngsp;{{$pipe.date(now)}}
   ''',
-  pipes: [
-    DatePipe,
-  ],
+  pipes: [DatePipe],
 )
 class Example {
   // April 29, 2014, 6:04am.
@@ -121,8 +126,7 @@ class OptionalArgumentPipe {
     String prefix,
     String suffix, [
     String punctuation = '.',
-  ]) =>
-      '$prefix$value$suffix$punctuation';
+  ]) => '$prefix$value$suffix$punctuation';
 }
 
 @Component(

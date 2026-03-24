@@ -22,10 +22,11 @@ void bindDirectiveDetectChangesLifecycleCallbacks(
 
 void _bindAfterChanges(ir.MatchedDirective directive, CompileMethod method) {
   if (directive.hasLifecycle(ir.Lifecycle.afterChanges)) {
-    method.addStmt(o.IfStmt(
-      DetectChangesVars.changed,
-      [_lifecycleMethod(directive.providerSource!, Lifecycles.afterChanges)],
-    ));
+    method.addStmt(
+      o.IfStmt(DetectChangesVars.changed, [
+        _lifecycleMethod(directive.providerSource!, Lifecycles.afterChanges),
+      ]),
+    );
   }
 }
 
@@ -33,20 +34,21 @@ void _bindOnInit(ir.MatchedDirective directive, CompileMethod method) {
   if (directive.hasLifecycle(ir.Lifecycle.onInit)) {
     // We don't re-use the existing IfStmt (.addStmtsIfFirstCheck), because we
     // require an additional condition (`notThrowOnChanges`).
-    method.addStmt(o.IfStmt(
-      notThrowOnChanges.and(DetectChangesVars.firstCheck),
-      [
+    method.addStmt(
+      o.IfStmt(notThrowOnChanges.and(DetectChangesVars.firstCheck), [
         _lifecycleMethod(directive.providerSource!, Lifecycles.onInit),
-      ],
-    ));
+      ]),
+    );
   }
 }
 
 void _bindDoCheck(ir.MatchedDirective directive, CompileMethod method) {
   if (directive.hasLifecycle(ir.Lifecycle.doCheck)) {
-    method.addStmt(o.IfStmt(notThrowOnChanges, [
-      _lifecycleMethod(directive.providerSource!, Lifecycles.doCheck),
-    ]));
+    method.addStmt(
+      o.IfStmt(notThrowOnChanges, [
+        _lifecycleMethod(directive.providerSource!, Lifecycles.doCheck),
+      ]),
+    );
   }
 }
 
@@ -73,7 +75,9 @@ void _bindAfterContentCallbacks(
   if (directive.hasLifecycle(ir.Lifecycle.afterContentChecked)) {
     lifecycleCallbacks.addStmt(
       _lifecycleMethod(
-          directive.providerSource!, Lifecycles.afterContentChecked),
+        directive.providerSource!,
+        Lifecycles.afterContentChecked,
+      ),
     );
   }
 }
@@ -90,8 +94,9 @@ void _bindAfterViewCallbacks(
     ]);
   }
   if (directive.hasLifecycle(ir.Lifecycle.afterViewChecked)) {
-    lifecycleCallbacks.addStmt(_lifecycleMethod(
-        directive.providerSource!, Lifecycles.afterViewChecked));
+    lifecycleCallbacks.addStmt(
+      _lifecycleMethod(directive.providerSource!, Lifecycles.afterViewChecked),
+    );
   }
 }
 
@@ -102,7 +107,8 @@ void _bindDestroyCallbacks(
 ) {
   if (directive.hasLifecycle(ir.Lifecycle.onDestroy)) {
     compileElement.view!.destroyMethod.addStmt(
-        _lifecycleMethod(directive.providerSource!, Lifecycles.onDestroy));
+      _lifecycleMethod(directive.providerSource!, Lifecycles.onDestroy),
+    );
   }
 }
 
@@ -113,16 +119,12 @@ void bindPipeDestroyLifecycleCallbacks(
   CompileView view,
 ) {
   if (pipeMeta.lifecycleHooks.contains(LifecycleHooks.onDestroy)) {
-    view.destroyMethod.addStmt(pipeInstance.callMethod(
-      Lifecycles.onDestroy,
-      [],
-    ).toStmt());
+    view.destroyMethod.addStmt(
+      pipeInstance.callMethod(Lifecycles.onDestroy, []).toStmt(),
+    );
   }
 }
 
 o.Statement _lifecycleMethod(ProviderSource directiveInstance, String name) {
-  return directiveInstance.build().callMethod(
-    name,
-    [],
-  ).toStmt();
+  return directiveInstance.build().callMethod(name, []).toStmt();
 }

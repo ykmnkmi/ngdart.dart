@@ -190,11 +190,14 @@ void main() {
 
     test('should propogate asynchronous errors from timers', () async {
       // Schedules a timer.
-      await expectLater(stabilizer.update(() {
-        Timer.run(() {
-          throw _IntentionalError();
-        });
-      }), completes);
+      await expectLater(
+        stabilizer.update(() {
+          Timer.run(() {
+            throw _IntentionalError();
+          });
+        }),
+        completes,
+      );
 
       // Executes a timer.
       expect(stabilizer.elapse(Duration.zero), _throwsIntentionalError);
@@ -202,15 +205,18 @@ void main() {
 
     test('should propogate deeply nested asynchronous errors', () async {
       // Schedules a timer.
-      await expectLater(stabilizer.update(() {
-        Timer.run(() async {
-          scheduleMicrotask(() async {
-            Future.delayed(Duration(seconds: 3), () {
-              throw _IntentionalError();
+      await expectLater(
+        stabilizer.update(() {
+          Timer.run(() async {
+            scheduleMicrotask(() async {
+              Future.delayed(Duration(seconds: 3), () {
+                throw _IntentionalError();
+              });
             });
           });
-        });
-      }), completes);
+        }),
+        completes,
+      );
 
       // Executes a timer.
       expect(stabilizer.elapse(Duration(seconds: 3)), _throwsIntentionalError);
@@ -253,10 +259,7 @@ void main() {
 
         scheduleTimer();
       });
-      expect(
-        stabilizer.elapse(Duration.zero),
-        completes,
-      );
+      expect(stabilizer.elapse(Duration.zero), completes);
     });
   });
 
@@ -337,17 +340,12 @@ void main() {
       tasks.clear();
 
       expect(await stabilizer.update(), isTrue);
-      expect(tasks, [
-        '#5: Timer(Duration(seconds: 5))',
-      ]);
+      expect(tasks, ['#5: Timer(Duration(seconds: 5))']);
     });
 
     test('should consider a cancelled timer completed', () {
       final pendingTimer = ngZone.run(() {
-        return Timer(
-          Duration(seconds: 30),
-          expectAsync0(() {}, count: 0),
-        );
+        return Timer(Duration(seconds: 30), expectAsync0(() {}, count: 0));
       });
       expect(stabilizer.isStable, isFalse);
       pendingTimer.cancel();
@@ -381,22 +379,28 @@ void main() {
 
     test('should propogate asynchronous errors from timers', () async {
       // Schedules and executes a timer.
-      expect(stabilizer.update(() {
-        Timer.run(() {
-          throw _IntentionalError();
-        });
-      }), _throwsIntentionalError);
+      expect(
+        stabilizer.update(() {
+          Timer.run(() {
+            throw _IntentionalError();
+          });
+        }),
+        _throwsIntentionalError,
+      );
     });
 
     test('should propogate deeply nested asynchronous errors', () async {
       // Schedules and executes a timer.
-      expect(stabilizer.update(() {
-        Timer.run(() async {
-          scheduleMicrotask(() async {
-            throw _IntentionalError();
+      expect(
+        stabilizer.update(() {
+          Timer.run(() async {
+            scheduleMicrotask(() async {
+              throw _IntentionalError();
+            });
           });
-        });
-      }), _throwsIntentionalError);
+        }),
+        _throwsIntentionalError,
+      );
     });
   });
 }

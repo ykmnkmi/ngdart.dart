@@ -22,8 +22,10 @@ void main() {
       ''';
       var styleWithImports = extractStyleUrls('http://ng.io', css);
       expect(styleWithImports.style.trim(), '');
-      expect(styleWithImports.styleUrls,
-          ['http://ng.io/1.css', 'http://ng.io/2.css']);
+      expect(styleWithImports.styleUrls, [
+        'http://ng.io/1.css',
+        'http://ng.io/2.css',
+      ]);
     });
     test('should extract \"@import url()\" urls', () {
       var css = '''
@@ -33,8 +35,11 @@ void main() {
       ''';
       var styleWithImports = extractStyleUrls('http://ng.io', css);
       expect(styleWithImports.style.trim(), '');
-      expect(styleWithImports.styleUrls,
-          ['http://ng.io/3.css', 'http://ng.io/4.css', 'http://ng.io/5.css']);
+      expect(styleWithImports.styleUrls, [
+        'http://ng.io/3.css',
+        'http://ng.io/4.css',
+        'http://ng.io/5.css',
+      ]);
     });
     test('should extract \"@import urls and keep rules in the same line', () {
       var css = '''@import url(\'some.css\');div {color: red};''';
@@ -49,14 +54,18 @@ void main() {
       ''';
       var styleWithImports = extractStyleUrls('http://ng.io', css);
       expect(styleWithImports.style.trim(), '');
-      expect(styleWithImports.styleUrls,
-          ['http://ng.io/print1.css', 'http://ng.io/print2.css']);
+      expect(styleWithImports.styleUrls, [
+        'http://ng.io/print1.css',
+        'http://ng.io/print2.css',
+      ]);
     });
     test('should leave absolute non-package @import urls intact', () {
       var css = '''@import url(\'http://server.com/some.css\');''';
       var styleWithImports = extractStyleUrls('http://ng.io', css);
-      expect(styleWithImports.style.trim(),
-          '''@import url(\'http://server.com/some.css\');''');
+      expect(
+        styleWithImports.style.trim(),
+        '''@import url(\'http://server.com/some.css\');''',
+      );
       expect(styleWithImports.styleUrls, []);
     });
     test('should resolve package @import urls', () {

@@ -15,15 +15,18 @@ void main() {
   Future<NgTestFixture<T>> createFixture<T extends Object>(
     ComponentFactory<T> factory,
   ) async {
-    final testBed = NgTestBed<T>(factory,
-        rootInjector: (parent) => Injector.map({Log: log}, parent));
+    final testBed = NgTestBed<T>(
+      factory,
+      rootInjector: (parent) => Injector.map({Log: log}, parent),
+    );
     return await testBed.create();
   }
 
   group('CheckAlways component', () {
     test('should be able to load next to a location', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       expect(fixture.text, 'BeforeAfter');
       await fixture.update((comp) {
         comp.loader.loadNextToLocation(
@@ -41,7 +44,8 @@ void main() {
 
     test('should be able to load from a service', () async {
       final fixture = await createFixture<CompWithService>(
-          ng.createCompWithServiceFactory());
+        ng.createCompWithServiceFactory(),
+      );
       await fixture.update((comp) {
         final ref = comp.service.loader.loadDetached(
           ng.createDynamicCompFactory(),
@@ -53,28 +57,35 @@ void main() {
 
     test('should run lifecycles', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       expect(log.toString(), isEmpty);
       await fixture.update((comp) {
         comp.loader.loadNextTo(ng.createDynamicCompFactory());
       });
       expect(
-          log.toString(),
-          startsWith('ngOnInit; '
-              'ngAfterContentInit; '
-              'ngAfterContentChecked; '
-              'ngAfterViewInit; '
-              'ngAfterViewChecked'));
+        log.toString(),
+        startsWith(
+          'ngOnInit; '
+          'ngAfterContentInit; '
+          'ngAfterContentChecked; '
+          'ngAfterViewInit; '
+          'ngAfterViewChecked',
+        ),
+      );
     });
 
     test('should detect changes made in update()', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       expect(fixture.text, 'BeforeAfter');
       late final ComponentRef<DynamicComp> ref;
       await fixture.update((comp) {
-        ref = comp.loader
-            .loadNextToLocation(ng.createDynamicCompFactory(), comp.location!);
+        ref = comp.loader.loadNextToLocation(
+          ng.createDynamicCompFactory(),
+          comp.location!,
+        );
       });
       expect(fixture.text, 'BeforeDynamicAfter');
       expect(log.toString(), isNot(contains('ngAfterChanges')));
@@ -89,12 +100,15 @@ void main() {
 
     test('should detect changes outside of update', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       expect(fixture.text, 'BeforeAfter');
       late final ComponentRef<DynamicComp> ref;
       await fixture.update((comp) {
-        ref = comp.loader
-            .loadNextToLocation(ng.createDynamicCompFactory(), comp.location!);
+        ref = comp.loader.loadNextToLocation(
+          ng.createDynamicCompFactory(),
+          comp.location!,
+        );
       });
       expect(fixture.text, 'BeforeDynamicAfter');
 
@@ -108,22 +122,29 @@ void main() {
 
     test('does not swallow exceptions', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       late final ComponentRef<DynamicComp> ref;
       await fixture.update((comp) {
-        ref = comp.loader
-            .loadNextToLocation(ng.createDynamicCompFactory(), comp.location!);
+        ref = comp.loader.loadNextToLocation(
+          ng.createDynamicCompFactory(),
+          comp.location!,
+        );
       });
-      expect(fixture.update((_) {
-        ref.update((cmp) => throw IntentionalError());
-      }), throwsA(isIntentionalError));
+      expect(
+        fixture.update((_) {
+          ref.update((cmp) => throw IntentionalError());
+        }),
+        throwsA(isIntentionalError),
+      );
     });
   });
 
   group('OnPush component', () {
     test('should be able to load next to a location', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       expect(fixture.text, 'BeforeAfter');
       await fixture.update((comp) {
         comp.loader.loadNextToLocation(
@@ -141,7 +162,8 @@ void main() {
 
     test('should be able to load from a service', () async {
       final fixture = await createFixture<CompWithService>(
-          ng.createCompWithServiceFactory());
+        ng.createCompWithServiceFactory(),
+      );
       await fixture.update((comp) {
         final ref = comp.service.loader.loadDetached(
           ng.createDynamicOnPushCompFactory(),
@@ -153,23 +175,28 @@ void main() {
 
     test('should run lifecycles', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       expect(log.toString(), isEmpty);
       await fixture.update((comp) {
         comp.loader.loadNextTo(ng.createDynamicOnPushCompFactory());
       });
       expect(
-          log.toString(),
-          startsWith('ngOnInit; '
-              'ngAfterContentInit; '
-              'ngAfterContentChecked; '
-              'ngAfterViewInit; '
-              'ngAfterViewChecked'));
+        log.toString(),
+        startsWith(
+          'ngOnInit; '
+          'ngAfterContentInit; '
+          'ngAfterContentChecked; '
+          'ngAfterViewInit; '
+          'ngAfterViewChecked',
+        ),
+      );
     });
 
     test('should detect changes made in update()', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       expect(fixture.text, 'BeforeAfter');
       late final ComponentRef<DynamicOnPushComp> ref;
       await fixture.update((comp) {
@@ -198,7 +225,8 @@ void main() {
 
     test('does not detect changes outside of update', () async {
       final fixture = await createFixture<CompWithCustomLocation>(
-          ng.createCompWithCustomLocationFactory());
+        ng.createCompWithCustomLocationFactory(),
+      );
       expect(fixture.text, 'BeforeAfter');
       late final ComponentRef<DynamicOnPushComp> ref;
       await fixture.update((comp) {
@@ -219,7 +247,8 @@ void main() {
 
   test('does not swallow exceptions', () async {
     final fixture = await createFixture<CompWithCustomLocation>(
-        ng.createCompWithCustomLocationFactory());
+      ng.createCompWithCustomLocationFactory(),
+    );
     late final ComponentRef<DynamicOnPushComp> ref;
     await fixture.update((comp) {
       ref = comp.loader.loadNextToLocation(
@@ -227,9 +256,12 @@ void main() {
         comp.location!,
       );
     });
-    expect(fixture.update((_) {
-      ref.update((cmp) => throw IntentionalError());
-    }), throwsA(isIntentionalError));
+    expect(
+      fixture.update((_) {
+        ref.update((cmp) => throw IntentionalError());
+      }),
+      throwsA(isIntentionalError),
+    );
   });
 }
 
@@ -266,16 +298,12 @@ class CompWithCustomLocation {
 
 @Component(
   selector: 'comp-with-directive',
-  directives: [
-    DirectiveThatIsLocation,
-  ],
+  directives: [DirectiveThatIsLocation],
   template: r'Before<template location></template>After',
 )
 class CompWithDirective {}
 
-@Directive(
-  selector: '[location]',
-)
+@Directive(selector: '[location]')
 class DirectiveThatIsLocation {
   DirectiveThatIsLocation(ComponentLoader loader) {
     loader.loadNextTo(ng.createDynamicCompFactory());
@@ -300,10 +328,7 @@ class Service {
   Service(this.loader);
 }
 
-@Component(
-  selector: 'dynamic-comp',
-  template: 'Dynamic{{input}}',
-)
+@Component(selector: 'dynamic-comp', template: 'Dynamic{{input}}')
 class DynamicComp extends Lifecycles {
   DynamicComp(Log log) : super(log);
 

@@ -32,8 +32,10 @@ class PathLocationStrategy extends LocationStrategy {
   ]) {
     href ??= _platformLocation.getBaseHrefFromDOM();
     if (href == null) {
-      throw ArgumentError('No base href set. Please provide a value for the '
-          'appBaseHref token or add a base element to the document.');
+      throw ArgumentError(
+        'No base href set. Please provide a value for the '
+        'appBaseHref token or add a base element to the document.',
+      );
     }
     _baseHref = href;
   }
@@ -61,16 +63,22 @@ class PathLocationStrategy extends LocationStrategy {
 
   @override
   void pushState(Object? state, String title, String url, String queryParams) {
-    var externalUrl =
-        prepareExternalUrl(url + Location.normalizeQueryParams(queryParams));
+    var externalUrl = prepareExternalUrl(
+      url + Location.normalizeQueryParams(queryParams),
+    );
     _platformLocation.pushState(state, title, externalUrl);
   }
 
   @override
   void replaceState(
-      Object? state, String title, String url, String queryParams) {
-    var externalUrl =
-        prepareExternalUrl(url + Location.normalizeQueryParams(queryParams));
+    Object? state,
+    String title,
+    String url,
+    String queryParams,
+  ) {
+    var externalUrl = prepareExternalUrl(
+      url + Location.normalizeQueryParams(queryParams),
+    );
     _platformLocation.replaceState(state, title, externalUrl);
   }
 

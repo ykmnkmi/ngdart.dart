@@ -13,7 +13,8 @@ import 'ng_control_group.dart' show NgControlGroup;
 ///
 /// Only used internally in the forms package.
 abstract class AbstractForm<T extends AbstractControlGroup>
-    extends ControlContainer<T> implements Form {
+    extends ControlContainer<T>
+    implements Form {
   final _ngSubmit = StreamController<T>.broadcast(sync: true);
   final _ngBeforeSubmit = StreamController<T>.broadcast(sync: true);
 

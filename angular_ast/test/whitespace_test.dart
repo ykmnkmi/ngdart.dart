@@ -29,10 +29,7 @@ void main() {
   });
 
   test('should remove inside interpolation on the LHS', () {
-    expect(
-      _parseAndMinifiy('\n    \n    {{value1}}'),
-      '{{value1}}',
-    );
+    expect(_parseAndMinifiy('\n    \n    {{value1}}'), '{{value1}}');
   });
 
   test('should remove inside interpolation on the LHS and RHS', () {
@@ -80,17 +77,11 @@ void main() {
   });
 
   test('should retain manual &ngsp; inserts', () {
-    expect(
-      _parseAndMinifiy(r'<div>&ngsp;</div>'),
-      '<div> </div>',
-    );
+    expect(_parseAndMinifiy(r'<div>&ngsp;</div>'), '<div> </div>');
   });
 
   test('should retain manual &#32; inserts', () {
-    expect(
-      _parseAndMinifiy(r'<div>&#32;</div>'),
-      '<div> </div>',
-    );
+    expect(_parseAndMinifiy(r'<div>&#32;</div>'), '<div> </div>');
   }, skip: 'Not yet supported');
 
   test('should retain single whitespaces around tags', () {
@@ -135,9 +126,12 @@ void main() {
   });
 
   test('should treat <ng-container> as a potential source of inline text', () {
-    expect(_parseAndMinifiy(r'''
+    expect(
+      _parseAndMinifiy(r'''
         Hello <ng-container>world!</ng-container>
-      '''), 'Hello <ng-container>world!</ng-container>');
+      '''),
+      'Hello <ng-container>world!</ng-container>',
+    );
   });
 
   test('should treat <ng-content> as a potential source of inline text', () {
@@ -278,15 +272,11 @@ void main() {
 
   test('should skip nodes/trees annotated with @preserveWhitespace', () {
     expect(
-      _parseAndMinifiy(
-        r'<div @preserveWhitespace>   <span>  </span></div>',
-      ),
+      _parseAndMinifiy(r'<div @preserveWhitespace>   <span>  </span></div>'),
       '<div @preserveWhitespace>   <span>  </span></div>',
     );
     expect(
-      _parseAndMinifiy(
-        r'<ng-container @preserveWhitespace>   </ng-container>',
-      ),
+      _parseAndMinifiy(r'<ng-container @preserveWhitespace>   </ng-container>'),
       '<ng-container @preserveWhitespace>   </ng-container>',
     );
     expect(
@@ -314,10 +304,9 @@ void main() {
 }
 
 String _parseAndMinifiy(String template) {
-  final nodes = parse(
-    template,
-    sourceUrl: 'whitespace_test.dart',
-  ) as List<StandaloneTemplateAst>;
+  final nodes =
+      parse(template, sourceUrl: 'whitespace_test.dart')
+          as List<StandaloneTemplateAst>;
   final buffer = StringBuffer();
   for (final node in _minimizing.visitAllRoot(nodes)) {
     buffer.write(_humanize(node));

@@ -19,18 +19,14 @@ abstract class Foo {}
 @Component(
   selector: 'foo',
   template: '',
-  providers: [
-    ExistingProvider(Foo, Foo1),
-  ],
+  providers: [ExistingProvider(Foo, Foo1)],
 )
 class Foo1 implements Foo {}
 
 @Component(
   selector: 'foo',
   template: '',
-  providers: [
-    ExistingProvider(Foo, Foo2),
-  ],
+  providers: [ExistingProvider(Foo, Foo2)],
 )
 class Foo2 implements Foo {}
 
@@ -50,11 +46,7 @@ class Bar {
   // and Foo2. Normally the *last* matching provider is injected, but since Foo2
   // isn't instantiated, its providers shouldn't be available for injection,
   // thus Foo1's provider should be injected.
-  directives: [
-    Foo1,
-    Foo2,
-    Bar,
-  ],
+  directives: [Foo1, Foo2, Bar],
 )
 class Test {
   @ViewChild(Bar)

@@ -11,5 +11,5 @@ enum ViewType {
   /// A view that is embedded into another view via a `<template>` element.
   ///
   /// These are only inside a [component] view.
-  embedded
+  embedded,
 }

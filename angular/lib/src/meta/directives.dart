@@ -248,11 +248,11 @@ class Component extends Directive {
     this.pipes = const [],
     this.encapsulation = ViewEncapsulation.Emulated,
   }) : super(
-          selector: selector,
-          exportAs: exportAs,
-          providers: providers,
-          visibility: visibility,
-        );
+         selector: selector,
+         exportAs: exportAs,
+         providers: providers,
+         visibility: visibility,
+       );
 }
 
 /// Declare reusable pipe function.
@@ -372,20 +372,13 @@ abstract class _Query {
 /// combination with an `NgFor` (or a custom directive that supports moving
 /// embedded views) this field or setter may _not_ be updated. For details see
 /// go/angular-dart/dev/template-queries.
-@Target({
-  TargetKind.field,
-  TargetKind.setter,
-})
+@Target({TargetKind.field, TargetKind.setter})
 class ContentChildren extends _Query {
   const ContentChildren(
     Object selector, {
     bool descendants = true,
     Object? read,
-  }) : super(
-          selector,
-          descendants: descendants,
-          read: read,
-        );
+  }) : super(selector, descendants: descendants, read: read);
 }
 
 /// Declares a reference to a single child node projected into `<ng-content>`.
@@ -395,20 +388,10 @@ class ContentChildren extends _Query {
 /// - similar to `querySelector` instead of `querySelectorAll`.
 ///
 /// See [ContentChildren] and [ViewChildren] for full documentation.
-@Target({
-  TargetKind.field,
-  TargetKind.setter,
-})
+@Target({TargetKind.field, TargetKind.setter})
 class ContentChild extends _Query {
-  const ContentChild(
-    Object selector, {
-    Object? read,
-  }) : super(
-          selector,
-          descendants: true,
-          first: true,
-          read: read,
-        );
+  const ContentChild(Object selector, {Object? read})
+    : super(selector, descendants: true, first: true, read: read);
 }
 
 abstract class _ViewQuery extends _Query {
@@ -417,12 +400,7 @@ abstract class _ViewQuery extends _Query {
     bool descendants = false,
     bool first = false,
     Object? read,
-  }) : super(
-          selector,
-          descendants: descendants,
-          first: first,
-          read: read,
-        );
+  }) : super(selector, descendants: descendants, first: first, read: read);
 }
 
 /// Declares a reference to multiple child nodes in a component's template.
@@ -598,19 +576,10 @@ abstract class _ViewQuery extends _Query {
 /// combination with an `NgFor` (or a custom directive that supports moving
 /// embedded views) this field or setter may _not_ be updated. For details see
 /// go/angular-dart/dev/template-queries.
-@Target({
-  TargetKind.field,
-  TargetKind.setter,
-})
+@Target({TargetKind.field, TargetKind.setter})
 class ViewChildren extends _ViewQuery {
-  const ViewChildren(
-    Object selector, {
-    Object? read,
-  }) : super(
-          selector,
-          descendants: true,
-          read: read,
-        );
+  const ViewChildren(Object selector, {Object? read})
+    : super(selector, descendants: true, read: read);
 }
 
 /// Declares a reference to a single child node in a component's template.
@@ -638,20 +607,10 @@ class ViewChildren extends _ViewQuery {
 /// ```
 ///
 /// See [ViewChildren] for a full documentation of parameters and more examples.
-@Target({
-  TargetKind.field,
-  TargetKind.setter,
-})
+@Target({TargetKind.field, TargetKind.setter})
 class ViewChild extends _ViewQuery {
-  const ViewChild(
-    Object selector, {
-    Object? read,
-  }) : super(
-          selector,
-          descendants: true,
-          first: true,
-          read: read,
-        );
+  const ViewChild(Object selector, {Object? read})
+    : super(selector, descendants: true, first: true, read: read);
 }
 
 /// Declares a data-bound input property.
@@ -692,10 +651,7 @@ class ViewChild extends _ViewQuery {
 ///    directives: const [BankAccount])
 ///  class App {}
 ///  ```
-@Target({
-  TargetKind.field,
-  TargetKind.setter,
-})
+@Target({TargetKind.field, TargetKind.setter})
 class Input {
   /// Name used when instantiating a component in the template.
   final String? bindingPropertyName;
@@ -749,10 +705,7 @@ class Input {
 ///   }
 /// }
 /// ```
-@Target({
-  TargetKind.field,
-  TargetKind.getter,
-})
+@Target({TargetKind.field, TargetKind.getter})
 class Output {
   final String? bindingPropertyName;
   const Output([this.bindingPropertyName]);
@@ -793,10 +746,7 @@ class Output {
 ///   String debugId;
 /// }
 /// ```
-@Target({
-  TargetKind.field,
-  TargetKind.getter,
-})
+@Target({TargetKind.field, TargetKind.getter})
 class HostBinding {
   final String? hostPropertyName;
   const HostBinding([this.hostPropertyName]);

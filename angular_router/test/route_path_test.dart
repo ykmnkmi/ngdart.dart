@@ -9,10 +9,11 @@ void main() {
     test('should set all properties', () {
       var parent = RoutePath(path: '');
       var routePath = RoutePath(
-          path: 'path',
-          useAsDefault: true,
-          additionalData: 'data',
-          parent: parent);
+        path: 'path',
+        useAsDefault: true,
+        additionalData: 'data',
+        parent: parent,
+      );
       expect(routePath.path, 'path');
       expect(routePath.useAsDefault, true);
       expect(routePath.additionalData, 'data');
@@ -27,7 +28,7 @@ void main() {
             useAsDefault: true,
             additionalData: 'data',
             component: ng.createTestComponentFactory(),
-          )
+          ),
         ]);
         expect(routePath.path, 'path');
         expect(routePath.useAsDefault, true);
@@ -37,16 +38,13 @@ void main() {
 
       test('should take properties from last route', () {
         var routePath = RoutePath.fromRoutes([
-          RouteDefinition(
-            path: '',
-            component: ng.createTestComponentFactory(),
-          ),
+          RouteDefinition(path: '', component: ng.createTestComponentFactory()),
           RouteDefinition(
             path: 'path',
             useAsDefault: true,
             additionalData: 'data',
             component: ng.createTestComponentFactory(),
-          )
+          ),
         ]);
         expect(routePath.path, 'path');
         expect(routePath.useAsDefault, true);
@@ -75,7 +73,7 @@ void main() {
           RouteDefinition(
             path: 'path3',
             component: ng.createTestComponentFactory(),
-          )
+          ),
         ]);
         expect(routePath.path, 'path3');
         expect(routePath.parent!.path, 'path2');
@@ -103,8 +101,10 @@ void main() {
 
       setUpAll(() {
         var parentParentPath = RoutePath(path: 'path1/:param1');
-        var parentPath =
-            RoutePath(path: 'path2/:param2', parent: parentParentPath);
+        var parentPath = RoutePath(
+          path: 'path2/:param2',
+          parent: parentParentPath,
+        );
         routePath = RoutePath(path: 'path3/:param3', parent: parentPath);
       });
 
@@ -114,34 +114,37 @@ void main() {
 
       test('should replace parameters', () {
         expect(
-            routePath.toUrl(parameters: {
+          routePath.toUrl(
+            parameters: {
               'param1': 'one',
               'param2': 'two',
               'param3': 'three',
               'ignored': 'something',
-            }),
-            '/path1/one/path2/two/path3/three');
+            },
+          ),
+          '/path1/one/path2/two/path3/three',
+        );
       });
 
       test('should append queryParameters and fragment', () {
         expect(
-            routePath.toUrl(queryParameters: {
-              'param': 'one',
-            }, fragment: 'frag'),
-            '/path1/:param1/path2/:param2/path3/:param3?param=one#frag');
+          routePath.toUrl(queryParameters: {'param': 'one'}, fragment: 'frag'),
+          '/path1/:param1/path2/:param2/path3/:param3?param=one#frag',
+        );
       });
 
       test('should url encode parameters', () {
-        expect(routePath.toUrl(parameters: {'param1': 'one two'}),
-            '/path1/one%20two/path2/:param2/path3/:param3');
+        expect(
+          routePath.toUrl(parameters: {'param1': 'one two'}),
+          '/path1/one%20two/path2/:param2/path3/:param3',
+        );
       });
 
       test('should url encode queryParameters', () {
         expect(
-            routePath.toUrl(queryParameters: {
-              'param 1': 'one',
-            }),
-            '/path1/:param1/path2/:param2/path3/:param3?param%201=one');
+          routePath.toUrl(queryParameters: {'param 1': 'one'}),
+          '/path1/:param1/path2/:param2/path3/:param3?param%201=one',
+        );
       });
     });
 
@@ -155,8 +158,5 @@ void main() {
   });
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-)
+@Component(selector: 'test', template: '')
 class TestComponent {}

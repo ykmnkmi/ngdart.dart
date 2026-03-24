@@ -31,11 +31,10 @@ class InjectorReader {
     final source = element.source.uri;
     return element.definingCompilationUnit.topLevelVariables
         .where(_shouldGenerateInjector)
-        .map((field) => InjectorReader(
-              field,
-              LibraryReader(element),
-              doNotScope: source,
-            ))
+        .map(
+          (field) =>
+              InjectorReader(field, LibraryReader(element), doNotScope: source),
+        )
         .toList();
   }
 
@@ -67,8 +66,8 @@ class InjectorReader {
     this.moduleReader = const ModuleReader(),
     this.doNotScope,
   }) : annotation = ConstantReader(
-          $GenerateInjector.firstAnnotationOfExact(field),
-        ) {
+         $GenerateInjector.firstAnnotationOfExact(field),
+       ) {
     _providers = _computeProviders(annotation, moduleReader);
   }
 
@@ -193,50 +192,42 @@ class InjectorReader {
     return deps.map((dep) {
       if (dep.self) {
         if (dep.optional) {
-          return refer('injectFromSelfOptional').call([
-            _tokenToIdentifier(dep.token),
-            literalNull,
-          ]);
+          return refer(
+            'injectFromSelfOptional',
+          ).call([_tokenToIdentifier(dep.token), literalNull]);
         } else {
-          return refer('injectFromSelf').call([
-            _tokenToIdentifier(dep.token),
-          ]);
+          return refer('injectFromSelf').call([_tokenToIdentifier(dep.token)]);
         }
       }
       if (dep.skipSelf) {
         if (dep.optional) {
-          var expression = refer('injectFromAncestryOptional').call([
-            _tokenToIdentifier(dep.token),
-            literalNull,
-          ]);
+          var expression = refer(
+            'injectFromAncestryOptional',
+          ).call([_tokenToIdentifier(dep.token), literalNull]);
           return refer('unsafeCast', _utilities).call([expression]);
         } else {
-          return refer('injectFromAncestry').call([
-            _tokenToIdentifier(dep.token),
-          ]);
+          return refer(
+            'injectFromAncestry',
+          ).call([_tokenToIdentifier(dep.token)]);
         }
       }
       if (dep.host) {
         if (dep.optional) {
-          return refer('injectFromParentOptional').call([
-            _tokenToIdentifier(dep.token),
-            literalNull,
-          ]);
+          return refer(
+            'injectFromParentOptional',
+          ).call([_tokenToIdentifier(dep.token), literalNull]);
         } else {
-          return refer('injectFromParent').call([
-            _tokenToIdentifier(dep.token),
-          ]);
+          return refer(
+            'injectFromParent',
+          ).call([_tokenToIdentifier(dep.token)]);
         }
       }
       if (dep.optional) {
-        return refer('provideUntyped').call([
-          _tokenToIdentifier(dep.token),
-          literalNull,
-        ]);
+        return refer(
+          'provideUntyped',
+        ).call([_tokenToIdentifier(dep.token), literalNull]);
       } else {
-        return refer('this.get').call([
-          _tokenToIdentifier(dep.token),
-        ]);
+        return refer('this.get').call([_tokenToIdentifier(dep.token)]);
       }
     }).toList();
   }
@@ -252,10 +243,11 @@ class InjectorReader {
           actualValue = _reviveAny(provider, provider.useValue);
         } on ReviveError catch (e) {
           throw BuildError.forElement(
-              field,
-              'While reviving providers for Injector: $e\n'
-              'For complicated objects, use a FactoryProvider instead of '
-              'a ValueProvider');
+            field,
+            'While reviving providers for Injector: $e\n'
+            'For complicated objects, use a FactoryProvider instead of '
+            'a ValueProvider',
+          );
         }
         visitor.visitProvideValue(
           index,
@@ -315,30 +307,35 @@ class InjectorReader {
   /// Returns a revivable `const` invocation as a code_builder [Expression].
   Expression _revive(UseValueProviderElement provider, Revivable invocation) {
     if (invocation.isPrivate) {
-      final privateReference = invocation.accessor.isNotEmpty
-          ? '${invocation.source}::${invocation.accessor}'
-          : '${invocation.source}';
-      throw BuildError.withoutContext(''
-          'While attempting to resolve a constant value for a provider '
-          '(token = ${provider.token}), there was no way to access '
-          '$privateReference.\n\n'
-          'While it is syntactically valid to write the expression, we are '
-          'not able to refer to private references that are inaccessible from '
-          'another library.\n\n'
-          'Consider either making constructor(s) public, creating a static '
-          '(or top-level) public field that references the private one, or use '
-          'a factory provider instead of a value provider to create the '
-          'instance.');
+      final privateReference =
+          invocation.accessor.isNotEmpty
+              ? '${invocation.source}::${invocation.accessor}'
+              : '${invocation.source}';
+      throw BuildError.withoutContext(
+        ''
+        'While attempting to resolve a constant value for a provider '
+        '(token = ${provider.token}), there was no way to access '
+        '$privateReference.\n\n'
+        'While it is syntactically valid to write the expression, we are '
+        'not able to refer to private references that are inaccessible from '
+        'another library.\n\n'
+        'Consider either making constructor(s) public, creating a static '
+        '(or top-level) public field that references the private one, or use '
+        'a factory provider instead of a value provider to create the '
+        'instance.',
+      );
     }
     final import = libraryReader.pathToUrl(invocation.source.removeFragment());
     if (invocation.source.fragment.isNotEmpty) {
       // We can create this invocation by calling `const ...`.
       final name = invocation.source.fragment;
-      final positionalArgs = invocation.positionalArguments
-          .map((a) => _reviveAny(provider, a))
-          .toList();
-      final namedArgs = invocation.namedArguments
-          .map((name, a) => MapEntry(name, _reviveAny(provider, a)));
+      final positionalArgs =
+          invocation.positionalArguments
+              .map((a) => _reviveAny(provider, a))
+              .toList();
+      final namedArgs = invocation.namedArguments.map(
+        (name, a) => MapEntry(name, _reviveAny(provider, a)),
+      );
       final clazz = refer(name, '$import');
       if (invocation.accessor.isNotEmpty) {
         return clazz.constInstanceNamed(
@@ -374,7 +371,8 @@ class InjectorReader {
     }
     if (reader.isType) {
       throw ReviveError(
-          'Reviving Types is not supported but tried to revive $object');
+        'Reviving Types is not supported but tried to revive $object',
+      );
     }
     final revive = reader.revive();
     return _revive(provider, revive);
@@ -416,15 +414,16 @@ class InjectorReader {
   Expression _reviveList(
     UseValueProviderElement provider,
     List<DartObject> list,
-  ) =>
-      literalConstList(list.map((v) => _reviveAny(provider, v)).toList());
+  ) => literalConstList(list.map((v) => _reviveAny(provider, v)).toList());
 
   Expression _reviveMap(
     UseValueProviderElement provider,
     Map<DartObject?, DartObject?> map,
-  ) =>
-      literalConstMap(map.map((k, v) =>
-          MapEntry(_reviveAny(provider, k), _reviveAny(provider, v))));
+  ) => literalConstMap(
+    map.map(
+      (k, v) => MapEntry(_reviveAny(provider, k), _reviveAny(provider, v)),
+    ),
+  );
 }
 
 /// To be implemented by an emitter class to create a `GeneratedInjector`.

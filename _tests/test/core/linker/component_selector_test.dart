@@ -19,7 +19,8 @@ void main() {
 
     test('should support exact attribute selector', () async {
       final testBed = NgTestBed<ExactAttributeSelectorTestComponent>(
-          ng.createExactAttributeSelectorTestComponentFactory());
+        ng.createExactAttributeSelectorTestComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final select = testFixture.rootElement.querySelector;
       expect(select('[foo]')!.text, isEmpty);
@@ -29,7 +30,8 @@ void main() {
 
     test('should support hypen attribute selector', () async {
       final testBed = NgTestBed<HyphenAttributeSelectorTestComponent>(
-          ng.createHyphenAttributeSelectorTestComponentFactory());
+        ng.createHyphenAttributeSelectorTestComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final select = testFixture.rootElement.querySelector;
       expect(select('[foo=bar]')!.text, 'Matched!');
@@ -39,7 +41,8 @@ void main() {
 
     test('should support list attribute selector', () async {
       final testBed = NgTestBed<ListAttributeSelectorTestComponent>(
-          ng.createListAttributeSelectorTestComponentFactory());
+        ng.createListAttributeSelectorTestComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final select = testFixture.rootElement.querySelector;
       expect(select('[foo=bar]')!.text, 'Matched!');
@@ -50,7 +53,8 @@ void main() {
 
     test('should support prefix attribute selector', () async {
       final testBed = NgTestBed<PrefixAttributeSelectorTestComponent>(
-          ng.createPrefixAttributeSelectorTestComponentFactory());
+        ng.createPrefixAttributeSelectorTestComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final select = testFixture.rootElement.querySelector;
       expect(select('[foo=bar]')!.text, 'Matched!');
@@ -60,7 +64,8 @@ void main() {
 
     test('should support set attribute selector', () async {
       final testBed = NgTestBed<SetAttributeSelectorTestComponent>(
-          ng.createSetAttributeSelectorTestComponentFactory());
+        ng.createSetAttributeSelectorTestComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final select = testFixture.rootElement.querySelector;
       expect(select('div')!.text, isEmpty);
@@ -71,7 +76,8 @@ void main() {
 
     test('should support substring attribute selector', () async {
       final testBed = NgTestBed<SubstringAttributeSelectorTestComponent>(
-          ng.createSubstringAttributeSelectorTestComponentFactory());
+        ng.createSubstringAttributeSelectorTestComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final select = testFixture.rootElement.querySelector;
       expect(select('[foo=bar]')!.text, 'Matched!');
@@ -81,7 +87,8 @@ void main() {
 
     test('should support suffix attribute selector', () async {
       final testBed = NgTestBed<SuffixAttributeSelectorTestComponent>(
-          ng.createSuffixAttributeSelectorTestComponentFactory());
+        ng.createSuffixAttributeSelectorTestComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final select = testFixture.rootElement.querySelector;
       expect(select('[foo=bar]')!.text, 'Matched!');
@@ -93,7 +100,8 @@ void main() {
 
 @Component(
   selector: 'tr-tag-test',
-  template: '<table>'
+  template:
+      '<table>'
       '<thead><tr><th>Repairs:</th></tr>'
       '</thead>'
       '<tbody>'
@@ -108,16 +116,10 @@ class TrTagTest {
   final repairs = List.filled(3, null);
 }
 
-@Component(
-  selector: 'tr[repaired-part]',
-  template: '<td>Repaired</td>',
-)
+@Component(selector: 'tr[repaired-part]', template: '<td>Repaired</td>')
 class RepairedPartComponent {}
 
-@Component(
-  selector: 'div[foo=bar]',
-  template: '<p>Matched!</p>',
-)
+@Component(selector: 'div[foo=bar]', template: '<p>Matched!</p>')
 class ExactAttributeSelectorComponent {}
 
 @Component(
@@ -126,16 +128,11 @@ class ExactAttributeSelectorComponent {}
 <div @skipSchemaValidationFor="[foo]" foo></div>
 <div @skipSchemaValidationFor="[foo]" foo="bar"></div>
 <div @skipSchemaValidationFor="[foo]" foo="barbaz"></div>''',
-  directives: [
-    ExactAttributeSelectorComponent,
-  ],
+  directives: [ExactAttributeSelectorComponent],
 )
 class ExactAttributeSelectorTestComponent {}
 
-@Component(
-  selector: 'div[foo|=bar]',
-  template: '<p>Matched!</p>',
-)
+@Component(selector: 'div[foo|=bar]', template: '<p>Matched!</p>')
 class HyphenAttributeSelectorComponent {}
 
 @Component(
@@ -144,16 +141,11 @@ class HyphenAttributeSelectorComponent {}
 <div @skipSchemaValidationFor="[foo]" foo="bar"></div>
 <div @skipSchemaValidationFor="[foo]" foo="bar-baz"></div>
 <div @skipSchemaValidationFor="[foo]" foo="barbaz"></div>''',
-  directives: [
-    HyphenAttributeSelectorComponent,
-  ],
+  directives: [HyphenAttributeSelectorComponent],
 )
 class HyphenAttributeSelectorTestComponent {}
 
-@Component(
-  selector: 'div[foo~=bar]',
-  template: '<p>Matched!</p>',
-)
+@Component(selector: 'div[foo~=bar]', template: '<p>Matched!</p>')
 class ListAttributeSelectorComponent {}
 
 @Component(
@@ -163,16 +155,11 @@ class ListAttributeSelectorComponent {}
 <div @skipSchemaValidationFor="[foo]" foo="bar baz"></div>
 <div @skipSchemaValidationFor="[foo]" foo="baz bar qux"></div>
 <div @skipSchemaValidationFor="[foo]" foo="barbaz"></div>''',
-  directives: [
-    ListAttributeSelectorComponent,
-  ],
+  directives: [ListAttributeSelectorComponent],
 )
 class ListAttributeSelectorTestComponent {}
 
-@Component(
-  selector: 'div[foo^=bar]',
-  template: '<p>Matched!</p>',
-)
+@Component(selector: 'div[foo^=bar]', template: '<p>Matched!</p>')
 class PrefixAttributeSelectorComponent {}
 
 @Component(
@@ -181,16 +168,11 @@ class PrefixAttributeSelectorComponent {}
 <div @skipSchemaValidationFor="[foo]" foo="bar"></div>
 <div @skipSchemaValidationFor="[foo]" foo="barbaz"></div>
 <div @skipSchemaValidationFor="[foo]" foo="bazbar"></div>''',
-  directives: [
-    PrefixAttributeSelectorComponent,
-  ],
+  directives: [PrefixAttributeSelectorComponent],
 )
 class PrefixAttributeSelectorTestComponent {}
 
-@Component(
-  selector: 'div[foo]',
-  template: '<p>Matched!</p>',
-)
+@Component(selector: 'div[foo]', template: '<p>Matched!</p>')
 class SetAttributeSelectorComponent {}
 
 @Component(
@@ -200,16 +182,11 @@ class SetAttributeSelectorComponent {}
 <div @skipSchemaValidationFor="[foo]" foo></div>
 <div @skipSchemaValidationFor="[foo]" foo=""></div>
 <div @skipSchemaValidationFor="[foo]" foo="bar"></div>''',
-  directives: [
-    SetAttributeSelectorComponent,
-  ],
+  directives: [SetAttributeSelectorComponent],
 )
 class SetAttributeSelectorTestComponent {}
 
-@Component(
-  selector: r'div[foo*=bar]',
-  template: '<p>Matched!</p>',
-)
+@Component(selector: r'div[foo*=bar]', template: '<p>Matched!</p>')
 class SubstringAttributeSelectorComponent {}
 
 @Component(
@@ -219,16 +196,11 @@ class SubstringAttributeSelectorComponent {}
 <div @skipSchemaValidationFor="[foo]" foo="barbaz"></div>
 <div @skipSchemaValidationFor="[foo]" foo="bazbar"></div>
 <div @skipSchemaValidationFor="[foo]" foo="baz bar qux"></div>''',
-  directives: [
-    SubstringAttributeSelectorComponent,
-  ],
+  directives: [SubstringAttributeSelectorComponent],
 )
 class SubstringAttributeSelectorTestComponent {}
 
-@Component(
-  selector: r'div[foo$=bar]',
-  template: '<p>Matched!</p>',
-)
+@Component(selector: r'div[foo$=bar]', template: '<p>Matched!</p>')
 class SuffixAttributeSelectorComponent {}
 
 @Component(
@@ -237,8 +209,6 @@ class SuffixAttributeSelectorComponent {}
 <div @skipSchemaValidationFor="[foo]" foo="bar"></div>
 <div @skipSchemaValidationFor="[foo]" foo="barbaz"></div>
 <div @skipSchemaValidationFor="[foo]" foo="bazbar"></div>''',
-  directives: [
-    SuffixAttributeSelectorComponent,
-  ],
+  directives: [SuffixAttributeSelectorComponent],
 )
 class SuffixAttributeSelectorTestComponent {}

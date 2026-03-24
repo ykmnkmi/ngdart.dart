@@ -72,8 +72,10 @@ void main() {
       '$SecondChildComponent[0].onActivate',
     ]);
     log.clear();
-    expect(await router.navigate('/first-reusable-child'),
-        NavigationResult.SUCCESS);
+    expect(
+      await router.navigate('/first-reusable-child'),
+      NavigationResult.SUCCESS,
+    );
     expect(log, [
       '$SecondChildComponent[0].canNavigate',
       '$SecondChildComponent[0].canDeactivate',
@@ -101,8 +103,10 @@ void main() {
       '$FirstChildComponent[0].onActivate',
     ]);
     log.clear();
-    expect(await router.navigate('/parent/second-child'),
-        NavigationResult.SUCCESS);
+    expect(
+      await router.navigate('/parent/second-child'),
+      NavigationResult.SUCCESS,
+    );
     expect(log, [
       '$ParentComponent[0].canNavigate',
       '$FirstChildComponent[0].canNavigate',
@@ -124,7 +128,9 @@ void main() {
     ]);
     log.clear();
     expect(
-        await router.navigate('/parent/first-child'), NavigationResult.SUCCESS);
+      await router.navigate('/parent/first-child'),
+      NavigationResult.SUCCESS,
+    );
     expect(log, [
       '$ParentComponent[1].canNavigate',
       '$SecondChildComponent[1].canNavigate',
@@ -162,8 +168,10 @@ void main() {
       '$FirstChildComponent[0].onActivate',
     ]);
     log.clear();
-    expect(await router.navigate('/reusable-parent/second-child'),
-        NavigationResult.SUCCESS);
+    expect(
+      await router.navigate('/reusable-parent/second-child'),
+      NavigationResult.SUCCESS,
+    );
     expect(log, [
       '$ReusableParentComponent[0].canNavigate',
       '$FirstChildComponent[0].canNavigate',
@@ -198,8 +206,10 @@ void main() {
       '$FirstChildComponent[0].onActivate',
     ]);
     log.clear();
-    expect(await router.navigate('/second-parent/second-child'),
-        NavigationResult.SUCCESS);
+    expect(
+      await router.navigate('/second-parent/second-child'),
+      NavigationResult.SUCCESS,
+    );
     expect(log, [
       '$FirstParentComponent[0].canNavigate',
       '$FirstChildComponent[0].canNavigate',
@@ -223,8 +233,8 @@ void main() {
   test('navigate between nested routes with a reusable parent', () async {
     final fixture =
         await setup<TestNavigateBetweenNestedRoutesWithReusableParent>(
-      ng.createTestNavigateBetweenNestedRoutesWithReusableParentFactory(),
-    );
+          ng.createTestNavigateBetweenNestedRoutesWithReusableParentFactory(),
+        );
     final log = fixture.assertOnlyInstance.lifecycleLog;
     final router = fixture.assertOnlyInstance.router;
     expect(log, [
@@ -236,8 +246,10 @@ void main() {
       '$FirstChildComponent[0].onActivate',
     ]);
     log.clear();
-    expect(await router.navigate('/second-parent/second-child'),
-        NavigationResult.SUCCESS);
+    expect(
+      await router.navigate('/second-parent/second-child'),
+      NavigationResult.SUCCESS,
+    );
     expect(log, [
       '$FirstReusableParentComponent[0].canNavigate',
       '$FirstChildComponent[0].canNavigate',
@@ -259,46 +271,52 @@ void main() {
   //
   // The 'first-reusable-parent' and 'second-reusable-parent' routes actually
   // map to the same component factory, which should be reused.
-  test('navigate between nested routes with the same reusable parent',
-      () async {
-    final fixture =
-        await setup<TestNavigateBetweenNestedRoutesWithSameReusableParent>(
-      ng.createTestNavigateBetweenNestedRoutesWithSameReusableParentFactory(),
-    );
-    final log = fixture.assertOnlyInstance.lifecycleLog;
-    final router = fixture.assertOnlyInstance.router;
-    expect(log, [
-      '$ReusableParentComponent[0].ngOnInit',
-      '$FirstChildComponent[0].ngOnInit',
-      '$ReusableParentComponent[0].canActivate',
-      '$FirstChildComponent[0].canActivate',
-      '$ReusableParentComponent[0].onActivate',
-      '$FirstChildComponent[0].onActivate',
-    ]);
-    log.clear();
-    expect(await router.navigate('/second-reusable-parent/second-child'),
-        NavigationResult.SUCCESS);
-    expect(log, [
-      '$ReusableParentComponent[0].canNavigate',
-      '$FirstChildComponent[0].canNavigate',
-      '$SecondChildComponent[0].ngOnInit',
-      '$ReusableParentComponent[0].canDeactivate',
-      '$FirstChildComponent[0].canDeactivate',
-      '$ReusableParentComponent[0].canActivate',
-      '$SecondChildComponent[0].canActivate',
-      '$ReusableParentComponent[0].onDeactivate',
-      '$FirstChildComponent[0].onDeactivate',
-      '$ReusableParentComponent[0].canReuse',
-      '$ReusableParentComponent[0].onActivate',
-      '$FirstChildComponent[0].canReuse',
-      '$FirstChildComponent[0].ngOnDestroy',
-      '$SecondChildComponent[0].onActivate',
-    ]);
-  });
+  test(
+    'navigate between nested routes with the same reusable parent',
+    () async {
+      final fixture = await setup<
+        TestNavigateBetweenNestedRoutesWithSameReusableParent
+      >(
+        ng.createTestNavigateBetweenNestedRoutesWithSameReusableParentFactory(),
+      );
+      final log = fixture.assertOnlyInstance.lifecycleLog;
+      final router = fixture.assertOnlyInstance.router;
+      expect(log, [
+        '$ReusableParentComponent[0].ngOnInit',
+        '$FirstChildComponent[0].ngOnInit',
+        '$ReusableParentComponent[0].canActivate',
+        '$FirstChildComponent[0].canActivate',
+        '$ReusableParentComponent[0].onActivate',
+        '$FirstChildComponent[0].onActivate',
+      ]);
+      log.clear();
+      expect(
+        await router.navigate('/second-reusable-parent/second-child'),
+        NavigationResult.SUCCESS,
+      );
+      expect(log, [
+        '$ReusableParentComponent[0].canNavigate',
+        '$FirstChildComponent[0].canNavigate',
+        '$SecondChildComponent[0].ngOnInit',
+        '$ReusableParentComponent[0].canDeactivate',
+        '$FirstChildComponent[0].canDeactivate',
+        '$ReusableParentComponent[0].canActivate',
+        '$SecondChildComponent[0].canActivate',
+        '$ReusableParentComponent[0].onDeactivate',
+        '$FirstChildComponent[0].onDeactivate',
+        '$ReusableParentComponent[0].canReuse',
+        '$ReusableParentComponent[0].onActivate',
+        '$FirstChildComponent[0].canReuse',
+        '$FirstChildComponent[0].ngOnDestroy',
+        '$SecondChildComponent[0].onActivate',
+      ]);
+    },
+  );
 
   test('navigate to the same route should do nothing', () async {
     final fixture = await setup<TestNavigateToSibling>(
-        ng.createTestNavigateToSiblingFactory());
+      ng.createTestNavigateToSiblingFactory(),
+    );
     final log = fixture.assertOnlyInstance.lifecycleLog;
     final router = fixture.assertOnlyInstance.router;
     expect(log, [
@@ -308,14 +326,13 @@ void main() {
     ]);
     log.clear();
     expect(await router.navigate('/'), NavigationResult.SUCCESS);
-    expect(log, [
-      '$FirstChildComponent[0].canNavigate',
-    ]);
+    expect(log, ['$FirstChildComponent[0].canNavigate']);
   });
 
   test('reload the same route', () async {
     final fixture = await setup<TestNavigateToSibling>(
-        ng.createTestNavigateToSiblingFactory());
+      ng.createTestNavigateToSiblingFactory(),
+    );
     final log = fixture.assertOnlyInstance.lifecycleLog;
     final router = fixture.assertOnlyInstance.router;
     expect(log, [
@@ -324,8 +341,10 @@ void main() {
       '$FirstChildComponent[0].onActivate',
     ]);
     log.clear();
-    expect(await router.navigate('/', NavigationParams(reload: true)),
-        NavigationResult.SUCCESS);
+    expect(
+      await router.navigate('/', NavigationParams(reload: true)),
+      NavigationResult.SUCCESS,
+    );
     expect(log, [
       '$FirstChildComponent[0].canNavigate',
       '$FirstChildComponent[0].canDeactivate',
@@ -334,13 +353,14 @@ void main() {
       '$FirstChildComponent[0].canReuse',
       '$FirstChildComponent[0].ngOnDestroy',
       '$FirstChildComponent[1].ngOnInit',
-      '$FirstChildComponent[1].onActivate'
+      '$FirstChildComponent[1].onActivate',
     ]);
   });
 
   test('prevent navigation before other lifecycle callbacks', () async {
     final fixture = await setup<TestPreventNavigation>(
-        ng.createTestPreventNavigationFactory());
+      ng.createTestPreventNavigationFactory(),
+    );
     final log = fixture.assertOnlyInstance.lifecycleLog;
     final router = fixture.assertOnlyInstance.router;
     expect(log, [
@@ -349,16 +369,17 @@ void main() {
       '$CantNavigateChildComponent[0].onActivate',
     ]);
     log.clear();
-    expect(await router.navigate('/second-child'),
-        NavigationResult.BLOCKED_BY_GUARD);
-    expect(log, [
-      '$CantNavigateChildComponent[0].canNavigate',
-    ]);
+    expect(
+      await router.navigate('/second-child'),
+      NavigationResult.BLOCKED_BY_GUARD,
+    );
+    expect(log, ['$CantNavigateChildComponent[0].canNavigate']);
   });
 
   test('redirect to a sibling', () async {
     final fixture = await setup<TestRedirectToSibling>(
-        ng.createTestRedirectToSiblingFactory());
+      ng.createTestRedirectToSiblingFactory(),
+    );
     final log = fixture.assertOnlyInstance.lifecycleLog;
     final router = fixture.assertOnlyInstance.router;
     expect(log, [
@@ -447,7 +468,7 @@ abstract class RouterLifecycleLogger
   }
 
   @override
-  Future<bool> canReuse(_, __) async {
+  Future<bool> canReuse(RouterState current, RouterState next) async {
     lifecycleLog.add('$_identifier.canReuse');
     return false;
   }
@@ -473,10 +494,7 @@ abstract class RouterLifecycleLogger
   }
 }
 
-@Component(
-  selector: 'first-child',
-  template: '',
-)
+@Component(selector: 'first-child', template: '')
 class FirstChildComponent extends RouterLifecycleLogger {
   static final RouteDefinition routeDefinition = RouteDefinition(
     path: 'first-child',
@@ -490,10 +508,7 @@ class FirstChildComponent extends RouterLifecycleLogger {
   ) : super('$FirstChildComponent', instanceIds, lifecycleLog);
 }
 
-@Component(
-  selector: 'second-child',
-  template: '',
-)
+@Component(selector: 'second-child', template: '')
 class SecondChildComponent extends RouterLifecycleLogger {
   static final RouteDefinition routeDefinition = RouteDefinition(
     path: 'second-child',
@@ -506,10 +521,7 @@ class SecondChildComponent extends RouterLifecycleLogger {
   ) : super('$SecondChildComponent', instanceIds, lifecycleLog);
 }
 
-@Component(
-  selector: 'first-child',
-  template: '',
-)
+@Component(selector: 'first-child', template: '')
 class FirstReusableChildComponent extends RouterLifecycleLogger {
   static final RouteDefinition routeDefinition = RouteDefinition(
     path: 'first-reusable-child',
@@ -523,16 +535,13 @@ class FirstReusableChildComponent extends RouterLifecycleLogger {
   ) : super('$FirstReusableChildComponent', instanceIds, lifecycleLog);
 
   @override
-  Future<bool> canReuse(_, __) async {
-    await super.canReuse(_, __);
+  Future<bool> canReuse(RouterState current, RouterState next) async {
+    await super.canReuse(current, next);
     return true;
   }
 }
 
-@Component(
-  selector: 'cant-navigate-child',
-  template: '',
-)
+@Component(selector: 'cant-navigate-child', template: '')
 class CantNavigateChildComponent extends RouterLifecycleLogger {
   static final RouteDefinition routeDefinition = RouteDefinition(
     path: 'cant-navigate-child',
@@ -598,8 +607,8 @@ class ReusableParentComponent extends RouterLifecycleLogger {
   ) : super('$ReusableParentComponent', instanceIds, lifecycleLog);
 
   @override
-  Future<bool> canReuse(_, __) async {
-    await super.canReuse(_, __);
+  Future<bool> canReuse(RouterState current, RouterState next) async {
+    await super.canReuse(current, next);
     return true;
   }
 }
@@ -616,9 +625,7 @@ class FirstParentComponent extends RouterLifecycleLogger {
     useAsDefault: true,
   );
 
-  final List<RouteDefinition> routes = [
-    FirstChildComponent.routeDefinition,
-  ];
+  final List<RouteDefinition> routes = [FirstChildComponent.routeDefinition];
 
   FirstParentComponent(
     @instanceIdsToken Map<String, int> instanceIds,
@@ -637,9 +644,7 @@ class SecondParentComponent extends RouterLifecycleLogger {
     component: ng.SecondParentComponentNgFactory,
   );
 
-  final List<RouteDefinition> routes = [
-    SecondChildComponent.routeDefinition,
-  ];
+  final List<RouteDefinition> routes = [SecondChildComponent.routeDefinition];
 
   SecondParentComponent(
     @instanceIdsToken Map<String, int> instanceIds,
@@ -659,9 +664,7 @@ class FirstReusableParentComponent extends RouterLifecycleLogger {
     useAsDefault: true,
   );
 
-  final List<RouteDefinition> routes = [
-    FirstChildComponent.routeDefinition,
-  ];
+  final List<RouteDefinition> routes = [FirstChildComponent.routeDefinition];
 
   FirstReusableParentComponent(
     @instanceIdsToken Map<String, int> instanceIds,
@@ -669,8 +672,8 @@ class FirstReusableParentComponent extends RouterLifecycleLogger {
   ) : super('$FirstReusableParentComponent', instanceIds, lifecycleLog);
 
   @override
-  Future<bool> canReuse(_, __) async {
-    await super.canReuse(_, __);
+  Future<bool> canReuse(RouterState current, RouterState next) async {
+    await super.canReuse(current, next);
     return true;
   }
 }
@@ -705,7 +708,9 @@ class TestNavigateToSiblingFromReusableChild {
   ];
 
   TestNavigateToSiblingFromReusableChild(
-      @lifecycleLogToken this.lifecycleLog, this.router);
+    @lifecycleLogToken this.lifecycleLog,
+    this.router,
+  );
 }
 
 @Component(
@@ -716,12 +721,12 @@ class TestNavigateToSiblingFromReusableChild {
 class TestNavigateToNestedSibling {
   final List<String> lifecycleLog;
   final Router router;
-  final List<RouteDefinition> routes = [
-    ParentComponent.routeDefinition,
-  ];
+  final List<RouteDefinition> routes = [ParentComponent.routeDefinition];
 
   TestNavigateToNestedSibling(
-      @lifecycleLogToken this.lifecycleLog, this.router);
+    @lifecycleLogToken this.lifecycleLog,
+    this.router,
+  );
 }
 
 @Component(
@@ -737,7 +742,9 @@ class TestNavigateToNestedSiblingWithSharedParent {
   ];
 
   TestNavigateToNestedSiblingWithSharedParent(
-      @lifecycleLogToken this.lifecycleLog, this.router);
+    @lifecycleLogToken this.lifecycleLog,
+    this.router,
+  );
 }
 
 @Component(
@@ -754,7 +761,9 @@ class TestNavigateBetweenNestedRoutes {
   ];
 
   TestNavigateBetweenNestedRoutes(
-      @lifecycleLogToken this.lifecycleLog, this.router);
+    @lifecycleLogToken this.lifecycleLog,
+    this.router,
+  );
 }
 
 @Component(
@@ -771,7 +780,9 @@ class TestNavigateBetweenNestedRoutesWithReusableParent {
   ];
 
   TestNavigateBetweenNestedRoutesWithReusableParent(
-      @lifecycleLogToken this.lifecycleLog, this.router);
+    @lifecycleLogToken this.lifecycleLog,
+    this.router,
+  );
 }
 
 @Component(
@@ -795,7 +806,9 @@ class TestNavigateBetweenNestedRoutesWithSameReusableParent {
   ];
 
   TestNavigateBetweenNestedRoutesWithSameReusableParent(
-      @lifecycleLogToken this.lifecycleLog, this.router);
+    @lifecycleLogToken this.lifecycleLog,
+    this.router,
+  );
 }
 
 @Component(

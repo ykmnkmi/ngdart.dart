@@ -13,39 +13,22 @@ void main() {
     final valueService = ValueService()..value = 'Hello';
     final testBed = NgTestBed<NoCrash>(
       ng.createNoCrashFactory(),
-    ).addInjector(
-      (i) => Injector.map({
-        ValueService: valueService,
-      }, i),
-    );
+    ).addInjector((i) => Injector.map({ValueService: valueService}, i));
     final fixture = await testBed.create();
-    expect(
-      fixture.text,
-      contains('Hello'),
-    );
+    expect(fixture.text, contains('Hello'));
     await fixture.update((_) => valueService.value = 'Goodbye');
-    expect(
-      fixture.text,
-      contains('Goodbye'),
-    );
+    expect(fixture.text, contains('Goodbye'));
   });
 
   test('Should disable change detection on components that throw', () async {
     final valueService = ValueService()..value = '1';
     final testBed = NgTestBed<Crash>(
       ng.createCrashFactory(),
-    ).addInjector(
-      (i) => Injector.map({
-        ValueService: valueService,
-      }, i),
-    );
+    ).addInjector((i) => Injector.map({ValueService: valueService}, i));
 
     // Initially create with the crashing component disabled.
     final fixture = await testBed.create();
-    expect(
-      fixture.text,
-      contains('Value: 1'),
-    );
+    expect(fixture.text, contains('Value: 1'));
 
     // Enable the crashing component. We have to be very careful here to catch
     // the exception (so package:test doesn't report a failure) but also that
@@ -58,10 +41,7 @@ void main() {
 
     // Make sure the rest of the CD still works.
     await fixture.update((_) => valueService.value = '2');
-    expect(
-      fixture.text,
-      contains('Value: 2'),
-    );
+    expect(fixture.text, contains('Value: 2'));
   });
 
   test('Should disable change detection to avoid infinite ngOnInit', () async {
@@ -70,18 +50,13 @@ void main() {
     final testBed = NgTestBed<CrashOnInit>(
       ng.createCrashOnInitFactory(),
     ).addInjector(
-      (i) => Injector.map({
-        ValueService: valueService,
-        RpcService: rpcService,
-      }, i),
+      (i) =>
+          Injector.map({ValueService: valueService, RpcService: rpcService}, i),
     );
 
     // Initially create with the crashing component disabled.
     final fixture = await testBed.create();
-    expect(
-      fixture.text,
-      contains('Value: 1'),
-    );
+    expect(fixture.text, contains('Value: 1'));
 
     // Initially create with the crashing and ngOnInit component disabled.
     try {
@@ -95,10 +70,7 @@ void main() {
 
     // Make sure the rest of the CD still works.
     await fixture.update((_) => valueService.value = '2');
-    expect(
-      fixture.text,
-      contains('Value: 2'),
-    );
+    expect(fixture.text, contains('Value: 2'));
 
     // Verify no more RPCs were made.
     expect(rpcService.calls, hasLength(1));
@@ -122,10 +94,7 @@ class ValueService {
 class NoCrash {}
 
 /// A child component that renders [ValueService.value].
-@Component(
-  selector: 'child',
-  template: 'Value: {{service.value}}',
-)
+@Component(selector: 'child', template: 'Value: {{service.value}}')
 class ChildComponent {
   final ValueService service;
 
@@ -138,20 +107,13 @@ class ChildComponent {
     <child></child>
     <error *ngIf="startCrashing"></error>
   ''',
-  directives: [
-    ChildComponent,
-    ErrorComponent,
-    NgIf,
-  ],
+  directives: [ChildComponent, ErrorComponent, NgIf],
 )
 class Crash {
   bool startCrashing = false;
 }
 
-@Component(
-  selector: 'error',
-  template: 'Error({{first}})',
-)
+@Component(selector: 'error', template: 'Error({{first}})')
 class ErrorComponent {
   dynamic listThatWillNPE;
 
@@ -171,12 +133,7 @@ class RpcService {
 
 @Component(
   selector: 'crash-on-init',
-  directives: [
-    ChildComponent,
-    ErrorComponent,
-    NgIf,
-    OnInitComponent,
-  ],
+  directives: [ChildComponent, ErrorComponent, NgIf, OnInitComponent],
   template: r'''
     <child></child>
     <oninit *ngIf="startCrashing"></oninit>
@@ -187,10 +144,7 @@ class CrashOnInit {
   bool startCrashing = false;
 }
 
-@Component(
-  selector: 'oninit',
-  template: '',
-)
+@Component(selector: 'oninit', template: '')
 class OnInitComponent implements OnInit {
   final RpcService _rpc;
 

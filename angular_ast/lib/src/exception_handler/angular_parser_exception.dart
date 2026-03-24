@@ -12,11 +12,7 @@ class AngularParserException extends Error {
   /// Offset of where the exception was detected.
   final int? offset;
 
-  AngularParserException(
-    this.errorCode,
-    this.offset,
-    this.length,
-  );
+  AngularParserException(this.errorCode, this.offset, this.length);
 
   @override
   bool operator ==(Object o) {

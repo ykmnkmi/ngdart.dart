@@ -13,7 +13,8 @@ void main() {
   group('should use ChangeDetectorRef to manually request a check', () {
     test('from a component declared in the template', () async {
       final testBed = NgTestBed<ManualCheckComponent>(
-          ng.createManualCheckComponentFactory());
+        ng.createManualCheckComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final cmp = testFixture.assertOnlyInstance.child!;
       expect(cmp.numberOfChecks, 1);
@@ -25,7 +26,8 @@ void main() {
 
     test('from an imperatively loaded component', () async {
       final testBed = NgTestBed<ManualCheckLoadedComponent>(
-          ng.createManualCheckLoadedComponentFactory());
+        ng.createManualCheckLoadedComponentFactory(),
+      );
       late final PushCmpWithRef cmp;
       final testFixture = await testBed.create(
         beforeChangeDetection: (component) {
@@ -41,8 +43,9 @@ void main() {
   });
 
   test('should check component when bindings update', () async {
-    final testBed =
-        NgTestBed<PushCmpHostComponent>(ng.createPushCmpHostComponentFactory());
+    final testBed = NgTestBed<PushCmpHostComponent>(
+      ng.createPushCmpHostComponentFactory(),
+    );
     final testFixture = await testBed.create();
     final cmp = testFixture.assertOnlyInstance.child!;
     expect(cmp.numberOfChecks, 1);
@@ -51,8 +54,9 @@ void main() {
   });
 
   test('should check when an event is fired', () async {
-    final testBed =
-        NgTestBed<PushCmpHostComponent>(ng.createPushCmpHostComponentFactory());
+    final testBed = NgTestBed<PushCmpHostComponent>(
+      ng.createPushCmpHostComponentFactory(),
+    );
     final testFixture = await testBed.create();
     final cmp = testFixture.assertOnlyInstance.child!;
     final cmpElement = testFixture.rootElement.children.first;
@@ -76,7 +80,8 @@ void main() {
 
   test('should not affect updating bindings', () async {
     final testBed = NgTestBed<PushCmpWithRefHostComponent>(
-        ng.createPushCmpWithRefHostComponentFactory());
+      ng.createPushCmpWithRefHostComponentFactory(),
+    );
     final testFixture = await testBed.create();
     final cmp = testFixture.assertOnlyInstance.child!;
     expect(cmp.prop, 'one');
@@ -86,7 +91,8 @@ void main() {
 
   test('should check when async pipe requests check', () async {
     final testBed = NgTestBed<PushCmpWithAsyncPipeHostCmp>(
-        ng.createPushCmpWithAsyncPipeHostCmpFactory());
+      ng.createPushCmpWithAsyncPipeHostCmpFactory(),
+    );
     final testFixture = await testBed.create();
     final cmp = testFixture.assertOnlyInstance.child!;
     expect(cmp.numberOfChecks, 1);
@@ -132,10 +138,7 @@ class ManualCheckComponent {
   PushCmpWithRef? child;
 }
 
-@Component(
-  selector: 'test',
-  template: '<template #container></template>',
-)
+@Component(selector: 'test', template: '<template #container></template>')
 class ManualCheckLoadedComponent {
   @ViewChild('container', read: ViewContainerRef)
   ViewContainerRef? componentLoader;
@@ -159,7 +162,8 @@ class EventCmp {
 @Component(
   selector: 'push-cmp',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '{{field}}<div (click)="noop()"></div><div *ngIf="true" '
+  template:
+      '{{field}}<div (click)="noop()"></div><div *ngIf="true" '
       '(click)="noop()"></div><event-cmp></event-cmp>',
   directives: [EventCmp, NgIf],
 )

@@ -4,7 +4,7 @@ description: Router for AngularDart.
 version: 4.0.0
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.3
 
 resolution: workspace
 

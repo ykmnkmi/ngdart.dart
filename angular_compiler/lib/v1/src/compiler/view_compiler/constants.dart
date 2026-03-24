@@ -26,10 +26,12 @@ const List<String> _changeDetectionStrategies = [
 /// Otherwise the generated code refers to arbitrary integer values.
 o.Expression changeDetectionStrategyToConst(int value) {
   final name = _changeDetectionStrategies[value];
-  return o.importExpr(CompileIdentifierMetadata(
-    name: 'ChangeDetectionStrategy.$name',
-    moduleUrl: Identifiers.ChangeDetectionStrategy.moduleUrl,
-  ));
+  return o.importExpr(
+    CompileIdentifierMetadata(
+      name: 'ChangeDetectionStrategy.$name',
+      moduleUrl: Identifiers.ChangeDetectionStrategy.moduleUrl,
+    ),
+  );
 }
 
 class ViewConstructorVars {

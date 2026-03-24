@@ -13,17 +13,11 @@ import '../../visitor.dart';
 /// Clients should not extend, implement, or mix-in this class.
 abstract mixin class BananaAst implements TemplateAst {
   /// Create a new synthetic [BananaAst] with a string [field].
-  factory BananaAst(
-    String name, [
-    String? field,
-  ]) = _SyntheticBananaAst;
+  factory BananaAst(String name, [String? field]) = _SyntheticBananaAst;
 
   /// Create a new synthetic [BananaAst] that originated from node [origin].
-  factory BananaAst.from(
-    TemplateAst origin,
-    String name, [
-    String? field,
-  ]) = _SyntheticBananaAst.from;
+  factory BananaAst.from(TemplateAst origin, String name, [String? field]) =
+      _SyntheticBananaAst.from;
 
   /// Create a new [BananaAst] parsed from tokens from [sourceFile].
   factory BananaAst.parsed(
@@ -99,9 +93,10 @@ class ParsedBananaAst extends TemplateAst
     this.valueToken,
     this.equalSignToken,
   ) : super.parsed(
-            prefixToken,
-            valueToken != null ? valueToken.rightQuote : suffixToken,
-            sourceFile);
+        prefixToken,
+        valueToken != null ? valueToken.rightQuote : suffixToken,
+        sourceFile,
+      );
 
   /// Inner name `property` in `[(property)]`.
   @override
@@ -145,9 +140,6 @@ class _SyntheticBananaAst extends SyntheticTemplateAst with BananaAst {
 
   _SyntheticBananaAst(this.name, [this.value]);
 
-  _SyntheticBananaAst.from(
-    TemplateAst origin,
-    this.name, [
-    this.value,
-  ]) : super.from(origin);
+  _SyntheticBananaAst.from(TemplateAst origin, this.name, [this.value])
+    : super.from(origin);
 }

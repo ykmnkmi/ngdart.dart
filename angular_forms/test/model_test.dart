@@ -117,9 +117,11 @@ void main() {
           expect(g.value, {'one': 'oldValue'});
         });
         test('should fire an event', () {
-          c.valueChanges.listen(expectAsync1((value) {
-            expect(value, 'newValue');
-          }));
+          c.valueChanges.listen(
+            expectAsync1((value) {
+              expect(value, 'newValue');
+            }),
+          );
           c.updateValue('newValue');
         });
         test('should not fire an event when explicitly specified', () {
@@ -138,26 +140,33 @@ void main() {
           c = Control('old', Validators.required);
         });
         test('should fire an event after the value has been updated', () async {
-          c.valueChanges.listen(expectAsync1((value) {
-            expect(c.value, 'new');
-            expect(value, 'new');
-          }));
+          c.valueChanges.listen(
+            expectAsync1((value) {
+              expect(c.value, 'new');
+              expect(value, 'new');
+            }),
+          );
           c.updateValue('new');
         });
         test(
-            'should fire an event after the status has been updated to invalid',
-            () {
-          c.statusChanges.listen(expectAsync1((status) {
-            expect(c.status, 'INVALID');
-            expect(status, 'INVALID');
-          }));
-          c.updateValue('');
-        });
+          'should fire an event after the status has been updated to invalid',
+          () {
+            c.statusChanges.listen(
+              expectAsync1((status) {
+                expect(c.status, 'INVALID');
+                expect(status, 'INVALID');
+              }),
+            );
+            c.updateValue('');
+          },
+        );
         test('should return a cold observable', () async {
           c.updateValue('will be ignored');
-          c.valueChanges.listen(expectAsync1((value) {
-            expect(value, 'new');
-          }));
+          c.valueChanges.listen(
+            expectAsync1((value) {
+              expect(value, 'new');
+            }),
+          );
           c.updateValue('new');
         });
       });
@@ -220,8 +229,11 @@ void main() {
           control.markAsDisabled();
           expect(control.value, 'some value');
           control.updateValue('new value');
-          expect(control.value, 'new value',
-              reason: 'Value changes are propagated when disabled.');
+          expect(
+            control.value,
+            'new value',
+            reason: 'Value changes are propagated when disabled.',
+          );
           expect(control.disabled, true);
         });
 
@@ -315,16 +327,16 @@ void main() {
         test('should support nested groups', () {
           var g = ControlGroup({
             'one': Control('111'),
-            'nested': ControlGroup({'two': Control('222')})
+            'nested': ControlGroup({'two': Control('222')}),
           });
           expect(g.value, {
             'one': '111',
-            'nested': {'two': '222'}
+            'nested': {'two': '222'},
           });
           (g.controls['nested']!.find('two') as Control).updateValue('333');
           expect(g.value, {
             'one': '111',
-            'nested': {'two': '333'}
+            'nested': {'two': '333'},
           });
         });
       });
@@ -361,14 +373,18 @@ void main() {
         });
 
         test('should throw if keys don\'t match', () {
-          expect(() => group.updateValue({'two': 'newValue'}),
-              throwsArgumentError);
+          expect(
+            () => group.updateValue({'two': 'newValue'}),
+            throwsArgumentError,
+          );
         });
 
         test('should throw if missing control', () {
           group.addControl('two', Control());
-          expect(() => group.updateValue({'one': 'newValue'}),
-              throwsArgumentError);
+          expect(
+            () => group.updateValue({'one': 'newValue'}),
+            throwsArgumentError,
+          );
         });
       });
 
@@ -484,37 +500,44 @@ void main() {
         });
 
         test('should fire an event after the value has been updated', () async {
-          g.valueChanges.listen(expectAsync1((value) {
-            expect(g.value, {'one': 'new1', 'two': 'old2'});
-            expect(value, {'one': 'new1', 'two': 'old2'});
-          }));
+          g.valueChanges.listen(
+            expectAsync1((value) {
+              expect(g.value, {'one': 'new1', 'two': 'old2'});
+              expect(value, {'one': 'new1', 'two': 'old2'});
+            }),
+          );
           c1.updateValue('new1');
         });
 
-        test(
-            'should fire an event after the control\'s observable fired an '
+        test('should fire an event after the control\'s observable fired an '
             'event', () async {
           var controlCallbackIsCalled = false;
-          c1.valueChanges.listen(expectAsync1((value) {
-            controlCallbackIsCalled = true;
-          }));
-          g.valueChanges.listen(expectAsync1((value) {
-            expect(controlCallbackIsCalled, true);
-          }));
+          c1.valueChanges.listen(
+            expectAsync1((value) {
+              controlCallbackIsCalled = true;
+            }),
+          );
+          g.valueChanges.listen(
+            expectAsync1((value) {
+              expect(controlCallbackIsCalled, true);
+            }),
+          );
           c1.updateValue('new1');
         });
 
         test('should fire an event every time a control is updated', () async {
           var loggedValues = [];
-          g.valueChanges.listen(expectAsync1((value) {
-            loggedValues.add(value);
-            if (loggedValues.length == 2) {
-              expect(loggedValues, [
-                {'one': 'new1', 'two': 'old2'},
-                {'one': 'new1', 'two': 'new2'}
-              ]);
-            }
-          }, count: 2));
+          g.valueChanges.listen(
+            expectAsync1((value) {
+              loggedValues.add(value);
+              if (loggedValues.length == 2) {
+                expect(loggedValues, [
+                  {'one': 'new1', 'two': 'old2'},
+                  {'one': 'new1', 'two': 'new2'},
+                ]);
+              }
+            }, count: 2),
+          );
           c1.updateValue('new1');
           c2.updateValue('new2');
         });
@@ -566,8 +589,10 @@ void main() {
           expect(group.value, {'one': 'some value', 'two': 'other value'});
           control.updateValue('new value');
           expect(group.disabled, true);
-          expect(group.value, {'one': 'new value', 'two': 'other value'},
-              reason: 'Value changes are propagated when disabled.');
+          expect(group.value, {
+            'one': 'new value',
+            'two': 'other value',
+          }, reason: 'Value changes are propagated when disabled.');
           group.markAsEnabled();
           expect(group.value, {'one': 'new value', 'two': 'other value'});
         });
@@ -871,35 +896,44 @@ void main() {
           a = ControlArray([c1, c2]);
         });
         test('should fire an event after the value has been updated', () async {
-          a.valueChanges.listen(expectAsync1((value) {
-            expect(a.value, ['new1', 'old2']);
-            expect(value, ['new1', 'old2']);
-          }));
+          a.valueChanges.listen(
+            expectAsync1((value) {
+              expect(a.value, ['new1', 'old2']);
+              expect(value, ['new1', 'old2']);
+            }),
+          );
           c1.updateValue('new1');
         });
-        test(
-            'should fire an event after the control\'s observable '
+        test('should fire an event after the control\'s observable '
             'fired an event', () async {
           var controlCallbackIsCalled = false;
-          c1.valueChanges.listen(expectAsync1((value) {
-            controlCallbackIsCalled = true;
-          }));
-          a.valueChanges.listen(expectAsync1((value) {
-            expect(controlCallbackIsCalled, true);
-          }));
+          c1.valueChanges.listen(
+            expectAsync1((value) {
+              controlCallbackIsCalled = true;
+            }),
+          );
+          a.valueChanges.listen(
+            expectAsync1((value) {
+              expect(controlCallbackIsCalled, true);
+            }),
+          );
           c1.updateValue('new1');
         });
         test('should fire an event when a control is removed', () async {
-          a.valueChanges.listen(expectAsync1((value) {
-            expect(value, ['old1']);
-          }));
+          a.valueChanges.listen(
+            expectAsync1((value) {
+              expect(value, ['old1']);
+            }),
+          );
           a.removeAt(1);
         });
         test('should fire an event when a control is added', () async {
           a.removeAt(1);
-          a.valueChanges.listen(expectAsync1((value) {
-            expect(value, ['old1', 'old2']);
-          }));
+          a.valueChanges.listen(
+            expectAsync1((value) {
+              expect(value, ['old1', 'old2']);
+            }),
+          );
           a.push(c2);
         });
       });
@@ -919,7 +953,7 @@ void main() {
         test('should return a child of a control group', () {
           var g = ControlGroup({
             'one': Control('111'),
-            'nested': ControlGroup({'two': Control('222')})
+            'nested': ControlGroup({'two': Control('222')}),
           });
           expect(g.findPath(['nested', 'two'])!.value, '222');
           expect(g.findPath(['one'])!.value, '111');
@@ -928,7 +962,7 @@ void main() {
         });
         test('should return an element of an array', () {
           var g = ControlGroup({
-            'array': ControlArray([Control('111')])
+            'array': ControlArray([Control('111')]),
           });
           expect(g.findPath(['array', '0'])!.value, '111');
         });
@@ -963,8 +997,10 @@ void main() {
           expect(array.value, ['some value', 'other value']);
           control.updateValue('new value');
           expect(array.disabled, true);
-          expect(array.value, ['new value', 'other value'],
-              reason: 'Value changes are propagated when disabled.');
+          expect(array.value, [
+            'new value',
+            'other value',
+          ], reason: 'Value changes are propagated when disabled.');
           array.markAsEnabled();
           expect(array.value, ['new value', 'other value']);
         });

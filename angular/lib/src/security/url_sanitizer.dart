@@ -23,14 +23,16 @@
 ///
 /// RegExp Source: Closure sanitization library.
 final RegExp _safeUrlPattern = RegExp(
-    '^(?:(?:https?|mailto|ftp|tel|file):|[^&:/?#]*(?:[/?#]|\$))',
-    caseSensitive: false);
+  '^(?:(?:https?|mailto|ftp|tel|file):|[^&:/?#]*(?:[/?#]|\$))',
+  caseSensitive: false,
+);
 
 final RegExp _dataUrlPattern = RegExp(
-    '^data:(?:image\/(?:bmp|gif|'
-    'jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm));'
-    'base64,[a-z0-9+\/]+=*\$',
-    caseSensitive: false);
+  '^data:(?:image\/(?:bmp|gif|'
+  'jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm));'
+  'base64,[a-z0-9+\/]+=*\$',
+  caseSensitive: false,
+);
 
 String internalSanitizeUrl(String url) {
   if (url.isEmpty) return url;

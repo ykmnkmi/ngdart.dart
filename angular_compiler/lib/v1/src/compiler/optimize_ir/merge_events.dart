@@ -19,6 +19,8 @@ List<ir.Binding> mergeEvents(List<ir.Binding> events) {
 }
 
 ir.Binding _merge(ir.Binding handler, ir.Binding event) => ir.Binding(
-    target: handler.target,
-    source: (handler.source as ir.EventHandler)
-        .merge(event.source as ir.EventHandler));
+  target: handler.target,
+  source: (handler.source as ir.EventHandler).merge(
+    event.source as ir.EventHandler,
+  ),
+);

@@ -148,9 +148,10 @@ abstract class RenderView extends View {
   /// known type.
   void Function(E) eventHandler1<E, F extends E>(void Function(F) handler) {
     assert(
-        E == Null || F != Null,
-        "Event handler '$handler' isn't assignable to expected type "
-        "'($E) => void'");
+      E == Null || F != Null,
+      "Event handler '$handler' isn't assignable to expected type "
+      "'($E) => void'",
+    );
     return (E event) {
       markForCheck();
       appViewUtils.eventManager.zone.runGuarded(

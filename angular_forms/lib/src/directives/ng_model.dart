@@ -49,9 +49,7 @@ import 'shared.dart' show setUpControl;
 /// [ex]:  https://angulardart.dev/examples/template-syntax/#ngModel
 @Directive(
   selector: '[ngModel]:not([ngControl]):not([ngFormControl])',
-  providers: [
-    ExistingProvider(NgControl, NgModel),
-  ],
+  providers: [ExistingProvider(NgControl, NgModel)],
   exportAs: 'ngForm',
   visibility: Visibility.all,
 )
@@ -77,12 +75,12 @@ class NgModel extends NgControl implements AfterChanges, OnInit {
   dynamic viewModel;
 
   NgModel(
-      @Optional() @Self() @Inject(NG_VALIDATORS) List<dynamic>? validators,
-      @Optional()
-      @Self()
-      @Inject(ngValueAccessor)
-      List<ControlValueAccessor<dynamic>>? valueAccessors)
-      : super(valueAccessors, validators) {
+    @Optional() @Self() @Inject(NG_VALIDATORS) List<dynamic>? validators,
+    @Optional()
+    @Self()
+    @Inject(ngValueAccessor)
+    List<ControlValueAccessor<dynamic>>? valueAccessors,
+  ) : super(valueAccessors, validators) {
     _init(valueAccessors);
   }
 

@@ -86,10 +86,7 @@ typedef StringIdentityFn = String Function(String);
 const stringIdentityToken = OpaqueToken<StringIdentityFn>();
 
 @GenerateInjector([
-  ValueProvider(
-    ClassWithConstConstructor,
-    ClassWithConstConstructor(),
-  ),
+  ValueProvider(ClassWithConstConstructor, ClassWithConstConstructor()),
   ValueProvider(
     ClassWithNamedConstConstructor,
     ClassWithNamedConstConstructor.someName(),
@@ -102,42 +99,18 @@ const stringIdentityToken = OpaqueToken<StringIdentityFn>();
     ClassWithPrivateConstructorAndStaticField,
     ClassWithPrivateConstructorAndStaticField.instance,
   ),
-  ValueProvider(
-    ClassWithPrivateConstructorAndTopLevelField,
-    topLevelInstance,
-  ),
+  ValueProvider(ClassWithPrivateConstructorAndTopLevelField, topLevelInstance),
   ValueProvider(
     ClassWithRedirectingConstructor,
     ClassWithRedirectingConstructor(),
   ),
-  ValueProvider.forToken(
-    intIdentityToken,
-    topLevelMethod,
-  ),
-  ValueProvider.forToken(
-    stringIdentityToken,
-    StaticClass.staticMethod,
-  ),
-  ValueProvider.forToken(
-    stringRawToken,
-    r'$5.00 USD',
-  ),
-  ValueProvider.forToken(
-    singleQuoteToken,
-    "It's Mine. My Own. My Precious.",
-  ),
-  ValueProvider.forToken(
-    escapeTokenToken,
-    'A new\nline',
-  ),
-  ValueProvider.forToken(
-    unicodeToken,
-    '\u{0000}',
-  ),
-  ValueProvider.forToken(
-    rarerEscapeToken,
-    '\t\r\\',
-  ),
+  ValueProvider.forToken(intIdentityToken, topLevelMethod),
+  ValueProvider.forToken(stringIdentityToken, StaticClass.staticMethod),
+  ValueProvider.forToken(stringRawToken, r'$5.00 USD'),
+  ValueProvider.forToken(singleQuoteToken, "It's Mine. My Own. My Precious."),
+  ValueProvider.forToken(escapeTokenToken, 'A new\nline'),
+  ValueProvider.forToken(unicodeToken, '\u{0000}'),
+  ValueProvider.forToken(rarerEscapeToken, '\t\r\\'),
 ])
 final InjectorFactory example = ng.example$Injector;
 

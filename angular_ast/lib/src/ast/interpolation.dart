@@ -9,15 +9,11 @@ import '../visitor.dart';
 /// Clients should not extend, implement, or mix-in this class.
 abstract mixin class InterpolationAst implements StandaloneTemplateAst {
   /// Create a new synthetic [InterpolationAst] with a bound [expression].
-  factory InterpolationAst(
-    String value,
-  ) = _SyntheticInterpolationAst;
+  factory InterpolationAst(String value) = _SyntheticInterpolationAst;
 
   /// Create a new synthetic [InterpolationAst] that originated from [origin].
-  factory InterpolationAst.from(
-    TemplateAst origin,
-    String value,
-  ) = _SyntheticInterpolationAst.from;
+  factory InterpolationAst.from(TemplateAst origin, String value) =
+      _SyntheticInterpolationAst.from;
 
   /// Create a new [InterpolationAst] parsed from tokens in [sourceFile].
   factory InterpolationAst.parsed(
@@ -65,10 +61,8 @@ class _SyntheticInterpolationAst extends SyntheticTemplateAst
     with InterpolationAst {
   _SyntheticInterpolationAst(this.value);
 
-  _SyntheticInterpolationAst.from(
-    TemplateAst origin,
-    this.value,
-  ) : super.from(origin);
+  _SyntheticInterpolationAst.from(TemplateAst origin, this.value)
+    : super.from(origin);
 
   @override
   final String value;

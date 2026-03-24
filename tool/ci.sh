@@ -68,24 +68,24 @@ for PKG in ${PKGS}; do
         dart analyze || EXIT_CODE=$?
         ;;
       command_0)
-        echo 'dart run build_runner build --fail-on-severe'
-        dart run build_runner build --fail-on-severe || EXIT_CODE=$?
+        echo 'dart run build_runner build --fail-on-severe --delete-conflicting-outputs'
+        dart run build_runner build --fail-on-severe --delete-conflicting-outputs || EXIT_CODE=$?
         ;;
       command_1)
         echo 'dart test -P vm'
         dart test -P vm || EXIT_CODE=$?
         ;;
       command_2)
-        echo 'dart run build_runner test --fail-on-severe -- -P browser -j1'
-        dart run build_runner test --fail-on-severe -- -P browser -j1 || EXIT_CODE=$?
+        echo 'dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P browser -j1'
+        dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P browser -j1 || EXIT_CODE=$?
         ;;
       command_3)
         echo 'dart test -P ci'
         dart test -P ci || EXIT_CODE=$?
         ;;
       command_4)
-        echo 'dart run build_runner test --fail-on-severe -- -P ci -j1'
-        dart run build_runner test --fail-on-severe -- -P ci -j1 || EXIT_CODE=$?
+        echo 'dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1'
+        dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1 || EXIT_CODE=$?
         ;;
       *)
         echo -e "\033[31mUnknown TASK '${TASK}' - TERMINATING JOB\033[0m"

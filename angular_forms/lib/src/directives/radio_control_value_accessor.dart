@@ -69,7 +69,8 @@ class RadioButtonState {
 /// }
 /// ```
 @Directive(
-  selector: 'input[type=radio][ngControl],'
+  selector:
+      'input[type=radio][ngControl],'
       'input[type=radio][ngFormControl],'
       'input[type=radio][ngModel]',
   providers: [RADIO_VALUE_ACCESSOR],

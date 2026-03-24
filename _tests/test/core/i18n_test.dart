@@ -16,8 +16,9 @@ void main() {
   });
 
   test('should render message in attribute', () async {
-    final testBed =
-        NgTestBed<TestI18nAttribute>(ng.createTestI18nAttributeFactory());
+    final testBed = NgTestBed<TestI18nAttribute>(
+      ng.createTestI18nAttributeFactory(),
+    );
     final testFixture = await testBed.create();
     final imgElement =
         testFixture.rootElement.querySelector('img') as ImageElement;
@@ -25,8 +26,9 @@ void main() {
   });
 
   test('should render message with HTML', () async {
-    final testBed =
-        NgTestBed<TestI18nNodeWithHtml>(ng.createTestI18nNodeWithHtmlFactory());
+    final testBed = NgTestBed<TestI18nNodeWithHtml>(
+      ng.createTestI18nNodeWithHtmlFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'A message with emphasis!');
     final lineBreaks = testFixture.rootElement.querySelectorAll('br');
@@ -37,7 +39,8 @@ void main() {
 
   test('should render message with unsafe HTML', () async {
     final testBed = NgTestBed<TestI18nNodeWithUnsafeHtml>(
-        ng.createTestI18nNodeWithUnsafeHtmlFactory());
+      ng.createTestI18nNodeWithUnsafeHtmlFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'Click here to file an issue.');
     final anchorElement = testFixture.rootElement.querySelector('a')!;
@@ -46,14 +49,16 @@ void main() {
 
   test('should render message with escaped HTML characters', () async {
     final testBed = NgTestBed<TestI18nNodeWithEscapedHtmlCharacters>(
-        ng.createTestI18nNodeWithEscapedHtmlCharactersFactory());
+      ng.createTestI18nNodeWithEscapedHtmlCharactersFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'Not <i>italic</i>.');
   });
 
   test('should render message with HTML and escaped HTML characters', () async {
     final testBed = NgTestBed<TestI18nNodeWithHtmlAndEscapedHtmlCharacters>(
-        ng.createTestI18nNodeWithHtmlAndEscapedHtmlCharactersFactory());
+      ng.createTestI18nNodeWithHtmlAndEscapedHtmlCharactersFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'Italic, not <i>italic</i>.');
     final italicElement = testFixture.rootElement.querySelector('i')!;
@@ -62,8 +67,9 @@ void main() {
 
   // This test ensures none of our Intl.message() parameters are invalid.
   test('should render message with i18n parameters', () async {
-    final testBed =
-        NgTestBed<TestI18nParameters>(ng.createTestI18nParametersFactory());
+    final testBed = NgTestBed<TestI18nParameters>(
+      ng.createTestI18nParametersFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'A paragraph.');
     final imgElement = testFixture.rootElement.querySelector('img')!;
@@ -71,8 +77,9 @@ void main() {
   });
 
   test('should render a message from a template', () async {
-    final testBed =
-        NgTestBed<TestI18nTemplate>(ng.createTestI18nTemplateFactory());
+    final testBed = NgTestBed<TestI18nTemplate>(
+      ng.createTestI18nTemplateFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, isEmpty);
     await testFixture.update((component) {
@@ -83,45 +90,54 @@ void main() {
 
   test('should inject an i18n attribute', () async {
     final testBed = NgTestBed<TestInjectI18nAttribute>(
-        ng.createTestInjectI18nAttributeFactory());
+      ng.createTestInjectI18nAttributeFactory(),
+    );
     final testFixture = await testBed.create();
-    expect(testFixture.assertOnlyInstance.injectsMessage!.message,
-        'An internationalized message.');
+    expect(
+      testFixture.assertOnlyInstance.injectsMessage!.message,
+      'An internationalized message.',
+    );
   });
 
   group('should set internationalized property', () {
     test('explicitly', () async {
       final testBed = NgTestBed<TestExplicitI18nInput>(
-          ng.createTestExplicitI18nInputFactory());
+        ng.createTestExplicitI18nInputFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.greeting!.message,
-          'An internationalized property');
+      expect(
+        testFixture.assertOnlyInstance.greeting!.message,
+        'An internationalized property',
+      );
     });
 
     test('implicitly', () async {
       final testBed = NgTestBed<TestImplicitI18nInput>(
-          ng.createTestImplicitI18nInputFactory());
+        ng.createTestImplicitI18nInputFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.greeting!.message,
-          'An internationalized property');
+      expect(
+        testFixture.assertOnlyInstance.greeting!.message,
+        'An internationalized property',
+      );
     });
   });
 
   test('should support internationalized property on <template>', () async {
     final testBed = NgTestBed<TestI18nInputOnTemplate>(
-        ng.createTestI18nInputOnTemplateFactory());
+      ng.createTestI18nInputOnTemplateFactory(),
+    );
     final testFixture = await testBed.create();
-    expect(testFixture.assertOnlyInstance.message!.message,
-        'An internationalized property');
+    expect(
+      testFixture.assertOnlyInstance.message!.message,
+      'An internationalized property',
+    );
   });
 }
 
 const issuesLink = 'https://github.com/angulardart/angular/issues';
 
-@Component(
-  selector: 'test',
-  template: '<p @i18n="description">A message.</p>',
-)
+@Component(selector: 'test', template: '<p @i18n="description">A message.</p>')
 class TestI18nNode {}
 
 @Component(
@@ -209,10 +225,7 @@ class TestI18nTemplate {
   ViewContainerRef? viewContainer;
 }
 
-@Component(
-  selector: 'injects-message',
-  template: '',
-)
+@Component(selector: 'injects-message', template: '')
 class InjectsMessage {
   final String? message;
 
@@ -234,10 +247,7 @@ class TestInjectI18nAttribute {
   InjectsMessage? injectsMessage;
 }
 
-@Component(
-  selector: 'greeting',
-  template: '',
-)
+@Component(selector: 'greeting', template: '')
 class GreetingComponent {
   @Input()
   String? message;

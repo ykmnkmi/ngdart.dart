@@ -50,7 +50,8 @@ T Function(S0, S1, S2) pureProxy3<T, S0, S1, S2>(T Function(S0, S1, S2) fn) {
 }
 
 T Function(S0, S1, S2, S3) pureProxy4<T, S0, S1, S2, S3>(
-    T Function(S0, S1, S2, S3) fn) {
+  T Function(S0, S1, S2, S3) fn,
+) {
   late T result;
   var first = true;
   S0? v0;
@@ -75,7 +76,8 @@ T Function(S0, S1, S2, S3) pureProxy4<T, S0, S1, S2, S3>(
 }
 
 T Function(S0, S1, S2, S3, S4) pureProxy5<T, S0, S1, S2, S3, S4>(
-    T Function(S0, S1, S2, S3, S4) fn) {
+  T Function(S0, S1, S2, S3, S4) fn,
+) {
   late T result;
   var first = true;
   S0? v0;
@@ -103,7 +105,8 @@ T Function(S0, S1, S2, S3, S4) pureProxy5<T, S0, S1, S2, S3, S4>(
 }
 
 T Function(S0, S1, S2, S3, S4, S5) pureProxy6<T, S0, S1, S2, S3, S4, S5>(
-    T Function(S0, S1, S2, S3, S4, S5) fn) {
+  T Function(S0, S1, S2, S3, S4, S5) fn,
+) {
   late T result;
   var first = true;
   S0? v0;
@@ -133,9 +136,16 @@ T Function(S0, S1, S2, S3, S4, S5) pureProxy6<T, S0, S1, S2, S3, S4, S5>(
   };
 }
 
-T Function(S0, S1, S2, S3, S4, S5, S6)
-    pureProxy7<T, S0, S1, S2, S3, S4, S5, S6>(
-        T Function(S0, S1, S2, S3, S4, S5, S6) fn) {
+T Function(S0, S1, S2, S3, S4, S5, S6) pureProxy7<
+  T,
+  S0,
+  S1,
+  S2,
+  S3,
+  S4,
+  S5,
+  S6
+>(T Function(S0, S1, S2, S3, S4, S5, S6) fn) {
   late T result;
   var first = true;
   S0? v0;
@@ -168,9 +178,17 @@ T Function(S0, S1, S2, S3, S4, S5, S6)
   };
 }
 
-T Function(S0, S1, S2, S3, S4, S5, S6, S7)
-    pureProxy8<T, S0, S1, S2, S3, S4, S5, S6, S7>(
-        T Function(S0, S1, S2, S3, S4, S5, S6, S7) fn) {
+T Function(S0, S1, S2, S3, S4, S5, S6, S7) pureProxy8<
+  T,
+  S0,
+  S1,
+  S2,
+  S3,
+  S4,
+  S5,
+  S6,
+  S7
+>(T Function(S0, S1, S2, S3, S4, S5, S6, S7) fn) {
   late T result;
   var first = true;
   S0? v0;
@@ -206,9 +224,18 @@ T Function(S0, S1, S2, S3, S4, S5, S6, S7)
   };
 }
 
-T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8)
-    pureProxy9<T, S0, S1, S2, S3, S4, S5, S6, S7, S8>(
-        T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8) fn) {
+T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8) pureProxy9<
+  T,
+  S0,
+  S1,
+  S2,
+  S3,
+  S4,
+  S5,
+  S6,
+  S7,
+  S8
+>(T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8) fn) {
   late T result;
   var first = true;
   S0? v0;
@@ -247,9 +274,19 @@ T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8)
   };
 }
 
-T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8, S9)
-    pureProxy10<T, S0, S1, S2, S3, S4, S5, S6, S7, S8, S9>(
-        T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8, S9) fn) {
+T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8, S9) pureProxy10<
+  T,
+  S0,
+  S1,
+  S2,
+  S3,
+  S4,
+  S5,
+  S6,
+  S7,
+  S8,
+  S9
+>(T Function(S0, S1, S2, S3, S4, S5, S6, S7, S8, S9) fn) {
   late T result;
   var first = true;
   S0? v0;

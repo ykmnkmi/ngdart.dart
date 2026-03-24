@@ -30,20 +30,9 @@ void main() {
     });
 
     test('should allow FactoryProvider with non-empty deps', () {
-      final injector = ReflectiveInjector.resolveStaticAndCreate(
-        [
-          FactoryProvider(
-            String,
-            (Object o) => 'Hello $o',
-            deps: const [Object],
-          ),
-        ],
-        Injector.map(
-          {
-            Object: 'World',
-          },
-        ),
-      );
+      final injector = ReflectiveInjector.resolveStaticAndCreate([
+        FactoryProvider(String, (Object o) => 'Hello $o', deps: const [Object]),
+      ], Injector.map({Object: 'World'}));
       expect(injector.get(String), 'Hello World');
     });
 
@@ -55,79 +44,46 @@ void main() {
     });
 
     test('should allow ExistingProvider', () {
-      final injector = ReflectiveInjector.resolveStaticAndCreate(
-        [
-          ExistingProvider(Object, String),
-        ],
-        Injector.map(
-          {
-            String: 'Hello World',
-          },
-        ),
-      );
+      final injector = ReflectiveInjector.resolveStaticAndCreate([
+        ExistingProvider(Object, String),
+      ], Injector.map({String: 'Hello World'}));
       expect(injector.get(Object), 'Hello World');
     });
 
     test('should allow Provider(useExisting: ...)', () {
-      final injector = ReflectiveInjector.resolveStaticAndCreate(
-        [
-          Provider(
-            Object,
-            useExisting: String,
-          ),
-        ],
-        Injector.map(
-          {
-            String: 'Hello World',
-          },
-        ),
-      );
+      final injector = ReflectiveInjector.resolveStaticAndCreate([
+        Provider(Object, useExisting: String),
+      ], Injector.map({String: 'Hello World'}));
       expect(injector.get(String), 'Hello World');
     });
 
     test('should throw on FactoryProvider without deps', () {
-      expect(
-        () {
-          ReflectiveInjector.resolveStaticAndCreate([
-            FactoryProvider(String, (Duration d) => '$d'),
-          ]);
-        },
-        throwsUnsupportedError,
-      );
+      expect(() {
+        ReflectiveInjector.resolveStaticAndCreate([
+          FactoryProvider(String, (Duration d) => '$d'),
+        ]);
+      }, throwsUnsupportedError);
     });
 
     test('should throw on an explicit ClassProvider', () {
-      expect(
-        () {
-          ReflectiveInjector.resolveStaticAndCreate([
-            ClassProvider(InjectableService),
-          ]);
-        },
-        throwsUnsupportedError,
-      );
+      expect(() {
+        ReflectiveInjector.resolveStaticAndCreate([
+          ClassProvider(InjectableService),
+        ]);
+      }, throwsUnsupportedError);
     });
 
     test('should throw on an implicit ClassProvider', () {
-      expect(
-        () {
-          ReflectiveInjector.resolveStaticAndCreate([
-            InjectableService,
-          ]);
-        },
-        throwsUnsupportedError,
-      );
+      expect(() {
+        ReflectiveInjector.resolveStaticAndCreate([InjectableService]);
+      }, throwsUnsupportedError);
     });
 
     test('resolveAndCreateChild should also check providers', () {
       final i = ReflectiveInjector.resolveStaticAndCreate([]);
-      expect(
-        () {
-          i.resolveAndCreateChild([
-            InjectableService,
-          ]);
-        },
-        throwsUnsupportedError,
-      );
+      expect(() {
+        i.resolveAndCreateChild([InjectableService]);
+      }, throwsUnsupportedError);
     });
 
     test('resolveAndInstantiate should also check providers', () {

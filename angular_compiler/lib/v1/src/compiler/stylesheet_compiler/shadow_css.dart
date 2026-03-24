@@ -90,9 +90,10 @@ String shimShadowCss(
     logWarning('Errors parsing CSS:\n${errors.join('\n')}');
   }
 
-  var shadowTransformer = useLegacyEncapsulation
-      ? _LegacyShadowTransformer(contentClass, hostClass)
-      : _ShadowTransformer(contentClass, hostClass);
+  var shadowTransformer =
+      useLegacyEncapsulation
+          ? _LegacyShadowTransformer(contentClass, hostClass)
+          : _ShadowTransformer(contentClass, hostClass);
   shadowTransformer.visitTree(styleSheet);
   var printer = CssPrinter();
   printer.visitTree(styleSheet);
@@ -140,12 +141,15 @@ SelectorGroup? _parseSelectorGroupFrom(Declaration declaration) {
 ///
 /// If [remove] is [true], the declaration is removed from [declarationGroup].
 SelectorGroup? _selectorGroupForProperty(
-    DeclarationGroup declarationGroup, String propertyName,
-    {bool remove = false}) {
+  DeclarationGroup declarationGroup,
+  String propertyName, {
+  bool remove = false,
+}) {
   var declaration = _getDeclaration(declarationGroup, propertyName);
   if (declaration == null) {
     logWarning(
-        declarationGroup.span.message("Expected property '$propertyName'"));
+      declarationGroup.span.message("Expected property '$propertyName'"),
+    );
     return null;
   }
 
@@ -275,9 +279,10 @@ class _CompoundSelector {
   _CompoundSelector() : combinator = TokenKind.COMBINATOR_NONE;
 
   _CompoundSelector.from(Iterable<SimpleSelectorSequence> sequences) {
-    combinator = sequences.isEmpty
-        ? TokenKind.COMBINATOR_NONE
-        : sequences.first.combinator;
+    combinator =
+        sequences.isEmpty
+            ? TokenKind.COMBINATOR_NONE
+            : sequences.first.combinator;
     addAll(sequences);
   }
 
@@ -313,7 +318,7 @@ class _CompoundSelector {
     final selector = _sequences.first.simpleSelector;
     if (selector is PseudoElementSelector && selector.name == 'ng-deep') {
       _sequences = [
-        _createElementSelectorSequence('')..combinator = combinator
+        _createElementSelectorSequence('')..combinator = combinator,
       ];
       return true;
     }
@@ -332,15 +337,18 @@ class _CompoundSelector {
 
     if ((x is ElementSelector && y is ElementSelector) ||
         (x is NamespaceSelector && y is NamespaceSelector)) {
-      logWarning('Compound selector contains multiple type selectors:\n'
-          '${x.span!.message('')}\n'
-          '${y.span!.message('')}');
+      logWarning(
+        'Compound selector contains multiple type selectors:\n'
+        '${x.span!.message('')}\n'
+        '${y.span!.message('')}',
+      );
       return 0;
     } else if (x is PseudoElementSelector && y is PseudoElementSelector) {
       logWarning(
-          'Compound selector contains multiple pseudo element selectors:\n'
-          '${x.span!.message('')}\n'
-          '${y.span!.message('')}');
+        'Compound selector contains multiple pseudo element selectors:\n'
+        '${x.span!.message('')}\n'
+        '${y.span!.message('')}',
+      );
       return 0;
     } else if (x is PseudoElementSelector ||
         y is ElementSelector ||
@@ -452,10 +460,10 @@ class _ShadowTransformer extends Visitor {
 
     for (var compoundSelector in selector.compoundSelectors) {
       if (compoundSelector.containsHostContext) {
-        var ancestor = _CompoundSelector()
-          ..combinator = compoundSelector.combinator;
-        var descendant = _CompoundSelector()
-          ..combinator = TokenKind.COMBINATOR_DESCENDANT;
+        var ancestor =
+            _CompoundSelector()..combinator = compoundSelector.combinator;
+        var descendant =
+            _CompoundSelector()..combinator = TokenKind.COMBINATOR_DESCENDANT;
         var sequences = _clone(compoundSelector.toSequences());
 
         for (var sequence in sequences) {
@@ -523,8 +531,9 @@ class _ShadowTransformer extends Visitor {
         var selector = compoundSelector._sequences[j].simpleSelector;
         if (_isHostFunction(selector) || _isHostContextFunction(selector)) {
           // Replace :host() or :host-context() with host class.
-          compoundSelector._sequences[j] =
-              _createClassSelectorSequence(_hostClass);
+          compoundSelector._sequences[j] = _createClassSelectorSequence(
+            _hostClass,
+          );
 
           // Add :host() or :host-context() argument to constituent selector.
           var hostFn = selector as PseudoClassFunctionSelector;
@@ -532,8 +541,9 @@ class _ShadowTransformer extends Visitor {
           compoundSelector.addAll(hostArg);
         } else if (_isHost(selector)) {
           // Replace :host with host class.
-          compoundSelector._sequences[j] =
-              _createClassSelectorSequence(_hostClass);
+          compoundSelector._sequences[j] = _createClassSelectorSequence(
+            _hostClass,
+          );
         } else if (_isGlobalContextFunction(selector)) {
           // Remove the global-context psuedo itself and replace with the
           // context selector.
@@ -574,7 +584,7 @@ class _ShadowTransformer extends Visitor {
 
 class _LegacyShadowTransformer extends _ShadowTransformer {
   _LegacyShadowTransformer(String contentClass, String hostClass)
-      : super(contentClass, hostClass);
+    : super(contentClass, hostClass);
 
   final _unscopedSelectorGroups = <SelectorGroup>{};
 
@@ -593,24 +603,31 @@ class _LegacyShadowTransformer extends _ShadowTransformer {
           // Consume selector so subsequent selectors aren't overwritten.
           nextSelectorGroup = null;
         } else if (_matchesElement(selectorGroup, 'polyfill-next-selector')) {
-          nextSelectorGroup =
-              _selectorGroupForProperty(node.declarationGroup, 'content');
+          nextSelectorGroup = _selectorGroupForProperty(
+            node.declarationGroup,
+            'content',
+          );
         }
       }
     }
 
     // Remove 'polyfill-next-selector' rule sets.
-    list.removeWhere((node) => node is RuleSet
-        ? _matchesElement(node.selectorGroup!, 'polyfill-next-selector')
-        : false);
+    list.removeWhere(
+      (node) =>
+          node is RuleSet
+              ? _matchesElement(node.selectorGroup!, 'polyfill-next-selector')
+              : false,
+    );
   }
 
   void _shimPolyfillUnscopedRule(RuleSet ruleSet) {
     var selectorGroup = ruleSet.selectorGroup!;
     if (_matchesElement(selectorGroup, 'polyfill-unscoped-rule')) {
       var contentSelectorGroup = _selectorGroupForProperty(
-          ruleSet.declarationGroup, 'content',
-          remove: true);
+        ruleSet.declarationGroup,
+        'content',
+        remove: true,
+      );
       if (contentSelectorGroup != null) {
         selectorGroup.selectors
           ..clear()

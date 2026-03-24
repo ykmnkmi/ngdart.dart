@@ -35,20 +35,14 @@ abstract class BuildError extends Error {
   factory BuildError.fromMultiple(
     Iterable<BuildError> errors, [
     String header = 'Multiple errors occurred',
-  ]) =>
-      _MultipleBuildError(errors.toList(), header);
+  ]) => _MultipleBuildError(errors.toList(), header);
 
   /// Create a build error using the provided source span as [context].
-  factory BuildError.forSourceSpan(
-    SourceSpan context,
-    String message,
-  ) = _SourceSpanBuildError;
+  factory BuildError.forSourceSpan(SourceSpan context, String message) =
+      _SourceSpanBuildError;
 
   /// Creates a build error using the provided source annotation as [context].
-  factory BuildError.forAnnotation(
-    ElementAnnotation context,
-    String message,
-  ) {
+  factory BuildError.forAnnotation(ElementAnnotation context, String message) {
     // TOOD(b/170758395): Replace w/ patches from upstream (see pkg/source_gen).
     // https://github.com/dart-lang/sdk/issues/32454
     final annotation = context as ElementAnnotationImpl;
@@ -64,22 +58,17 @@ abstract class BuildError extends Error {
   }
 
   /// Creates a build error using the provided source element as [context].
-  factory BuildError.forElement(
-    Element context,
-    String message,
-  ) {
+  factory BuildError.forElement(Element context, String message) {
     final source = context.source;
     if (source == null || source.contents.data.isEmpty) {
-      final warning = source == null
-          ? 'No source text available for $context'
-          : 'No source text available for $context (${source.uri})';
+      final warning =
+          source == null
+              ? 'No source text available for $context'
+              : 'No source text available for $context (${source.uri})';
       log.warning('$warning: the next error may be terse');
       return BuildError.withoutContext(message);
     }
-    return BuildError.forSourceSpan(
-      spanForElement(context),
-      message,
-    );
+    return BuildError.forSourceSpan(spanForElement(context), message);
   }
 
   /// Create a simple build error with a [message]-only description.
@@ -104,11 +93,9 @@ class _MultipleBuildError extends BuildError {
   final List<BuildError> _errors;
   final String? _header;
 
-  _MultipleBuildError(
-    this._errors, [
-    this._header,
-  ])  : assert(_errors.isNotEmpty),
-        assert(_header != null && !_header.endsWith(':'));
+  _MultipleBuildError(this._errors, [this._header])
+    : assert(_errors.isNotEmpty),
+      assert(_header != null && !_header.endsWith(':'));
 
   @override
   String toString() => '$_header:\n${_errors.join('\n')}';
@@ -118,10 +105,7 @@ class _SourceSpanBuildError extends BuildError {
   final SourceSpan _sourceSpan;
   final String _message;
 
-  _SourceSpanBuildError(
-    this._sourceSpan,
-    this._message,
-  );
+  _SourceSpanBuildError(this._sourceSpan, this._message);
 
   @override
   String toString() => _sourceSpan.message(_message);

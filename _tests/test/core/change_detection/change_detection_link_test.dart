@@ -96,10 +96,7 @@ class MutableState {
 }
 
 /// A component that relies on default change detection to observe mutations.
-@Component(
-  selector: 'default',
-  template: '{{state.value}}',
-)
+@Component(selector: 'default', template: '{{state.value}}')
 class DefaultComponent {
   DefaultComponent(this.state);
 

@@ -23,24 +23,23 @@ import 'constants.dart';
 const namespaceUris = {
   'xlink': 'http://www.w3.org/1999/xlink',
   'svg': 'http://www.w3.org/2000/svg',
-  'xhtml': 'http://www.w3.org/1999/xhtml'
+  'xhtml': 'http://www.w3.org/1999/xhtml',
 };
 
 /// All properties of `RenderView` that don't need a cast to access.
 final _renderViewProperties = <String>{
   'componentStyles',
   'parentIndex',
-  'parentView'
+  'parentView',
 };
 
 final _unsafeCastFn = o.importExpr(Runtime.unsafeCast);
 
 /// Returns `unsafeCast<{Cast}>(expression)`.
 o.Expression unsafeCast(o.Expression expression, [o.OutputType? cast]) {
-  return _unsafeCastFn.callFn(
-    [expression],
-    typeArguments: cast != null ? [cast] : const [],
-  );
+  return _unsafeCastFn.callFn([
+    expression,
+  ], typeArguments: cast != null ? [cast] : const []);
 }
 
 o.Expression getPropertyInView(
@@ -56,22 +55,27 @@ o.Expression getPropertyInView(
     while (!identical(currView, definedView) &&
         currView.declarationElement.view != null) {
       currView = currView.declarationElement.view!;
-      viewProp = viewProp == null
-          ? o.ReadClassMemberExpr('parentView')
-          : viewProp.prop('parentView');
+      viewProp =
+          viewProp == null
+              ? o.ReadClassMemberExpr('parentView')
+              : viewProp.prop('parentView');
       viewProp = viewProp.notNull();
     }
     if (!identical(currView, definedView)) {
-      throw StateError('Internal error: Could not calculate a property '
-          'in a parent view: $property');
+      throw StateError(
+        'Internal error: Could not calculate a property '
+        'in a parent view: $property',
+      );
     }
 
     // Don't cast properties of `RenderView`.
     return replaceReadClassMemberInExpression(
-        property,
-        (name) => _renderViewProperties.contains(name)
-            ? viewProp!
-            : unsafeCast(viewProp!, definedView.classType));
+      property,
+      (name) =>
+          _renderViewProperties.contains(name)
+              ? viewProp!
+              : unsafeCast(viewProp!, definedView.classType),
+    );
   }
 }
 
@@ -86,7 +90,9 @@ typedef ReplaceWithName = o.Expression Function(String name);
 /// Any [ReadNodeReferenceExpr] encountered are promoted to class members and
 /// replaced in the same way.
 o.Expression replaceReadClassMemberInExpression(
-    o.Expression expression, ReplaceWithName replacer) {
+  o.Expression expression,
+  ReplaceWithName replacer,
+) {
   var transformer = _ReplaceReadClassMemberTransformer(replacer);
   return expression.visitExpression(transformer, null);
 }
@@ -116,9 +122,10 @@ o.Expression injectFromViewParentInjector(
   CompileTokenMetadata token,
   bool optional,
 ) {
-  final viewExpr = (view.viewType == ViewType.host)
-      ? o.THIS_EXPR
-      : o.ReadClassMemberExpr('parentView').notNull();
+  final viewExpr =
+      (view.viewType == ViewType.host)
+          ? o.THIS_EXPR
+          : o.ReadClassMemberExpr('parentView').notNull();
   return viewExpr.callMethod(optional ? 'injectorGetOptional' : 'injectorGet', [
     createDiTokenExpression(token),
     o.ReadClassMemberExpr('parentIndex'),
@@ -126,25 +133,20 @@ o.Expression injectFromViewParentInjector(
 }
 
 o.Statement debugInjectorEnter(o.Expression identifier) =>
-    o.importExpr(Identifiers.debugInjectorEnter).callFn([
-      identifier,
-    ]).toStmt();
+    o.importExpr(Identifiers.debugInjectorEnter).callFn([identifier]).toStmt();
 
 o.Statement debugInjectorLeave(o.Expression identifier) =>
-    o.importExpr(Identifiers.debugInjectorLeave).callFn([
-      identifier,
-    ]).toStmt();
+    o.importExpr(Identifiers.debugInjectorLeave).callFn([identifier]).toStmt();
 
-o.Expression debugInjectorWrap(o.Expression identifier, o.Expression wrap) =>
-    o.importExpr(Runtime.isDevMode).conditional(
-          o.importExpr(Identifiers.debugInjectorWrap).callFn([
-            identifier,
-            o.fn([], [
-              o.ReturnStatement(wrap),
-            ])
-          ]),
-          wrap,
-        );
+o.Expression debugInjectorWrap(o.Expression identifier, o.Expression wrap) => o
+    .importExpr(Runtime.isDevMode)
+    .conditional(
+      o.importExpr(Identifiers.debugInjectorWrap).callFn([
+        identifier,
+        o.fn([], [o.ReturnStatement(wrap)]),
+      ]),
+      wrap,
+    );
 
 /// Returns the name of a [component] view factory for [index].
 ///
@@ -166,10 +168,7 @@ String _viewFactoryName(String componentName, int index) =>
 ///
 /// **Note:** It's assumed that [name] originates from an invocation of
 /// [getViewFactoryName] with the same [component].
-o.Expression getViewFactory(
-  CompileDirectiveMetadata component,
-  String name,
-) {
+o.Expression getViewFactory(CompileDirectiveMetadata component, String name) {
   final viewFactoryVar = o.variable(name);
   if (component.originType!.typeParameters.isEmpty) {
     return viewFactoryVar;
@@ -177,28 +176,36 @@ o.Expression getViewFactory(
   final parameters = [o.FnParam('parentView'), o.FnParam('parentIndex')];
   final arguments = parameters.map((p) => o.variable(p.name)).toList();
   return o.FunctionExpr(parameters, [
-    o.ReturnStatement(o.InvokeFunctionExpr(
-      viewFactoryVar,
-      arguments,
-      component.originType!.typeParameters.map((t) => t.toType()).toList(),
-    )),
+    o.ReturnStatement(
+      o.InvokeFunctionExpr(
+        viewFactoryVar,
+        arguments,
+        component.originType!.typeParameters.map((t) => t.toType()).toList(),
+      ),
+    ),
   ]);
 }
 
 o.Expression createDiTokenExpression(CompileTokenMetadata token) {
   if (token.identifierIsInstance) {
-    return o.importExpr(token.identifier!).instantiate(
-        // If there is also a value, assume it is the first argument.
-        //
-        // i.e. const OpaqueToken('literalValue')
-        token.value != null ? [o.literal(token.value)] : const <o.Expression>[],
-        type: o.importType(token.identifier, [], [o.TypeModifier.Const]),
-        // Add any generic types attached to the type.
-        //
-        // Only a value of `null` precisely means "no generic types", not [].
-        genericTypes: token.identifier!.typeArguments.isNotEmpty
-            ? token.identifier!.typeArguments
-            : null);
+    return o
+        .importExpr(token.identifier!)
+        .instantiate(
+          // If there is also a value, assume it is the first argument.
+          //
+          // i.e. const OpaqueToken('literalValue')
+          token.value != null
+              ? [o.literal(token.value)]
+              : const <o.Expression>[],
+          type: o.importType(token.identifier, [], [o.TypeModifier.Const]),
+          // Add any generic types attached to the type.
+          //
+          // Only a value of `null` precisely means "no generic types", not [].
+          genericTypes:
+              token.identifier!.typeArguments.isNotEmpty
+                  ? token.identifier!.typeArguments
+                  : null,
+        );
   } else if (token.value != null) {
     return o.literal(token.value);
   } else {
@@ -240,14 +247,18 @@ o.Expression createFlatArrayForProjectNodes(
           result = o.literalArr(lastNonArrayExpressions, o.OBJECT_TYPE);
           initialEmptyArray = false;
         } else {
-          result = result.callMethod(o.BuiltinMethod.ConcatArray,
-              [o.literalArr(lastNonArrayExpressions, o.OBJECT_TYPE)]);
+          result = result.callMethod(o.BuiltinMethod.ConcatArray, [
+            o.literalArr(lastNonArrayExpressions, o.OBJECT_TYPE),
+          ]);
         }
         lastNonArrayExpressions = [];
       }
-      result = initialEmptyArray
-          ? o.literalArr([expr], o.OBJECT_TYPE)
-          : result.callMethod(o.BuiltinMethod.ConcatArray, [unsafeCast(expr)]);
+      result =
+          initialEmptyArray
+              ? o.literalArr([expr], o.OBJECT_TYPE)
+              : result.callMethod(o.BuiltinMethod.ConcatArray, [
+                unsafeCast(expr),
+              ]);
       initialEmptyArray = false;
     } else {
       lastNonArrayExpressions.add(expr);
@@ -257,8 +268,9 @@ o.Expression createFlatArrayForProjectNodes(
     if (initialEmptyArray) {
       result = o.literalArr(lastNonArrayExpressions, o.OBJECT_TYPE);
     } else {
-      result = result.callMethod(o.BuiltinMethod.ConcatArray,
-          [o.literalArr(lastNonArrayExpressions, o.OBJECT_TYPE)]);
+      result = result.callMethod(o.BuiltinMethod.ConcatArray, [
+        o.literalArr(lastNonArrayExpressions, o.OBJECT_TYPE),
+      ]);
     }
   }
   return result;
@@ -290,7 +302,9 @@ o.Expression? unwrapDirectiveInstance(o.Expression? directiveInstance) {
 }
 
 List<ir.Binding> mergeHtmlAndDirectiveAttributes(
-    ElementAst elementAst, List<CompileDirectiveMetadata> directives) {
+  ElementAst elementAst,
+  List<CompileDirectiveMetadata> directives,
+) {
   var attrs = elementAst.attrs;
   var htmlAttrs = convertAllToBinding(attrs);
   // Create statements to initialize literal attribute values.
@@ -343,13 +357,15 @@ List<ir.Binding> _mergeHtmlAndDirectiveAttrs(
       if (isComponent && !shouldMerge) continue;
 
       var value = convertHostAttributeToBinding(
-          name,
-          ast.ASTWithSource.missingSource(directiveMeta.hostAttributes[name]!),
-          directiveMeta);
+        name,
+        ast.ASTWithSource.missingSource(directiveMeta.hostAttributes[name]!),
+        directiveMeta,
+      );
       var prevValue = result[name];
-      result[name] = prevValue != null
-          ? _mergeAttributeValue(name, prevValue, value, directiveMeta)
-          : value;
+      result[name] =
+          prevValue != null
+              ? _mergeAttributeValue(name, prevValue, value, directiveMeta)
+              : value;
     }
   }
   return _toSortedBindings(result);
@@ -371,7 +387,10 @@ String _nameOf(ir.BindingTarget? target) {
         : target.name;
   }
   throw ArgumentError.value(
-      target, 'target', 'Binding target type does not have a name.');
+    target,
+    'target',
+    'Binding target type does not have a name.',
+  );
 }
 
 void _increment(Map<String, int> mergeCount, String name) {
@@ -379,8 +398,12 @@ void _increment(Map<String, int> mergeCount, String name) {
   mergeCount[name] = (mergeCount[name] as int) + 1;
 }
 
-ir.Binding _mergeAttributeValue(String attrName, ir.Binding attr1,
-    ir.Binding attr2, CompileDirectiveMetadata? compileDirectiveMetadata) {
+ir.Binding _mergeAttributeValue(
+  String attrName,
+  ir.Binding attr1,
+  ir.Binding attr2,
+  CompileDirectiveMetadata? compileDirectiveMetadata,
+) {
   if (attrName != classAttrName && attrName != styleAttrName) {
     return attr2;
   }
@@ -401,12 +424,18 @@ ir.Binding _mergeAttributeValue(String attrName, ir.Binding attr1,
     return attr1;
   } else {
     return ir.Binding(
-        target: attr1.target,
-        source: ir.BoundExpression(
-            ast.ASTWithSource.missingSource(ast.Interpolation(
-                ['', ' ', ''], [_asAst(attrValue1), _asAst(attrValue2)])),
-            null,
-            compileDirectiveMetadata));
+      target: attr1.target,
+      source: ir.BoundExpression(
+        ast.ASTWithSource.missingSource(
+          ast.Interpolation(
+            ['', ' ', ''],
+            [_asAst(attrValue1), _asAst(attrValue2)],
+          ),
+        ),
+        null,
+        compileDirectiveMetadata,
+      ),
+    );
   }
 }
 
@@ -417,10 +446,11 @@ ast.AST _asAst(ir.BindingSource? bindingSource) {
     return ast.LiteralPrimitive(bindingSource.value);
   }
   throw ArgumentError.value(
-      bindingSource,
-      'bindingSource',
-      'BindingSource implementation $bindingSource doesn\'t support conversion '
-          'to an AST.');
+    bindingSource,
+    'bindingSource',
+    'BindingSource implementation $bindingSource doesn\'t support conversion '
+        'to an AST.',
+  );
 }
 
 List<ir.Binding> _toSortedBindings(Map<String, ir.Binding> attributes) =>
@@ -605,16 +635,19 @@ bool detectHtmlElementFromTagName(String tagName) =>
 ///
 /// Pass either [statements] or [readVars]. If [readVars] is null, it will
 /// be computed from [statements]
-List<o.Statement> maybeCachedCtxDeclarationStatement(
-    {Set<String?>? readVars, List<o.Statement> statements = const []}) {
+List<o.Statement> maybeCachedCtxDeclarationStatement({
+  Set<String?>? readVars,
+  List<o.Statement> statements = const [],
+}) {
   readVars ??= o.findReadVarNames(statements);
   if (readVars.contains(DetectChangesVars.cachedCtx.name)) {
     // Cache [ctx] class field member as typed [_ctx] local for change
     // detection code to consume.
     return [
-      DetectChangesVars.cachedCtx
-          .set(o.ReadClassMemberExpr('ctx'))
-          .toDeclStmt(null, [o.StmtModifier.Final])
+      DetectChangesVars.cachedCtx.set(o.ReadClassMemberExpr('ctx')).toDeclStmt(
+        null,
+        [o.StmtModifier.Final],
+      ),
     ];
   }
   return [];

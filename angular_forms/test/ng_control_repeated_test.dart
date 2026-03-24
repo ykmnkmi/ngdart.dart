@@ -22,10 +22,7 @@ void main() {
 
 @Component(
   selector: 'root',
-  directives: [
-    formDirectives,
-    NgFor,
-  ],
+  directives: [formDirectives, NgFor],
   template: r'''
     <form>
       <input *ngFor="let val of values; let idx = index"

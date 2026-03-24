@@ -98,11 +98,12 @@ void main() {
           injector.accept(emitter);
         } on BuildError catch (e) {
           expect(
-              e.toString(),
-              allOf([
-                contains('Reviving Types is not supported'),
-                contains('line 7, column 25 of')
-              ]));
+            e.toString(),
+            allOf([
+              contains('Reviving Types is not supported'),
+              contains('line 7, column 25 of'),
+            ]),
+          );
           rethrow;
         }
       }, throwsA(const TypeMatcher<BuildError>()));

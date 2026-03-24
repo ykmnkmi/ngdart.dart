@@ -88,28 +88,30 @@ void main() async {
 
   for (var i = 0; i < entries.length; i += 5) {
     final batch = entries.skip(i).take(5);
-    final results = await Future.wait(batch.map((e) async {
-      try {
-        final data = await fetchPackage(e.key);
-        final versions = data['versions'] as List;
-        return [
-          for (final entry in versions.cast<Map<String, dynamic>>())
-            if (!(entry['pubspec']['version'] as String).contains('-') &&
-                entry['retracted'] != true &&
-                entry['published'] != null &&
-                isAtLeast(entry['pubspec']['version'] as String, e.value))
-              (
-                e.key,
-                entry['pubspec']['version'] as String,
-                DateTime.parse(entry['published'] as String),
-                _sdkConstraint(entry['pubspec']),
-              ),
-        ];
-      } catch (err) {
-        errors.add('${e.key}: $err');
-        return <(String, String, DateTime, String)>[];
-      }
-    }));
+    final results = await Future.wait(
+      batch.map((e) async {
+        try {
+          final data = await fetchPackage(e.key);
+          final versions = data['versions'] as List;
+          return [
+            for (final entry in versions.cast<Map<String, dynamic>>())
+              if (!(entry['pubspec']['version'] as String).contains('-') &&
+                  entry['retracted'] != true &&
+                  entry['published'] != null &&
+                  isAtLeast(entry['pubspec']['version'] as String, e.value))
+                (
+                  e.key,
+                  entry['pubspec']['version'] as String,
+                  DateTime.parse(entry['published'] as String),
+                  _sdkConstraint(entry['pubspec']),
+                ),
+          ];
+        } catch (err) {
+          errors.add('${e.key}: $err');
+          return <(String, String, DateTime, String)>[];
+        }
+      }),
+    );
 
     for (final list in results) {
       rows.addAll(list);

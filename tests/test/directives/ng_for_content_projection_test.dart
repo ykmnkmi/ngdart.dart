@@ -21,50 +21,49 @@ void main() {
     test('@ContentChildren', () async {
       fixture = await NgTestBed<TestNgForReorderContentChildren>(
         ng.createTestNgForReorderContentChildrenFactory(),
-      ).create(
-        beforeChangeDetection: (c) => c.items = [1, 2, 3],
-      );
+      ).create(beforeChangeDetection: (c) => c.items = [1, 2, 3]);
 
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '2', '3'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '2',
+        '3',
+      ]);
       await forceReorder132();
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '3', '2'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '3',
+        '2',
+      ]);
     });
 
     test('@ContentChildren, when nested', () async {
       fixture = await NgTestBed<TestNestedNgForReorderContentChildren>(
         ng.createTestNestedNgForReorderContentChildrenFactory(),
-      ).create(
-        beforeChangeDetection: (c) => c.items = [1, 2, 3],
-      );
+      ).create(beforeChangeDetection: (c) => c.items = [1, 2, 3]);
 
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '2', '3'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '2',
+        '3',
+      ]);
       await forceReorder132();
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '3', '2'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '3',
+        '2',
+      ]);
     });
 
     test('@ContentChildren, when nested with a #referenced child', () async {
       fixture = await NgTestBed<TestReferencedNgForReorderContentChildren>(
         ng.createTestReferencedNgForReorderContentChildrenFactory(),
-      ).create(
-        beforeChangeDetection: (c) => c.items = [1, 2, 3],
-      );
+      ).create(beforeChangeDetection: (c) => c.items = [1, 2, 3]);
 
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '2', '3'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '2',
+        '3',
+      ]);
       await forceReorder132();
       expect(
         fixture.assertOnlyInstance.children!.map((h) => h.text),
@@ -76,50 +75,49 @@ void main() {
     test('@ViewChildren', () async {
       fixture = await NgTestBed<TestNgForReorderViewChildren>(
         ng.createTestNgForReorderViewChildrenFactory(),
-      ).create(
-        beforeChangeDetection: (c) => c.items = [1, 2, 3],
-      );
+      ).create(beforeChangeDetection: (c) => c.items = [1, 2, 3]);
 
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '2', '3'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '2',
+        '3',
+      ]);
       await forceReorder132();
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '3', '2'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '3',
+        '2',
+      ]);
     });
 
     test('@ViewChildren, when nested', () async {
       fixture = await NgTestBed<TestNestedNgForReorderViewChildren>(
         ng.createTestNestedNgForReorderViewChildrenFactory(),
-      ).create(
-        beforeChangeDetection: (c) => c.items = [1, 2, 3],
-      );
+      ).create(beforeChangeDetection: (c) => c.items = [1, 2, 3]);
 
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '2', '3'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '2',
+        '3',
+      ]);
       await forceReorder132();
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '3', '2'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '3',
+        '2',
+      ]);
     });
 
     test('@ViewChildren, when nested with a #referenced child', () async {
       fixture = await NgTestBed<TestReferencedNgForReorderViewChildren>(
         ng.createTestReferencedNgForReorderViewChildrenFactory(),
-      ).create(
-        beforeChangeDetection: (c) => c.items = [1, 2, 3],
-      );
+      ).create(beforeChangeDetection: (c) => c.items = [1, 2, 3]);
 
-      expect(
-        fixture.assertOnlyInstance.children!.map((h) => h.text),
-        ['1', '2', '3'],
-      );
+      expect(fixture.assertOnlyInstance.children!.map((h) => h.text), [
+        '1',
+        '2',
+        '3',
+      ]);
       await forceReorder132();
       expect(
         fixture.assertOnlyInstance.children!.map((h) => h.text),
@@ -139,10 +137,7 @@ abstract class TestNgForBase {
 
 @Component(
   selector: 'test-ng-for-reorder-content',
-  directives: [
-    ContentProjectedChild,
-    NgFor,
-  ],
+  directives: [ContentProjectedChild, NgFor],
   template: '''
     <content-projected-child>
       <ul>
@@ -161,11 +156,7 @@ class TestNgForReorderContentChildren extends TestNgForBase {
 
 @Component(
   selector: 'test-ng-for-reorder-content',
-  directives: [
-    ContentProjectedChild,
-    NgFor,
-    NgIf,
-  ],
+  directives: [ContentProjectedChild, NgFor, NgIf],
   template: '''
     <content-projected-child>
       <ul>
@@ -186,11 +177,7 @@ class TestNestedNgForReorderContentChildren extends TestNgForBase {
 
 @Component(
   selector: 'test-ng-for-reorder-content',
-  directives: [
-    ContentProjectedChild,
-    NgFor,
-    NgIf,
-  ],
+  directives: [ContentProjectedChild, NgFor, NgIf],
   template: '''
     <content-projected-child>
       <ul>
@@ -221,9 +208,7 @@ class ContentProjectedChild {
 
 @Component(
   selector: 'test-ng-for-reorder-view',
-  directives: [
-    NgFor,
-  ],
+  directives: [NgFor],
   template: '''
     <ul>
       <li #listItem *ngFor="let i of items">{{i}}</li>
@@ -238,10 +223,7 @@ class TestNgForReorderViewChildren extends TestNgForBase {
 
 @Component(
   selector: 'test-ng-for-reorder-view',
-  directives: [
-    NgFor,
-    NgIf,
-  ],
+  directives: [NgFor, NgIf],
   template: '''
     <ul>
       <li #listItem *ngFor="let i of items">
@@ -258,10 +240,7 @@ class TestNestedNgForReorderViewChildren extends TestNgForBase {
 
 @Component(
   selector: 'test-ng-for-reorder-view',
-  directives: [
-    NgFor,
-    NgIf,
-  ],
+  directives: [NgFor, NgIf],
   template: '''
     <ul>
       <li *ngFor="let i of items">

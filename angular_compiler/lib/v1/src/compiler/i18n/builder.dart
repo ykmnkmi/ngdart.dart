@@ -35,20 +35,24 @@ class I18nBuilder extends TemplateAstVisitor<void, StringBuffer> {
   void visitAnnotation(AnnotationAst astNode, [_]) {
     if (astNode.name == i18nDescription ||
         astNode.name.startsWith(i18nDescriptionPrefix)) {
-      CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-        astNode.sourceSpan,
-        "Internationalized messages can't be nested",
-      ));
+      CompileContext.current.reportAndRecover(
+        BuildError.forSourceSpan(
+          astNode.sourceSpan,
+          "Internationalized messages can't be nested",
+        ),
+      );
     }
   }
 
   @override
   void visitAttribute(AttributeAst astNode, [StringBuffer? context]) {
     if (astNode.mustaches != null && astNode.mustaches!.isNotEmpty) {
-      CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-        astNode.sourceSpan,
-        "Interpolations aren't permitted in internationalized messages",
-      ));
+      CompileContext.current.reportAndRecover(
+        BuildError.forSourceSpan(
+          astNode.sourceSpan,
+          "Interpolations aren't permitted in internationalized messages",
+        ),
+      );
       return;
     }
     context!.write(' ${astNode.name}');
@@ -160,10 +164,12 @@ class I18nBuilder extends TemplateAstVisitor<void, StringBuffer> {
   }
 
   static void _reportUnpermitted(TemplateAst astNode) {
-    CompileContext.current.reportAndRecover(BuildError.forSourceSpan(
-      astNode.sourceSpan,
-      'Not permitted in internationalized messages',
-    ));
+    CompileContext.current.reportAndRecover(
+      BuildError.forSourceSpan(
+        astNode.sourceSpan,
+        'Not permitted in internationalized messages',
+      ),
+    );
   }
 }
 

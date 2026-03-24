@@ -40,40 +40,54 @@ void main() {
       defaultAccessor = DefaultValueAccessor(InputElement());
     });
     test('should throw when given an empty array', () {
-      expect(() => selectValueAccessor([]),
-          throwsWith('No valid value accessor for'));
+      expect(
+        () => selectValueAccessor([]),
+        throwsWith('No valid value accessor for'),
+      );
     });
     test('should return the default value accessor when no other provided', () {
       expect(selectValueAccessor([defaultAccessor]), defaultAccessor);
     });
     test('should return checkbox accessor when provided', () {
       var checkboxAccessor = CheckboxControlValueAccessor(InputElement());
-      expect(selectValueAccessor([defaultAccessor, checkboxAccessor]),
-          checkboxAccessor);
+      expect(
+        selectValueAccessor([defaultAccessor, checkboxAccessor]),
+        checkboxAccessor,
+      );
     });
     test('should return select accessor when provided', () {
       var selectAccessor = SelectControlValueAccessor(SelectElement());
-      expect(selectValueAccessor([defaultAccessor, selectAccessor]),
-          selectAccessor);
+      expect(
+        selectValueAccessor([defaultAccessor, selectAccessor]),
+        selectAccessor,
+      );
     });
     test('should throw when more than one build-in accessor is provided', () {
       var checkboxAccessor = CheckboxControlValueAccessor(InputElement());
       var selectAccessor = SelectControlValueAccessor(SelectElement());
-      expect(() => selectValueAccessor([checkboxAccessor, selectAccessor]),
-          throwsWith('More than one built-in value accessor matches'));
+      expect(
+        () => selectValueAccessor([checkboxAccessor, selectAccessor]),
+        throwsWith('More than one built-in value accessor matches'),
+      );
     });
     test('should return custom accessor when provided', () {
       var customAccessor = MockValueAccessor();
       var checkboxAccessor = CheckboxControlValueAccessor(InputElement());
       expect(
-          selectValueAccessor(
-              [defaultAccessor, customAccessor, checkboxAccessor]),
-          customAccessor);
+        selectValueAccessor([
+          defaultAccessor,
+          customAccessor,
+          checkboxAccessor,
+        ]),
+        customAccessor,
+      );
     });
     test('should throw when more than one custom accessor is provided', () {
       ControlValueAccessor<dynamic> customAccessor = MockValueAccessor();
-      expect(() => selectValueAccessor([customAccessor, customAccessor]),
-          throwsWith('More than one custom value accessor matches'));
+      expect(
+        () => selectValueAccessor([customAccessor, customAccessor]),
+        throwsWith('More than one custom value accessor matches'),
+      );
     });
   });
   group('Shared composeValidators', () {

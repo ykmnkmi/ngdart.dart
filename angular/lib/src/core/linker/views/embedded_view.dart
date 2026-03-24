@@ -31,7 +31,7 @@ import 'render_view.dart';
 abstract class EmbeddedView<T> extends RenderView
     implements DynamicView, EmbeddedViewRef {
   EmbeddedView(RenderView parentView, int parentIndex)
-      : _data = _EmbeddedViewData(parentView, parentIndex);
+    : _data = _EmbeddedViewData(parentView, parentIndex);
 
   final _EmbeddedViewData<T> _data;
 
@@ -225,13 +225,12 @@ class _EmbeddedViewData<T> implements DynamicViewData, RenderViewData {
   }
 
   _EmbeddedViewData._(this.parentView, this.parentIndex)
-      :
-        // The `parentView` is always a `ComponentView<T>` or `EmbeddedView<T>`
-        // but `RenderView` lacks this type parameter (to avoid the cost of
-        // reifying it), so the cast is necessary, but safe.
-        ctx = unsafeCast(parentView.ctx),
-        componentStyles = parentView.componentStyles,
-        projectedNodes = parentView.projectedNodes;
+    : // The `parentView` is always a `ComponentView<T>` or `EmbeddedView<T>`
+      // but `RenderView` lacks this type parameter (to avoid the cost of
+      // reifying it), so the cast is necessary, but safe.
+      ctx = unsafeCast(parentView.ctx),
+      componentStyles = parentView.componentStyles,
+      projectedNodes = parentView.projectedNodes;
 
   /// Storage for [RenderView.ctx].
   final T ctx;
@@ -316,6 +315,6 @@ class _EmbeddedViewData<T> implements DynamicViewData, RenderViewData {
   void _updateShouldSkipChangeDetection() {
     _shouldSkipChangeDetection =
         _changeDetectionMode == ChangeDetectionStrategy.Detached ||
-            _changeDetectorState == ChangeDetectorState.Errored;
+        _changeDetectorState == ChangeDetectorState.Errored;
   }
 }

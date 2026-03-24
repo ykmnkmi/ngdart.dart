@@ -21,11 +21,7 @@ class I18nMessage {
   ///
   /// Any arguments that appear as interpolations in [text] should be mapped
   /// to their value in [args].
-  I18nMessage(
-    this.text,
-    this.metadata, {
-    this.args = const {},
-  });
+  I18nMessage(this.text, this.metadata, {this.args = const {}});
 
   /// Whether this message contains nested HTML.
   bool get containsHtml => args.isNotEmpty;

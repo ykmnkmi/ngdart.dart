@@ -22,18 +22,14 @@ abstract class HasChild<T> {
 /// A simple directive that can be created in order to be queried.
 ///
 /// Accepts a single input, [value], for use with the helper [hasChildValues].
-@Directive(
-  selector: 'value,[value]',
-)
+@Directive(selector: 'value,[value]')
 class ValueDirective {
   @Input()
   int? value;
 }
 
 /// Similar to `*ngIf`, but always true.
-@Directive(
-  selector: '[alwaysShow]',
-)
+@Directive(selector: '[alwaysShow]')
 class AlwaysShowDirective {
   AlwaysShowDirective(ViewContainerRef container, TemplateRef template) {
     container.createEmbeddedView(template);
@@ -41,9 +37,7 @@ class AlwaysShowDirective {
 }
 
 /// Similar to `*ngIf`, but always false.
-@Directive(
-  selector: '[neverShow]',
-)
+@Directive(selector: '[neverShow]')
 class NeverShowDirective {}
 
 /// Returns a [Matcher] that looks for [ValueDirective] in a [NgTestFixture].
@@ -134,29 +128,48 @@ void testViewChildren({
       expect(fixture, hasChildValues(viewChildrenAndEmbedded.expectValues));
     });
 
-    test('should find direct view child in embedded templates', () async {
-      final fixture = await viewChildEmbedded!.testBed.create();
-      expect(fixture, hasChildValues(viewChildEmbedded.expectValues));
-    }, skip: viewChildEmbedded == null);
+    test(
+      'should find direct view child in embedded templates',
+      () async {
+        final fixture = await viewChildEmbedded!.testBed.create();
+        expect(fixture, hasChildValues(viewChildEmbedded.expectValues));
+      },
+      skip: viewChildEmbedded == null,
+    );
 
     group('should not find embedded view child on', () {
-      test('a nested pair of <template> tags (off then on)', () async {
-        final fixture = await viewChildNestedOffOn!.testBed.create();
-        expect(fixture, hasChildValues(viewChildNestedOffOn.expectValues));
-      }, skip: viewChildNestedOffOn == null);
+      test(
+        'a nested pair of <template> tags (off then on)',
+        () async {
+          final fixture = await viewChildNestedOffOn!.testBed.create();
+          expect(fixture, hasChildValues(viewChildNestedOffOn.expectValues));
+        },
+        skip: viewChildNestedOffOn == null,
+      );
 
-      test('a nested pair of *ngIf usages (true than false)', () async {
-        final fixture = await viewChildNestedNgIfOffOn!.testBed.create();
-        expect(fixture, hasChildValues(viewChildNestedNgIfOffOn.expectValues));
-      }, skip: viewChildNestedNgIfOffOn == null);
+      test(
+        'a nested pair of *ngIf usages (true than false)',
+        () async {
+          final fixture = await viewChildNestedNgIfOffOn!.testBed.create();
+          expect(
+            fixture,
+            hasChildValues(viewChildNestedNgIfOffOn.expectValues),
+          );
+        },
+        skip: viewChildNestedNgIfOffOn == null,
+      );
 
-      test('a nested pair of *ngIf usages that becomes true, false', () async {
-        final fixture = await viewChildNestedNgIfOffOnAsync!.testBed.create();
-        expect(
-          fixture,
-          hasChildValues(viewChildNestedNgIfOffOnAsync.expectValues),
-        );
-      }, skip: viewChildNestedNgIfOffOnAsync == null);
+      test(
+        'a nested pair of *ngIf usages that becomes true, false',
+        () async {
+          final fixture = await viewChildNestedNgIfOffOnAsync!.testBed.create();
+          expect(
+            fixture,
+            hasChildValues(viewChildNestedNgIfOffOnAsync.expectValues),
+          );
+        },
+        skip: viewChildNestedNgIfOffOnAsync == null,
+      );
     });
   });
 }

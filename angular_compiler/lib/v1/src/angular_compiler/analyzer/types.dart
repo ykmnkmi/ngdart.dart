@@ -1,7 +1,8 @@
 import 'package:source_gen/source_gen.dart';
 
 /// Most metadata is now in this sub-directory.
-const _compilerMetadata = ''
+const _compilerMetadata =
+    ''
     'package:angular/src/meta';
 const _directives = '$_compilerMetadata/directives.dart';
 const _diArguments = '$_compilerMetadata/di_arguments.dart';
@@ -38,25 +39,30 @@ const $ViewChild = TypeChecker.fromUrl('$_directives#ViewChild');
 const $ViewChildren = TypeChecker.fromUrl('$_directives#ViewChildren');
 
 // Class types.
-const $GenerateInjector =
-    TypeChecker.fromUrl('$_diGeneratedInjector#GenerateInjector');
+const $GenerateInjector = TypeChecker.fromUrl(
+  '$_diGeneratedInjector#GenerateInjector',
+);
 const $Module = TypeChecker.fromUrl('$_diModules#Module');
 const $Provider = TypeChecker.fromUrl('$_diProviders#Provider');
 const $OpaqueToken = TypeChecker.fromUrl('$_diTokens#OpaqueToken');
 const $MultiToken = TypeChecker.fromUrl('$_diTokens#MultiToken');
 const $Typed = TypeChecker.fromUrl('$_typed#Typed');
-const $ChangeDetectionLink =
-    TypeChecker.fromUrl('$_changeDetectionLink#_ChangeDetectionLink');
+const $ChangeDetectionLink = TypeChecker.fromUrl(
+  '$_changeDetectionLink#_ChangeDetectionLink',
+);
 
 // Lifecycle hooks.
 const $OnInit = TypeChecker.fromUrl('$_lifecycleHooks#OnInit');
 const $OnDestroy = TypeChecker.fromUrl('$_lifecycleHooks#OnDestroy');
 const $DoCheck = TypeChecker.fromUrl('$_lifecycleHooks#DoCheck');
 const $AfterChanges = TypeChecker.fromUrl('$_lifecycleHooks#AfterChanges');
-const $AfterContentInit =
-    TypeChecker.fromUrl('$_lifecycleHooks#AfterContentInit');
-const $AfterContentChecked =
-    TypeChecker.fromUrl('$_lifecycleHooks#AfterContentChecked');
+const $AfterContentInit = TypeChecker.fromUrl(
+  '$_lifecycleHooks#AfterContentInit',
+);
+const $AfterContentChecked = TypeChecker.fromUrl(
+  '$_lifecycleHooks#AfterContentChecked',
+);
 const $AfterViewInit = TypeChecker.fromUrl('$_lifecycleHooks#AfterViewInit');
-const $AfterViewChecked =
-    TypeChecker.fromUrl('$_lifecycleHooks#AfterViewChecked');
+const $AfterViewChecked = TypeChecker.fromUrl(
+  '$_lifecycleHooks#AfterViewChecked',
+);

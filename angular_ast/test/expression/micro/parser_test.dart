@@ -16,12 +16,7 @@ void main() {
   test('should parse a simple let', () {
     expect(
       parse('ngThing', 'let foo', 0),
-      NgMicroAst(
-        letBindings: [
-          LetBindingAst('foo'),
-        ],
-        properties: [],
-      ),
+      NgMicroAst(letBindings: [LetBindingAst('foo')], properties: []),
     );
   });
 
@@ -29,10 +24,7 @@ void main() {
     expect(
       parse('ngThing', 'let foo = bar; let baz', 0),
       NgMicroAst(
-        letBindings: [
-          LetBindingAst('foo', 'bar'),
-          LetBindingAst('baz'),
-        ],
+        letBindings: [LetBindingAst('foo', 'bar'), LetBindingAst('baz')],
         properties: [],
       ),
     );
@@ -42,10 +34,7 @@ void main() {
     expect(
       parse('ngThing', 'let baz; let foo = bar', 0),
       NgMicroAst(
-        letBindings: [
-          LetBindingAst('baz'),
-          LetBindingAst('foo', 'bar'),
-        ],
+        letBindings: [LetBindingAst('baz'), LetBindingAst('foo', 'bar')],
         properties: [],
       ),
     );
@@ -55,10 +44,7 @@ void main() {
     expect(
       parse('ngThing', 'let baz; let foo = bar ', 0),
       NgMicroAst(
-        letBindings: [
-          LetBindingAst('baz'),
-          LetBindingAst('foo', 'bar'),
-        ],
+        letBindings: [LetBindingAst('baz'), LetBindingAst('foo', 'bar')],
         properties: [],
       ),
     );
@@ -68,15 +54,8 @@ void main() {
     expect(
       parse('ngFor', 'let x of items.where(filter)', 0),
       NgMicroAst(
-        letBindings: [
-          LetBindingAst('x'),
-        ],
-        properties: [
-          PropertyAst(
-            'ngForOf',
-            'items.where(filter)',
-          ),
-        ],
+        letBindings: [LetBindingAst('x')],
+        properties: [PropertyAst('ngForOf', 'items.where(filter)')],
       ),
     );
   });
@@ -85,18 +64,10 @@ void main() {
     expect(
       parse('ngFor', 'let item of items; trackBy: byId', 0),
       NgMicroAst(
-        letBindings: [
-          LetBindingAst('item'),
-        ],
+        letBindings: [LetBindingAst('item')],
         properties: [
-          PropertyAst(
-            'ngForOf',
-            'items',
-          ),
-          PropertyAst(
-            'ngForTrackBy',
-            'byId',
-          ),
+          PropertyAst('ngForOf', 'items'),
+          PropertyAst('ngForTrackBy', 'byId'),
         ],
       ),
     );
@@ -108,14 +79,8 @@ void main() {
       NgMicroAst(
         letBindings: [],
         properties: [
-          PropertyAst(
-            'ngTemplateOutlet',
-            'templateRef',
-          ),
-          PropertyAst(
-            'ngTemplateOutletContext',
-            'templateContext',
-          ),
+          PropertyAst('ngTemplateOutlet', 'templateRef'),
+          PropertyAst('ngTemplateOutletContext', 'templateContext'),
         ],
       ),
     );

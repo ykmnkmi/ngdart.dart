@@ -13,41 +13,56 @@ void main() {
   group('components', () {
     test('should support a single concrete type argument', () async {
       final testBed = NgTestBed<TestSingleConcreteTypeArgument>(
-          ng.createTestSingleConcreteTypeArgumentFactory());
+        ng.createTestSingleConcreteTypeArgumentFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.child,
-          const TypeMatcher<SingleGenericComponent<String>>());
+      expect(
+        testFixture.assertOnlyInstance.child,
+        const TypeMatcher<SingleGenericComponent<String>>(),
+      );
     });
 
     test('should support multiple concrete type arguments', () async {
       final testBed = NgTestBed<TestMultipleConcreteTypeArgument>(
-          ng.createTestMultipleConcreteTypeArgumentFactory());
+        ng.createTestMultipleConcreteTypeArgumentFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.child,
-          const TypeMatcher<MultipleGenericComponent<String, int>>());
+      expect(
+        testFixture.assertOnlyInstance.child,
+        const TypeMatcher<MultipleGenericComponent<String, int>>(),
+      );
     });
 
     test('should support a nested concrete type argument', () async {
       final testBed = NgTestBed<TestNestedConcreteTypeArgument>(
-          ng.createTestNestedConcreteTypeArgumentFactory());
+        ng.createTestNestedConcreteTypeArgumentFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.child,
-          const TypeMatcher<SingleGenericComponent<List<String>>>());
+      expect(
+        testFixture.assertOnlyInstance.child,
+        const TypeMatcher<SingleGenericComponent<List<String>>>(),
+      );
     });
 
     test('should flow a type argument', () async {
       final testBed = NgTestBed<TestFlowTypeArgument>(
-          ng.createTestFlowTypeArgumentFactory());
+        ng.createTestFlowTypeArgumentFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.child,
-          const TypeMatcher<FlowTypeArgumentComponent<String>>());
-      expect(testFixture.assertOnlyInstance.child!.child,
-          const TypeMatcher<SingleGenericComponent<String>>());
+      expect(
+        testFixture.assertOnlyInstance.child,
+        const TypeMatcher<FlowTypeArgumentComponent<String>>(),
+      );
+      expect(
+        testFixture.assertOnlyInstance.child!.child,
+        const TypeMatcher<SingleGenericComponent<String>>(),
+      );
     });
 
     test('should distinctly type unique instances of same component', () async {
       final testBed = NgTestBed<TestDistinctlyTypedDirectives>(
-          ng.createTestDistinctlyTypedDirectivesFactory());
+        ng.createTestDistinctlyTypedDirectivesFactory(),
+      );
       final testFixture = await testBed.create();
       expect(testFixture.assertOnlyInstance.children, [
         const TypeMatcher<SingleGenericComponent<int>>(),
@@ -57,59 +72,78 @@ void main() {
 
     test('should instantiate to bounds', () async {
       final testBed = NgTestBed<TestBoundedGenericComponent>(
-          ng.createTestBoundedGenericComponentFactory());
+        ng.createTestBoundedGenericComponentFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.child,
-          const TypeMatcher<BoundedGenericComponent<Bound>>());
+      expect(
+        testFixture.assertOnlyInstance.child,
+        const TypeMatcher<BoundedGenericComponent<Bound>>(),
+      );
     });
   });
 
   group('component factories', () {
     test('should support a single type argument', () async {
       final testBed = NgTestBed<SingleGenericComponent<String>>(
-          ng.createSingleGenericComponentFactory<String>());
+        ng.createSingleGenericComponentFactory<String>(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance,
-          const TypeMatcher<SingleGenericComponent<String>>());
+      expect(
+        testFixture.assertOnlyInstance,
+        const TypeMatcher<SingleGenericComponent<String>>(),
+      );
     });
 
     test('should support multiple type arguments', () async {
       final testBed = NgTestBed<MultipleGenericComponent<String, int>>(
-          ng.createMultipleGenericComponentFactory<String, int>());
+        ng.createMultipleGenericComponentFactory<String, int>(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance,
-          const TypeMatcher<MultipleGenericComponent<String, int>>());
+      expect(
+        testFixture.assertOnlyInstance,
+        const TypeMatcher<MultipleGenericComponent<String, int>>(),
+      );
     });
 
     test('should instantiate to bounds', () async {
       final testBed = NgTestBed<BoundedGenericComponent>(
-          ng.createBoundedGenericComponentFactory());
+        ng.createBoundedGenericComponentFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance,
-          const TypeMatcher<BoundedGenericComponent<Bound>>());
+      expect(
+        testFixture.assertOnlyInstance,
+        const TypeMatcher<BoundedGenericComponent<Bound>>(),
+      );
     });
   });
 
   group('directives', () {
     test('should support generics', () async {
       final testBed = NgTestBed<TestGenericDirective>(
-          ng.createTestGenericDirectiveFactory());
+        ng.createTestGenericDirectiveFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.directive,
-          const TypeMatcher<GenericDirective<String>>());
+      expect(
+        testFixture.assertOnlyInstance.directive,
+        const TypeMatcher<GenericDirective<String>>(),
+      );
     });
 
     test('with a change detector host should support generics', () async {
       final testBed = NgTestBed<TestGenericDirectiveWithChangeDetector>(
-          ng.createTestGenericDirectiveWithChangeDetectorFactory());
+        ng.createTestGenericDirectiveWithChangeDetectorFactory(),
+      );
       final testFixture = await testBed.create();
-      expect(testFixture.assertOnlyInstance.directive,
-          const TypeMatcher<GenericDirectiveWithChangeDetector<String>>());
+      expect(
+        testFixture.assertOnlyInstance.directive,
+        const TypeMatcher<GenericDirectiveWithChangeDetector<String>>(),
+      );
     });
 
     test('should instantiate to bounds', () async {
       final testBed = NgTestBed<TestBoundedGenericDirectiveWithChangeDetector>(
-          ng.createTestBoundedGenericDirectiveWithChangeDetectorFactory());
+        ng.createTestBoundedGenericDirectiveWithChangeDetectorFactory(),
+      );
       final testFixture = await testBed.create();
       expect(
         testFixture.assertOnlyInstance.directive,
@@ -120,7 +154,8 @@ void main() {
 
   test('generic function member should return normally', () async {
     final testBed = NgTestBed<TestFunctionComponent>(
-        ng.createTestFunctionComponentFactory());
+      ng.createTestFunctionComponentFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.text, 'foo');
   });
@@ -139,16 +174,10 @@ abstract class IO<T> {
   Stream<T?> get output => _controller.stream;
 }
 
-@Component(
-  selector: 'generic',
-  template: '',
-)
+@Component(selector: 'generic', template: '')
 class SingleGenericComponent<T> extends IO<T> {}
 
-@Component(
-  selector: 'generic',
-  template: '',
-)
+@Component(selector: 'generic', template: '')
 class MultipleGenericComponent<K, V> extends IO<Map<K, V>> {}
 
 @Component(
@@ -201,7 +230,7 @@ class TestNestedConcreteTypeArgument {
   template: '<generic [input]="value" (output)="handle"></generic>',
   directives: [SingleGenericComponent],
   directiveTypes: [
-    Typed<SingleGenericComponent<void>>.of([#T])
+    Typed<SingleGenericComponent<void>>.of([#T]),
   ],
 )
 class FlowTypeArgumentComponent<T> {
@@ -218,9 +247,7 @@ class FlowTypeArgumentComponent<T> {
   selector: 'test',
   template: '<flow [value]="value"></flow>',
   directives: [FlowTypeArgumentComponent],
-  directiveTypes: [
-    Typed<FlowTypeArgumentComponent<String>>(),
-  ],
+  directiveTypes: [Typed<FlowTypeArgumentComponent<String>>()],
 )
 class TestFlowTypeArgument {
   @ViewChild(FlowTypeArgumentComponent)
@@ -327,10 +354,7 @@ class TestBoundedGenericDirectiveWithChangeDetector {
   void handle(Bound output) {}
 }
 
-@Component(
-  selector: 'generic',
-  template: '',
-)
+@Component(selector: 'generic', template: '')
 class BoundedGenericComponent<T extends Bound> extends IO<T> {}
 
 @Component(
@@ -353,10 +377,7 @@ class Data {
   Data(this.name);
 }
 
-@Component(
-  selector: 'generic',
-  template: '{{render!(value)}}',
-)
+@Component(selector: 'generic', template: '{{render!(value)}}')
 class GenericFunctionComponent<T> {
   @Input()
   String Function(T? data)? render;

@@ -13,12 +13,14 @@ const angular = 'package:angular/angular.dart';
 /// A custom package resolver for Angular sources.
 ///
 /// This is needed to resolve sources that import Angular.
-final packageConfigFuture = Platform
-            .environment['ANGULAR_PACKAGE_CONFIG_PATH'] !=
-        null
-    ? loadPackageConfigUri(
-        Uri.base.resolve(Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH']!))
-    : Isolate.packageConfig.then((uri) => loadPackageConfigUri(uri!));
+final packageConfigFuture =
+    Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH'] != null
+        ? loadPackageConfigUri(
+          Uri.base.resolve(
+            Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH']!,
+          ),
+        )
+        : Isolate.packageConfig.then((uri) => loadPackageConfigUri(uri!));
 
 /// Resolves [source] code as-if it is implemented with an AngularDart import.
 ///
@@ -42,10 +44,7 @@ Future<LibraryElement> resolveLibrary(String source) async {
 /// Resolves [source] code as-if it is implemented with an AngularDart import.
 ///
 /// Returns first `class` in the file, or by [name] if given.
-Future<ClassElement?> resolveClass(
-  String source, [
-  String? name,
-]) async {
+Future<ClassElement?> resolveClass(String source, [String? name]) async {
   final library = await resolveLibrary(source);
   return name != null
       ? library.getClass(name)

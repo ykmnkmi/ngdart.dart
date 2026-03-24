@@ -35,8 +35,7 @@ List<DartObject> coerceList(
   DartObject? value,
   String field, {
   List<DartObject> defaultTo = const [],
-}) =>
-    getField(value, field)?.toListValue() ?? defaultTo;
+}) => getField(value, field)?.toListValue() ?? defaultTo;
 
 /// Reads and returns [field] on [value] as a list of strings.
 ///
@@ -127,7 +126,9 @@ DartObject? getField(DartObject? object, String field) {
 /// If the DartObject is a list, then it will recursively visitAll
 /// on that list. Otherwise, then it will call [recuseFn] on the object.
 List<T> visitAll<T>(
-    Iterable<DartObject> objs, T? Function(DartObject) recurseFn) {
+  Iterable<DartObject> objs,
+  T? Function(DartObject) recurseFn,
+) {
   var metadata = <T>[];
   for (var obj in objs) {
     var maybeList = obj.toListValue();

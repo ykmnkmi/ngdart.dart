@@ -19,8 +19,10 @@ void main() {
       });
 
       test('should parse the queryParameters', () {
-        expect(url.queryParameters,
-            {'bar': 'true', 'path/param/key': 'uri?param'});
+        expect(url.queryParameters, {
+          'bar': 'true',
+          'path/param/key': 'uri?param',
+        });
       });
     });
 

@@ -19,26 +19,27 @@ final Builder _testAngularBuilder = MultiplexingBuilder([
 // Here to be configurable.
 //
 // We could use a better PackageAssetReader if necessary in some platforms.
-final Future<PackageAssetReader> _packageAssets = (() async {
-  final runfiles = Platform.environment['RUNFILES'];
-  if (runfiles == null) {
-    return PackageAssetReader.currentIsolate();
-  }
-  final root = Platform.environment['PKG_ANGULAR_ROOT'];
-  final path = '$runfiles/$root';
-  if (!FileSystemEntity.isFileSync('$path/angular/lib/angular.dart')) {
-    throw StateError('Could not find $path/angular/lib/angular.dart');
-  }
-  final pathToMeta = '$path/angular/lib/src/meta.dart';
-  if (!FileSystemEntity.isFileSync(pathToMeta)) {
-    throw StateError('Could not find $pathToMeta');
-  }
-  print('file://$path/angular/lib');
-  return PackageAssetReader.forPackages({
-    ngPackage: '$path/angular/',
-    ngCompiler: '$path/angular_compiler/',
-  });
-})();
+final Future<PackageAssetReader> _packageAssets =
+    (() async {
+      final runfiles = Platform.environment['RUNFILES'];
+      if (runfiles == null) {
+        return PackageAssetReader.currentIsolate();
+      }
+      final root = Platform.environment['PKG_ANGULAR_ROOT'];
+      final path = '$runfiles/$root';
+      if (!FileSystemEntity.isFileSync('$path/angular/lib/angular.dart')) {
+        throw StateError('Could not find $path/angular/lib/angular.dart');
+      }
+      final pathToMeta = '$path/angular/lib/src/meta.dart';
+      if (!FileSystemEntity.isFileSync(pathToMeta)) {
+        throw StateError('Could not find $pathToMeta');
+      }
+      print('file://$path/angular/lib');
+      return PackageAssetReader.forPackages({
+        ngPackage: '$path/angular/',
+        ngCompiler: '$path/angular_compiler/',
+      });
+    })();
 
 // The locations of the import for AngularDart source code.
 //
@@ -61,10 +62,7 @@ Future<void> _testBuilder(
   // Setup the readers/writers for assets.
   final sources = InMemoryAssetReader(rootPackage: rootPackage);
   final packages = await _packageAssets;
-  final reader = MultiAssetReader([
-    sources,
-    packages,
-  ]);
+  final reader = MultiAssetReader([sources, packages]);
 
   // Sanity check.
   if (!await reader.canRead(AssetId(ngPackage, 'lib/angular.dart'))) {
@@ -150,10 +148,7 @@ Future<void> compilesExpecting(
   include ??= const {};
 
   // Complete list of input sources.
-  final sources = <String, String>{
-    inputSource: input,
-    ...include,
-  };
+  final sources = <String, String>{inputSource: input, ...include};
 
   // Run the builder.
   final records = <Level, List<LogRecord>>{};
@@ -208,15 +203,14 @@ Future<void> compilesNormally(
   String? inputSource,
   Map<String, String>? include,
   Set<AssetId>? runBuilderOn,
-}) =>
-    compilesExpecting(
-      input,
-      inputSource: inputSource,
-      runBuilderOn: runBuilderOn,
-      include: include,
-      errors: isEmpty,
-      warnings: isEmpty,
-    );
+}) => compilesExpecting(
+  input,
+  inputSource: inputSource,
+  runBuilderOn: runBuilderOn,
+  include: include,
+  errors: isEmpty,
+  warnings: isEmpty,
+);
 
 /// Match for a source location, but don't require tests to manage package
 /// names.

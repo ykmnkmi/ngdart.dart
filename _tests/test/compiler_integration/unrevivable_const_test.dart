@@ -6,7 +6,8 @@ void main() {
   CompileContext.overrideForTesting();
 
   test('should fail with an error for private constructor', () async {
-    await compilesExpecting('''
+    await compilesExpecting(
+      '''
       import '$ngImport';
 
       class TestClass {
@@ -17,16 +18,21 @@ void main() {
         ValueProvider(TestClass, TestClass._()),
       ])
       final example = null;
-    ''', errors: [
-      allOf([
-        contains('While attempting to resolve a constant value for a provider'),
-        contains('TestClass'),
-      ]),
-    ]);
+    ''',
+      errors: [
+        allOf([
+          contains(
+            'While attempting to resolve a constant value for a provider',
+          ),
+          contains('TestClass'),
+        ]),
+      ],
+    );
   });
 
   test('should fail with an error for private parameter', () async {
-    await compilesExpecting('''
+    await compilesExpecting(
+      '''
       import '$ngImport';
 
       String _returnHelloWorld() => 'Hello World';
@@ -42,16 +48,19 @@ void main() {
         ValueProvider(TestClass, testInstance),
       ])
       final example = null;
-    ''', errors: [
-      allOf(
-        contains('While attempting to resolve a constant value for a '),
-        contains('input.dart::_returnHelloWorld'),
-      ),
-    ]);
+    ''',
+      errors: [
+        allOf(
+          contains('While attempting to resolve a constant value for a '),
+          contains('input.dart::_returnHelloWorld'),
+        ),
+      ],
+    );
   });
 
   test('should fail with an error for unresolved provider', () async {
-    await compilesExpecting('''
+    await compilesExpecting(
+      '''
       import '$ngImport';
 
       const badModule = Module(
@@ -64,10 +73,10 @@ void main() {
         badModule,
       ])
       final example = null;
-    ''', errors: [
-      allOf([
-        contains('Expected list for \'provide\' field of Module'),
-      ]),
-    ]);
+    ''',
+      errors: [
+        allOf([contains('Expected list for \'provide\' field of Module')]),
+      ],
+    );
   });
 }

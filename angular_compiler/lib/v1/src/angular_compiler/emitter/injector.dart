@@ -12,15 +12,13 @@ class InjectorEmitter implements InjectorVisitor {
   static const _runtime = '$_package/src/di';
   static const _$override = Reference('override', 'dart:core');
   static final _$Object = TypeReference(
-    (b) => b
-      ..url = 'dart:core'
-      ..symbol = 'Object',
+    (b) =>
+        b
+          ..url = 'dart:core'
+          ..symbol = 'Object',
   );
 
-  static const _$Injector = Reference(
-    'Injector',
-    '$_runtime/injector.dart',
-  );
+  static const _$Injector = Reference('Injector', '$_runtime/injector.dart');
   static const _$Hierarchical = Reference(
     'HierarchicalInjector',
     '$_runtime/injector.dart',
@@ -41,49 +39,87 @@ class InjectorEmitter implements InjectorVisitor {
   final _expressionForToken = <TokenElement?, Expression>{};
 
   /// Returns the `class ... { ... }` for this generated injector.
-  Class createClass() => Class((b) => b
-    ..name = _className
-    ..extend = _$Hierarchical
-    ..implements.add(_$Injector)
-    ..constructors.add(Constructor((b) => b
-      ..name = '_'
-      ..requiredParameters.add(Parameter((b) => b
-        ..name = 'parent'
-        ..type = _$Injector))
-      ..initializers.add(refer('super').call([refer('parent')]).code)))
-    ..methods.addAll(_methodCache)
-    ..methods.add(createInjectSelfOptional())
-    ..fields.addAll(_fieldCache));
+  Class createClass() => Class(
+    (b) =>
+        b
+          ..name = _className
+          ..extend = _$Hierarchical
+          ..implements.add(_$Injector)
+          ..constructors.add(
+            Constructor(
+              (b) =>
+                  b
+                    ..name = '_'
+                    ..requiredParameters.add(
+                      Parameter(
+                        (b) =>
+                            b
+                              ..name = 'parent'
+                              ..type = _$Injector,
+                      ),
+                    )
+                    ..initializers.add(
+                      refer('super').call([refer('parent')]).code,
+                    ),
+            ),
+          )
+          ..methods.addAll(_methodCache)
+          ..methods.add(createInjectSelfOptional())
+          ..fields.addAll(_fieldCache),
+  );
 
   /// Returns the function that will return a new instance of the class.
-  Method createFactory() => Method((b) => b
-    ..name = _factoryName
-    ..returns = _$Injector
-    ..lambda = true
-    ..requiredParameters.add(Parameter((b) => b
-      ..name = 'parent'
-      ..type = _$Injector))
-    ..body = refer(_className!).newInstanceNamed('_', [
-      refer('parent'),
-    ]).code);
+  Method createFactory() => Method(
+    (b) =>
+        b
+          ..name = _factoryName
+          ..returns = _$Injector
+          ..lambda = true
+          ..requiredParameters.add(
+            Parameter(
+              (b) =>
+                  b
+                    ..name = 'parent'
+                    ..type = _$Injector,
+            ),
+          )
+          ..body =
+              refer(_className!).newInstanceNamed('_', [refer('parent')]).code,
+  );
 
   /// Returns the `Object injectSelfOptional(...)` method for the `class`.
   @visibleForTesting
-  Method createInjectSelfOptional() => Method((b) => b
-    ..name = 'injectFromSelfOptional'
-    ..returns = _$Object.rebuild((b) => b.isNullable = true)
-    ..annotations.add(_$override)
-    ..requiredParameters.add(Parameter((b) => b
-      ..name = 'token'
-      ..type = _$Object))
-    ..optionalParameters.add(Parameter((b) => b
-      ..name = 'orElse'
-      ..type = _$Object.rebuild((b) => b.isNullable = true)
-      ..defaultTo = _$throwIfNotFound.expression.code))
-    ..body = Block((b) => b
-      ..statements.addAll(_injectSelfBody)
-      ..statements.addAll(_createMultiBody())
-      ..statements.add(refer('orElse').returned.statement)));
+  Method createInjectSelfOptional() => Method(
+    (b) =>
+        b
+          ..name = 'injectFromSelfOptional'
+          ..returns = _$Object.rebuild((b) => b.isNullable = true)
+          ..annotations.add(_$override)
+          ..requiredParameters.add(
+            Parameter(
+              (b) =>
+                  b
+                    ..name = 'token'
+                    ..type = _$Object,
+            ),
+          )
+          ..optionalParameters.add(
+            Parameter(
+              (b) =>
+                  b
+                    ..name = 'orElse'
+                    ..type = _$Object.rebuild((b) => b.isNullable = true)
+                    ..defaultTo = _$throwIfNotFound.expression.code,
+            ),
+          )
+          ..body = Block(
+            (b) =>
+                b
+                  ..statements.addAll(_injectSelfBody)
+                  ..statements.addAll(_createMultiBody())
+                  ..statements.add(refer('orElse').returned.statement),
+          ),
+  );
 
   /// Returns statements that represent `_multiTokenInvokes`.
   List<Code> _createMultiBody() {
@@ -96,9 +132,9 @@ class InjectorEmitter implements InjectorVisitor {
       statements.add(
         _ifIsTokenThen(
           tokenExpression,
-          literalList(methods.map((m) => refer(m).call(const [])))
-              .returned
-              .statement,
+          literalList(
+            methods.map((m) => refer(m).call(const [])),
+          ).returned.statement,
         ),
       );
     });
@@ -153,23 +189,35 @@ class InjectorEmitter implements InjectorVisitor {
     final fieldName = '_field$index';
     final types = type is TypeReference ? type.types : <Reference>[];
     _fieldCache.add(
-      Field((b) => b
-        ..name = fieldName
-        ..type = TypeReference((b) => b
-          ..symbol = type.symbol
-          ..url = type.url
-          ..types.addAll(types)
-          ..isNullable = true)),
+      Field(
+        (b) =>
+            b
+              ..name = fieldName
+              ..type = TypeReference(
+                (b) =>
+                    b
+                      ..symbol = type.symbol
+                      ..url = type.url
+                      ..types.addAll(types)
+                      ..isNullable = true,
+              ),
+      ),
     );
 
     final methodName = '_get${type.symbol}\$$index';
-    final instance = constructor == null
-        ? type.newInstance(dependencies)
-        : type.newInstanceNamed(constructor, dependencies);
-    _methodCache.add(Method((b) => b
-      ..name = methodName
-      ..returns = type
-      ..body = refer(fieldName).assignNullAware(instance).code));
+    final instance =
+        constructor == null
+            ? type.newInstance(dependencies)
+            : type.newInstanceNamed(constructor, dependencies);
+    _methodCache.add(
+      Method(
+        (b) =>
+            b
+              ..name = methodName
+              ..returns = type
+              ..body = refer(fieldName).assignNullAware(instance).code,
+      ),
+    );
 
     if (isMulti) {
       _addToMulti(token, tokenExpression, methodName);
@@ -188,10 +236,15 @@ class InjectorEmitter implements InjectorVisitor {
     bool isMulti,
   ) {
     final methodName = '_getExisting\$$index';
-    _methodCache.add(Method((b) => b
-      ..name = methodName
-      ..returns = type
-      ..body = refer('this.get').call([redirect]).code));
+    _methodCache.add(
+      Method(
+        (b) =>
+            b
+              ..name = methodName
+              ..returns = type
+              ..body = refer('this.get').call([redirect]).code,
+      ),
+    );
 
     if (isMulti) {
       _addToMulti(token, tokenExpression, methodName);
@@ -213,23 +266,33 @@ class InjectorEmitter implements InjectorVisitor {
     final fieldName = '_field$index';
     final types =
         returnType is TypeReference ? returnType.types : <Reference>[];
-    _fieldCache.add(Field((b) => b
-      ..name = '_field$index'
-      ..type = TypeReference((b) => b
-        ..symbol = returnType.symbol
-        ..url = returnType.url
-        ..types.addAll(types)
-        ..isNullable = true)));
+    _fieldCache.add(
+      Field(
+        (b) =>
+            b
+              ..name = '_field$index'
+              ..type = TypeReference(
+                (b) =>
+                    b
+                      ..symbol = returnType.symbol
+                      ..url = returnType.url
+                      ..types.addAll(types)
+                      ..isNullable = true,
+              ),
+      ),
+    );
 
     final methodName = '_get${returnType.symbol}\$$index';
     _methodCache.add(
       Method(
-        (b) => b
-          ..name = methodName
-          ..returns = returnType
-          ..body = refer(fieldName)
-              .assignNullAware(function.call(dependencies))
-              .code,
+        (b) =>
+            b
+              ..name = methodName
+              ..returns = returnType
+              ..body =
+                  refer(
+                    fieldName,
+                  ).assignNullAware(function.call(dependencies)).code,
       ),
     );
 
@@ -252,10 +315,11 @@ class InjectorEmitter implements InjectorVisitor {
     final methodName = '_get${returnType.symbol}\$$index';
     _methodCache.add(
       Method(
-        (b) => b
-          ..name = methodName
-          ..returns = returnType
-          ..body = value.code,
+        (b) =>
+            b
+              ..name = methodName
+              ..returns = returnType
+              ..body = value.code,
       ),
     );
 

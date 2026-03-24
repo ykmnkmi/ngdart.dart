@@ -38,15 +38,14 @@ Provider<T> provide<T extends Object>(
   Object? useExisting,
   Function? useFactory,
   List<Object>? deps,
-}) =>
-    Provider<T>(
-      token,
-      useClass: useClass,
-      useValue: useValue,
-      useExisting: useExisting,
-      useFactory: useFactory,
-      deps: deps,
-    );
+}) => Provider<T>(
+  token,
+  useClass: useClass,
+  useValue: useValue,
+  useExisting: useExisting,
+  useFactory: useFactory,
+  deps: deps,
+);
 
 /// Describes at compile-time how an `Injector` should be configured.
 ///
@@ -176,24 +175,14 @@ Object buildAtRuntime(Provider provider, RuntimeInjectorBuilder builder) {
 /// ```
 @optionalTypeArgs
 class ClassProvider<T extends Object> extends Provider<T> {
-  const factory ClassProvider(
-    Type type, {
-    Type useClass,
-  }) = ClassProvider<T>._;
+  const factory ClassProvider(Type type, {Type useClass}) = ClassProvider<T>._;
 
-  const factory ClassProvider.forToken(
-    OpaqueToken<T> token, {
-    Type useClass,
-  }) = ClassProvider<T>._;
+  const factory ClassProvider.forToken(OpaqueToken<T> token, {Type useClass}) =
+      ClassProvider<T>._;
 
   // Prevents extending this class.
-  const ClassProvider._(
-    Object token, {
-    Type? useClass,
-  }) : super._(
-          token,
-          useClass: useClass ?? token as Type,
-        );
+  const ClassProvider._(Object token, {Type? useClass})
+    : super._(token, useClass: useClass ?? token as Type);
 }
 
 /// Describes at compile-time configuring to redirect to another token.
@@ -203,10 +192,8 @@ class ClassProvider<T extends Object> extends Provider<T> {
 /// Commonly used for deprecation strategies or to-export an interface.
 @optionalTypeArgs
 class ExistingProvider<T extends Object> extends Provider<T> {
-  const factory ExistingProvider(
-    Type type,
-    Object useExisting,
-  ) = ExistingProvider<T>._;
+  const factory ExistingProvider(Type type, Object useExisting) =
+      ExistingProvider<T>._;
 
   const factory ExistingProvider.forToken(
     OpaqueToken<T> token,
@@ -214,13 +201,8 @@ class ExistingProvider<T extends Object> extends Provider<T> {
   ) = ExistingProvider<T>._;
 
   // Prevents extending this class.
-  const ExistingProvider._(
-    Object token,
-    Object useExisting,
-  ) : super._(
-          token,
-          useExisting: useExisting,
-        );
+  const ExistingProvider._(Object token, Object useExisting)
+    : super._(token, useExisting: useExisting);
 }
 
 /// Describes at compile-time configuring to invoke a factory function.
@@ -252,11 +234,7 @@ class FactoryProvider<T extends Object> extends Provider<T> {
     Object token,
     Function useFactory, {
     List<Object>? deps,
-  }) : super._(
-          token,
-          useFactory: useFactory,
-          deps: deps,
-        );
+  }) : super._(token, useFactory: useFactory, deps: deps);
 }
 
 /// Describes at compile-time using a constant value to represent a token.
@@ -274,22 +252,12 @@ class FactoryProvider<T extends Object> extends Provider<T> {
 /// encounter problems it is recommended to use [FactoryProvider] instead.
 @optionalTypeArgs
 class ValueProvider<T extends Object> extends Provider<T> {
-  const factory ValueProvider(
-    Type type,
-    T useValue,
-  ) = ValueProvider<T>._;
+  const factory ValueProvider(Type type, T useValue) = ValueProvider<T>._;
 
-  const factory ValueProvider.forToken(
-    OpaqueToken<T> token,
-    T useValue,
-  ) = ValueProvider<T>._;
+  const factory ValueProvider.forToken(OpaqueToken<T> token, T useValue) =
+      ValueProvider<T>._;
 
   // Prevents extending this class.
-  const ValueProvider._(
-    Object token,
-    T useValue,
-  ) : super._(
-          token,
-          useValue: useValue,
-        );
+  const ValueProvider._(Object token, T useValue)
+    : super._(token, useValue: useValue);
 }

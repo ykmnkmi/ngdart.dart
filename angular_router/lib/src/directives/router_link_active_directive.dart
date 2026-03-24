@@ -21,9 +21,7 @@ import 'router_link_directive.dart';
 ///   <a routerLink="/user/bob">Bob</a>
 /// </div>
 /// ```
-@Directive(
-  selector: '[routerLinkActive]',
-)
+@Directive(selector: '[routerLinkActive]')
 class RouterLinkActive implements AfterViewInit, OnDestroy {
   final Element _element;
   final Router _router;
@@ -67,8 +65,10 @@ class RouterLinkActive implements AfterViewInit, OnDestroy {
         if (url.path != routerState.path) continue;
         // Only compare query parameters if specified in the [routerLink].
         if (url.queryParameters.isNotEmpty &&
-            !const MapEquality<String, String>()
-                .equals(url.queryParameters, routerState.queryParameters)) {
+            !const MapEquality<String, String>().equals(
+              url.queryParameters,
+              routerState.queryParameters,
+            )) {
           continue;
         }
         // Only compare fragment identifier if specified in the [routerLink].

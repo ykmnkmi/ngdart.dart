@@ -23,9 +23,7 @@ bool _isDevToolsEnabled = false;
 void enableDevTools() {
   if (isDevMode) {
     _isDevToolsEnabled = true;
-    _getComponentElement = allowInterop(
-      Inspector.instance.getComponentElement,
-    );
+    _getComponentElement = allowInterop(Inspector.instance.getComponentElement);
     _getComponentIdForNode = allowInterop(
       Inspector.instance.getComponentIdForNode,
     );

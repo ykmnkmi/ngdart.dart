@@ -12,9 +12,8 @@ class DesugarVisitor extends IdentityTemplateAstVisitor<void>
   final ExceptionHandler exceptionHandler;
 
   /// Create a new visitor.
-  DesugarVisitor({
-    ExceptionHandler? exceptionHandler,
-  }) : exceptionHandler = exceptionHandler ?? const ThrowingExceptionHandler();
+  DesugarVisitor({ExceptionHandler? exceptionHandler})
+    : exceptionHandler = exceptionHandler ?? const ThrowingExceptionHandler();
 
   @override
   TemplateAst visitContainer(ContainerAst astNode, [_]) {
@@ -77,16 +76,14 @@ class DesugarVisitor extends IdentityTemplateAstVisitor<void>
     for (var banana in astNode.bananas) {
       if (banana.value == null) continue;
       astNode
-        ..events.add(EventAst.from(
-          banana,
-          '${banana.name}Change',
-          '${banana.value} = \$event',
-        ))
-        ..properties.add(PropertyAst.from(
-          banana,
-          banana.name,
-          banana.value!,
-        ));
+        ..events.add(
+          EventAst.from(
+            banana,
+            '${banana.name}Change',
+            '${banana.value} = \$event',
+          ),
+        )
+        ..properties.add(PropertyAst.from(banana, banana.name, banana.value!));
     }
     astNode.bananas.clear();
   }
@@ -128,9 +125,7 @@ class DesugarVisitor extends IdentityTemplateAstVisitor<void>
       }
       newAst = EmbeddedTemplateAst.from(
         origin,
-        childNodes: [
-          astNode,
-        ],
+        childNodes: [astNode],
         attributes: attributesToAdd,
         properties: propertiesToAdd,
         letBindings: letBindingsToAdd,
@@ -143,17 +138,13 @@ class DesugarVisitor extends IdentityTemplateAstVisitor<void>
         // name.
         attributesToAdd.add(AttributeAst.from(origin, directiveName));
       } else {
-        propertiesToAdd.add(PropertyAst.from(
-          origin,
-          directiveName,
-          starExpression,
-        ));
+        propertiesToAdd.add(
+          PropertyAst.from(origin, directiveName, starExpression),
+        );
       }
       newAst = EmbeddedTemplateAst.from(
         origin,
-        childNodes: [
-          astNode,
-        ],
+        childNodes: [astNode],
         attributes: attributesToAdd,
         properties: propertiesToAdd,
       );

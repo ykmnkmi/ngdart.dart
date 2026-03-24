@@ -43,8 +43,9 @@ class CompilePipe {
   }
 
   CompilePipe(this.view, this.meta)
-      : instance =
-            o.ReadClassMemberExpr('_pipe_${meta.name}_${view.pipeCount++}');
+    : instance = o.ReadClassMemberExpr(
+        '_pipe_${meta.name}_${view.pipeCount++}',
+      );
 
   void create() {
     view.createPipeInstance(instance.name, meta);
@@ -102,8 +103,10 @@ CompilePipeMetadata _findPipeMeta(CompileView view, String name) {
     }
   }
   if (pipeMeta == null) {
-    throw StateError('Illegal state: Could not find pipe $name '
-        'although the parser should have detected this error!');
+    throw StateError(
+      'Illegal state: Could not find pipe $name '
+      'although the parser should have detected this error!',
+    );
   }
   return pipeMeta;
 }

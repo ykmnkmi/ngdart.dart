@@ -14,8 +14,8 @@ class BrowserPlatformLocation extends PlatformLocation {
   final History _history;
 
   BrowserPlatformLocation()
-      : location = window.location,
-        _history = window.history;
+    : location = window.location,
+      _history = window.history;
 
   @override
   String? getBaseHrefFromDOM() => baseHrefFromDOM();

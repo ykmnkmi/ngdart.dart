@@ -65,9 +65,7 @@ import 'shared.dart' show controlPath;
 /// ```
 @Directive(
   selector: '[ngControl]',
-  providers: [
-    ExistingProvider(NgControl, NgControlName),
-  ],
+  providers: [ExistingProvider(NgControl, NgControlName)],
   exportAs: 'ngForm',
 )
 class NgControlName extends NgControl implements AfterChanges, OnDestroy {

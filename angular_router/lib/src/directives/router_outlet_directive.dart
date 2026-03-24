@@ -25,9 +25,7 @@ import '../router_hook.dart';
 ///   </template>
 /// </template>
 /// ```
-@Directive(
-  selector: 'router-outlet',
-)
+@Directive(selector: 'router-outlet')
 class RouterOutlet implements OnInit, OnDestroy {
   final ViewContainerRef _viewContainerRef;
   final Router _router;
@@ -113,9 +111,11 @@ class RouterOutlet implements OnInit, OnDestroy {
   /// be returned instead of creating a new one.
   ComponentRef<Object> prepare(ComponentFactory<Object> componentFactory) {
     return _loadedComponents.putIfAbsent(componentFactory, () {
-      final componentRef = componentFactory.create(Injector.map({
-        RouterOutletToken: RouterOutletToken(),
-      }, _viewContainerRef.injector));
+      final componentRef = componentFactory.create(
+        Injector.map({
+          RouterOutletToken: RouterOutletToken(),
+        }, _viewContainerRef.injector),
+      );
       // ignore: deprecated_member_use
       componentRef.changeDetectorRef.detectChanges();
       return componentRef;

@@ -6,19 +6,25 @@ import 'package:source_gen/source_gen.dart';
 
 import 'common.dart';
 
-final TypeReference _dynamic = TypeReference((b) => b
-  ..symbol = 'dynamic'
-  ..url = 'dart:core');
+final TypeReference _dynamic = TypeReference(
+  (b) =>
+      b
+        ..symbol = 'dynamic'
+        ..url = 'dart:core',
+);
 
 /// Returns as a `code_builder` [TypeReference] for code generation.
 TypeReference linkToReference(TypeLink link, LibraryReader library) {
   if (link.isDynamic || link.isPrivate) {
     return _dynamic;
   }
-  return TypeReference((b) => b
-    ..symbol = link.symbol
-    ..url = library.pathToUrl(link.import).toString()
-    ..types.addAll(link.generics.map((t) => linkToReference(t, library))));
+  return TypeReference(
+    (b) =>
+        b
+          ..symbol = link.symbol
+          ..url = library.pathToUrl(link.import).toString()
+          ..types.addAll(link.generics.map((t) => linkToReference(t, library))),
+  );
 }
 
 DartType _resolveBounds(DartType type) {
@@ -142,9 +148,6 @@ class TypeLink {
   }
 
   /// Returns as a [TypeLink] without generic type arguments.
-  TypeLink withoutGenerics() => TypeLink(
-        symbol,
-        import,
-        isNullable: isNullable,
-      );
+  TypeLink withoutGenerics() =>
+      TypeLink(symbol, import, isNullable: isNullable);
 }

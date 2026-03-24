@@ -40,8 +40,8 @@ class Url {
   final Map<String, String> queryParameters;
 
   Url(this.path, {String? fragment, Map<String, String>? queryParameters})
-      : fragment = fragment ?? '',
-        queryParameters = Map.unmodifiable(queryParameters ?? {});
+    : fragment = fragment ?? '',
+      queryParameters = Map.unmodifiable(queryParameters ?? {});
 
   /// Returns as a URL string that could be used for navigation/link sharing.
   String toUrl() {
@@ -50,11 +50,14 @@ class Url {
     if (queryParameters.isNotEmpty) {
       buffer
         ..write('?')
-        ..writeAll(queryParameters.keys.map((k) {
-          final v = queryParameters[k];
-          k = Uri.encodeComponent(k);
-          return v != null ? '$k=${Uri.encodeComponent(v)}' : k;
-        }), '&');
+        ..writeAll(
+          queryParameters.keys.map((k) {
+            final v = queryParameters[k];
+            k = Uri.encodeComponent(k);
+            return v != null ? '$k=${Uri.encodeComponent(v)}' : k;
+          }),
+          '&',
+        );
     }
     if (fragment.isNotEmpty) {
       buffer

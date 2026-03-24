@@ -101,17 +101,20 @@ bool _debugCheckBinding(
   String? expression,
   String? location,
 ]) {
-  final isIdentical = _debugCheckAllExpressionsAndReportExpressionContext
-      ? identical(oldValue, newValue)
-      : const _DevModeEquality().equals(oldValue, newValue);
+  final isIdentical =
+      _debugCheckAllExpressionsAndReportExpressionContext
+          ? identical(oldValue, newValue)
+          : const _DevModeEquality().equals(oldValue, newValue);
 
   if (!isIdentical) {
-    _unstableExpressionValues.add(UnstableExpressionValue._(
-      expression: expression,
-      location: location,
-      oldValue: oldValue,
-      newValue: newValue,
-    ));
+    _unstableExpressionValues.add(
+      UnstableExpressionValue._(
+        expression: expression,
+        location: location,
+        oldValue: oldValue,
+        newValue: newValue,
+      ),
+    );
     if (_debugThrowImmediately) {
       debugThrowIfUnstableExpressionsFound();
     }
@@ -175,7 +178,8 @@ class UnstableExpressionError extends Error {
 
   @override
   String toString() {
-    final message = ''
+    final message =
+        ''
         'An expression bound in an AngularDart template returned a different '
         'value the second time it was evaluated.\n';
     return '$message\n$details\n$_goLink\n';

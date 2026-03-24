@@ -220,7 +220,10 @@ void main() {
 
   test('doubleQuotedText - closed', () {
     var quoteToken = NgSimpleQuoteToken.doubleQuotedText(
-        0, '"this is a \"quoted\" text"', true);
+      0,
+      '"this is a \"quoted\" text"',
+      true,
+    );
     expect(quoteToken.lexeme, '"this is a \"quoted\" text"');
     expect(quoteToken.contentLexeme, 'this is a \"quoted\" text');
     expect(quoteToken.contentEnd, 24);
@@ -236,7 +239,10 @@ void main() {
 
   test('doubleQuotedText - open', () {
     var quoteToken = NgSimpleQuoteToken.doubleQuotedText(
-        0, '"this is a \"quoted\" text', false);
+      0,
+      '"this is a \"quoted\" text',
+      false,
+    );
     expect(quoteToken.contentLexeme, 'this is a \"quoted\" text');
     expect(quoteToken.contentEnd, 24);
     expect(quoteToken.contentLength, 23);
@@ -250,7 +256,10 @@ void main() {
 
   test('singleQuotedText - closed', () {
     var quoteToken = NgSimpleQuoteToken.singleQuotedText(
-        0, "'this is a \'quoted\' text'", true);
+      0,
+      "'this is a \'quoted\' text'",
+      true,
+    );
     expect(quoteToken.contentLexeme, "this is a \'quoted\' text");
     expect(quoteToken.contentEnd, 24);
     expect(quoteToken.contentLength, 23);
@@ -265,7 +274,10 @@ void main() {
 
   test('doubleQuotedText - open', () {
     var quoteToken = NgSimpleQuoteToken.singleQuotedText(
-        0, "'this is a \'quoted\' text", false);
+      0,
+      "'this is a \'quoted\' text",
+      false,
+    );
     expect(quoteToken.contentLexeme, "this is a \'quoted\' text");
     expect(quoteToken.end, 24);
     expect(quoteToken.contentLength, 23);

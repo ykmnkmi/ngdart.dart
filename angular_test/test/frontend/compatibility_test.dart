@@ -61,34 +61,41 @@ void main() {
     });
     group('and beforeComponentCreated without error', () {
       test('should handle synchronous fn', () async {
-        final fixture = await testBed.create(beforeComponentCreated: (i) {
-          testService = i.provideType(TestService);
-          testService!.value = 'New value';
-        }, beforeChangeDetection: (_) {
-          expect(testService, isNotNull);
-        });
+        final fixture = await testBed.create(
+          beforeComponentCreated: (i) {
+            testService = i.provideType(TestService);
+            testService!.value = 'New value';
+          },
+          beforeChangeDetection: (_) {
+            expect(testService, isNotNull);
+          },
+        );
         expect(docRoot.text, 'New value');
         await fixture.dispose();
       });
 
       test('should handle asynchronous fn', () async {
-        final fixture = await testBed.create(beforeComponentCreated: (i) async {
-          testService = i.provideType(TestService);
-          testService!.value = 'New value';
-        }, beforeChangeDetection: (_) {
-          expect(testService, isNotNull);
-        });
+        final fixture = await testBed.create(
+          beforeComponentCreated: (i) async {
+            testService = i.provideType(TestService);
+            testService!.value = 'New value';
+          },
+          beforeChangeDetection: (_) {
+            expect(testService, isNotNull);
+          },
+        );
         expect(docRoot.text, 'New value');
         await fixture.dispose();
       });
 
       test('should handle asynchronous fn with delayed future', () async {
         final fixture = await testBed.create(
-          beforeComponentCreated: (i) =>
-              Future.delayed(Duration(milliseconds: 200), () {}).then((_) {
-            testService = i.provideType(TestService);
-            testService!.value = 'New value';
-          }),
+          beforeComponentCreated:
+              (i) =>
+                  Future.delayed(Duration(milliseconds: 200), () {}).then((_) {
+                    testService = i.provideType(TestService);
+                    testService!.value = 'New value';
+                  }),
           beforeChangeDetection: (_) {
             expect(testService, isNotNull);
           },
@@ -100,24 +107,36 @@ void main() {
 
     group('and beforeComponentCreated with error', () {
       test('should handle synchronous fn', () async {
-        expect(testBed.create(beforeComponentCreated: (_) {
-          throw Error();
-        }), throwsA(const TypeMatcher<Error>()));
+        expect(
+          testBed.create(
+            beforeComponentCreated: (_) {
+              throw Error();
+            },
+          ),
+          throwsA(const TypeMatcher<Error>()),
+        );
       });
 
       test('should handle asynchronous fn', () async {
-        expect(testBed.create(beforeComponentCreated: (_) async {
-          throw Error();
-        }), throwsA(const TypeMatcher<Error>()));
+        expect(
+          testBed.create(
+            beforeComponentCreated: (_) async {
+              throw Error();
+            },
+          ),
+          throwsA(const TypeMatcher<Error>()),
+        );
       });
 
       test('should handle asynchronous fn with delayed future', () async {
         expect(
           testBed.create(
-            beforeComponentCreated: (_) =>
-                Future.delayed(Duration(milliseconds: 200), () {}).then((_) {
-              throw Error();
-            }),
+            beforeComponentCreated:
+                (_) => Future.delayed(Duration(milliseconds: 200), () {}).then((
+                  _,
+                ) {
+                  throw Error();
+                }),
           ),
           throwsA(const TypeMatcher<Error>()),
         );
@@ -126,10 +145,7 @@ void main() {
   });
 }
 
-@Component(
-  selector: 'test',
-  template: '{{value}}',
-)
+@Component(selector: 'test', template: '{{value}}')
 class AngularInjector {
   final TestService _testService;
 
@@ -143,8 +159,5 @@ class TestService {
   String? value;
 }
 
-@Component(
-  selector: 'test',
-  template: '',
-)
+@Component(selector: 'test', template: '')
 class TestSlowComponentLoaderAccess {}

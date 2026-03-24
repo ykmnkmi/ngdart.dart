@@ -10,7 +10,8 @@ void main() {
   group('Property access', () {
     test('should not fallback on map access if property missing', () async {
       var testBed = NgTestBed<ContainerWithNoPropertyAccess>(
-          ng.createContainerWithNoPropertyAccessFactory());
+        ng.createContainerWithNoPropertyAccessFactory(),
+      );
       expect(testBed.create(), throwsStateError);
     });
   });
@@ -18,7 +19,8 @@ void main() {
   group('Reference in Template element', () {
     test('should assign the TemplateRef to a user-defined variable', () async {
       var testBed = NgTestBed<MyCompWithTemplateRef>(
-          ng.createMyCompWithTemplateRefFactory());
+        ng.createMyCompWithTemplateRefFactory(),
+      );
       var testFixture = await testBed.create();
       var refReader = testFixture.assertOnlyInstance.refReaderComponent;
       expect(refReader!.ref1, TypeMatcher<TemplateRef>());
@@ -28,7 +30,8 @@ void main() {
 
 @Component(
   selector: 'my-comp-with-tref',
-  template: '<template #alice>Unstamped tmp</template>'
+  template:
+      '<template #alice>Unstamped tmp</template>'
       '<ref-reader [ref1]="alice"></ref-reader>',
   directives: [RefReaderComponent],
 )
@@ -37,10 +40,7 @@ class MyCompWithTemplateRef {
   RefReaderComponent? refReaderComponent;
 }
 
-@Component(
-  selector: 'ref-reader',
-  template: '<div></div>',
-)
+@Component(selector: 'ref-reader', template: '<div></div>')
 class RefReaderComponent {
   @Input()
   TemplateRef? ref1;

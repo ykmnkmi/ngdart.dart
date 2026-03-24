@@ -48,16 +48,16 @@ jobs:
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests;commands:analyze"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests;commands:analyze"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -125,23 +125,23 @@ jobs:
         if: "always() && steps.tests_pub_upgrade.conclusion == 'success'"
         working-directory: tests
   job_003:
-    name: "build; PKG: _tests; `dart run build_runner build --fail-on-severe`"
+    name: "build; PKG: _tests; `dart run build_runner build --fail-on-severe --delete-conflicting-outputs`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:_tests;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:_tests;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -150,31 +150,31 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: _tests
-      - name: "_tests; dart run build_runner build --fail-on-severe"
-        run: dart run build_runner build --fail-on-severe
+      - name: "_tests; dart run build_runner build --fail-on-severe --delete-conflicting-outputs"
+        run: dart run build_runner build --fail-on-severe --delete-conflicting-outputs
         if: "always() && steps._tests_pub_upgrade.conclusion == 'success'"
         working-directory: _tests
     needs:
       - job_001
       - job_002
   job_004:
-    name: "build; PKG: angular_forms; `dart run build_runner build --fail-on-severe`"
+    name: "build; PKG: angular_forms; `dart run build_runner build --fail-on-severe --delete-conflicting-outputs`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_forms;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_forms;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -183,31 +183,31 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_forms
-      - name: "angular_forms; dart run build_runner build --fail-on-severe"
-        run: dart run build_runner build --fail-on-severe
+      - name: "angular_forms; dart run build_runner build --fail-on-severe --delete-conflicting-outputs"
+        run: dart run build_runner build --fail-on-severe --delete-conflicting-outputs
         if: "always() && steps.angular_forms_pub_upgrade.conclusion == 'success'"
         working-directory: angular_forms
     needs:
       - job_001
       - job_002
   job_005:
-    name: "build; PKG: angular_router; `dart run build_runner build --fail-on-severe`"
+    name: "build; PKG: angular_router; `dart run build_runner build --fail-on-severe --delete-conflicting-outputs`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_router;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_router;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -216,31 +216,31 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_router
-      - name: "angular_router; dart run build_runner build --fail-on-severe"
-        run: dart run build_runner build --fail-on-severe
+      - name: "angular_router; dart run build_runner build --fail-on-severe --delete-conflicting-outputs"
+        run: dart run build_runner build --fail-on-severe --delete-conflicting-outputs
         if: "always() && steps.angular_router_pub_upgrade.conclusion == 'success'"
         working-directory: angular_router
     needs:
       - job_001
       - job_002
   job_006:
-    name: "build; PKG: angular_test; `dart run build_runner build --fail-on-severe`"
+    name: "build; PKG: angular_test; `dart run build_runner build --fail-on-severe --delete-conflicting-outputs`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_test;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_test;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -249,31 +249,31 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_test
-      - name: "angular_test; dart run build_runner build --fail-on-severe"
-        run: dart run build_runner build --fail-on-severe
+      - name: "angular_test; dart run build_runner build --fail-on-severe --delete-conflicting-outputs"
+        run: dart run build_runner build --fail-on-severe --delete-conflicting-outputs
         if: "always() && steps.angular_test_pub_upgrade.conclusion == 'success'"
         working-directory: angular_test
     needs:
       - job_001
       - job_002
   job_007:
-    name: "build; PKG: tests; `dart run build_runner build --fail-on-severe`"
+    name: "build; PKG: tests; `dart run build_runner build --fail-on-severe --delete-conflicting-outputs`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:tests;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:tests;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -282,31 +282,31 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: tests
-      - name: "tests; dart run build_runner build --fail-on-severe"
-        run: dart run build_runner build --fail-on-severe
+      - name: "tests; dart run build_runner build --fail-on-severe --delete-conflicting-outputs"
+        run: dart run build_runner build --fail-on-severe --delete-conflicting-outputs
         if: "always() && steps.tests_pub_upgrade.conclusion == 'success'"
         working-directory: tests
     needs:
       - job_001
       - job_002
   job_008:
-    name: "unit_test; PKG: _tests; `dart run build_runner test --fail-on-severe -- -P browser -j1`"
+    name: "unit_test; PKG: _tests; `dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P browser -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:_tests;commands:command_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:_tests;commands:command_2"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -315,8 +315,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: _tests
-      - name: "_tests; dart run build_runner test --fail-on-severe -- -P browser -j1"
-        run: dart run build_runner test --fail-on-severe -- -P browser -j1
+      - name: "_tests; dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P browser -j1"
+        run: dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P browser -j1
         if: "always() && steps._tests_pub_upgrade.conclusion == 'success'"
         working-directory: _tests
     needs:
@@ -335,16 +335,16 @@ jobs:
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:_tests;commands:command_1"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:_tests;commands:command_1"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -373,16 +373,16 @@ jobs:
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_ast;commands:command_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_ast;commands:command_3"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_ast
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_ast
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -411,16 +411,16 @@ jobs:
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_compiler;commands:command_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_compiler;commands:command_3"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_compiler
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_compiler
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -442,23 +442,23 @@ jobs:
       - job_006
       - job_007
   job_012:
-    name: "unit_test; PKG: angular_forms; `dart run build_runner test --fail-on-severe -- -P ci -j1`"
+    name: "unit_test; PKG: angular_forms; `dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_forms;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_forms;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -467,8 +467,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_forms
-      - name: "angular_forms; dart run build_runner test --fail-on-severe -- -P ci -j1"
-        run: dart run build_runner test --fail-on-severe -- -P ci -j1
+      - name: "angular_forms; dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1"
+        run: dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1
         if: "always() && steps.angular_forms_pub_upgrade.conclusion == 'success'"
         working-directory: angular_forms
     needs:
@@ -480,23 +480,23 @@ jobs:
       - job_006
       - job_007
   job_013:
-    name: "unit_test; PKG: angular_router; `dart run build_runner test --fail-on-severe -- -P ci -j1`"
+    name: "unit_test; PKG: angular_router; `dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_router;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_router;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -505,8 +505,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_router
-      - name: "angular_router; dart run build_runner test --fail-on-severe -- -P ci -j1"
-        run: dart run build_runner test --fail-on-severe -- -P ci -j1
+      - name: "angular_router; dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1"
+        run: dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1
         if: "always() && steps.angular_router_pub_upgrade.conclusion == 'success'"
         working-directory: angular_router
     needs:
@@ -518,23 +518,23 @@ jobs:
       - job_006
       - job_007
   job_014:
-    name: "unit_test; PKG: angular_test; `dart run build_runner test --fail-on-severe -- -P ci -j1`"
+    name: "unit_test; PKG: angular_test; `dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_test;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_test;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -543,8 +543,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: angular_test
-      - name: "angular_test; dart run build_runner test --fail-on-severe -- -P ci -j1"
-        run: dart run build_runner test --fail-on-severe -- -P ci -j1
+      - name: "angular_test; dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1"
+        run: dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1
         if: "always() && steps.angular_test_pub_upgrade.conclusion == 'success'"
         working-directory: angular_test
     needs:
@@ -556,23 +556,23 @@ jobs:
       - job_006
       - job_007
   job_015:
-    name: "unit_test; PKG: tests; `dart run build_runner test --fail-on-severe -- -P ci -j1`"
+    name: "unit_test; PKG: tests; `dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:tests;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:tests;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2;packages:tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.2
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3;packages:tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.7.3
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: "3.6.2"
+          sdk: "3.7.3"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -581,8 +581,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: tests
-      - name: "tests; dart run build_runner test --fail-on-severe -- -P ci -j1"
-        run: dart run build_runner test --fail-on-severe -- -P ci -j1
+      - name: "tests; dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1"
+        run: dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P ci -j1
         if: "always() && steps.tests_pub_upgrade.conclusion == 'success'"
         working-directory: tests
     needs:

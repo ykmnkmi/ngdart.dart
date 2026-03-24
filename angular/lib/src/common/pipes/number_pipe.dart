@@ -115,14 +115,13 @@ class CurrencyPipe extends _NumberPipe {
     String currencyCode = 'USD',
     bool symbolDisplay = false,
     String? digits,
-  ]) =>
-      _NumberPipe._format(
-        value,
-        _NumberFormatStyle.Currency,
-        digits,
-        currencyCode,
-        symbolDisplay,
-      );
+  ]) => _NumberPipe._format(
+    value,
+    _NumberFormatStyle.Currency,
+    digits,
+    currencyCode,
+    symbolDisplay,
+  );
 
   const CurrencyPipe();
 }

@@ -46,7 +46,7 @@ class SelectControlValueAccessor extends Object
   num _idCounter = 0;
 
   SelectControlValueAccessor(HtmlElement element)
-      : _element = element as SelectElement;
+    : _element = element as SelectElement;
 
   @HostListener('change', ['\$event.target.value'])
   void handleChange(String value) {
@@ -87,15 +87,13 @@ class SelectControlValueAccessor extends Object
 ///     <select ngControl="city">
 ///       <option *ngFor="let c of cities" [value]="c"></option>
 ///     </select>
-@Directive(
-  selector: 'option',
-)
+@Directive(selector: 'option')
 class NgSelectOption implements OnDestroy {
   final OptionElement _element;
   final SelectControlValueAccessor? _select;
   late final String id;
   NgSelectOption(HtmlElement element, @Optional() @Host() this._select)
-      : _element = element as OptionElement {
+    : _element = element as OptionElement {
     if (_select != null) id = _select._registerOption();
   }
 

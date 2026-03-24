@@ -1,9 +1,9 @@
 sdk:
-  - 3.6.2
+  - 3.7.3
 
 stages:
   - build:
-      - command: dart run build_runner build --fail-on-severe
+      - command: dart run build_runner build --fail-on-severe --delete-conflicting-outputs
   - unit_test:
       - command: dart test -P vm
-      - command: dart run build_runner test --fail-on-severe -- -P browser -j1
+      - command: dart run build_runner test --fail-on-severe --delete-conflicting-outputs -- -P browser -j1

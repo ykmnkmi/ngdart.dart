@@ -24,7 +24,7 @@ class DependencyReader {
   final TokenReader _tokenReader;
 
   const DependencyReader({TokenReader tokenReader = const TokenReader()})
-      : _tokenReader = tokenReader;
+    : _tokenReader = tokenReader;
 
   /// Returns the constructor on a given `class` [element] to use for injection.
   ///
@@ -40,7 +40,8 @@ class DependencyReader {
     // Otherwise, find the first public constructor.
     // If the class is abstract, find the first public factory constructor.
     return element.constructors.firstWhereOrNull(
-        (e) => e.isPublic && !element.isAbstract || e.isFactory);
+      (e) => e.isPublic && !element.isAbstract || e.isFactory,
+    );
   }
 
   /// Returns parsed dependencies for the provided [element].
@@ -116,9 +117,10 @@ class DependencyReader {
         positional.add(
           DependencyElement(
             token,
-            type: hasInjectToken || hasOpaqueToken
-                ? _tokenReader.parseTokenType(parameter)
-                : null,
+            type:
+                hasInjectToken || hasOpaqueToken
+                    ? _tokenReader.parseTokenType(parameter)
+                    : null,
             host: $Host.firstAnnotationOfExact(parameter) != null,
             optional: !isRequired,
             self: $Self.firstAnnotationOfExact(parameter) != null,
@@ -165,15 +167,16 @@ class DependencyReader {
     final constructor = findConstructor(element);
     if (constructor == null) {
       throw BuildError.forElement(
-          element, 'Could not find a valid constructor');
+        element,
+        'Could not find a valid constructor',
+      );
     }
     return _parseDependencies(constructor, constructor.parameters);
   }
 
   DependencyInvocation<ExecutableElement> _parseFunctionDependencies(
     ExecutableElement element,
-  ) =>
-      _parseDependencies(element, element.parameters);
+  ) => _parseDependencies(element, element.parameters);
 }
 
 /// Statically analyzed arguments needed to invoke a constructor or function.

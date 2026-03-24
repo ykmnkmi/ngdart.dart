@@ -15,8 +15,9 @@ void main() {
   });
 
   test('renders children in place of self', () async {
-    final testBed =
-        NgTestBed<RendersChildren>(ng.createRendersChildrenFactory());
+    final testBed = NgTestBed<RendersChildren>(
+      ng.createRendersChildrenFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.rootElement.innerHtml, html);
   });
@@ -41,73 +42,78 @@ void main() {
 
   test('supports *ngTemplateOutlet', () async {
     final testBed = NgTestBed<SupportsNgTemplateOutlet>(
-        ng.createSupportsNgTemplateOutletFactory());
+      ng.createSupportsNgTemplateOutletFactory(),
+    );
     final testFixture = await testBed.create();
     expect(
-        testFixture.rootElement.innerHtml,
-        '$anchorHtml ' // <template #ref> anchor
-        '$anchorHtml' // <template> and ViewContainerRef anchor for *-directive
-        '${testFixture.assertOnlyInstance.context['message']}');
+      testFixture.rootElement.innerHtml,
+      '$anchorHtml ' // <template #ref> anchor
+      '$anchorHtml' // <template> and ViewContainerRef anchor for *-directive
+      '${testFixture.assertOnlyInstance.context['message']}',
+    );
   });
 
   test('supports nested *-syntax', () async {
-    final testBed =
-        NgTestBed<SupportsNesting>(ng.createSupportsNestingFactory());
+    final testBed = NgTestBed<SupportsNesting>(
+      ng.createSupportsNestingFactory(),
+    );
     final testFixture = await testBed.create();
     expect(testFixture.rootElement.innerHtml, anchorHtml);
     await testFixture.update((component) => component.integers = [1, 2, 3]);
     expect(
-        testFixture.rootElement.innerHtml,
-        '$anchorHtml' // NgFor
-        '$anchorHtml' // NgIf true
-        '<li>1</li>'
-        '$anchorHtml' // NgIf true
-        '<li>2</li>'
-        '$anchorHtml' // NgIf true
-        '<li>3</li>');
+      testFixture.rootElement.innerHtml,
+      '$anchorHtml' // NgFor
+      '$anchorHtml' // NgIf true
+      '<li>1</li>'
+      '$anchorHtml' // NgIf true
+      '<li>2</li>'
+      '$anchorHtml' // NgIf true
+      '<li>3</li>',
+    );
     await testFixture.update((component) => component.filterOdd = true);
     expect(
-        testFixture.rootElement.innerHtml,
-        '$anchorHtml' // NgFor
-        '$anchorHtml' // NgIf false
-        '$anchorHtml' // NgIf true
-        '<li>2</li>'
-        '$anchorHtml' // NgIf false
-        );
+      testFixture.rootElement.innerHtml,
+      '$anchorHtml' // NgFor
+      '$anchorHtml' // NgIf false
+      '$anchorHtml' // NgIf true
+      '<li>2</li>'
+      '$anchorHtml', // NgIf false
+    );
   });
 
   test('can be projected', () async {
     final testBed = NgTestBed<CanBeProjected>(ng.createCanBeProjectedFactory());
     final testFixture = await testBed.create();
-    expect(testFixture.rootElement.innerHtml,
-        '<content-host>$anchorHtml$html</content-host>');
+    expect(
+      testFixture.rootElement.innerHtml,
+      '<content-host>$anchorHtml$html</content-host>',
+    );
     await testFixture.update((component) => component.visible = false);
-    expect(testFixture.rootElement.innerHtml,
-        '<content-host>$anchorHtml</content-host>');
+    expect(
+      testFixture.rootElement.innerHtml,
+      '<content-host>$anchorHtml</content-host>',
+    );
   });
 
   test('can host projected content', () async {
     final testBed = NgTestBed<CanHostProjectedContent>(
-        ng.createCanHostProjectedContentFactory());
+      ng.createCanHostProjectedContentFactory(),
+    );
     final testFixture = await testBed.create();
-    expect(testFixture.rootElement.innerHtml,
-        '<contained-content-host>$html</contained-content-host>');
+    expect(
+      testFixture.rootElement.innerHtml,
+      '<contained-content-host>$html</contained-content-host>',
+    );
   });
 }
 
 const anchorHtml = '<!---->';
 const html = '<span>Hello!</span>';
 
-@Component(
-  selector: 'test',
-  template: '<ng-container></ng-container>',
-)
+@Component(selector: 'test', template: '<ng-container></ng-container>')
 class RendersNothing {}
 
-@Component(
-  selector: 'test',
-  template: '<ng-container>$html</ng-container>',
-)
+@Component(selector: 'test', template: '<ng-container>$html</ng-container>')
 class RendersChildren {}
 
 @Component(
@@ -160,10 +166,7 @@ class SupportsNesting {
   bool filterOdd = false;
 }
 
-@Component(
-  selector: 'content-host',
-  template: '<ng-content></ng-content>',
-)
+@Component(selector: 'content-host', template: '<ng-content></ng-content>')
 class ContentHost {}
 
 @Component(

@@ -304,6 +304,6 @@ class _HostViewData implements DynamicViewData {
   void _updateShouldSkipChangeDetection() {
     _shouldSkipChangeDetection =
         _changeDetectionMode == ChangeDetectionStrategy.Detached ||
-            _changeDetectorState == ChangeDetectorState.Errored;
+        _changeDetectorState == ChangeDetectorState.Errored;
   }
 }

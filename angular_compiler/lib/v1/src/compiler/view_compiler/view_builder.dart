@@ -73,19 +73,26 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
   ProviderForest get providers => ProviderForest.from(_providerStack.first);
 
   void _addRootNodeAndProject(
-      CompileNode node, int? ngContentIndex, CompileElement parent) {
-    var vcAppEl = (node is CompileElement && node.hasViewContainer)
-        ? node.appViewContainer
-        : null;
+    CompileNode node,
+    int? ngContentIndex,
+    CompileElement parent,
+  ) {
+    var vcAppEl =
+        (node is CompileElement && node.hasViewContainer)
+            ? node.appViewContainer
+            : null;
     if (_isRootNode(parent)) {
       // store appElement as root node only for ViewContainers
       if (_view.viewType != ViewType.component) {
-        _view.rootNodesOrViewContainers
-            .add(vcAppEl ?? node.renderNode.toReadExpr());
+        _view.rootNodesOrViewContainers.add(
+          vcAppEl ?? node.renderNode.toReadExpr(),
+        );
       }
     } else if (parent.component != null && ngContentIndex != null) {
       parent.addContentNode(
-          ngContentIndex, vcAppEl ?? node.renderNode.toReadExpr());
+        ngContentIndex,
+        vcAppEl ?? node.renderNode.toReadExpr(),
+      );
     }
   }
 
@@ -138,15 +145,25 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
   }
 
   void _deadCodeWarning(
-      String nodeDescription, TemplateAst ast, CompileElement parent) {
-    logWarning(ast.sourceSpan.message('Dead code in template: '
+    String nodeDescription,
+    TemplateAst ast,
+    CompileElement parent,
+  ) {
+    logWarning(
+      ast.sourceSpan.message(
+        'Dead code in template: '
         '$nodeDescription is a child of a non-projecting '
         'component (${parent.component!.selector}) and will not '
-        'be added to the DOM.'));
+        'be added to the DOM.',
+      ),
+    );
   }
 
   void _visitText(
-      ir.Binding binding, CompileElement parent, int? ngContentIndex) {
+    ir.Binding binding,
+    CompileElement parent,
+    int? ngContentIndex,
+  ) {
     var nodeIndex = _view.nodes.length;
     var renderNode = _nodeReference(binding, parent, nodeIndex);
     var compileNode = CompileNode(parent, _view, nodeIndex, renderNode);
@@ -155,14 +172,20 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
   }
 
   NodeReference _nodeReference(
-      ir.Binding binding, CompileElement parent, int nodeIndex) {
+    ir.Binding binding,
+    CompileElement parent,
+    int nodeIndex,
+  ) {
     if (binding.target is ir.TextBinding) {
       return _view.createTextBinding(binding.source, parent, nodeIndex);
     } else if (binding.target is ir.HtmlBinding) {
       return _view.createHtml(binding.source, parent, nodeIndex);
     } else {
       throw ArgumentError.value(
-          binding.target, 'binding.target', 'Unsupported binding target.');
+        binding.target,
+        'binding.target',
+        'Unsupported binding target.',
+      );
     }
   }
 
@@ -186,17 +209,18 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
         eager: true,
       );
       var compileElement = CompileElement(
-          parent,
-          _view,
-          ast.index,
-          NodeReference.ngContent(_view.storage, ast.index),
-          ast,
-          null,
-          [],
-          [providerAst],
-          false,
-          false,
-          [reference]);
+        parent,
+        _view,
+        ast.index,
+        NodeReference.ngContent(_view.storage, ast.index),
+        ast,
+        null,
+        [],
+        [providerAst],
+        false,
+        false,
+        [reference],
+      );
 
       _view.nodes.add(compileElement);
 
@@ -227,13 +251,7 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
         ast,
       );
     } else {
-      _visitHtmlElement(
-        parent,
-        nodeIndex,
-        elementRef,
-        directives,
-        ast,
-      );
+      _visitHtmlElement(parent, nodeIndex, elementRef, directives, ast);
     }
   }
 
@@ -253,8 +271,8 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
   }
 
   CompileDirectiveMetadata? _componentFromDirectives(
-          List<CompileDirectiveMetadata> directives) =>
-      directives.firstWhereOrNull((directive) => directive.isComponent);
+    List<CompileDirectiveMetadata> directives,
+  ) => directives.firstWhereOrNull((directive) => directive.isComponent);
 
   /// Should be called before visiting the children of [element].
   void _beforeChildren(CompileElement element) {
@@ -267,8 +285,10 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
     final childNodeCount = _view.nodes.length - element.nodeIndex! - 1;
     element.afterChildren(childNodeCount);
     final childProviderNodes = _providerStack.removeLast();
-    final providerNode =
-        element.createProviderNode(childNodeCount, childProviderNodes);
+    final providerNode = element.createProviderNode(
+      childNodeCount,
+      childProviderNodes,
+    );
     _providerStack.last.add(providerNode);
   }
 
@@ -294,10 +314,7 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
     final isHostView = _view.viewType == ViewType.host;
 
     if (!isHostView) {
-      var mergedBindings = mergeHtmlAndDirectiveAttributes(
-        ast,
-        directives,
-      );
+      var mergedBindings = mergeHtmlAndDirectiveAttributes(ast, directives);
       _view.writeLiteralAttributeValues(
         ast.name,
         elementRef,
@@ -355,11 +372,12 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
   }
 
   void _visitHtmlElement(
-      CompileElement parent,
-      int nodeIndex,
-      NodeReference elementRef,
-      List<CompileDirectiveMetadata> directives,
-      ElementAst ast) {
+    CompileElement parent,
+    int nodeIndex,
+    NodeReference elementRef,
+    List<CompileDirectiveMetadata> directives,
+    ElementAst ast,
+  ) {
     var tagName = ast.name;
     // Create element or elementNS. AST encodes svg path element as
     // @svg:path.
@@ -368,15 +386,18 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
       var nameParts = ast.name.substring(1).split(':');
       var ns = namespaceUris[nameParts[0]];
       _view.createElementNs(
-          parent, elementRef, nodeIndex, ns, nameParts[1], ast);
+        parent,
+        elementRef,
+        nodeIndex,
+        ns,
+        nameParts[1],
+        ast,
+      );
     } else {
       _view.createElement(parent, elementRef, tagName, ast);
     }
     var isHtmlElement = detectHtmlElementFromTagName(tagName);
-    var mergedBindings = mergeHtmlAndDirectiveAttributes(
-      ast,
-      directives,
-    );
+    var mergedBindings = mergeHtmlAndDirectiveAttributes(ast, directives);
     _view.writeLiteralAttributeValues(
       ast.name,
       elementRef,
@@ -385,25 +406,27 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
     );
 
     // Set ng_content class for CSS shim.
-    var elementType = _view.isRootNodeOfHost(nodeIndex)
-        ? Identifiers.HTML_HTML_ELEMENT
-        : identifierFromTagName(ast.name);
+    var elementType =
+        _view.isRootNodeOfHost(nodeIndex)
+            ? Identifiers.HTML_HTML_ELEMENT
+            : identifierFromTagName(ast.name);
     _view.shimCssForNode(elementRef, nodeIndex, elementType);
 
     var compileElement = CompileElement(
-        parent,
-        _view,
-        nodeIndex,
-        elementRef,
-        ast,
-        null,
-        directives,
-        ast.providers,
-        ast.hasViewContainer,
-        false,
-        ast.references,
-        isHtmlElement: isHtmlElement,
-        hasTemplateRefQuery: parent.hasTemplateRefQuery);
+      parent,
+      _view,
+      nodeIndex,
+      elementRef,
+      ast,
+      null,
+      directives,
+      ast.providers,
+      ast.hasViewContainer,
+      false,
+      ast.references,
+      isHtmlElement: isHtmlElement,
+      hasTemplateRefQuery: parent.hasTemplateRefQuery,
+    );
 
     _view.nodes.add(compileElement);
     _addRootNodeAndProject(compileElement, ast.ngContentIndex, parent);
@@ -435,11 +458,13 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
     _nestedViewCount++;
     _addRootNodeAndProject(compileElement, ast.ngContentIndex, parent);
 
-    var metadata = CompileDirectiveMetadata.from(_view.component,
-        analyzedClass: AnalyzedClass.from(_view.component.analyzedClass!,
-            additionalLocals: {
-              for (var v in ast.variables) v.name: v.dartType,
-            }));
+    var metadata = CompileDirectiveMetadata.from(
+      _view.component,
+      analyzedClass: AnalyzedClass.from(
+        _view.component.analyzedClass!,
+        additionalLocals: {for (var v in ast.variables) v.name: v.dartType},
+      ),
+    );
 
     var embeddedView = CompileView(
       metadata,
@@ -458,10 +483,10 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
     // Create a visitor for embedded view and visit all nodes.
     var embeddedViewVisitor = ViewBuilderVisitor(embeddedView);
     templateVisitAll(
-        embeddedViewVisitor,
-        ast.children,
-        embeddedView.declarationElement.parent ??
-            embeddedView.declarationElement);
+      embeddedViewVisitor,
+      ast.children,
+      embeddedView.declarationElement.parent ?? embeddedView.declarationElement,
+    );
     _nestedViewCount += embeddedViewVisitor._nestedViewCount;
 
     _afterChildren(compileElement);
@@ -469,8 +494,8 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
   }
 
   List<CompileDirectiveMetadata> _toCompileMetadata(
-          List<DirectiveAst> directives) =>
-      directives.map((directiveAst) => directiveAst.directive).toList();
+    List<DirectiveAst> directives,
+  ) => directives.map((directiveAst) => directiveAst.directive).toList();
 
   @override
   void visitAttr(AttrAst ast, CompileElement parent) {}
@@ -489,14 +514,18 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
 
   @override
   void visitDirectiveProperty(
-      BoundDirectivePropertyAst ast, CompileElement parent) {}
+    BoundDirectivePropertyAst ast,
+    CompileElement parent,
+  ) {}
 
   @override
   void visitDirectiveEvent(BoundDirectiveEventAst ast, CompileElement parent) {}
 
   @override
   void visitElementProperty(
-      BoundElementPropertyAst ast, CompileElement parent) {}
+    BoundElementPropertyAst ast,
+    CompileElement parent,
+  ) {}
 
   @override
   void visitProvider(ProviderAst ast, CompileElement parent) {}
@@ -510,14 +539,9 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
 o.ClassStmt createViewClass(CompileView view, ExpressionParser parser) {
   final viewConstructor = _createViewConstructor(view);
   final viewMethods = [
-    o.ClassMethod(
-      'build',
-      [],
-      _generateBuildMethod(view, parser),
-      null,
-      null,
-      [o.importExpr(Identifiers.dartCoreOverride)],
-    ),
+    o.ClassMethod('build', [], _generateBuildMethod(view, parser), null, null, [
+      o.importExpr(Identifiers.dartCoreOverride),
+    ]),
     view.writeInjectorGetMethod(),
     if (view.component.isChangeDetectionLink)
       o.ClassMethod(
@@ -615,13 +639,14 @@ o.Constructor _createComponentViewConstructor(CompileView view) {
   final createRootElementExpr = o
       .importExpr(Identifiers.HTML_DOCUMENT)
       .callMethod('createElement', [o.literal(tagName)]);
-  final body = [
-    rootElementRef.toWriteStmt(unsafeCast(createRootElementExpr)),
-  ];
+  final body = [rootElementRef.toWriteStmt(unsafeCast(createRootElementExpr))];
   // Write literal attribute values on element.
   view.component.hostAttributes.forEach((name, value) {
     var binding = convertHostAttributeToBinding(
-        name, ASTWithSource.missingSource(value), view.component);
+      name,
+      ASTWithSource.missingSource(value),
+      view.component,
+    );
     var statements = view.createAttributeStatements(
       binding,
       tagName,
@@ -632,21 +657,15 @@ o.Constructor _createComponentViewConstructor(CompileView view) {
   });
   return o.Constructor(
     params: [
-      o.FnParam(
-        ViewConstructorVars.parentView.name!,
-        o.importType(Views.view),
-      ),
-      o.FnParam(
-        ViewConstructorVars.parentIndex.name!,
-        o.INT_TYPE,
-      ),
+      o.FnParam(ViewConstructorVars.parentView.name!, o.importType(Views.view)),
+      o.FnParam(ViewConstructorVars.parentIndex.name!, o.INT_TYPE),
     ],
     initializers: [
       o.SUPER_EXPR.callFn([
         ViewConstructorVars.parentView,
         ViewConstructorVars.parentIndex,
         changeDetectionStrategyToConst(_getChangeDetectionMode(view)),
-      ]).toStmt()
+      ]).toStmt(),
     ],
     body: body,
   );
@@ -659,10 +678,7 @@ o.Constructor _createEmbeddedViewConstructor(CompileView view) {
         ViewConstructorVars.parentView.name!,
         o.importType(Views.renderView),
       ),
-      o.FnParam(
-        ViewConstructorVars.parentIndex.name!,
-        o.INT_TYPE,
-      ),
+      o.FnParam(ViewConstructorVars.parentIndex.name!, o.INT_TYPE),
     ],
     initializers: [
       o.SUPER_EXPR.callFn([
@@ -709,7 +725,8 @@ List<o.Statement> _generateDestroyMethod(CompileView view) {
     if (view.viewType != ViewType.host)
       for (var viewChild in view.viewChildren)
         viewChild.componentView!
-            .callMethod('destroyInternalState', []).toStmt(),
+            .callMethod('destroyInternalState', [])
+            .toStmt(),
     ...view.destroyMethod.finish(),
   ];
 }
@@ -729,12 +746,15 @@ o.Statement createViewFactory(CompileView view, o.ClassStmt viewClass) {
       return _createHostViewFactory(view, viewClass);
     default:
       throw StateError(
-          'Can\'t create factory for view type "${view.viewType}"');
+        'Can\'t create factory for view type "${view.viewType}"',
+      );
   }
 }
 
 o.Statement _createEmbeddedViewFactory(
-    CompileView view, o.ClassStmt viewClass) {
+  CompileView view,
+  o.ClassStmt viewClass,
+) {
   final parentViewType = o.importType(Views.renderView);
   final parameters = [
     o.FnParam(ViewConstructorVars.parentView.name!, parentViewType),
@@ -765,9 +785,14 @@ o.Statement _createEmbeddedViewFactory(
   final constructorTypeArguments =
       viewClass.typeParameters.map((t) => t.toType()).toList();
   final body = [
-    o.ReturnStatement(o.variable(viewClass.name).instantiate(
-        parameters.map((p) => o.variable(p.name)).toList(),
-        genericTypes: constructorTypeArguments)),
+    o.ReturnStatement(
+      o
+          .variable(viewClass.name)
+          .instantiate(
+            parameters.map((p) => o.variable(p.name)).toList(),
+            genericTypes: constructorTypeArguments,
+          ),
+    ),
   ];
   return o.DeclareFunctionStmt(
     view.viewFactoryName,
@@ -793,11 +818,7 @@ o.Statement _createHostViewFactory(CompileView view, o.ClassStmt viewClass) {
   //    }
   final returnTypeTypeArguments = [contextType(view)];
   final returnType = o.importType(Views.hostView, returnTypeTypeArguments);
-  final body = [
-    o.ReturnStatement(
-      o.variable(viewClass.name).instantiate([]),
-    ),
-  ];
+  final body = [o.ReturnStatement(o.variable(viewClass.name).instantiate([]))];
   return o.DeclareFunctionStmt(
     view.viewFactoryName,
     [], // No parameters.
@@ -819,10 +840,9 @@ List<o.Statement> _generateBuildMethod(
       const [],
     );
     parentRenderNodeStmts.add(
-      parentRenderNodeVar.set(parentRenderNodeExpr).toDeclStmt(
-        null,
-        [o.StmtModifier.Final],
-      ),
+      parentRenderNodeVar.set(parentRenderNodeExpr).toDeclStmt(null, [
+        o.StmtModifier.Final,
+      ]),
     );
   }
 
@@ -888,13 +908,10 @@ o.Statement? _generateInitStatement(CompileView view) {
           rootNodesExpr.entries.single,
         ]).toStmt();
       } else {
-        return o.InvokeMemberMethodExpr(
-          'initRootNodesAndSubscriptions',
-          [
-            unsafeCast(rootNodesExpr),
-            _maybeFilterSubscriptions(view),
-          ],
-        ).toStmt();
+        return o.InvokeMemberMethodExpr('initRootNodesAndSubscriptions', [
+          unsafeCast(rootNodesExpr),
+          _maybeFilterSubscriptions(view),
+        ]).toStmt();
       }
     case ViewType.host:
       return o.InvokeMemberMethodExpr('initRootNode', [
@@ -929,21 +946,23 @@ void _writeComponentHostEventListeners(
   for (var eventName in component.hostListeners.keys) {
     var boundEvent = _parseEvent(component, eventName, parser);
 
-    var handlerExpr = converter.convertSourceToExpression(
-        boundEvent.source, boundEvent.target.type)!;
+    var handlerExpr =
+        converter.convertSourceToExpression(
+          boundEvent.source,
+          boundEvent.target.type,
+        )!;
 
-    statements.addAll(bindingToUpdateStatements(
-      boundEvent,
-      rootEl,
-      null,
-      false,
-      handlerExpr,
-    ));
+    statements.addAll(
+      bindingToUpdateStatements(boundEvent, rootEl, null, false, handlerExpr),
+    );
   }
 }
 
-ir.Binding _parseEvent(CompileDirectiveMetadata component, String eventName,
-    ExpressionParser parser) {
+ir.Binding _parseEvent(
+  CompileDirectiveMetadata component,
+  String eventName,
+  ExpressionParser parser,
+) {
   var handlerSource = component.hostListeners[eventName];
   var handlerAst = parser.parseAction(handlerSource, '', component.exports);
   var boundEvent = convertHostListenerToBinding(eventName, handlerAst);

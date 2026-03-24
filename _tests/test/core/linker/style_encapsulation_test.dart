@@ -19,8 +19,9 @@ void main() {
   }
 
   test('should encapsulate usages of [class]=', () async {
-    final testBed =
-        NgTestBed<TestSetClassProperty>(ng.createTestSetClassPropertyFactory());
+    final testBed = NgTestBed<TestSetClassProperty>(
+      ng.createTestSetClassPropertyFactory(),
+    );
     final fixture = await testBed.create();
     final element = fixture.rootElement.querySelector('div')!;
     expect(
@@ -32,7 +33,8 @@ void main() {
 
   test('should encapsulate usages of [attr.class]=', () async {
     final testBed = NgTestBed<TestSetClassAttribute>(
-        ng.createTestSetClassAttributeFactory());
+      ng.createTestSetClassAttributeFactory(),
+    );
     final fixture = await testBed.create();
     final element = fixture.rootElement.querySelector('div')!;
     expect(
@@ -44,7 +46,8 @@ void main() {
 
   test('should support encapsulation piercing ::ng-deep', () async {
     final testBed = NgTestBed<TestEncapsulationPierce>(
-        ng.createTestEncapsulationPierceFactory());
+      ng.createTestEncapsulationPierceFactory(),
+    );
     final fixture = await testBed.create();
     final element = fixture.rootElement.querySelector('button')!;
     expect(
@@ -65,7 +68,7 @@ void main() {
     .is-fancy {
       position: absolute;
     }
-  '''
+  ''',
   ],
 )
 class TestSetClassProperty {
@@ -82,7 +85,7 @@ class TestSetClassProperty {
     .is-fancy {
       position: absolute;
     }
-  '''
+  ''',
   ],
 )
 class TestSetClassAttribute {
@@ -94,15 +97,13 @@ class TestSetClassAttribute {
   template: r'''
     <child-with-text class="no-uppercase-test"></child-with-text>
   ''',
-  directives: [
-    ChildComponentWithUppercaseText,
-  ],
+  directives: [ChildComponentWithUppercaseText],
   styles: [
     r'''
     .no-uppercase-test ::ng-deep .trigger-button {
       text-transform: inherit;
     }
-  '''
+  ''',
   ],
 )
 class TestEncapsulationPierce {}
@@ -117,7 +118,7 @@ class TestEncapsulationPierce {}
     .trigger-button {
       text-transform: uppercase;
     }
-  '''
+  ''',
   ],
 )
 class ChildComponentWithUppercaseText {}

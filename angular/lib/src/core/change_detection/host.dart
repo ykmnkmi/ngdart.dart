@@ -170,11 +170,7 @@ abstract class ChangeDetectionHost {
 
   /// Disables the [view] as an error, and forwards to [reportException].
   @dart2js.noInline
-  void reportViewException(
-    View view,
-    Object error, [
-    StackTrace? trace,
-  ]) {
+  void reportViewException(View view, Object error, [StackTrace? trace]) {
     view.disableChangeDetection();
     handleUncaughtException(error, trace);
   }
@@ -207,14 +203,17 @@ abstract class ChangeDetectionHost {
         result = callback();
         if (result is Future<Object>) {
           final resultCast = unsafeCast<Future<R>>(result);
-          resultCast.then((result) {
-            completer.complete(result);
-          }, onError: (e, s) {
-            final sCasted = unsafeCast<StackTrace>(s);
-            final eCasted = unsafeCast<Object>(e);
-            completer.completeError(eCasted, sCasted);
-            handleUncaughtException(eCasted, sCasted);
-          });
+          resultCast.then(
+            (result) {
+              completer.complete(result);
+            },
+            onError: (e, s) {
+              final sCasted = unsafeCast<StackTrace>(s);
+              final eCasted = unsafeCast<Object>(e);
+              completer.completeError(eCasted, sCasted);
+              handleUncaughtException(eCasted, sCasted);
+            },
+          );
         }
       } catch (e, s) {
         handleUncaughtException(e, s);

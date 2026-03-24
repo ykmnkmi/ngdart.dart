@@ -97,14 +97,8 @@ class LoggingExceptionHandler implements ExceptionHandler {
       <router-outlet [routes]="routes"></router-outlet>
     </div>
   ''',
-  directives: [
-    RouterLink,
-    RouterOutlet,
-  ],
-  providers: [
-    routerProvidersTest,
-    ClassProvider(ServiceThatThrows),
-  ],
+  directives: [RouterLink, RouterOutlet],
+  providers: [routerProvidersTest, ClassProvider(ServiceThatThrows)],
 )
 class AppComponent {
   static final routes = [
@@ -160,23 +154,15 @@ class AppComponent {
   }
 }
 
-@Component(
-  selector: 'home',
-  template: 'Home Page',
-)
+@Component(selector: 'home', template: 'Home Page')
 class HomeComponent {}
 
-@Component(
-  selector: 'another',
-  template: 'Another Page',
-)
+@Component(selector: 'another', template: 'Another Page')
 class AnotherComponent {}
 
 @Component(
   selector: 'throws',
-  directives: [
-    NgIf,
-  ],
+  directives: [NgIf],
   template: r'''
     <ng-container *ngIf="service.getterThatThrows">
       Should not be shown.

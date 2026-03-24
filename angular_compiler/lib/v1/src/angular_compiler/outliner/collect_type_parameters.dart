@@ -29,7 +29,9 @@ import 'package:build/build.dart';
 /// }
 /// ```
 Future<Map<String, String>> collectTypeParameters(
-    Iterable<ClassElement> directives, BuildStep buildStep) async {
+  Iterable<ClassElement> directives,
+  BuildStep buildStep,
+) async {
   final typeParameters = <String, String>{};
   final assetsToParse = <AssetId>{};
   final resolver = buildStep.resolver;
@@ -40,8 +42,12 @@ Future<Map<String, String>> collectTypeParameters(
   // Avoid parsing source if there are no directives with generic type
   // parameters to collect.
   if (assetsToParse.isNotEmpty) {
-    await Future.wait(assetsToParse.map((asset) =>
-        _collectTypeParametersFromUnit(asset, buildStep, typeParameters)));
+    await Future.wait(
+      assetsToParse.map(
+        (asset) =>
+            _collectTypeParametersFromUnit(asset, buildStep, typeParameters),
+      ),
+    );
   }
   return typeParameters;
 }

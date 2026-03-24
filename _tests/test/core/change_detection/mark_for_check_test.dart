@@ -12,9 +12,11 @@ void main() {
       ng.createUsesOnPushComponentFactory(),
     );
 
-    final fixture = await testBed.create(beforeChangeDetection: (comp) {
-      comp.ticks = 1;
-    });
+    final fixture = await testBed.create(
+      beforeChangeDetection: (comp) {
+        comp.ticks = 1;
+      },
+    );
     expect(fixture.text, 'Ticks: 1');
 
     await fixture.update((comp) => comp.ticks++);
@@ -73,9 +75,7 @@ class UsesOnPushComponent {
   template: r'''
     <button>Ticks: {{ticks}}</button>
   ''',
-  directives: [
-    NgIf,
-  ],
+  directives: [NgIf],
   changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class OnPushComponent {

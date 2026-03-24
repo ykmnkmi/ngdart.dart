@@ -15,11 +15,8 @@ abstract mixin class AnnotationAst implements TemplateAst {
   factory AnnotationAst(String name, [String? value]) = _SyntheticAnnotationAst;
 
   /// Create a new synthetic [AnnotationAst] that originated from node [origin].
-  factory AnnotationAst.from(
-    TemplateAst origin,
-    String name, [
-    String? value,
-  ]) = _SyntheticAnnotationAst.from;
+  factory AnnotationAst.from(TemplateAst origin, String name, [String? value]) =
+      _SyntheticAnnotationAst.from;
 
   /// Create a new [AnnotationAst] parsed from tokens from [sourceFile].
   factory AnnotationAst.parsed(
@@ -89,10 +86,10 @@ class ParsedAnnotationAst extends TemplateAst
     this.valueToken,
     this.equalSignToken,
   ]) : super.parsed(
-          prefixToken,
-          valueToken != null ? valueToken.rightQuote : nameToken,
-          sourceFile,
-        );
+         prefixToken,
+         valueToken != null ? valueToken.rightQuote : nameToken,
+         sourceFile,
+       );
 
   @override
   String get name => nameToken.lexeme;
@@ -121,5 +118,5 @@ class _SyntheticAnnotationAst extends SyntheticTemplateAst with AnnotationAst {
   _SyntheticAnnotationAst(this.name, [this.value]);
 
   _SyntheticAnnotationAst.from(TemplateAst origin, this.name, [this.value])
-      : super.from(origin);
+    : super.from(origin);
 }

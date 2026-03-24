@@ -34,7 +34,7 @@ const routerProviders = [
   ClassProvider(LocationStrategy, useClass: PathLocationStrategy),
   ClassProvider(PlatformLocation, useClass: BrowserPlatformLocation),
   ClassProvider(Location),
-  ClassProvider(Router, useClass: RouterImpl)
+  ClassProvider(Router, useClass: RouterImpl),
 ];
 
 /// The main [Router] DI module.
@@ -61,7 +61,7 @@ const routerProvidersHash = [
   ClassProvider(LocationStrategy, useClass: HashLocationStrategy),
   ClassProvider(PlatformLocation, useClass: BrowserPlatformLocation),
   ClassProvider(Location),
-  ClassProvider(Router, useClass: RouterImpl)
+  ClassProvider(Router, useClass: RouterImpl),
 ];
 
 /// The main [Router] DI module when using hash routing.

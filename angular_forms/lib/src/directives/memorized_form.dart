@@ -16,7 +16,7 @@ import 'shared.dart' show setUpControl, setUpControlGroup;
   selector: '[memorizedForm]',
   providers: [
     Provider(ControlContainer, useExisting: MemorizedForm),
-    Provider(NgForm, useExisting: MemorizedForm)
+    Provider(NgForm, useExisting: MemorizedForm),
   ],
   exportAs: 'ngForm',
 )

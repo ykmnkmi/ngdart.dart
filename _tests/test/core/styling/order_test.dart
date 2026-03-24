@@ -54,11 +54,7 @@ void main() {
     <child *ngIf="isFirstChildVisible"></child>
     <parent *ngIf="isParentVisible"></parent>
   ''',
-  directives: [
-    ChildComponent,
-    ParentComponent,
-    NgIf,
-  ],
+  directives: [ChildComponent, ParentComponent, NgIf],
 )
 class TestComponent {
   var isFirstChildVisible = false;
@@ -85,9 +81,7 @@ class TestComponent {
       }
     ''',
   ],
-  directives: [
-    ChildComponent,
-  ],
+  directives: [ChildComponent],
 )
 class ParentComponent {}
 

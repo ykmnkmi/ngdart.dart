@@ -47,8 +47,7 @@ class ComponentLoader {
   ComponentRef<T> loadDetached<T extends Object>(
     ComponentFactory<T> component, {
     Injector? injector,
-  }) =>
-      component.create(injector ?? const Injector.empty());
+  }) => component.create(injector ?? const Injector.empty());
 
   /// Creates and loads a new instance of the component defined by [component].
   ///
@@ -61,8 +60,7 @@ class ComponentLoader {
   ComponentRef<T> loadNextTo<T extends Object>(
     ComponentFactory<T> component, {
     Injector? injector,
-  }) =>
-      throw UnsupportedError('Not used within a structural directive');
+  }) => throw UnsupportedError('Not used within a structural directive');
 
   /// Creates and loads a new instance of the component defined by [component].
   ///

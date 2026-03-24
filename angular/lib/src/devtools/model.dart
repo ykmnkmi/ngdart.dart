@@ -5,10 +5,7 @@ import 'package:meta/meta.dart';
 
 part 'model.g.dart';
 
-@SerializersFor([
-  InspectorNode,
-  InspectorDirective,
-])
+@SerializersFor([InspectorNode, InspectorDirective])
 final Serializers serializers = _$serializers;
 
 /// The data model for a node with Angular artifacts.
@@ -40,9 +37,9 @@ abstract class InspectorDirective
   static Serializer<InspectorDirective> get serializer =>
       _$inspectorDirectiveSerializer;
 
-  factory InspectorDirective(
-          [void Function(InspectorDirectiveBuilder) updates]) =
-      _$InspectorDirective;
+  factory InspectorDirective([
+    void Function(InspectorDirectiveBuilder) updates,
+  ]) = _$InspectorDirective;
   InspectorDirective._();
 
   /// A string representation of the directive's runtime type.

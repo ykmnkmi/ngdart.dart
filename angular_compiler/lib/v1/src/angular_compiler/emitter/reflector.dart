@@ -62,16 +62,18 @@ class ReflectableEmitter {
     DependencyInvocation invocation,
   ) =>
       Method(
-        (b) => b
-          ..requiredParameters.addAll(
-            _parameters(invocation.positional),
-          )
-          ..body = refer(constructor!)
-              .newInstance(Iterable<Expression>.generate(
-                invocation.positional.length,
-                (i) => refer('p$i'),
-              ))
-              .code,
+        (b) =>
+            b
+              ..requiredParameters.addAll(_parameters(invocation.positional))
+              ..body =
+                  refer(constructor!)
+                      .newInstance(
+                        Iterable<Expression>.generate(
+                          invocation.positional.length,
+                          (i) => refer('p$i'),
+                        ),
+                      )
+                      .code,
       ).closure;
 
   List<Parameter> _parameters(Iterable<DependencyElement> elements) {
@@ -84,11 +86,14 @@ class ReflectableEmitter {
           type = token.link;
         }
       }
-      return Parameter((b) => b
-        ..name = 'p${counter++}'
-        ..type = linkToReference(type, _library)
-            // TODO(b/185491084): move this inside linkToReference.
-            .rebuild((b) => b..isNullable = type.isNullable));
+      return Parameter(
+        (b) =>
+            b
+              ..name = 'p${counter++}'
+              ..type = linkToReference(type, _library)
+              // TODO(b/185491084): move this inside linkToReference.
+              .rebuild((b) => b..isNullable = type.isNullable),
+      );
     }).toList();
   }
 
@@ -123,10 +128,7 @@ class ReflectableEmitter {
     // Prepare to write code.
     _importBuffer = StringBuffer();
     _initReflectorBuffer = StringBuffer();
-    _dartEmitter = SplitDartEmitter(
-      _importBuffer,
-      allocator: _allocator,
-    );
+    _dartEmitter = SplitDartEmitter(_importBuffer, allocator: _allocator);
     _libraryBuilder = LibraryBuilder();
 
     // Reference _ngRef if we do any registration.
@@ -137,20 +139,22 @@ class ReflectableEmitter {
     }
 
     // Create the initial (static) body of initReflector().
-    _initReflectorBody = BlockBuilder()
-      ..statements.add(
-        const Code(
-          ''
-          'if (_visited) {\n'
-          '  return;\n'
-          '}\n'
-          '_visited = true;\n',
-        ),
-      );
+    _initReflectorBody =
+        BlockBuilder()
+          ..statements.add(
+            const Code(
+              ''
+              'if (_visited) {\n'
+              '  return;\n'
+              '}\n'
+              '_visited = true;\n',
+            ),
+          );
 
-    final initReflector = MethodBuilder()
-      ..name = 'initReflector'
-      ..returns = refer('void');
+    final initReflector =
+        MethodBuilder()
+          ..name = 'initReflector'
+          ..returns = refer('void');
 
     // For some classes, emit "const _{class}Metadata = const [ ... ]".
     //
@@ -287,7 +291,8 @@ class ReflectableEmitter {
   }
 
   void _registerConstructor(
-      DependencyInvocation<ConstructorElement?> function) {
+    DependencyInvocation<ConstructorElement?> function,
+  ) {
     // _ngRef.registerFactory(Type, (p0, p1) => new Type(p0, p1));
     final bound = function.bound!;
     final clazz = bound.returnType;
@@ -313,14 +318,12 @@ class ReflectableEmitter {
 class SplitDartEmitter extends DartEmitter {
   final StringSink? _writeImports;
 
-  SplitDartEmitter(
-    this._writeImports, {
-    Allocator allocator = Allocator.none,
-  }) : super(
-          allocator: allocator,
-          orderDirectives: false,
-          useNullSafetySyntax: true,
-        );
+  SplitDartEmitter(this._writeImports, {Allocator allocator = Allocator.none})
+    : super(
+        allocator: allocator,
+        orderDirectives: false,
+        useNullSafetySyntax: true,
+      );
 
   @override
   StringSink visitDirective(Directive spec, [_]) {

@@ -7,7 +7,8 @@ void main() {
 
   group('should fail on @HostBinding', () {
     test('Invalid value with dot symbol prefix', () {
-      return compilesExpecting("""
+      return compilesExpecting(
+        """
         import '$ngImport';
 
         @Component(
@@ -18,15 +19,16 @@ void main() {
           @HostBinding('.foo')
           final foo = true;
         }
-      """, errors: [
-        contains("Invalid property name '.foo'"),
-      ]);
+      """,
+        errors: [contains("Invalid property name '.foo'")],
+      );
     });
   });
 
   group('should fail on @HostListener', () {
     test('on a static method', () {
-      return compilesExpecting("""
+      return compilesExpecting(
+        """
         import '$ngImport';
 
         @Component(
@@ -37,13 +39,16 @@ void main() {
           @HostListener('click')
           static void onClick() {}
         }
-      """, errors: [
-        contains('@HostListener must be on a non-static member'),
-      ]);
+      """,
+        errors: [contains('@HostListener must be on a non-static member')],
+      );
     });
 
-    test('on a method where required arguments > 1 and not specified', () {
-      return compilesExpecting("""
+    test(
+      'on a method where required arguments > 1 and not specified',
+      () {
+        return compilesExpecting(
+          """
         import '$ngImport';
 
         @Component(
@@ -54,13 +59,18 @@ void main() {
           @HostListener('click')
           void onClick(arg1, arg2) {}
         }
-      """, errors: [
-        contains('@HostListener is only valid on methods with 0 or 1'),
-      ]);
-    }, skip: 'b/133248314');
+      """,
+          errors: [
+            contains('@HostListener is only valid on methods with 0 or 1'),
+          ],
+        );
+      },
+      skip: 'b/133248314',
+    );
 
     test('on a method where specified arguments > number of arguments', () {
-      return compilesExpecting("""
+      return compilesExpecting(
+        """
         import '$ngImport';
 
         @Component(
@@ -71,9 +81,11 @@ void main() {
           @HostListener('click', const [r'\$event'])
           void onClick() {}
         }
-      """, errors: [
-        contains('@HostListener expected a method with 1 parameter(s)'),
-      ]);
+      """,
+        errors: [
+          contains('@HostListener expected a method with 1 parameter(s)'),
+        ],
+      );
     });
   });
 }

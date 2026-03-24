@@ -9,7 +9,7 @@ abstract class OutputType {
   final List<TypeModifier> modifiers;
 
   const OutputType([List<TypeModifier>? modifiers])
-      : modifiers = modifiers ?? const <TypeModifier>[];
+    : modifiers = modifiers ?? const <TypeModifier>[];
 
   R visitType<R, C>(TypeVisitor<R, C> visitor, C context);
 
@@ -37,19 +37,18 @@ enum BuiltinTypeName {
 class BuiltinType extends OutputType {
   final BuiltinTypeName name;
 
-  const BuiltinType(
-    this.name, [
-    List<TypeModifier> modifiers = const [],
-  ]) : super(modifiers);
+  const BuiltinType(this.name, [List<TypeModifier> modifiers = const []])
+    : super(modifiers);
 
   @override
   R visitType<R, C>(TypeVisitor<R, C> visitor, C context) =>
       visitor.visitBuiltinType(this, context);
 
   @override
-  BuiltinType asNullable() => modifiers.contains(TypeModifier.Nullable)
-      ? this
-      : BuiltinType(name, [...modifiers, TypeModifier.Nullable]);
+  BuiltinType asNullable() =>
+      modifiers.contains(TypeModifier.Nullable)
+          ? this
+          : BuiltinType(name, [...modifiers, TypeModifier.Nullable]);
 }
 
 class ExternalType extends OutputType {
@@ -66,9 +65,13 @@ class ExternalType extends OutputType {
       visitor.visitExternalType(this, context);
 
   @override
-  ExternalType asNullable() => modifiers.contains(TypeModifier.Nullable)
-      ? this
-      : ExternalType(value, typeParams, [...modifiers, TypeModifier.Nullable]);
+  ExternalType asNullable() =>
+      modifiers.contains(TypeModifier.Nullable)
+          ? this
+          : ExternalType(value, typeParams, [
+            ...modifiers,
+            TypeModifier.Nullable,
+          ]);
 }
 
 class FunctionType extends OutputType {
@@ -86,28 +89,30 @@ class FunctionType extends OutputType {
       visitor.visitFunctionType(this, context);
 
   @override
-  FunctionType asNullable() => modifiers.contains(TypeModifier.Nullable)
-      ? this
-      : FunctionType(
-          returnType, paramTypes, [...modifiers, TypeModifier.Nullable]);
+  FunctionType asNullable() =>
+      modifiers.contains(TypeModifier.Nullable)
+          ? this
+          : FunctionType(returnType, paramTypes, [
+            ...modifiers,
+            TypeModifier.Nullable,
+          ]);
 }
 
 class ArrayType extends OutputType {
   final OutputType? of;
 
-  ArrayType(
-    this.of, [
-    List<TypeModifier> modifiers = const [],
-  ]) : super(modifiers);
+  ArrayType(this.of, [List<TypeModifier> modifiers = const []])
+    : super(modifiers);
 
   @override
   R visitType<R, C>(TypeVisitor<R, C> visitor, C context) =>
       visitor.visitArrayType(this, context);
 
   @override
-  ArrayType asNullable() => modifiers.contains(TypeModifier.Nullable)
-      ? this
-      : ArrayType(of, [...modifiers, TypeModifier.Nullable]);
+  ArrayType asNullable() =>
+      modifiers.contains(TypeModifier.Nullable)
+          ? this
+          : ArrayType(of, [...modifiers, TypeModifier.Nullable]);
 }
 
 class MapType extends OutputType {
@@ -120,9 +125,10 @@ class MapType extends OutputType {
       visitor.visitMapType(this, context);
 
   @override
-  MapType asNullable() => modifiers.contains(TypeModifier.Nullable)
-      ? this
-      : MapType(valueType, [...modifiers, TypeModifier.Nullable]);
+  MapType asNullable() =>
+      modifiers.contains(TypeModifier.Nullable)
+          ? this
+          : MapType(valueType, [...modifiers, TypeModifier.Nullable]);
 }
 
 const DYNAMIC_TYPE = BuiltinType(BuiltinTypeName.Dynamic);
@@ -161,7 +167,7 @@ enum BinaryOperator {
   Lower,
   LowerEquals,
   Bigger,
-  BiggerEquals
+  BiggerEquals,
 }
 
 abstract class Expression {
@@ -189,8 +195,13 @@ abstract class Expression {
     bool checked = false,
     List<NamedExpr> namedParams = const [],
   }) {
-    return InvokeMethodExpr(this, name, params,
-        checked: checked, namedArgs: namedParams);
+    return InvokeMethodExpr(
+      this,
+      name,
+      params,
+      checked: checked,
+      namedArgs: namedParams,
+    );
   }
 
   InvokeFunctionExpr callFn(
@@ -329,7 +340,7 @@ class ReadVarExpr extends Expression {
   String? name;
   BuiltinVar? builtin;
   ReadVarExpr(dynamic /* String | BuiltinVar */ name, [OutputType? type])
-      : super(type) {
+    : super(type) {
     if (name is String) {
       this.name = name;
       builtin = null;
@@ -352,7 +363,7 @@ class ReadStaticMemberExpr extends Expression {
   final String name;
   final OutputType? sourceClass;
   ReadStaticMemberExpr(this.name, {OutputType? type, this.sourceClass})
-      : super(type);
+    : super(type);
 
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
@@ -392,21 +403,23 @@ class WriteVarExpr extends Expression {
   final String name;
   final Expression value;
   WriteVarExpr(this.name, this.value, [OutputType? type])
-      : super(type ?? value.type);
+    : super(type ?? value.type);
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
     return visitor.visitWriteVarExpr(this, context);
   }
 
-  DeclareVarStmt toDeclStmt(
-      [OutputType? type, List<StmtModifier> modifiers = const []]) {
+  DeclareVarStmt toDeclStmt([
+    OutputType? type,
+    List<StmtModifier> modifiers = const [],
+  ]) {
     return DeclareVarStmt(name, value, type, modifiers);
   }
 }
 
 class WriteIfNullExpr extends WriteVarExpr {
   WriteIfNullExpr(String name, Expression value, [OutputType? type])
-      : super(name, value, type ?? value.type);
+    : super(name, value, type ?? value.type);
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
     return visitor.visitWriteVarExpr(this, context, checkForNull: true);
@@ -418,9 +431,12 @@ class WriteStaticMemberExpr extends Expression {
   final Expression value;
   final bool checkIfNull;
 
-  WriteStaticMemberExpr(this.name, this.value,
-      {OutputType? type, this.checkIfNull = false})
-      : super(type ?? value.type);
+  WriteStaticMemberExpr(
+    this.name,
+    this.value, {
+    OutputType? type,
+    this.checkIfNull = false,
+  }) : super(type ?? value.type);
 
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
@@ -433,7 +449,7 @@ class WriteKeyExpr extends Expression {
   final Expression index;
   final Expression value;
   WriteKeyExpr(this.receiver, this.index, this.value, [OutputType? type])
-      : super(type ?? value.type);
+    : super(type ?? value.type);
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
     return visitor.visitWriteKeyExpr(this, context);
@@ -445,7 +461,7 @@ class WritePropExpr extends Expression {
   final String name;
   final Expression value;
   WritePropExpr(this.receiver, this.name, this.value, [OutputType? type])
-      : super(type ?? value.type);
+    : super(type ?? value.type);
 
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
@@ -558,11 +574,7 @@ class ExternalExpr extends Expression {
   final CompileIdentifierMetadata value;
   final List<OutputType>? typeParams;
 
-  ExternalExpr(
-    this.value, {
-    OutputType? type,
-    this.typeParams,
-  }) : super(type);
+  ExternalExpr(this.value, {OutputType? type, this.typeParams}) : super(type);
 
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
@@ -574,9 +586,12 @@ class ConditionalExpr extends Expression {
   final Expression condition;
   final Expression falseCase;
   final Expression trueCase;
-  ConditionalExpr(this.condition, this.trueCase, this.falseCase,
-      [OutputType? type])
-      : super(type ?? trueCase.type);
+  ConditionalExpr(
+    this.condition,
+    this.trueCase,
+    this.falseCase, [
+    OutputType? type,
+  ]) : super(type ?? trueCase.type);
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
     return visitor.visitConditionalExpr(this, context);
@@ -592,7 +607,7 @@ class IfNullExpr extends Expression {
   final Expression nullCase;
 
   IfNullExpr(this.condition, this.nullCase, [OutputType? type])
-      : super(type ?? nullCase.type);
+    : super(type ?? nullCase.type);
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
     return visitor.visitIfNullExpr(this, context);
@@ -691,7 +706,7 @@ class BinaryOperatorExpr extends Expression {
   final Expression rhs;
   final Expression lhs;
   BinaryOperatorExpr(this.operator, this.lhs, this.rhs, [OutputType? type])
-      : super(type ?? lhs.type);
+    : super(type ?? lhs.type);
   @override
   R visitExpression<R, C>(ExpressionVisitor<R, C> visitor, C context) {
     return visitor.visitBinaryOperatorExpr(this, context);
@@ -760,7 +775,7 @@ class LiteralArrayExpr extends Expression {
 }
 
 class LiteralMapExpr extends Expression {
-  final List<List<dynamic /* String | Expression */ >> entries;
+  final List<List<dynamic /* String | Expression */>> entries;
   OutputType? valueType;
   LiteralMapExpr(this.entries, [MapType? type]) : super(type) {
     if (type != null) {
@@ -777,8 +792,11 @@ abstract class ExpressionVisitor<R, C> {
   R visitReadVarExpr(ReadVarExpr ast, C context);
   R visitReadClassMemberExpr(ReadClassMemberExpr ast, C context);
   R visitWriteClassMemberExpr(WriteClassMemberExpr ast, C context);
-  R visitWriteVarExpr(WriteVarExpr expr, C context,
-      {bool checkForNull = false});
+  R visitWriteVarExpr(
+    WriteVarExpr expr,
+    C context, {
+    bool checkForNull = false,
+  });
   R visitReadStaticMemberExpr(ReadStaticMemberExpr ast, C context);
   R visitWriteStaticMemberExpr(WriteStaticMemberExpr expr, C context);
   R visitWriteKeyExpr(WriteKeyExpr expr, C context);
@@ -897,8 +915,11 @@ class AbstractClassPart {
   final List<StmtModifier> modifiers;
   final List<Expression> annotations;
 
-  AbstractClassPart(
-      [this.type, this.modifiers = const [], this.annotations = const []]);
+  AbstractClassPart([
+    this.type,
+    this.modifiers = const [],
+    this.annotations = const [],
+  ]);
 
   bool hasModifier(StmtModifier modifier) {
     return !identical(modifiers.indexOf(modifier), -1);
@@ -908,12 +929,13 @@ class AbstractClassPart {
 class ClassField extends AbstractClassPart {
   String name;
   Expression? initializer;
-  ClassField(this.name,
-      {OutputType? outputType,
-      List<StmtModifier>? modifiers,
-      List<Expression>? annotations,
-      this.initializer})
-      : super(outputType, modifiers ?? [], annotations ?? []);
+  ClassField(
+    this.name, {
+    OutputType? outputType,
+    List<StmtModifier>? modifiers,
+    List<Expression>? annotations,
+    this.initializer,
+  }) : super(outputType, modifiers ?? [], annotations ?? []);
 }
 
 class Constructor extends ClassMethod {
@@ -923,8 +945,8 @@ class Constructor extends ClassMethod {
     List<FnParam>? params,
     List<Statement>? body,
     List<Statement>? initializers,
-  })  : initializers = initializers ?? [],
-        super(null, params ?? [], body ?? []);
+  }) : initializers = initializers ?? [],
+       super(null, params ?? [], body ?? []);
 }
 
 class ClassMethod extends AbstractClassPart {
@@ -1076,11 +1098,16 @@ class ExpressionTransformer<C>
   }
 
   @override
-  Expression visitWriteVarExpr(WriteVarExpr expr, C context,
-      {bool checkForNull = false}) {
+  Expression visitWriteVarExpr(
+    WriteVarExpr expr,
+    C context, {
+    bool checkForNull = false,
+  }) {
     if (checkForNull) {
       return WriteIfNullExpr(
-          expr.name, expr.value.visitExpression(this, context));
+        expr.name,
+        expr.value.visitExpression(this, context),
+      );
     }
     return WriteVarExpr(expr.name, expr.value.visitExpression(this, context));
   }
@@ -1088,8 +1115,11 @@ class ExpressionTransformer<C>
   @override
   Expression visitWriteStaticMemberExpr(WriteStaticMemberExpr expr, C context) {
     return WriteStaticMemberExpr(
-        expr.name, expr.value.visitExpression(this, context),
-        type: expr.type, checkIfNull: expr.checkIfNull);
+      expr.name,
+      expr.value.visitExpression(this, context),
+      type: expr.type,
+      checkIfNull: expr.checkIfNull,
+    );
   }
 
   @override
@@ -1100,21 +1130,27 @@ class ExpressionTransformer<C>
   @override
   Expression visitWriteKeyExpr(WriteKeyExpr expr, C context) {
     return WriteKeyExpr(
-        expr.receiver.visitExpression(this, context),
-        expr.index.visitExpression(this, context),
-        expr.value.visitExpression(this, context));
+      expr.receiver.visitExpression(this, context),
+      expr.index.visitExpression(this, context),
+      expr.value.visitExpression(this, context),
+    );
   }
 
   @override
   Expression visitWritePropExpr(WritePropExpr expr, C context) {
-    return WritePropExpr(expr.receiver.visitExpression(this, context),
-        expr.name, expr.value.visitExpression(this, context));
+    return WritePropExpr(
+      expr.receiver.visitExpression(this, context),
+      expr.name,
+      expr.value.visitExpression(this, context),
+    );
   }
 
   @override
   Expression visitWriteClassMemberExpr(WriteClassMemberExpr expr, C context) {
     return WriteClassMemberExpr(
-        expr.name, expr.value.visitExpression(this, context));
+      expr.name,
+      expr.value.visitExpression(this, context),
+    );
   }
 
   @override
@@ -1131,7 +1167,9 @@ class ExpressionTransformer<C>
 
   @override
   Expression visitInvokeMemberMethodExpr(
-      InvokeMemberMethodExpr ast, C context) {
+    InvokeMemberMethodExpr ast,
+    C context,
+  ) {
     return InvokeMemberMethodExpr(
       ast.methodName,
       visitAllExpressions(ast.args, context),
@@ -1172,15 +1210,18 @@ class ExpressionTransformer<C>
   @override
   Expression visitConditionalExpr(ConditionalExpr ast, C context) {
     return ConditionalExpr(
-        ast.condition.visitExpression(this, context),
-        ast.trueCase.visitExpression(this, context),
-        ast.falseCase.visitExpression(this, context));
+      ast.condition.visitExpression(this, context),
+      ast.trueCase.visitExpression(this, context),
+      ast.falseCase.visitExpression(this, context),
+    );
   }
 
   @override
   Expression visitIfNullExpr(IfNullExpr ast, C context) {
-    return IfNullExpr(ast.condition.visitExpression(this, context),
-        ast.nullCase.visitExpression(this, context));
+    return IfNullExpr(
+      ast.condition.visitExpression(this, context),
+      ast.nullCase.visitExpression(this, context),
+    );
   }
 
   @override
@@ -1212,22 +1253,29 @@ class ExpressionTransformer<C>
   @override
   Expression visitBinaryOperatorExpr(BinaryOperatorExpr ast, C context) {
     return BinaryOperatorExpr(
-        ast.operator,
-        ast.lhs.visitExpression(this, context),
-        ast.rhs.visitExpression(this, context),
-        ast.type);
+      ast.operator,
+      ast.lhs.visitExpression(this, context),
+      ast.rhs.visitExpression(this, context),
+      ast.type,
+    );
   }
 
   @override
   Expression visitReadPropExpr(ReadPropExpr ast, C context) {
-    return ReadPropExpr(ast.receiver.visitExpression(this, context), ast.name,
-        outputType: ast.type);
+    return ReadPropExpr(
+      ast.receiver.visitExpression(this, context),
+      ast.name,
+      outputType: ast.type,
+    );
   }
 
   @override
   Expression visitReadKeyExpr(ReadKeyExpr ast, C context) {
-    return ReadKeyExpr(ast.receiver.visitExpression(this, context),
-        ast.index.visitExpression(this, context), ast.type);
+    return ReadKeyExpr(
+      ast.receiver.visitExpression(this, context),
+      ast.index.visitExpression(this, context),
+      ast.type,
+    );
   }
 
   @override
@@ -1242,12 +1290,16 @@ class ExpressionTransformer<C>
 
   @override
   Expression visitLiteralMapExpr(LiteralMapExpr ast, C context) {
-    return LiteralMapExpr(ast.entries
-        .map((entry) => <Object?>[
+    return LiteralMapExpr(
+      ast.entries
+          .map(
+            (entry) => <Object?>[
               entry[0],
-              (entry[1] as Expression).visitExpression(this, context)
-            ])
-        .toList());
+              (entry[1] as Expression).visitExpression(this, context),
+            ],
+          )
+          .toList(),
+    );
   }
 
   List<Expression> visitAllExpressions(List<Expression> exprs, C context) {
@@ -1289,15 +1341,18 @@ class ExpressionTransformer<C>
   @override
   Statement visitIfStmt(IfStmt stmt, C context) {
     return IfStmt(
-        stmt.condition.visitExpression(this, context),
-        visitAllStatements(stmt.trueCase, context),
-        visitAllStatements(stmt.falseCase, context));
+      stmt.condition.visitExpression(this, context),
+      visitAllStatements(stmt.trueCase, context),
+      visitAllStatements(stmt.falseCase, context),
+    );
   }
 
   @override
   Statement visitTryCatchStmt(TryCatchStmt stmt, C context) {
-    return TryCatchStmt(visitAllStatements(stmt.bodyStmts, context),
-        visitAllStatements(stmt.catchStmts, context));
+    return TryCatchStmt(
+      visitAllStatements(stmt.bodyStmts, context),
+      visitAllStatements(stmt.catchStmts, context),
+    );
   }
 
   @override
@@ -1336,8 +1391,11 @@ class RecursiveExpressionVisitor<C>
   }
 
   @override
-  Expression visitWriteVarExpr(WriteVarExpr expr, C context,
-      {bool checkForNull = false}) {
+  Expression visitWriteVarExpr(
+    WriteVarExpr expr,
+    C context, {
+    bool checkForNull = false,
+  }) {
     expr.value.visitExpression(this, context);
     return expr;
   }
@@ -1384,7 +1442,9 @@ class RecursiveExpressionVisitor<C>
 
   @override
   Expression visitInvokeMemberMethodExpr(
-      InvokeMemberMethodExpr ast, C context) {
+    InvokeMemberMethodExpr ast,
+    C context,
+  ) {
     visitAllExpressions(ast.args, context);
     return ast;
   }
@@ -1567,7 +1627,10 @@ class RecursiveExpressionVisitor<C>
 }
 
 Statement replaceVarInStatement(
-    String varName, Expression newValue, Statement statement) {
+  String varName,
+  Expression newValue,
+  Statement statement,
+) {
   var transformer = _ReplaceVariableTransformer(varName, newValue);
   return statement.visitStatement(transformer, null);
 }
@@ -1612,8 +1675,11 @@ class _VariableWriteFinder extends RecursiveExpressionVisitor<void> {
   final varNames = <String?>{};
 
   @override
-  Expression visitWriteVarExpr(WriteVarExpr ast, _,
-      {bool checkForNull = false}) {
+  Expression visitWriteVarExpr(
+    WriteVarExpr ast,
+    _, {
+    bool checkForNull = false,
+  }) {
     varNames.add(ast.name);
     return ast;
   }
@@ -1623,13 +1689,18 @@ ReadVarExpr variable(String? name, [OutputType? type]) {
   return ReadVarExpr(name, type);
 }
 
-ExternalExpr importExpr(CompileIdentifierMetadata id,
-    {List<OutputType>? typeParams}) {
+ExternalExpr importExpr(
+  CompileIdentifierMetadata id, {
+  List<OutputType>? typeParams,
+}) {
   return ExternalExpr(id, typeParams: typeParams);
 }
 
-ExternalType? importType(CompileIdentifierMetadata? id,
-    [List<OutputType>? typeParams, List<TypeModifier>? typeModifiers]) {
+ExternalType? importType(
+  CompileIdentifierMetadata? id, [
+  List<OutputType>? typeParams,
+  List<TypeModifier>? typeModifiers,
+]) {
   return id != null ? ExternalType(id, typeParams, typeModifiers) : null;
 }
 
@@ -1659,8 +1730,10 @@ LiteralVargsExpr literalVargs(List<Expression> values) {
   return LiteralVargsExpr(values);
 }
 
-LiteralMapExpr literalMap(List<List<dynamic /* String | Expression */ >> values,
-    [MapType? type]) {
+LiteralMapExpr literalMap(
+  List<List<dynamic /* String | Expression */>> values, [
+  MapType? type,
+]) {
   return LiteralMapExpr(values, type);
 }
 
@@ -1668,7 +1741,10 @@ NotExpr not(Expression expr) {
   return NotExpr(expr);
 }
 
-FunctionExpr fn(List<FnParam> params, List<Statement> body,
-    [OutputType? type]) {
+FunctionExpr fn(
+  List<FnParam> params,
+  List<Statement> body, [
+  OutputType? type,
+]) {
   return FunctionExpr(params, body, type);
 }

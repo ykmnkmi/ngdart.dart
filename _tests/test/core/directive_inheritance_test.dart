@@ -14,20 +14,26 @@ void main() {
     test('should be inherited', () async {
       late final TestDerivedComponent testComponent;
       final testBed = NgTestBed<TestDerivedComponent>(
-          ng.createTestDerivedComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component;
-      });
+        ng.createTestDerivedComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component;
+        },
+      );
       expect(testComponent.derivedComponent!.contentChildren, hasLength(3));
     });
 
     test('selector should be overriden', () async {
       late final TestAnnotatedDerivedComponent testComponent;
       final testBed = NgTestBed<TestAnnotatedDerivedComponent>(
-          ng.createTestAnnotatedDerivedComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component;
-      });
+        ng.createTestAnnotatedDerivedComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component;
+        },
+      );
       expect(testComponent.derivedComponent!.contentChildren, hasLength(2));
     });
   });
@@ -35,7 +41,8 @@ void main() {
   group('@HostBinding', () {
     test('should be inherited', () async {
       final testBed = NgTestBed<TestDerivedComponent>(
-          ng.createTestDerivedComponentFactory());
+        ng.createTestDerivedComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final hostElement = testFixture.rootElement.querySelector('derived')!;
       expect(hostElement.attributes, containsPair('title', 'inherited'));
@@ -43,7 +50,8 @@ void main() {
 
     test('implementation should be overriden', () async {
       final testBed = NgTestBed<TestOverrideComponent>(
-          ng.createTestOverrideComponentFactory());
+        ng.createTestOverrideComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final hostElement = testFixture.rootElement.querySelector('override')!;
       expect(hostElement.attributes, containsPair('title', 'overridden'));
@@ -51,7 +59,8 @@ void main() {
 
     test('should allow multiple bindings to inherited property', () async {
       final testBed = NgTestBed<TestAnnotatedDerivedComponent>(
-          ng.createTestAnnotatedDerivedComponentFactory());
+        ng.createTestAnnotatedDerivedComponentFactory(),
+      );
       final testFixture = await testBed.create();
       final hostElement =
           testFixture.rootElement.querySelector('annotated-derived')!;
@@ -63,11 +72,13 @@ void main() {
   group('@HostListener', () {
     test('should be inherited', () async {
       final testBed = NgTestBed<TestDerivedComponent>(
-          ng.createTestDerivedComponentFactory());
-      final testFixture = await testBed.create()
-        ..rootElement
-            .querySelector('derived')!
-            .dispatchEvent(MouseEvent('click'));
+        ng.createTestDerivedComponentFactory(),
+      );
+      final testFixture =
+          await testBed.create()
+            ..rootElement
+                .querySelector('derived')!
+                .dispatchEvent(MouseEvent('click'));
       await testFixture.update((component) {
         expect(component.derivedComponent!.clickMessage, 'Original message');
       });
@@ -75,11 +86,13 @@ void main() {
 
     test('implementation should be overriden', () async {
       final testBed = NgTestBed<TestOverrideComponent>(
-          ng.createTestOverrideComponentFactory());
-      final testFixture = await testBed.create()
-        ..rootElement
-            .querySelector('override')!
-            .dispatchEvent(MouseEvent('click'));
+        ng.createTestOverrideComponentFactory(),
+      );
+      final testFixture =
+          await testBed.create()
+            ..rootElement
+                .querySelector('override')!
+                .dispatchEvent(MouseEvent('click'));
       await testFixture.update((component) {
         expect(component.derivedComponent!.clickMessage, 'Overridden message');
       });
@@ -90,20 +103,26 @@ void main() {
     test('should be inherited', () async {
       late final TestDerivedComponent testComponent;
       final testBed = NgTestBed<TestDerivedComponent>(
-          ng.createTestDerivedComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component..input = 'Hello';
-      });
+        ng.createTestDerivedComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component..input = 'Hello';
+        },
+      );
       expect(testComponent.derivedComponent!.input, 'Hello');
     });
 
     test('implementation should be overridden', () async {
       late final TestOverrideComponent testComponent;
       final testBed = NgTestBed<TestOverrideComponent>(
-          ng.createTestOverrideComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component..input = 'Hello';
-      });
+        ng.createTestOverrideComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component..input = 'Hello';
+        },
+      );
       expect(testComponent.derivedComponent!.input, 'Hello!');
     });
   });
@@ -112,20 +131,26 @@ void main() {
     test('should be inherited', () async {
       late final TestDerivedComponent testComponent;
       final testBed = NgTestBed<TestDerivedComponent>(
-          ng.createTestDerivedComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component..derivedComponent!.dispatchOutput('Bye');
-      });
+        ng.createTestDerivedComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component..derivedComponent!.dispatchOutput('Bye');
+        },
+      );
       expect(testComponent.receivedOutput, 'Bye');
     });
 
     test('implementation should be overridden', () async {
       late final TestOverrideComponent testComponent;
       final testBed = NgTestBed<TestOverrideComponent>(
-          ng.createTestOverrideComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component..derivedComponent!.dispatchOutput('Bye');
-      });
+        ng.createTestOverrideComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component..derivedComponent!.dispatchOutput('Bye');
+        },
+      );
       expect(testComponent.receivedOutput, 'Bye!');
     });
   });
@@ -134,20 +159,26 @@ void main() {
     test('should be inherited', () async {
       late final TestDerivedComponent testComponent;
       final testBed = NgTestBed<TestDerivedComponent>(
-          ng.createTestDerivedComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component;
-      });
+        ng.createTestDerivedComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component;
+        },
+      );
       expect(testComponent.derivedComponent!.viewChildren, hasLength(3));
     });
 
     test('selector should be overriden', () async {
       late final TestAnnotatedDerivedComponent testComponent;
       final testBed = NgTestBed<TestAnnotatedDerivedComponent>(
-          ng.createTestAnnotatedDerivedComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component;
-      });
+        ng.createTestAnnotatedDerivedComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component;
+        },
+      );
       expect(testComponent.derivedComponent!.viewChildren, hasLength(2));
     });
   });
@@ -155,64 +186,76 @@ void main() {
   group('Component should inherit metadata', () {
     test('from Directive', () async {
       final testBed = NgTestBed<TestDirectiveDerivedComponent>(
-          ng.createTestDirectiveDerivedComponentFactory());
-      final testFixture =
-          await testBed.create(beforeChangeDetection: (component) {
-        component.input = 'Hello!';
-      });
+        ng.createTestDirectiveDerivedComponentFactory(),
+      );
+      final testFixture = await testBed.create(
+        beforeChangeDetection: (component) {
+          component.input = 'Hello!';
+        },
+      );
       expect(testFixture.text, 'Hello!');
     });
 
     test('from super', () async {
       final testBed = NgTestBed<TestInheritMetadataComponent>(
-          ng.createTestInheritMetadataComponentFactory());
-      final testFixture =
-          await testBed.create(beforeChangeDetection: (component) {
-        component.description = 'Inherited description';
-      });
+        ng.createTestInheritMetadataComponentFactory(),
+      );
+      final testFixture = await testBed.create(
+        beforeChangeDetection: (component) {
+          component.description = 'Inherited description';
+        },
+      );
       expect(testFixture.text, 'Inherited description');
     });
 
     test('from interface', () async {
       final testBed = NgTestBed<TestImplementMetadataComponent>(
-          ng.createTestImplementMetadataComponentFactory());
-      final testFixture =
-          await testBed.create(beforeChangeDetection: (component) {
-        component.description = 'Implemented description';
-      });
+        ng.createTestImplementMetadataComponentFactory(),
+      );
+      final testFixture = await testBed.create(
+        beforeChangeDetection: (component) {
+          component.description = 'Implemented description';
+        },
+      );
       expect(testFixture.text, 'Implemented description');
     });
 
     test('from interface implemented by mixin', () async {
       final testBed = NgTestBed<TestMixesInInterface>(
-          ng.createTestMixesInInterfaceFactory());
-      final testFixture =
-          await testBed.create(beforeChangeDetection: (component) {
-        component.input = 'Implemented through mixin';
-      });
+        ng.createTestMixesInInterfaceFactory(),
+      );
+      final testFixture = await testBed.create(
+        beforeChangeDetection: (component) {
+          component.input = 'Implemented through mixin';
+        },
+      );
       expect(testFixture.text, 'Implemented through mixin');
     });
 
     test('from mixin', () async {
       final testBed = NgTestBed<TestMixinMetadataComponent>(
-          ng.createTestMixinMetadataComponentFactory());
-      final testFixture =
-          await testBed.create(beforeChangeDetection: (component) {
-        component.description = 'Mixed-in description';
-      });
+        ng.createTestMixinMetadataComponentFactory(),
+      );
+      final testFixture = await testBed.create(
+        beforeChangeDetection: (component) {
+          component.description = 'Mixed-in description';
+        },
+      );
       expect(testFixture.text, 'Mixed-in description');
     });
 
     test('from all supertypes', () async {
       final testBed = NgTestBed<TestMultipleSupertypesComponent>(
-          ng.createTestMultipleSupertypesComponentFactory());
-      final testFixture =
-          await testBed.create(beforeChangeDetection: (component) {
-        component.viewChild!
-          ..foo = '1'
-          ..bar = '2'
-          ..baz = '3';
-      });
+        ng.createTestMultipleSupertypesComponentFactory(),
+      );
+      final testFixture = await testBed.create(
+        beforeChangeDetection: (component) {
+          component.viewChild!
+            ..foo = '1'
+            ..bar = '2'
+            ..baz = '3';
+        },
+      );
       final element =
           testFixture.rootElement.querySelector('multiple-supertypes')!;
       expect(element.attributes, containsPair('foo', '1'));
@@ -222,13 +265,15 @@ void main() {
 
     test('from most derived binding', () async {
       final testBed = NgTestBed<TestMostDerivedMetadataComponent>(
-          ng.createTestMostDerivedMetadataComponentFactory());
-      final testFixture =
-          await testBed.create(beforeChangeDetection: (component) {
-        component
-          ..value = '1'
-          ..fooValue = '2';
-      });
+        ng.createTestMostDerivedMetadataComponentFactory(),
+      );
+      final testFixture = await testBed.create(
+        beforeChangeDetection: (component) {
+          component
+            ..value = '1'
+            ..fooValue = '2';
+        },
+      );
       expect(testFixture.rootElement.attributes, containsPair('foo', '2'));
       expect(testFixture.rootElement.attributes, containsPair('bar', '1'));
     });
@@ -238,30 +283,33 @@ void main() {
     test('should inherit metadata', () async {
       late final TestDirectiveInheritMetadataComponent testComponent;
       final testBed = NgTestBed<TestDirectiveInheritMetadataComponent>(
-          ng.createTestDirectiveInheritMetadataComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component..tooltipMessage = 'Successfully inherited!';
-      });
+        ng.createTestDirectiveInheritMetadataComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component..tooltipMessage = 'Successfully inherited!';
+        },
+      );
       expect(testComponent.directive!.tooltip, 'Successfully inherited!');
     });
 
     test('can alias input name to match selector', () async {
       late final TestDirectiveAliasInputComponent testComponent;
       final testBed = NgTestBed<TestDirectiveAliasInputComponent>(
-          ng.createTestDirectiveAliasInputComponentFactory());
-      await testBed.create(beforeChangeDetection: (component) {
-        testComponent = component..tooltipMessage = 'Successfully aliased!';
-      });
+        ng.createTestDirectiveAliasInputComponentFactory(),
+      );
+      await testBed.create(
+        beforeChangeDetection: (component) {
+          testComponent = component..tooltipMessage = 'Successfully aliased!';
+        },
+      );
       expect(testComponent.directive!.tooltip, 'Successfully aliased!');
     });
   });
 }
 
 /// Base component from which all other components will be derived for testing.
-@Component(
-  selector: 'root',
-  template: '',
-)
+@Component(selector: 'root', template: '')
 class RootComponent {
   final StreamController<String> _outputController = StreamController<String>();
 
@@ -304,10 +352,7 @@ class RootComponent {
 )
 class DerivedComponent extends RootComponent {}
 
-@Component(
-  selector: 'query-target',
-  template: '',
-)
+@Component(selector: 'query-target', template: '')
 class QueryTargetComponent {}
 
 @Component(
@@ -331,10 +376,7 @@ class TestDerivedComponent {
 }
 
 /// Tests overriding inherited metadata implementations.
-@Component(
-  selector: 'override',
-  template: '',
-)
+@Component(selector: 'override', template: '')
 class OverrideComponent extends RootComponent {
   @override
   String get title => 'overridden';
@@ -412,18 +454,13 @@ class TestAnnotatedDerivedComponent {
   AnnotatedDerivedComponent? derivedComponent;
 }
 
-@Directive(
-  selector: 'base',
-)
+@Directive(selector: 'base')
 class BaseDirective {
   @Input()
   String? input;
 }
 
-@Component(
-  selector: 'directive-derived',
-  template: '<div>{{input}}</div>',
-)
+@Component(selector: 'directive-derived', template: '<div>{{input}}</div>')
 class DirectiveDerivedComponent extends BaseDirective {}
 
 @Component(
@@ -440,10 +477,7 @@ mixin class DescriptionInput {
   String? description;
 }
 
-@Component(
-  selector: 'inherit-metadata',
-  template: '<div>{{description}}</div>',
-)
+@Component(selector: 'inherit-metadata', template: '<div>{{description}}</div>')
 class InheritMetadataComponent extends DescriptionInput {}
 
 @Component(
@@ -474,10 +508,7 @@ class TestImplementMetadataComponent {
   String? description;
 }
 
-@Component(
-  selector: 'mixin-metadata',
-  template: '<div>{{description}}</div>',
-)
+@Component(selector: 'mixin-metadata', template: '<div>{{description}}</div>')
 class MixinMetadataComponent extends Object with DescriptionInput {}
 
 @Component(
@@ -504,10 +535,7 @@ class BazAttribute {
   String? baz;
 }
 
-@Component(
-  selector: 'multiple-supertypes',
-  template: '',
-)
+@Component(selector: 'multiple-supertypes', template: '')
 class MultipleSupertypesComponent extends FooAttribute
     with BarAttribute
     implements BazAttribute {
@@ -536,23 +564,16 @@ class OverrideFooAttributes extends Attributes {
   String? fooValue;
 }
 
-@Component(
-  selector: 'test-most-derived-metadata',
-  template: '',
-)
+@Component(selector: 'test-most-derived-metadata', template: '')
 class TestMostDerivedMetadataComponent extends OverrideFooAttributes {}
 
-@Directive(
-  selector: '[tooltip]',
-)
+@Directive(selector: '[tooltip]')
 class TooltipDirective {
   @Input()
   String? tooltip;
 }
 
-@Directive(
-  selector: '[fancyTooltip]',
-)
+@Directive(selector: '[fancyTooltip]')
 class FancyTooltipDirective extends TooltipDirective {
   @Input()
   set fancyTooltip(String? value) => tooltip = value;
@@ -591,10 +612,7 @@ mixin class MixinImplementsInterface implements MixinInterface {
   String? input;
 }
 
-@Component(
-  selector: 'mixes-in-interface',
-  template: '<div>{{input}}</div>',
-)
+@Component(selector: 'mixes-in-interface', template: '<div>{{input}}</div>')
 class MixesInInterface extends Object with MixinImplementsInterface {}
 
 @Component(

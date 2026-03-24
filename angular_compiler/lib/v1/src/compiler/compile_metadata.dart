@@ -108,7 +108,8 @@ class CompileProviderMetadata {
   }
 
   @override
-  String toString() => '{\n'
+  String toString() =>
+      '{\n'
       'token:$token,\n'
       'useClass:$useClass,\n'
       'useValue:$useValue,\n'
@@ -192,9 +193,10 @@ class CompileTokenMetadata implements CompileMetadataWithIdentifier {
 
   static String _typeAssetKey(o.OutputType? t) {
     if (t is o.ExternalType) {
-      final generics = t.value.typeArguments.isNotEmpty
-          ? t.value.typeArguments.map(_typeAssetKey).join(',')
-          : '[]';
+      final generics =
+          t.value.typeArguments.isNotEmpty
+              ? t.value.typeArguments.map(_typeAssetKey).join(',')
+              : '[]';
       return 'ExternalType {${t.value.moduleUrl}:${t.value.name}:$generics}';
     }
     return '{notExternalType}';
@@ -224,7 +226,8 @@ class CompileTokenMetadata implements CompileMetadataWithIdentifier {
   }
 
   @override
-  String toString() => '{\n'
+  String toString() =>
+      '{\n'
       'value:$value,\n'
       'identifier:$identifier,\n'
       'identifierIsInstance:$identifierIsInstance,\n'
@@ -338,7 +341,8 @@ class CompileTypeMetadata
   }
 
   @override
-  String toString() => '{\n'
+  String toString() =>
+      '{\n'
       'name:$name,\n'
       'prefix:$prefix,\n'
       'emitPrefix:$emitPrefix,\n'
@@ -417,15 +421,16 @@ class CompileTemplateMetadata {
   final List<String> styles;
   final List<String> styleUrls;
   final List<String> ngContentSelectors;
-  CompileTemplateMetadata(
-      {this.encapsulation = ViewEncapsulation.Emulated,
-      this.template,
-      this.templateUrl,
-      this.templateOffset = 0,
-      this.preserveWhitespace = false,
-      this.styles = const [],
-      this.styleUrls = const [],
-      this.ngContentSelectors = const []});
+  CompileTemplateMetadata({
+    this.encapsulation = ViewEncapsulation.Emulated,
+    this.template,
+    this.templateUrl,
+    this.templateOffset = 0,
+    this.preserveWhitespace = false,
+    this.styles = const [],
+    this.styleUrls = const [],
+    this.ngContentSelectors = const [],
+  });
 }
 
 enum CompileDirectiveMetadataType {
@@ -492,29 +497,31 @@ class CompileDirectiveMetadata implements CompileMetadataWithType {
     this.isChangeDetectionLink = false,
   });
 
-  CompileDirectiveMetadata.from(CompileDirectiveMetadata other,
-      {AnalyzedClass? analyzedClass, CompileTemplateMetadata? template})
-      : type = other.type,
-        originType = other.originType,
-        metadataType = other.metadataType,
-        selector = other.selector,
-        exportAs = other.exportAs,
-        changeDetection = other.changeDetection,
-        inputs = other.inputs,
-        inputTypes = other.inputTypes,
-        outputs = other.outputs,
-        hostBindings = other.hostBindings,
-        hostListeners = other.hostListeners,
-        analyzedClass = analyzedClass ?? other.analyzedClass,
-        template = template ?? other.template,
-        visibility = other.visibility,
-        lifecycleHooks = other.lifecycleHooks,
-        providers = other.providers,
-        viewProviders = other.viewProviders,
-        exports = other.exports,
-        queries = other.queries,
-        viewQueries = other.viewQueries,
-        isChangeDetectionLink = other.isChangeDetectionLink;
+  CompileDirectiveMetadata.from(
+    CompileDirectiveMetadata other, {
+    AnalyzedClass? analyzedClass,
+    CompileTemplateMetadata? template,
+  }) : type = other.type,
+       originType = other.originType,
+       metadataType = other.metadataType,
+       selector = other.selector,
+       exportAs = other.exportAs,
+       changeDetection = other.changeDetection,
+       inputs = other.inputs,
+       inputTypes = other.inputTypes,
+       outputs = other.outputs,
+       hostBindings = other.hostBindings,
+       hostListeners = other.hostListeners,
+       analyzedClass = analyzedClass ?? other.analyzedClass,
+       template = template ?? other.template,
+       visibility = other.visibility,
+       lifecycleHooks = other.lifecycleHooks,
+       providers = other.providers,
+       viewProviders = other.viewProviders,
+       exports = other.exports,
+       queries = other.queries,
+       viewQueries = other.viewQueries,
+       isChangeDetectionLink = other.isChangeDetectionLink;
 
   @override
   CompileIdentifierMetadata? get identifier => type;
@@ -602,25 +609,28 @@ class CompileDirectiveMetadata implements CompileMetadataWithType {
 /// Construct [CompileDirectiveMetadata] from [ComponentTypeMetadata] and a
 /// selector.
 CompileDirectiveMetadata createHostComponentMeta(
-    CompileTypeMetadata componentType,
-    String componentSelector,
-    AnalyzedClass? analyzedClass,
-    bool? preserveWhitespace) {
+  CompileTypeMetadata componentType,
+  String componentSelector,
+  AnalyzedClass? analyzedClass,
+  bool? preserveWhitespace,
+) {
   var template =
       CssSelector.parse(componentSelector)[0].getMatchingElementTemplate();
   return CompileDirectiveMetadata(
     originType: componentType,
     type: CompileTypeMetadata(
-        name: '${componentType.name}Host',
-        moduleUrl: componentType.moduleUrl,
-        isHost: true),
+      name: '${componentType.name}Host',
+      moduleUrl: componentType.moduleUrl,
+      isHost: true,
+    ),
     template: CompileTemplateMetadata(
-        template: template,
-        templateUrl: '${componentType.moduleUrl}/host/$componentSelector',
-        preserveWhitespace: preserveWhitespace,
-        styles: const [],
-        styleUrls: const [],
-        ngContentSelectors: const []),
+      template: template,
+      templateUrl: '${componentType.moduleUrl}/host/$componentSelector',
+      preserveWhitespace: preserveWhitespace,
+      styles: const [],
+      styleUrls: const [],
+      ngContentSelectors: const [],
+    ),
     changeDetection: ChangeDetectionStrategy.Default,
     analyzedClass: analyzedClass,
     inputs: const {},
@@ -635,7 +645,8 @@ CompileDirectiveMetadata createHostComponentMeta(
 
 /// Creates metadata necessary to flow types from a host view to its component.
 List<CompileTypedMetadata> createHostDirectiveTypes(
-    CompileTypeMetadata componentType) {
+  CompileTypeMetadata componentType,
+) {
   // If the component doesn't have any generic type parameters, there's no need
   // to specify generic type arguments.
   if (componentType.typeParameters.isEmpty) {
@@ -648,7 +659,7 @@ List<CompileTypedMetadata> createHostDirectiveTypes(
       componentType.name,
       componentType.moduleUrl,
       componentType.typeParameters.map((t) => t.toType()).toList(),
-    )
+    ),
   ];
 }
 
@@ -689,5 +700,5 @@ enum LifecycleHooks {
   afterContentInit,
   afterContentChecked,
   afterViewInit,
-  afterViewChecked
+  afterViewChecked,
 }
