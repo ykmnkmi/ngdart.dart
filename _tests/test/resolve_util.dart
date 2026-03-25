@@ -3,7 +3,6 @@ import 'dart:isolate';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
-import 'package:build/experiments.dart';
 import 'package:build_test/build_test.dart';
 import 'package:package_config/package_config.dart';
 import 'package:source_gen/source_gen.dart';
@@ -26,14 +25,11 @@ Future<LibraryElement> resolve(
   PackageConfig? packageConfig,
 ]) async {
   final testAssetId = AssetId('_tests', 'lib/resolve.dart');
-  return await withEnabledExperiments(
-    () => resolveSource(
-      source,
-      (resolver) => resolver.libraryFor(testAssetId),
-      inputId: testAssetId,
-      packageConfig: packageConfig,
-    ),
-    ['non-nullable'],
+  return await resolveSource(
+    source,
+    (resolver) => resolver.libraryFor(testAssetId),
+    inputId: testAssetId,
+    packageConfig: packageConfig,
   );
 }
 

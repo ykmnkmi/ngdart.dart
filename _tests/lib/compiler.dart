@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:build/build.dart';
-import 'package:build/experiments.dart';
 import 'package:build_resolvers/build_resolvers.dart';
 import 'package:build_test/build_test.dart' hide testBuilder;
 import 'package:glob/glob.dart';
@@ -98,16 +97,13 @@ Future<void> _testBuilder(
     // ignore: invalid_use_of_visible_for_testing_member
     CompileContext.forTesting(),
     () {
-      return withEnabledExperiments(
-        () => runBuilder(
-          builder,
-          inputIds,
-          reader,
-          writer,
-          AnalyzerResolvers.custom(),
-          logger: logger,
-        ),
-        ['non-nullable'],
+      return runBuilder(
+        builder,
+        inputIds,
+        reader,
+        writer,
+        AnalyzerResolvers.custom(),
+        logger: logger,
       );
     },
   );

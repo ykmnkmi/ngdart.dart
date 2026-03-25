@@ -8,7 +8,6 @@ import 'dart:isolate';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
-import 'package:build/experiments.dart';
 import 'package:build_test/build_test.dart';
 import 'package:package_config/package_config.dart';
 
@@ -85,13 +84,10 @@ Future<LibraryElement> resolve(
     _assetToPath(_defaultAssetId): dartSource,
   };
   final config = await _cachedPackageConfig;
-  final result = await withEnabledExperiments(
-    () => resolveSources(
-      sources,
-      (resolver) => resolver.libraryFor(_defaultAssetId),
-      packageConfig: config,
-    ),
-    ['non-nullable'],
+  final result = await resolveSources(
+    sources,
+    (resolver) => resolver.libraryFor(_defaultAssetId),
+    packageConfig: config,
   );
   return result;
 }
