@@ -22,12 +22,13 @@ void main() {
     }
   }
 
-  var entities = Directory.current.listSync();
+  // Repository root.
+  var entities = Directory.current.listSync(recursive: true);
 
   late Directory directory;
 
   String replace(Match match) {
-    var name = match[1];
+    var name = match[1]!;
     var version = versions[name];
 
     if (version == null) {
@@ -39,6 +40,10 @@ void main() {
 
   for (var entity in entities) {
     if (entity is! Directory) {
+      continue;
+    }
+
+    if (!entity.path.startsWith('.')) {
       continue;
     }
 
