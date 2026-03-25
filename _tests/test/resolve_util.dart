@@ -11,14 +11,11 @@ import 'package:angular_compiler/v1/src/source_gen/template_compiler/component_v
 import 'package:angular_compiler/v1/src/source_gen/template_compiler/find_components.dart';
 
 // Use custom package config for angular sources if specified
-final _packageConfigFuture =
-    Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH'] != null
-        ? loadPackageConfigUri(
-          Uri.base.resolve(
-            Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH']!,
-          ),
-        )
-        : Isolate.packageConfig.then((uri) => loadPackageConfigUri(uri!));
+final _packageConfigFuture = loadPackageConfigUri(
+  Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH'] != null
+      ? Uri.base.resolve(Platform.environment['ANGULAR_PACKAGE_CONFIG_PATH']!)
+      : Isolate.packageConfigSync!,
+);
 
 Future<LibraryElement> resolve(
   String source, [

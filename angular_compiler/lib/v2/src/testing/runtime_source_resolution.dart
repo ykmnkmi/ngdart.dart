@@ -18,8 +18,7 @@ final _defaultAssetId = AssetId(_defaultLibrary, 'lib/$_defaultLibrary.dart');
 final _cachedPackageConfig = _loadPackageConfig();
 
 Future<PackageConfig> _loadPackageConfig() {
-  var config = Isolate.packageConfig.then((uri) => loadPackageConfigUri(uri!));
-  return config;
+  return loadPackageConfigUri(Isolate.packageConfigSync!);
 }
 
 String _assetToPath(AssetId asset) => '${asset.package}|${asset.path}';
