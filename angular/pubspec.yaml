@@ -14,7 +14,7 @@ dependencies:
   angular_compiler: ^3.0.0
   build: ^2.4.2
   built_collection: ^5.1.1
-  built_value: ^8.12.4
+  built_value: ^8.12.5
   collection: ^1.19.1
   intl: ^0.20.2
   js: ^0.7.2

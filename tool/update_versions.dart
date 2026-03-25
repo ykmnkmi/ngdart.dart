@@ -43,7 +43,7 @@ void main() {
       continue;
     }
 
-    if (!entity.path.startsWith('.')) {
+    if (entity.path.startsWith('.')) {
       continue;
     }
 
