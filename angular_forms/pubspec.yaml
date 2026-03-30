@@ -14,8 +14,8 @@ dependencies:
 
 dev_dependencies:
   angular_test: ^5.0.0
-  build_runner: ^2.5.1
-  build_test: ^3.0.0
+  build_runner: ^2.5.2
+  build_test: ^3.1.0
   build_web_compilers: ^4.1.5
   lints: ^5.1.1
   mockito: ^5.4.6

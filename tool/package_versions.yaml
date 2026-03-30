@@ -9,12 +9,12 @@ angular_router: ^4.0.0
 angular_test: ^5.0.0
 args: ^2.7.0 # Latest
 async: ^2.13.0 # Latest
-build: ^2.5.1 # 3.7
+build: ^2.5.2 # 3.7
 build_daemon: ^4.0.4 # 3.7
 build_modules: ^5.0.11 # 3.7
-build_resolvers: ^2.5.1 # 3.7
-build_runner: ^2.5.1 # 3.7
-build_test: ^3.0.0 # 3.7
+build_resolvers: ^2.5.2 # 3.7
+build_runner: ^2.5.2 # 3.7
+build_test: ^3.1.0 # 3.7
 build_web_compilers: ^4.1.5 # 3.7
 built_collection: ^5.1.1 # Latest
 built_value: ^8.12.5 # Latest
