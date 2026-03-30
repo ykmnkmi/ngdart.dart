@@ -1,3 +1,4 @@
+import 'package:build/build.dart';
 import 'package:test/test.dart';
 import 'package:angular_compiler/v1/cli.dart';
 import 'package:angular_compiler/v1/src/compiler/expression_parser/parser.dart';
@@ -37,6 +38,32 @@ void main() {
   }
 
   group('variable assigned NgFor locals', () {
+    final nonInputsToReadFromFilesystem = <AssetId>{
+      AssetId('angular', 'lib/angular.dart'),
+      AssetId('angular', 'lib/src/meta.dart'),
+      AssetId('angular', 'lib/src/meta/change_detection_constants.dart'),
+      AssetId('angular', 'lib/src/meta/change_detection_link.dart'),
+      AssetId('angular', 'lib/src/meta/di_arguments.dart'),
+      AssetId('angular', 'lib/src/meta/di_generate_injector.dart'),
+      AssetId('angular', 'lib/src/meta/di_modules.dart'),
+      AssetId('angular', 'lib/src/meta/di_providers.dart'),
+      AssetId('angular', 'lib/src/meta/di_tokens.dart'),
+      AssetId('angular', 'lib/src/meta/directives.dart'),
+      AssetId('angular', 'lib/src/meta/lifecycle_hooks.dart'),
+      AssetId('angular', 'lib/src/meta/typed.dart'),
+      AssetId('angular', 'lib/src/meta/view.dart'),
+      AssetId('angular', 'lib/src/meta/visibility.dart'),
+      AssetId('angular', 'lib/src/common/directives.dart'),
+      AssetId('angular', 'lib/src/common/directives/ng_for.dart'),
+      AssetId(
+        'angular',
+        'lib/src/core/change_detection/differs/default_iterable_differ.dart',
+      ),
+      AssetId('angular', 'lib/src/core/linker.dart'),
+      AssetId('angular', 'lib/src/core/linker/view_container_ref.dart'),
+      AssetId('angular', 'lib/src/core/linker/template_ref.dart'),
+    };
+
     test('should be typed', () async {
       final component = await resolveAndFindComponent("""
         @Component(
@@ -46,7 +73,7 @@ void main() {
         )
         class AppComponent {
           List<String> values;
-        }""");
+        }""", nonInputsToReadFromFilesystem);
       final template = getHumanizedTemplate(component);
       expect(template, [
         [EmbeddedTemplateAst],
@@ -75,7 +102,7 @@ void main() {
           List<_Value> values;
         }
 
-        class _Value {}""");
+        class _Value {}""", nonInputsToReadFromFilesystem);
       final template = getHumanizedTemplate(component);
       expect(template, [
         [EmbeddedTemplateAst],
@@ -96,7 +123,7 @@ void main() {
         )
         class AppComponent {
           List<int> values;
-        }""");
+        }""", nonInputsToReadFromFilesystem);
       final template = getHumanizedTemplate(component);
       expect(template, [
         [EmbeddedTemplateAst],

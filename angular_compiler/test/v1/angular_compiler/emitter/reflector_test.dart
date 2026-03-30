@@ -15,7 +15,7 @@ import '../src/resolve.dart';
 void main() {
   CompileContext.overrideForTesting();
 
-  final dartfmt = DartFormatter(languageVersion: Version(3, 6, 0)).format;
+  final dartfmt = DartFormatter(languageVersion: Version(3, 7, 0)).format;
   final angular = 'package:angular';
   final libReflection = '$angular/src/core/reflection/reflection.dart';
 
@@ -398,6 +398,12 @@ void main() {
 
   test('should handle relative paths in a test directory', () async {
     // This a silly, but effective way, to get a LibraryElement.
+    final nonInputsToReadFromFilesystem = <AssetId>{
+      AssetId('angular', 'lib/angular.dart'),
+      AssetId('angular', 'lib/src/meta.dart'),
+      AssetId('angular', 'lib/src/meta/di_arguments.dart'),
+    };
+
     final pkgATest = await resolveSources(
       {
         'a|test/a_test.dart': '''
@@ -420,6 +426,7 @@ void main() {
       },
       (r) => r.libraryFor(AssetId('a', 'test/a_test.dart')),
       packageConfig: await packageConfigFuture,
+      nonInputsToReadFromFilesystem: nonInputsToReadFromFilesystem,
     );
     final library = LibraryReader(pkgATest);
     final reflector = ReflectableReader.noLinking();

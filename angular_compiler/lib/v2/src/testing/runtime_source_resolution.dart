@@ -82,11 +82,31 @@ Future<LibraryElement> resolve(
     // Adds an additional file (dartSource).
     _assetToPath(_defaultAssetId): dartSource,
   };
+
+  Set<AssetId>? nonInputsToReadFromFilesystem;
+
+  if (includeAngularDeps) {
+    nonInputsToReadFromFilesystem = <AssetId>{
+      AssetId('angular', 'lib/angular.dart'),
+      AssetId('angular', 'lib/src/meta.dart'),
+      AssetId('angular', 'lib/src/meta/directives.dart'),
+      AssetId('angular', 'lib/src/meta/di_arguments.dart'),
+      AssetId('angular', 'lib/src/meta/di_generate_injector.dart'),
+      AssetId('angular', 'lib/src/meta/di_modules.dart'),
+      AssetId('angular', 'lib/src/meta/di_providers.dart'),
+      AssetId('angular', 'lib/src/meta/di_tokens.dart'),
+      AssetId('angular', 'lib/src/meta/lifecycle_hooks.dart'),
+      AssetId('angular', 'lib/src/meta/typed.dart'),
+      AssetId('angular', 'lib/src/meta/change_detection_link.dart'),
+    };
+  }
+
   final config = await _cachedPackageConfig;
   final result = await resolveSources(
     sources,
     (resolver) => resolver.libraryFor(_defaultAssetId),
     packageConfig: config,
+    nonInputsToReadFromFilesystem: nonInputsToReadFromFilesystem,
   );
   return result;
 }

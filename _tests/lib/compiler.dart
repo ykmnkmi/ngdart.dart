@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:build/build.dart';
 import 'package:build_resolvers/build_resolvers.dart';
-import 'package:build_test/build_test.dart' hide testBuilder;
+import 'package:build_test/build_test.dart';
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
@@ -59,25 +59,24 @@ Future<void> _testBuilder(
   String? rootPackage,
 }) async {
   // Setup the readers/writers for assets.
-  final sources = InMemoryAssetReader(rootPackage: rootPackage);
+  final sources = TestReaderWriter(rootPackage: rootPackage);
   final packages = await _packageAssets;
-  final reader = MultiAssetReader([sources, packages]);
 
   // Sanity check.
-  if (!await reader.canRead(AssetId(ngPackage, 'lib/angular.dart'))) {
+  if (!await packages.canRead(AssetId(ngPackage, 'lib/angular.dart'))) {
     throw StateError('Unable to read "$ngImport".');
   }
 
   // Load user sources.
-  final writer = InMemoryAssetWriter();
   final inputIds = runBuilderOn ?? [];
-  sourceAssets.forEach((serializedId, contents) {
-    final id = makeAssetId(serializedId);
-    sources.cacheStringAsset(id, contents);
+
+  for (final entry in sourceAssets.entries) {
+    final id = makeAssetId(entry.key);
+    await sources.writeAsString(id, entry.value);
     if (runBuilderOn == null) {
       inputIds.add(id);
     }
-  });
+  }
 
   if (inputIds.isEmpty) {
     throw ArgumentError.value(sourceAssets, 'No inputs', 'sourceAssets');
@@ -87,7 +86,8 @@ Future<void> _testBuilder(
   // TODO: Can we cache and re-use this once per test suite?
   final framework = packages.findAssets(_ngFiles, package: ngPackage);
   await for (final file in framework) {
-    sources.cacheStringAsset(file, await packages.readAsString(file));
+    final content = await packages.readAsString(file);
+    await sources.writeAsString(file, content);
   }
 
   final logger = Logger('_testBuilder');
@@ -100,8 +100,8 @@ Future<void> _testBuilder(
       return runBuilder(
         builder,
         inputIds,
-        reader,
-        writer,
+        sources,
+        sources,
         AnalyzerResolvers.custom(),
         logger: logger,
       );

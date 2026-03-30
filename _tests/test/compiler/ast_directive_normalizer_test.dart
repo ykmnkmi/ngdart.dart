@@ -1,5 +1,4 @@
 import 'package:build_test/build_test.dart';
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:angular/src/meta.dart';
 import 'package:angular_compiler/v1/angular_compiler.dart';
@@ -27,10 +26,6 @@ void main() {
   });
 
   test('should warn when template: points to a file URL', () async {
-    final logs = <String>[];
-    final logger = Logger('test');
-    final sub = logger.onRecord.listen((r) => logs.add('$r'));
-    addTearDown(sub.cancel);
     reader = FakeAssetReader({'package:a/a.dart': '', 'package:a/a.html': ''});
     normalizer = AstDirectiveNormalizer(reader);
     metadata = CompileDirectiveMetadata(
@@ -38,15 +33,15 @@ void main() {
       type: CompileTypeMetadata(name: 'A', moduleUrl: 'asset:a/lib/a.dart'),
       template: CompileTemplateMetadata(template: 'a.html'),
     );
-    await scopeLogAsync(() => normalizer.normalizeDirective(metadata), logger);
+    final logs =
+        await recordLogs(
+          () => normalizer.normalizeDirective(metadata),
+          name: 'test',
+        ).map((r) => '$r').toList();
     expect(logs, contains(contains('did you mean "templateUrl"')));
   });
 
   test('should warn when styles: points to a file URL', () async {
-    final logs = <String>[];
-    final logger = Logger('test');
-    final sub = logger.onRecord.listen((r) => logs.add('$r'));
-    addTearDown(sub.cancel);
     reader = FakeAssetReader({'package:a/a.dart': '', 'package:a/a.css': ''});
     normalizer = AstDirectiveNormalizer(reader);
     metadata = CompileDirectiveMetadata(
@@ -54,7 +49,11 @@ void main() {
       type: CompileTypeMetadata(name: 'A', moduleUrl: 'asset:a/lib/a.dart'),
       template: CompileTemplateMetadata(styles: ['a.css'], template: ''),
     );
-    await scopeLogAsync(() => normalizer.normalizeDirective(metadata), logger);
+    final logs =
+        await recordLogs(
+          () => normalizer.normalizeDirective(metadata),
+          name: 'test',
+        ).map((r) => '$r').toList();
     expect(logs, contains(contains('did you mean "styleUrls"')));
   });
 

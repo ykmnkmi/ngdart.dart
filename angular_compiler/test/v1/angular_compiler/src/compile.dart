@@ -9,17 +9,14 @@ import 'resolve.dart';
 Future<T> _recordLogs<T>(
   Future<T> Function() run,
   void Function(List<LogRecord>) onLog,
-) {
-  final logger = Logger('_recordLogs');
-  final records = <LogRecord>[];
-  final subscription = logger.onRecord.listen(records.add);
-  return scopeLogAsync(() async {
-    return runWithContext(CompileContext.forTesting(), run).then((result) {
-      subscription.cancel();
-      onLog(records);
-      return result;
-    });
-  }, logger);
+) async {
+  late Future<T> result;
+  final records =
+      await recordLogs(() {
+        result = runWithContext(CompileContext.forTesting(), run);
+      }, name: '_test').toList();
+  onLog(records);
+  return result;
 }
 
 /// Executes the [run] function with the result of analyzing [source].

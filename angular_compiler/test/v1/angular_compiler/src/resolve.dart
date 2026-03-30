@@ -23,6 +23,21 @@ final packageConfigFuture = loadPackageConfigUri(
 /// Returns the resolved library as `package:test_lib/test_lib.dart`.
 Future<LibraryElement> resolveLibrary(String source) async {
   final packageConfig = await packageConfigFuture;
+
+  final nonInputsToReadFromFilesystem = <AssetId>{
+    AssetId('angular', 'lib/angular.dart'),
+    AssetId('angular', 'lib/src/meta.dart'),
+    AssetId('angular', 'lib/src/meta/directives.dart'),
+    AssetId('angular', 'lib/src/meta/di_arguments.dart'),
+    AssetId('angular', 'lib/src/meta/di_generate_injector.dart'),
+    AssetId('angular', 'lib/src/meta/di_modules.dart'),
+    AssetId('angular', 'lib/src/meta/di_providers.dart'),
+    AssetId('angular', 'lib/src/meta/di_tokens.dart'),
+    AssetId('angular', 'lib/src/meta/lifecycle_hooks.dart'),
+    AssetId('angular', 'lib/src/meta/typed.dart'),
+    AssetId('angular', 'lib/src/meta/change_detection_link.dart'),
+  };
+
   return resolveSource(
     '''
       library _test;
@@ -34,6 +49,7 @@ Future<LibraryElement> resolveLibrary(String source) async {
     },
     inputId: AssetId('test_lib', 'lib/test_lib.dart'),
     packageConfig: packageConfig,
+    nonInputsToReadFromFilesystem: nonInputsToReadFromFilesystem,
   );
 }
 

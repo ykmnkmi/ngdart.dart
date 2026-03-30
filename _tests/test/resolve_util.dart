@@ -20,6 +20,7 @@ final _packageConfigFuture = loadPackageConfigUri(
 Future<LibraryElement> resolve(
   String source, [
   PackageConfig? packageConfig,
+  Set<AssetId>? nonInputsToReadFromFilesystem,
 ]) async {
   final testAssetId = AssetId('_tests', 'lib/resolve.dart');
   return await resolveSource(
@@ -27,16 +28,19 @@ Future<LibraryElement> resolve(
     (resolver) => resolver.libraryFor(testAssetId),
     inputId: testAssetId,
     packageConfig: packageConfig,
+    nonInputsToReadFromFilesystem: nonInputsToReadFromFilesystem,
   );
 }
 
 Future<NormalizedComponentWithViewDirectives> resolveAndFindComponent(
-  String source,
-) async {
+  String source, [
+  Set<AssetId>? nonInputsToReadFromFilesystem,
+]) async {
   final library = await resolve(
     "import 'package:angular/angular.dart';"
     '$source',
     await _packageConfigFuture,
+    nonInputsToReadFromFilesystem,
   );
   final artifacts = findComponentsAndDirectives(
     LibraryReader(library),
