@@ -1,6 +1,6 @@
 sdk: ^3.7.3
 
-analyzer: ^7.4.6 # 3.7
+analyzer: ^7.5.2 # 3.7
 angular: ^8.0.0
 angular_ast: ^3.0.0
 angular_compiler: ^3.0.0
@@ -15,7 +15,7 @@ build_modules: ^5.0.11 # 3.7
 build_resolvers: ^2.5.4 # 3.7
 build_runner: ^2.5.4 # 3.7
 build_test: ^3.2.0 # 3.7
-build_web_compilers: ^4.1.6 # 3.7
+build_web_compilers: ^4.2.0 # 3.7
 built_collection: ^5.1.1 # Latest
 built_value: ^8.12.5 # Latest
 charcode: ^1.4.0 # Latest

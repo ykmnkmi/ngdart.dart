@@ -19,9 +19,9 @@ dependencies:
   test: ^1.26.3
 
 dev_dependencies:
-  analyzer: ^7.4.6
+  analyzer: ^7.5.2
   build_runner: ^2.5.4
-  build_web_compilers: ^4.1.6
+  build_web_compilers: ^4.2.0
   js: ^0.7.2
   lints: ^5.1.1
   package_config: ^2.2.0
