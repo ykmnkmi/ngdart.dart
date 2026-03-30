@@ -13,7 +13,7 @@ dependencies:
   angular: ^8.0.0
   angular_ast: ^3.0.0
   args: ^2.7.0
-  build: ^2.5.0
+  build: ^2.5.1
   build_test: ^3.0.0
   code_builder: ^4.10.1
   collection: ^1.19.1
