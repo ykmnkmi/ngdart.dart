@@ -117,10 +117,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_test
-      sha256: "7462730bbfc241038e1e491f333df927d0b2d452120aa5f4997c5a98d863f58a"
+      sha256: "6388bd5e64317a5b804e23ecb62beb1b270fef5527550b2df808a8a6829dcec9"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.2.0"
   build_web_compilers:
     dependency: "direct dev"
     description:
