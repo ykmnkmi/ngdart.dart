@@ -8,7 +8,7 @@ angular_forms: ^5.0.0
 angular_router: ^4.0.0
 angular_test: ^5.0.0
 args: ^2.7.0 # Latest
-async: ^2.13.0 # Latest
+async: ^2.13.1 # Latest
 build: ^2.5.4 # 3.7
 build_daemon: ^4.0.4 # 3.7
 build_modules: ^5.0.11 # 3.7
