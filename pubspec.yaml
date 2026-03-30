@@ -7,7 +7,7 @@ dev_dependencies:
   lints: ^5.1.1
 
   # global tracking
-  analyzer: 7.5.2
+  analyzer: 7.7.0
   build: 2.5.4
   build_daemon: 4.0.4
   build_modules: 5.0.11

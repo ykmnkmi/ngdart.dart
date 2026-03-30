@@ -19,7 +19,7 @@ dependencies:
   test: ^1.26.3
 
 dev_dependencies:
-  analyzer: ^7.5.2
+  analyzer: ^7.7.0
   build_runner: ^2.5.4
   build_web_compilers: ^4.2.0
   js: ^0.7.2

@@ -1,6 +1,6 @@
 sdk: ^3.7.3
 
-analyzer: ^7.5.2 # 3.7
+analyzer: ^7.7.0 # 3.7
 angular: ^8.0.0
 angular_ast: ^3.0.0
 angular_compiler: ^3.0.0
