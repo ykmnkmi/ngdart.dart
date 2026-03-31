@@ -2,7 +2,7 @@ name: _tests
 description: Tests for AngularDart.
 
 environment:
-  sdk: ^3.7.3
+  sdk: ^3.8.3
 
 resolution: workspace
 
@@ -23,7 +23,7 @@ dev_dependencies:
   build_runner: ^2.5.4
   build_web_compilers: ^4.2.0
   js: ^0.7.2
-  lints: ^5.1.1
+  lints: ^6.1.0
   package_config: ^2.2.0
   source_gen: ^2.0.0
   term_glyph: ^1.2.2
