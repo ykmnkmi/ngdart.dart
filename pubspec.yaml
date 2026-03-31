@@ -9,7 +9,7 @@ dev_dependencies:
   # global tracking
   analyzer: 7.7.0
   build: 2.5.4
-  build_modules: 5.0.14
+  build_modules: 5.0.15
   build_resolvers: 2.5.4
   build_runner: 2.5.4
   build_test: 3.2.1
