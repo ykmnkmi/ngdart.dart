@@ -46,54 +46,70 @@ final Map<String, String> deps = {
 
 final _client = HttpClient();
 
-Future<Map<String, dynamic>> fetchPackage(String name) async {
-  final request = await _client.getUrl(
+Future<Map<String, Object?>> fetchPackage(String name) async {
+  var request = await _client.getUrl(
     Uri.parse('https://pub.dev/api/packages/$name'),
   );
+
   request.headers.set('Accept', 'application/vnd.pub.v2+json');
-  final response = await request.close();
+
+  var response = await request.close();
+
   if (response.statusCode != 200) {
     throw HttpException('Failed to fetch $name: ${response.statusCode}');
   }
+
   return jsonDecode(await response.transform(utf8.decoder).join())
-      as Map<String, dynamic>;
+      as Map<String, Object?>;
 }
 
 bool isAtLeast(String version, String constraint) {
-  final c = constraint.replaceFirst('^', '').split('.').map(int.parse).toList();
-  final v = version.split('.').map(int.tryParse).toList();
-  if (v.any((p) => p == null)) return false;
+  var c = constraint.replaceFirst('^', '').split('.').map(int.parse).toList();
+  var v = version.split('.').map(int.tryParse).toList();
 
-  final vNum = v[0]! * 1000000 + v[1]! * 1000 + v[2]!;
-  final cNum = c[0] * 1000000 + c[1] * 1000 + c[2];
+  for (var p in v) {
+    if (p == null) {
+      return false;
+    }
+  }
+
+  var vNum = v[0]! * 1000000 + v[1]! * 1000 + v[2]!;
+  var cNum = c[0] * 1000000 + c[1] * 1000 + c[2];
   return vNum >= cNum;
 }
 
-String fmtDate(DateTime d) =>
-    '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+String fmtDate(DateTime d) {
+  return '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+}
 
 String _sdkConstraint(Map<String, dynamic> pubspec) {
-  final env = pubspec['environment'];
+  var env = pubspec['environment'];
+
   if (env is Map) {
-    final sdk = env['sdk'];
-    if (sdk is String) return sdk;
+    var sdk = env['sdk'];
+
+    if (sdk is String) {
+      return sdk;
+    }
   }
+
   return '?';
 }
 
 void main() async {
-  final rows =
+  var rows =
       <(String package, String version, DateTime published, String sdk)>[];
-  final errors = <String>[];
-  final entries = deps.entries.toList();
+
+  var errors = <String>[];
+  var entries = deps.entries.toList();
 
   for (var i = 0; i < entries.length; i += 5) {
-    final batch = entries.skip(i).take(5);
-    final results = await Future.wait(
+    var batch = entries.skip(i).take(5);
+    var results = await Future.wait(
       batch.map((e) async {
         try {
-          final data = await fetchPackage(e.key);
-          final versions = data['versions'] as List;
+          var data = await fetchPackage(e.key);
+          var versions = data['versions'] as List;
           return [
             for (final entry in versions.cast<Map<String, dynamic>>())
               if (!(entry['pubspec']['version'] as String).contains('-') &&
@@ -114,7 +130,7 @@ void main() async {
       }),
     );
 
-    for (final list in results) {
+    for (var list in results) {
       rows.addAll(list);
     }
 
@@ -128,13 +144,15 @@ void main() async {
 
   print('| Date | Package | Version | SDK |');
   print('| ---- | ------- | ------- | --- |');
-  for (final (pkg, ver, date, sdk) in rows) {
+
+  for (var (pkg, ver, date, sdk) in rows) {
     print('| ${fmtDate(date)} | $pkg | $ver | $sdk |');
   }
 
   if (errors.isNotEmpty) {
     print('\nERRORS:');
-    for (final e in errors) {
+
+    for (var e in errors) {
       print('  $e');
     }
   }
