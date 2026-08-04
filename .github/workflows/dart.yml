@@ -1,4 +1,4 @@
-# Created with package:mono_repo v6.6.3
+# Created with package:mono_repo v6.7.2
 name: Dart CI
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:stable"
@@ -30,14 +30,16 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
           sdk: stable
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - name: mono_repo self validate
-        run: dart pub global activate mono_repo 6.6.3
+        run: dart pub global activate mono_repo 6.7.2
       - name: mono_repo self validate
         run: dart pub global run mono_repo generate --validate
   job_002:
@@ -45,22 +47,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests;commands:analyze"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests;commands:analyze"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular-angular_ast-angular_compiler-angular_forms-angular_router-angular_test-tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_pub_upgrade
         name: angular; dart pub upgrade
         run: dart pub upgrade
@@ -129,22 +133,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:_tests;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:_tests;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: _tests_pub_upgrade
         name: _tests; dart pub upgrade
         run: dart pub upgrade
@@ -162,22 +168,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_forms;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_forms;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_forms_pub_upgrade
         name: angular_forms; dart pub upgrade
         run: dart pub upgrade
@@ -195,22 +203,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_router;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_router;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_router_pub_upgrade
         name: angular_router; dart pub upgrade
         run: dart pub upgrade
@@ -228,22 +238,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_test;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_test;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_test_pub_upgrade
         name: angular_test; dart pub upgrade
         run: dart pub upgrade
@@ -261,22 +273,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:tests;commands:command_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:tests;commands:command_0"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: tests_pub_upgrade
         name: tests; dart pub upgrade
         run: dart pub upgrade
@@ -294,22 +308,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:_tests;commands:command_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:_tests;commands:command_2"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: _tests_pub_upgrade
         name: _tests; dart pub upgrade
         run: dart pub upgrade
@@ -332,22 +348,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:_tests;commands:command_1"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:_tests;commands:command_1"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:_tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:_tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: _tests_pub_upgrade
         name: _tests; dart pub upgrade
         run: dart pub upgrade
@@ -370,22 +388,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_ast;commands:command_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_ast;commands:command_3"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_ast
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_ast
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_ast_pub_upgrade
         name: angular_ast; dart pub upgrade
         run: dart pub upgrade
@@ -408,22 +428,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_compiler;commands:command_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_compiler;commands:command_3"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_compiler
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_compiler
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_compiler_pub_upgrade
         name: angular_compiler; dart pub upgrade
         run: dart pub upgrade
@@ -446,22 +468,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_forms;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_forms;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_forms
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_forms
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_forms_pub_upgrade
         name: angular_forms; dart pub upgrade
         run: dart pub upgrade
@@ -484,22 +508,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_router;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_router;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_router
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_router
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_router_pub_upgrade
         name: angular_router; dart pub upgrade
         run: dart pub upgrade
@@ -522,22 +548,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_test;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_test;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:angular_test
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:angular_test
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: angular_test_pub_upgrade
         name: angular_test; dart pub upgrade
         run: dart pub upgrade
@@ -560,22 +588,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:tests;commands:command_4"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:tests;commands:command_4"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3;packages:tests
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.8.3
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2;packages:tests
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.12.2
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: "3.8.3"
+          sdk: "3.12.2"
       - id: checkout
         name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - id: tests_pub_upgrade
         name: tests; dart pub upgrade
         run: dart pub upgrade
