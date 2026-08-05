@@ -34,18 +34,17 @@ class DirectiveConverter {
   ) {
     // TODO(b/130184376): Create better HostProperties representation in
     //  CompileMetadata.
-    final hostProperties =
-        hostProps.entries.map((entry) {
-          final property = entry.key;
-          final expression = entry.value;
-          return createElementPropertyAst(
-            _securityContextElementName,
-            property,
-            ast.BoundExpression(ast.ASTWithSource.missingSource(expression)),
-            _emptySpan,
-            _schemaRegistry,
-          );
-        }).toList();
+    final hostProperties = hostProps.entries.map((entry) {
+      final property = entry.key;
+      final expression = entry.value;
+      return createElementPropertyAst(
+        _securityContextElementName,
+        property,
+        ast.BoundExpression(ast.ASTWithSource.missingSource(expression)),
+        _emptySpan,
+        _schemaRegistry,
+      );
+    }).toList();
 
     return convertAllToBinding(
       hostProperties,

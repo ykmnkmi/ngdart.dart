@@ -8,7 +8,8 @@ import '../../src/resolve.dart';
 const testImport = 'asset:test_lib/lib/test_lib.dart';
 
 Future<TypedElement> parse(String source) async {
-  final amendedSource = '''
+  final amendedSource =
+      '''
     @Component()
     class GenericComponent<T> {}
 
@@ -19,10 +20,9 @@ Future<TypedElement> parse(String source) async {
   ''';
   final element = (await resolveClass(amendedSource, 'Example'))!;
   final typedReader = TypedReader(element);
-  final typedValue =
-      element.metadata
-          .firstWhere((annotation) => annotation.element!.name == 'typed')
-          .computeConstantValue()!;
+  final typedValue = element.metadata
+      .firstWhere((annotation) => annotation.element!.name == 'typed')
+      .computeConstantValue()!;
   return typedReader.parse(typedValue);
 }
 

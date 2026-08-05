@@ -38,10 +38,9 @@ class RoutePath {
     : path = routes.isNotEmpty ? Url.trimSlashes(routes.last.path) : '',
       useAsDefault = routes.isNotEmpty ? routes.last.useAsDefault : false,
       additionalData = routes.isNotEmpty ? routes.last.additionalData : null,
-      parent =
-          routes.length > 1
-              ? RoutePath.fromRoutes(routes.take(routes.length - 1))
-              : null;
+      parent = routes.length > 1
+          ? RoutePath.fromRoutes(routes.take(routes.length - 1))
+          : null;
 
   String toUrl({
     Map<String, String>? parameters,

@@ -657,8 +657,8 @@ class BoundExpression implements BindingSource {
 
   SourceReference? get sourceReference =>
       sourceSpan != null && sourceSpan?.sourceUrl != null
-          ? SourceReference(sourceSpan!, compileDirectiveMetadata)
-          : null;
+      ? SourceReference(sourceSpan!, compileDirectiveMetadata)
+      : null;
 
   BoundExpression withNewExpression(ast.AST expression) => BoundExpression(
     ast.ASTWithSource(

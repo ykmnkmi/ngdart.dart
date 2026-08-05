@@ -47,12 +47,13 @@ void main() {
   test('Should disable change detection to avoid infinite ngOnInit', () async {
     final valueService = ValueService()..value = '1';
     final rpcService = RpcService();
-    final testBed = NgTestBed<CrashOnInit>(
-      ng.createCrashOnInitFactory(),
-    ).addInjector(
-      (i) =>
-          Injector.map({ValueService: valueService, RpcService: rpcService}, i),
-    );
+    final testBed = NgTestBed<CrashOnInit>(ng.createCrashOnInitFactory())
+        .addInjector(
+          (i) => Injector.map({
+            ValueService: valueService,
+            RpcService: rpcService,
+          }, i),
+        );
 
     // Initially create with the crashing component disabled.
     final fixture = await testBed.create();

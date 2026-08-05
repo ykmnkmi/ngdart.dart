@@ -164,10 +164,9 @@ class NodeReference {
       // initialized lazily, but the instance does not change after that. If
       // we have an initialValue (for example "Text('')"), it is effectively
       // final.
-      modifiers:
-          hasInitialValue
-              ? const [o.StmtModifier.Final]
-              : const [o.StmtModifier.Late, o.StmtModifier.Final],
+      modifiers: hasInitialValue
+          ? const [o.StmtModifier.Final]
+          : const [o.StmtModifier.Late, o.StmtModifier.Final],
       initializer: initialValue,
     );
   }
@@ -237,9 +236,9 @@ class WriteNodeReferenceStmt extends o.DeclareVarStmt {
   R visitStatement<R, C>(o.StatementVisitor<R, C> visitor, C context) {
     return node._visibility == NodeReferenceVisibility.classPublic
         ? o.WriteClassMemberExpr(
-          name,
-          value!,
-        ).toStmt().visitStatement(visitor, context)
+            name,
+            value!,
+          ).toStmt().visitStatement(visitor, context)
         : visitor.visitDeclareVarStmt(this, context);
   }
 
@@ -979,16 +978,15 @@ class CompileView {
     // Write code to create an instance of ViewContainer.
     // Example:
     //     this._appEl_2 = new import7.ViewContainer(2,0,this,this._anchor_2);
-    var statement =
-        o.WriteClassMemberExpr(
-          fieldName,
-          o.importExpr(Identifiers.ViewContainer).instantiate([
-            o.literal(nodeIndex),
-            o.literal(parentNodeIndex),
-            o.THIS_EXPR,
-            renderNode,
-          ]),
-        ).toStmt();
+    var statement = o.WriteClassMemberExpr(
+      fieldName,
+      o.importExpr(Identifiers.ViewContainer).instantiate([
+        o.literal(nodeIndex),
+        o.literal(parentNodeIndex),
+        o.THIS_EXPR,
+        renderNode,
+      ]),
+    ).toStmt();
     _createMethod.addStmt(statement);
     var appViewContainer = o.ReadClassMemberExpr(fieldName);
     if (!isPrivate) {
@@ -1038,11 +1036,11 @@ class CompileView {
   ) {
     final createExpr =
         projectedNodes is o.LiteralArrayExpr && projectedNodes.entries.isEmpty
-            ? componentViewExpr.callMethod('create', [componentExpr])
-            : componentViewExpr.callMethod('createAndProject', [
-              componentExpr,
-              projectedNodes,
-            ]);
+        ? componentViewExpr.callMethod('create', [componentExpr])
+        : componentViewExpr.callMethod('createAndProject', [
+            componentExpr,
+            projectedNodes,
+          ]);
     _createMethod.addStmt(createExpr.toStmt());
   }
 
@@ -1104,8 +1102,9 @@ class CompileView {
     if (isRootNodeOfHost(nodeIndex)) return;
     if (component.template!.encapsulation == ViewEncapsulation.Emulated) {
       // Set ng_content class for CSS shim.
-      var shimMethod =
-          nodeType != Identifiers.HTML_ELEMENT ? 'addShimC' : 'addShimE';
+      var shimMethod = nodeType != Identifiers.HTML_ELEMENT
+          ? 'addShimC'
+          : 'addShimE';
       o.Expression shimClassExpr = o.InvokeMemberMethodExpr(shimMethod, [
         nodeReference.toReadExpr(),
       ]);
@@ -1191,9 +1190,9 @@ class CompileView {
       type = o.ArrayType(
         provider.typeArgument != null
             ? o.importType(
-              provider.typeArgument,
-              provider.typeArgument!.typeArguments,
-            )
+                provider.typeArgument,
+                provider.typeArgument!.typeArguments,
+              )
             : o.DYNAMIC_TYPE,
       );
     } else {
@@ -1337,20 +1336,15 @@ class CompileView {
 
   void createPipeInstance(String name, CompilePipeMetadata pipeMeta) {
     var usesInjectorGet = false;
-    final deps =
-        pipeMeta.type!.diDeps.map((diDep) {
-          if (diDep.token!.equalsTo(
-            identifierToken(Identifiers.ChangeDetectorRef),
-          )) {
-            return o.THIS_EXPR;
-          }
-          usesInjectorGet = true;
-          return injectFromViewParentInjector(
-            this,
-            diDep.token!,
-            diDep.isOptional,
-          );
-        }).toList();
+    final deps = pipeMeta.type!.diDeps.map((diDep) {
+      if (diDep.token!.equalsTo(
+        identifierToken(Identifiers.ChangeDetectorRef),
+      )) {
+        return o.THIS_EXPR;
+      }
+      usesInjectorGet = true;
+      return injectFromViewParentInjector(this, diDep.token!, diDep.isOptional);
+    }).toList();
     final pipeInstance = storage.allocate(
       name,
       outputType: o.importType(pipeMeta.type),
@@ -1389,10 +1383,9 @@ class CompileView {
         o.StmtModifier.Final,
       ],
     );
-    var pureProxyId =
-        argCount < Identifiers.pureProxies.length
-            ? Identifiers.pureProxies[argCount]
-            : null;
+    var pureProxyId = argCount < Identifiers.pureProxies.length
+        ? Identifiers.pureProxies[argCount]
+        : null;
     if (pureProxyId == null) {
       throw StateError(
         'Unsupported number of argument for pure functions: $argCount',

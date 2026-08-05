@@ -77,10 +77,9 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
     int? ngContentIndex,
     CompileElement parent,
   ) {
-    var vcAppEl =
-        (node is CompileElement && node.hasViewContainer)
-            ? node.appViewContainer
-            : null;
+    var vcAppEl = (node is CompileElement && node.hasViewContainer)
+        ? node.appViewContainer
+        : null;
     if (_isRootNode(parent)) {
       // store appElement as root node only for ViewContainers
       if (_view.viewType != ViewType.component) {
@@ -406,10 +405,9 @@ class ViewBuilderVisitor implements TemplateAstVisitor<void, CompileElement> {
     );
 
     // Set ng_content class for CSS shim.
-    var elementType =
-        _view.isRootNodeOfHost(nodeIndex)
-            ? Identifiers.HTML_HTML_ELEMENT
-            : identifierFromTagName(ast.name);
+    var elementType = _view.isRootNodeOfHost(nodeIndex)
+        ? Identifiers.HTML_HTML_ELEMENT
+        : identifierFromTagName(ast.name);
     _view.shimCssForNode(elementRef, nodeIndex, elementType);
 
     var compileElement = CompileElement(
@@ -782,8 +780,9 @@ o.Statement _createEmbeddedViewFactory(
   // the same type signature, instead of each one being unique, thus reducing
   // code size.
   final returnType = o.importType(Views.embeddedView, [o.VOID_TYPE]);
-  final constructorTypeArguments =
-      viewClass.typeParameters.map((t) => t.toType()).toList();
+  final constructorTypeArguments = viewClass.typeParameters
+      .map((t) => t.toType())
+      .toList();
   final body = [
     o.ReturnStatement(
       o
@@ -946,11 +945,10 @@ void _writeComponentHostEventListeners(
   for (var eventName in component.hostListeners.keys) {
     var boundEvent = _parseEvent(component, eventName, parser);
 
-    var handlerExpr =
-        converter.convertSourceToExpression(
-          boundEvent.source,
-          boundEvent.target.type,
-        )!;
+    var handlerExpr = converter.convertSourceToExpression(
+      boundEvent.source,
+      boundEvent.target.type,
+    )!;
 
     statements.addAll(
       bindingToUpdateStatements(boundEvent, rootEl, null, false, handlerExpr),

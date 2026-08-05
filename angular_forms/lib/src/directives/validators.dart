@@ -107,8 +107,11 @@ class MinLengthValidator implements Validator {
     if (v == null || v == '') return null;
     return v.length < minLength
         ? {
-          'minlength': {'requiredLength': minLength, 'actualLength': v.length},
-        }
+            'minlength': {
+              'requiredLength': minLength,
+              'actualLength': v.length,
+            },
+          }
         : null;
   }
 }
@@ -145,8 +148,11 @@ class MaxLengthValidator implements Validator {
     if (v == null || v == '') return null;
     return v.length > maxLength
         ? {
-          'maxlength': {'requiredLength': maxLength, 'actualLength': v.length},
-        }
+            'maxlength': {
+              'requiredLength': maxLength,
+              'actualLength': v.length,
+            },
+          }
         : null;
   }
 }

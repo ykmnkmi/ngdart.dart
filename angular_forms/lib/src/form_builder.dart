@@ -75,8 +75,9 @@ class FormBuilder {
       return controlConfig;
     } else if (controlConfig is List) {
       var value = controlConfig[0];
-      var validator =
-          controlConfig.length > 1 ? controlConfig[1] as ValidatorFn : null;
+      var validator = controlConfig.length > 1
+          ? controlConfig[1] as ValidatorFn
+          : null;
       return model_module.Control(value, validator);
     } else {
       return model_module.Control(controlConfig, null);

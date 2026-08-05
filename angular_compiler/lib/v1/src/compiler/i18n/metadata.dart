@@ -173,10 +173,12 @@ class _I18nMetadataBuilder {
     // formatted differently would be treated as distinct messages if the
     // whitespace wasn't normalized.
     final normalizedDescription = _normalizeWhitespace(description!.value!);
-    final normalizedLocale =
-        locale != null ? _normalizeWhitespace(locale!.value!) : null;
-    final normalizedMeaning =
-        meaning != null ? _normalizeWhitespace(meaning!.value!) : null;
+    final normalizedLocale = locale != null
+        ? _normalizeWhitespace(locale!.value!)
+        : null;
+    final normalizedMeaning = meaning != null
+        ? _normalizeWhitespace(meaning!.value!)
+        : null;
     return I18nMetadata(
       normalizedDescription,
       description!.sourceSpan,

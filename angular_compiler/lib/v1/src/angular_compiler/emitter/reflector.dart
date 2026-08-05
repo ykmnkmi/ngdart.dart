@@ -60,21 +60,18 @@ class ReflectableEmitter {
   Expression _tearOffConstructor(
     String? constructor,
     DependencyInvocation invocation,
-  ) =>
-      Method(
-        (b) =>
-            b
-              ..requiredParameters.addAll(_parameters(invocation.positional))
-              ..body =
-                  refer(constructor!)
-                      .newInstance(
-                        Iterable<Expression>.generate(
-                          invocation.positional.length,
-                          (i) => refer('p$i'),
-                        ),
-                      )
-                      .code,
-      ).closure;
+  ) => Method(
+    (b) => b
+      ..requiredParameters.addAll(_parameters(invocation.positional))
+      ..body = refer(constructor!)
+          .newInstance(
+            Iterable<Expression>.generate(
+              invocation.positional.length,
+              (i) => refer('p$i'),
+            ),
+          )
+          .code,
+  ).closure;
 
   List<Parameter> _parameters(Iterable<DependencyElement> elements) {
     var counter = 0;
@@ -87,10 +84,9 @@ class ReflectableEmitter {
         }
       }
       return Parameter(
-        (b) =>
-            b
-              ..name = 'p${counter++}'
-              ..type = linkToReference(type, _library)
+        (b) => b
+          ..name = 'p${counter++}'
+          ..type = linkToReference(type, _library)
               // TODO(b/185491084): move this inside linkToReference.
               .rebuild((b) => b..isNullable = type.isNullable),
       );
@@ -139,22 +135,20 @@ class ReflectableEmitter {
     }
 
     // Create the initial (static) body of initReflector().
-    _initReflectorBody =
-        BlockBuilder()
-          ..statements.add(
-            const Code(
-              ''
-              'if (_visited) {\n'
-              '  return;\n'
-              '}\n'
-              '_visited = true;\n',
-            ),
-          );
+    _initReflectorBody = BlockBuilder()
+      ..statements.add(
+        const Code(
+          ''
+          'if (_visited) {\n'
+          '  return;\n'
+          '}\n'
+          '_visited = true;\n',
+        ),
+      );
 
-    final initReflector =
-        MethodBuilder()
-          ..name = 'initReflector'
-          ..returns = refer('void');
+    final initReflector = MethodBuilder()
+      ..name = 'initReflector'
+      ..returns = refer('void');
 
     // For some classes, emit "const _{class}Metadata = const [ ... ]".
     //

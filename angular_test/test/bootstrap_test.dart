@@ -93,12 +93,11 @@ void main() {
         ng_generated.createAddProvidersFactory(),
         host,
         (i) => Injector.map({TestService: TestService()}, i),
-        beforeComponentCreated:
-            (injector) =>
-                Future.delayed(Duration(milliseconds: 200), () {}).then((_) {
-                  testService = injector.provideType(TestService);
-                  testService!.count++;
-                }),
+        beforeComponentCreated: (injector) =>
+            Future.delayed(Duration(milliseconds: 200), () {}).then((_) {
+              testService = injector.provideType(TestService);
+              testService!.count++;
+            }),
         beforeChangeDetection: (_) {
           if (testService == null) {
             fail(

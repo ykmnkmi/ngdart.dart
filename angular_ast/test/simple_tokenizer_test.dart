@@ -5,10 +5,9 @@ import 'package:angular_ast/src/token/tokens.dart';
 void main() {
   Iterable<NgSimpleToken> tokenize(String html) =>
       const NgSimpleTokenizer().tokenize(html);
-  String untokenize(Iterable<NgSimpleToken> tokens) =>
-      tokens
-          .fold(StringBuffer(), (buffer, token) => buffer..write(token.lexeme))
-          .toString();
+  String untokenize(Iterable<NgSimpleToken> tokens) => tokens
+      .fold(StringBuffer(), (buffer, token) => buffer..write(token.lexeme))
+      .toString();
 
   test('should tokenize plain text', () {
     expect(tokenize('Hello World'), [

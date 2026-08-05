@@ -90,10 +90,9 @@ String shimShadowCss(
     logWarning('Errors parsing CSS:\n${errors.join('\n')}');
   }
 
-  var shadowTransformer =
-      useLegacyEncapsulation
-          ? _LegacyShadowTransformer(contentClass, hostClass)
-          : _ShadowTransformer(contentClass, hostClass);
+  var shadowTransformer = useLegacyEncapsulation
+      ? _LegacyShadowTransformer(contentClass, hostClass)
+      : _ShadowTransformer(contentClass, hostClass);
   shadowTransformer.visitTree(styleSheet);
   var printer = CssPrinter();
   printer.visitTree(styleSheet);
@@ -279,10 +278,9 @@ class _CompoundSelector {
   _CompoundSelector() : combinator = TokenKind.COMBINATOR_NONE;
 
   _CompoundSelector.from(Iterable<SimpleSelectorSequence> sequences) {
-    combinator =
-        sequences.isEmpty
-            ? TokenKind.COMBINATOR_NONE
-            : sequences.first.combinator;
+    combinator = sequences.isEmpty
+        ? TokenKind.COMBINATOR_NONE
+        : sequences.first.combinator;
     addAll(sequences);
   }
 
@@ -460,10 +458,10 @@ class _ShadowTransformer extends Visitor {
 
     for (var compoundSelector in selector.compoundSelectors) {
       if (compoundSelector.containsHostContext) {
-        var ancestor =
-            _CompoundSelector()..combinator = compoundSelector.combinator;
-        var descendant =
-            _CompoundSelector()..combinator = TokenKind.COMBINATOR_DESCENDANT;
+        var ancestor = _CompoundSelector()
+          ..combinator = compoundSelector.combinator;
+        var descendant = _CompoundSelector()
+          ..combinator = TokenKind.COMBINATOR_DESCENDANT;
         var sequences = _clone(compoundSelector.toSequences());
 
         for (var sequence in sequences) {
@@ -613,10 +611,9 @@ class _LegacyShadowTransformer extends _ShadowTransformer {
 
     // Remove 'polyfill-next-selector' rule sets.
     list.removeWhere(
-      (node) =>
-          node is RuleSet
-              ? _matchesElement(node.selectorGroup!, 'polyfill-next-selector')
-              : false,
+      (node) => node is RuleSet
+          ? _matchesElement(node.selectorGroup!, 'polyfill-next-selector')
+          : false,
     );
   }
 

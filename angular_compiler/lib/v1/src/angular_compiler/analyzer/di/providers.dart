@@ -164,13 +164,12 @@ class ProviderReader {
         token,
       ),
       urlOf(factoryElement),
-      dependencies:
-          manualDeps.isList
-              ? _dependencyReader.parseDependenciesList(
-                factoryElement,
-                manualDeps.listValue,
-              )
-              : _dependencyReader.parseDependencies(factoryElement),
+      dependencies: manualDeps.isList
+          ? _dependencyReader.parseDependenciesList(
+              factoryElement,
+              manualDeps.listValue,
+            )
+          : _dependencyReader.parseDependencies(factoryElement),
     );
   }
 

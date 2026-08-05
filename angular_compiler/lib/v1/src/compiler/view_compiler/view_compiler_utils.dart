@@ -55,10 +55,9 @@ o.Expression getPropertyInView(
     while (!identical(currView, definedView) &&
         currView.declarationElement.view != null) {
       currView = currView.declarationElement.view!;
-      viewProp =
-          viewProp == null
-              ? o.ReadClassMemberExpr('parentView')
-              : viewProp.prop('parentView');
+      viewProp = viewProp == null
+          ? o.ReadClassMemberExpr('parentView')
+          : viewProp.prop('parentView');
       viewProp = viewProp.notNull();
     }
     if (!identical(currView, definedView)) {
@@ -71,10 +70,9 @@ o.Expression getPropertyInView(
     // Don't cast properties of `RenderView`.
     return replaceReadClassMemberInExpression(
       property,
-      (name) =>
-          _renderViewProperties.contains(name)
-              ? viewProp!
-              : unsafeCast(viewProp!, definedView.classType),
+      (name) => _renderViewProperties.contains(name)
+          ? viewProp!
+          : unsafeCast(viewProp!, definedView.classType),
     );
   }
 }
@@ -122,10 +120,9 @@ o.Expression injectFromViewParentInjector(
   CompileTokenMetadata token,
   bool optional,
 ) {
-  final viewExpr =
-      (view.viewType == ViewType.host)
-          ? o.THIS_EXPR
-          : o.ReadClassMemberExpr('parentView').notNull();
+  final viewExpr = (view.viewType == ViewType.host)
+      ? o.THIS_EXPR
+      : o.ReadClassMemberExpr('parentView').notNull();
   return viewExpr.callMethod(optional ? 'injectorGetOptional' : 'injectorGet', [
     createDiTokenExpression(token),
     o.ReadClassMemberExpr('parentIndex'),
@@ -201,10 +198,9 @@ o.Expression createDiTokenExpression(CompileTokenMetadata token) {
           // Add any generic types attached to the type.
           //
           // Only a value of `null` precisely means "no generic types", not [].
-          genericTypes:
-              token.identifier!.typeArguments.isNotEmpty
-                  ? token.identifier!.typeArguments
-                  : null,
+          genericTypes: token.identifier!.typeArguments.isNotEmpty
+              ? token.identifier!.typeArguments
+              : null,
         );
   } else if (token.value != null) {
     return o.literal(token.value);
@@ -253,12 +249,9 @@ o.Expression createFlatArrayForProjectNodes(
         }
         lastNonArrayExpressions = [];
       }
-      result =
-          initialEmptyArray
-              ? o.literalArr([expr], o.OBJECT_TYPE)
-              : result.callMethod(o.BuiltinMethod.ConcatArray, [
-                unsafeCast(expr),
-              ]);
+      result = initialEmptyArray
+          ? o.literalArr([expr], o.OBJECT_TYPE)
+          : result.callMethod(o.BuiltinMethod.ConcatArray, [unsafeCast(expr)]);
       initialEmptyArray = false;
     } else {
       lastNonArrayExpressions.add(expr);
@@ -362,10 +355,9 @@ List<ir.Binding> _mergeHtmlAndDirectiveAttrs(
         directiveMeta,
       );
       var prevValue = result[name];
-      result[name] =
-          prevValue != null
-              ? _mergeAttributeValue(name, prevValue, value, directiveMeta)
-              : value;
+      result[name] = prevValue != null
+          ? _mergeAttributeValue(name, prevValue, value, directiveMeta)
+          : value;
     }
   }
   return _toSortedBindings(result);

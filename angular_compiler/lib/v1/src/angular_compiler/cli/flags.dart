@@ -27,30 +27,29 @@ const _argPolicyExceptionInPackages = 'policy-exception-in-packages';
 /// opinionated and allows anything to be set, but has reasonable defaults set
 /// with an option to use defaults set by bazel or pub's build systems.
 class CompilerFlags {
-  static final _argParser =
-      ArgParser()
-        ..addFlag(
-          _argLegacyStyle,
-          defaultsTo: null,
-          help:
-              ''
-              'Enables the use of deprecated Shadow DOM CSS selectors, and '
-              'cause shadow host selectors to prevent a series of selectors '
-              'from being properly scoped to their component',
-        )
-        ..addFlag(
-          _argDataDebugSource,
-          defaultsTo: false,
-          help:
-              'Adds the `data-debug-source` attribute to dom elements '
-              'created from AngularDart templates.',
-        )
-        ..addFlag(_argEnableDevTools, defaultsTo: false, hide: true)
-        ..addFlag(_argForceMinifyWhitespace, defaultsTo: null, hide: true)
-        ..addFlag(_argNoEmitComponentFactories, hide: true)
-        ..addFlag(_argNoEmitInjectableFactories, hide: true)
-        ..addMultiOption(_argPolicyExceptions, hide: true)
-        ..addMultiOption(_argPolicyExceptionInPackages, hide: true);
+  static final _argParser = ArgParser()
+    ..addFlag(
+      _argLegacyStyle,
+      defaultsTo: null,
+      help:
+          ''
+          'Enables the use of deprecated Shadow DOM CSS selectors, and '
+          'cause shadow host selectors to prevent a series of selectors '
+          'from being properly scoped to their component',
+    )
+    ..addFlag(
+      _argDataDebugSource,
+      defaultsTo: false,
+      help:
+          'Adds the `data-debug-source` attribute to dom elements '
+          'created from AngularDart templates.',
+    )
+    ..addFlag(_argEnableDevTools, defaultsTo: false, hide: true)
+    ..addFlag(_argForceMinifyWhitespace, defaultsTo: null, hide: true)
+    ..addFlag(_argNoEmitComponentFactories, hide: true)
+    ..addFlag(_argNoEmitInjectableFactories, hide: true)
+    ..addMultiOption(_argPolicyExceptions, hide: true)
+    ..addMultiOption(_argPolicyExceptionInPackages, hide: true);
 
   /// Whether to emit code that supports developer tooling.
   @experimental

@@ -252,10 +252,9 @@ abstract class CompileQuery {
 
     final results = _buildQueryResults(value);
     // If the nested query has multiple results, wrap them in a list.
-    final expressions =
-        results.values.length > 1
-            ? [o.literalArr(results.values)]
-            : results.values;
+    final expressions = results.values.length > 1
+        ? [o.literalArr(results.values)]
+        : results.values;
 
     final adjustedExpressions = expressions.map(readFromNestedView).toList();
     final adjustedValuesWithChangeDetectorRefs = results.withChangeDetectorRefs
@@ -268,10 +267,9 @@ abstract class CompileQuery {
 
     // Choose which function to use based on whether the nested query returns
     // multiple results or a single result.
-    final mapNestedViews =
-        _hasMultipleResults(value)
-            ? 'mapNestedViews'
-            : 'mapNestedViewsWithSingleResult';
+    final mapNestedViews = _hasMultipleResults(value)
+        ? 'mapNestedViews'
+        : 'mapNestedViewsWithSingleResult';
 
     // Invokes `appElementN.mapNestedView`.
     return appElementN.callMethod(mapNestedViews, [

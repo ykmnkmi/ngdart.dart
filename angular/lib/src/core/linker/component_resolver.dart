@@ -12,5 +12,5 @@ import 'component_factory.dart' show ComponentFactory;
 @experimental
 ComponentFactory<Object> typeToFactory(Object typeOrFactory) =>
     typeOrFactory is ComponentFactory<Object>
-        ? typeOrFactory
-        : unsafeCast(reflector.getComponent(unsafeCast(typeOrFactory)));
+    ? typeOrFactory
+    : unsafeCast(reflector.getComponent(unsafeCast(typeOrFactory)));

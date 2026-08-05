@@ -703,10 +703,9 @@ class NgScanner {
     var current = _current!;
     var type = current.type;
     if (type == NgSimpleTokenType.identifier) {
-      _state =
-          wasOpenTag
-              ? NgScannerState.scanAfterElementIdentifierOpen
-              : NgScannerState.scanAfterElementIdentifierClose;
+      _state = wasOpenTag
+          ? NgScannerState.scanAfterElementIdentifierOpen
+          : NgScannerState.scanAfterElementIdentifierClose;
       return NgToken.elementIdentifier(current.offset, current.lexeme);
     }
     if (wasOpenTag) {

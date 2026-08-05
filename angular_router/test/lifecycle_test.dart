@@ -271,47 +271,43 @@ void main() {
   //
   // The 'first-reusable-parent' and 'second-reusable-parent' routes actually
   // map to the same component factory, which should be reused.
-  test(
-    'navigate between nested routes with the same reusable parent',
-    () async {
-      final fixture = await setup<
-        TestNavigateBetweenNestedRoutesWithSameReusableParent
-      >(
-        ng.createTestNavigateBetweenNestedRoutesWithSameReusableParentFactory(),
-      );
-      final log = fixture.assertOnlyInstance.lifecycleLog;
-      final router = fixture.assertOnlyInstance.router;
-      expect(log, [
-        '$ReusableParentComponent[0].ngOnInit',
-        '$FirstChildComponent[0].ngOnInit',
-        '$ReusableParentComponent[0].canActivate',
-        '$FirstChildComponent[0].canActivate',
-        '$ReusableParentComponent[0].onActivate',
-        '$FirstChildComponent[0].onActivate',
-      ]);
-      log.clear();
-      expect(
-        await router.navigate('/second-reusable-parent/second-child'),
-        NavigationResult.SUCCESS,
-      );
-      expect(log, [
-        '$ReusableParentComponent[0].canNavigate',
-        '$FirstChildComponent[0].canNavigate',
-        '$SecondChildComponent[0].ngOnInit',
-        '$ReusableParentComponent[0].canDeactivate',
-        '$FirstChildComponent[0].canDeactivate',
-        '$ReusableParentComponent[0].canActivate',
-        '$SecondChildComponent[0].canActivate',
-        '$ReusableParentComponent[0].onDeactivate',
-        '$FirstChildComponent[0].onDeactivate',
-        '$ReusableParentComponent[0].canReuse',
-        '$ReusableParentComponent[0].onActivate',
-        '$FirstChildComponent[0].canReuse',
-        '$FirstChildComponent[0].ngOnDestroy',
-        '$SecondChildComponent[0].onActivate',
-      ]);
-    },
-  );
+  test('navigate between nested routes with the same reusable parent', () async {
+    final fixture =
+        await setup<TestNavigateBetweenNestedRoutesWithSameReusableParent>(
+          ng.createTestNavigateBetweenNestedRoutesWithSameReusableParentFactory(),
+        );
+    final log = fixture.assertOnlyInstance.lifecycleLog;
+    final router = fixture.assertOnlyInstance.router;
+    expect(log, [
+      '$ReusableParentComponent[0].ngOnInit',
+      '$FirstChildComponent[0].ngOnInit',
+      '$ReusableParentComponent[0].canActivate',
+      '$FirstChildComponent[0].canActivate',
+      '$ReusableParentComponent[0].onActivate',
+      '$FirstChildComponent[0].onActivate',
+    ]);
+    log.clear();
+    expect(
+      await router.navigate('/second-reusable-parent/second-child'),
+      NavigationResult.SUCCESS,
+    );
+    expect(log, [
+      '$ReusableParentComponent[0].canNavigate',
+      '$FirstChildComponent[0].canNavigate',
+      '$SecondChildComponent[0].ngOnInit',
+      '$ReusableParentComponent[0].canDeactivate',
+      '$FirstChildComponent[0].canDeactivate',
+      '$ReusableParentComponent[0].canActivate',
+      '$SecondChildComponent[0].canActivate',
+      '$ReusableParentComponent[0].onDeactivate',
+      '$FirstChildComponent[0].onDeactivate',
+      '$ReusableParentComponent[0].canReuse',
+      '$ReusableParentComponent[0].onActivate',
+      '$FirstChildComponent[0].canReuse',
+      '$FirstChildComponent[0].ngOnDestroy',
+      '$SecondChildComponent[0].onActivate',
+    ]);
+  });
 
   test('navigate to the same route should do nothing', () async {
     final fixture = await setup<TestNavigateToSibling>(

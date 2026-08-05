@@ -39,8 +39,7 @@ class Compiler implements Generator {
   Builder asBuilder({String extension = '.template.dart'}) {
     return LibraryBuilder(
       this,
-      formatOutput:
-          (s, v) =>
+      formatOutput: (s, v) =>
           // Note: Use an absurdly long line width in order to speed up the
           // formatter. We still get a lot of other formatting, such as forced
           // line breaks (after semicolons for instance), spaces in argument

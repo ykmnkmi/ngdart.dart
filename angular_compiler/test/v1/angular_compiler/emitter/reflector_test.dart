@@ -406,7 +406,8 @@ void main() {
 
     final pkgATest = await resolveSources(
       {
-        'a|test/a_test.dart': '''
+        'a|test/a_test.dart':
+            '''
           library a_test;
 
           import '$angular/angular.dart';

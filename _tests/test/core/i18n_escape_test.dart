@@ -60,7 +60,8 @@ void main() {
 
 @Component(
   selector: 'test',
-  template: '''
+  template:
+      '''
     <ng-container @i18n="A message with characters that should be escaped">
       $message
     </ng-container>
@@ -70,7 +71,8 @@ class ShouldEscapeI18nText {}
 
 @Component(
   selector: 'test',
-  template: '''
+  template:
+      '''
     <ng-container @i18n="A message with characters that should be escaped">
       <strong>$message</strong>!
     </ng-container>
@@ -80,7 +82,8 @@ class ShouldEscapeI18nHtml {}
 
 @Component(
   selector: 'test',
-  template: '''
+  template:
+      '''
     <div
         foo="$message"
         @i18n:foo="A message with characters that should be escaped"
@@ -92,7 +95,8 @@ class ShouldEscapeI18nAttribute {}
 
 @Component(
   selector: 'test',
-  template: '''
+  template:
+      '''
     <img
         alt="$message"
         @i18n:alt="A message with characters that should be escaped">

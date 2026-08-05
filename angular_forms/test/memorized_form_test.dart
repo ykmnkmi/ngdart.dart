@@ -124,10 +124,11 @@ void main() {
       test('Readding a control group preserves the value', () async {
         await fixture.update((component) => _showGroups(component, true));
         await fixture.update(
-          (component) => ((component.form!.controls!['two'] as ControlGroup)
-                      .controls['two']
-                  as Control)
-              .updateValue('two'),
+          (component) =>
+              ((component.form!.controls!['two'] as ControlGroup)
+                          .controls['two']
+                      as Control)
+                  .updateValue('two'),
         );
         await fixture.update((component) => _showGroups(component, false));
         await fixture.update((component) => _showGroups(component, true));

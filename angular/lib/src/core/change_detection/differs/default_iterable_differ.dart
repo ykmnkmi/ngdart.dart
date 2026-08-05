@@ -93,15 +93,15 @@ class DefaultIterableDiffer {
       // Order: remove, add, move
       dynamic record =
           nextRemove == null ||
-                  nextIt != null &&
-                      nextIt.currentIndex! <
-                          _getPreviousIndex(
-                            nextRemove,
-                            addRemoveOffset,
-                            moveOffsets,
-                          )!
-              ? nextIt
-              : nextRemove;
+              nextIt != null &&
+                  nextIt.currentIndex! <
+                      _getPreviousIndex(
+                        nextRemove,
+                        addRemoveOffset,
+                        moveOffsets,
+                      )!
+          ? nextIt
+          : nextRemove;
 
       var adjPreviousIndex = _getPreviousIndex(
         unsafeCast(record),

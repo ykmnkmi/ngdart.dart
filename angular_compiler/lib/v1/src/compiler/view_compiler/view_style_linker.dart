@@ -82,8 +82,10 @@ class _ViewStyleLinker {
 
   void _implementDebugClearComponentStyles() {
     // Static._componentStyles = null
-    final nullifyStaticComponentStyles =
-        o.WriteStaticMemberExpr(_componentStylesStatic, o.NULL_EXPR).toStmt();
+    final nullifyStaticComponentStyles = o.WriteStaticMemberExpr(
+      _componentStylesStatic,
+      o.NULL_EXPR,
+    ).toStmt();
     _class.methods.add(
       o.ClassMethod(
         _debugClearComponentStyles,
@@ -133,8 +135,10 @@ class _ViewStyleLinker {
     ]);
 
     // this.componentStyles = styles;
-    final assignMember =
-        o.WriteClassMemberExpr(_componentStylesMember, readStyles).toStmt();
+    final assignMember = o.WriteClassMemberExpr(
+      _componentStylesMember,
+      readStyles,
+    ).toStmt();
 
     _class.methods.add(
       o.ClassMethod(_initComponentStyles, const [], [

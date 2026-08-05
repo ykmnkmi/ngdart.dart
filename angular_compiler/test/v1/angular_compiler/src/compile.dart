@@ -11,10 +11,9 @@ Future<T> _recordLogs<T>(
   void Function(List<LogRecord>) onLog,
 ) async {
   late Future<T> result;
-  final records =
-      await recordLogs(() {
-        result = runWithContext(CompileContext.forTesting(), run);
-      }, name: '_test').toList();
+  final records = await recordLogs(() {
+    result = runWithContext(CompileContext.forTesting(), run);
+  }, name: '_test').toList();
   onLog(records);
   return result;
 }

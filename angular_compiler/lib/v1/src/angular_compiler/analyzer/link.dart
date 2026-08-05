@@ -7,10 +7,9 @@ import 'package:source_gen/source_gen.dart';
 import 'common.dart';
 
 final TypeReference _dynamic = TypeReference(
-  (b) =>
-      b
-        ..symbol = 'dynamic'
-        ..url = 'dart:core',
+  (b) => b
+    ..symbol = 'dynamic'
+    ..url = 'dart:core',
 );
 
 /// Returns as a `code_builder` [TypeReference] for code generation.
@@ -19,11 +18,10 @@ TypeReference linkToReference(TypeLink link, LibraryReader library) {
     return _dynamic;
   }
   return TypeReference(
-    (b) =>
-        b
-          ..symbol = link.symbol
-          ..url = library.pathToUrl(link.import).toString()
-          ..types.addAll(link.generics.map((t) => linkToReference(t, library))),
+    (b) => b
+      ..symbol = link.symbol
+      ..url = library.pathToUrl(link.import).toString()
+      ..types.addAll(link.generics.map((t) => linkToReference(t, library))),
   );
 }
 

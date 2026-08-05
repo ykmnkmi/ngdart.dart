@@ -50,8 +50,9 @@ class ReplacePipe {
     }
     // template fails with literal RegExp e.g /pattern/igm
     if (replacement is String Function(Match)) {
-      var rgxPattern =
-          pattern is String ? RegExp(pattern) : (pattern as RegExp);
+      var rgxPattern = pattern is String
+          ? RegExp(pattern)
+          : (pattern as RegExp);
       return input.replaceAllMapped(rgxPattern, replacement);
     }
     if (pattern is RegExp) {

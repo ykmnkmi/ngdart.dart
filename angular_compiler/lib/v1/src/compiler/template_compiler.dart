@@ -89,10 +89,9 @@ class TemplateCompiler {
     ir.View view,
     List<o.Statement> statements,
   ) {
-    final styleResult =
-        view is ir.HostView
-            ? _styleCompiler.compileHostComponent(component)
-            : _styleCompiler.compileComponent(component);
+    final styleResult = view is ir.HostView
+        ? _styleCompiler.compileHostComponent(component)
+        : _styleCompiler.compileComponent(component);
     final viewResult = _viewCompiler.compileComponent(
       view,
       o.variable(styleResult.stylesVar),

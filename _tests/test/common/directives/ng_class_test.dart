@@ -496,11 +496,9 @@ void main() {
         ng.createTestStaticClassWithClassDotNgClassFactory(),
       );
       final fixture = await testBed.create(
-        beforeChangeDetection:
-            (i) =>
-                i
-                  ..name = 'dynamic'
-                  ..enabled = true,
+        beforeChangeDetection: (i) => i
+          ..name = 'dynamic'
+          ..enabled = true,
       );
       expect(fixture.rootElement.allCssClasses, [
         'static',
@@ -516,11 +514,9 @@ void main() {
         ng.createTestDynamicClassWithNgClassFactory(),
       );
       final fixture = await testBed.create(
-        beforeChangeDetection:
-            (i) =>
-                i
-                  ..name1 = 'dynamic1'
-                  ..name2 = 'dynamic2',
+        beforeChangeDetection: (i) => i
+          ..name1 = 'dynamic1'
+          ..name2 = 'dynamic2',
       );
       expect(fixture.rootElement.allCssClasses, ['dynamic1', 'dynamic2']);
     });
@@ -530,11 +526,9 @@ void main() {
         ng.createTestDynamicClassWithClassDotFactory(),
       );
       final fixture = await testBed.create(
-        beforeChangeDetection:
-            (i) =>
-                i
-                  ..name = 'dynamic'
-                  ..enabled = true,
+        beforeChangeDetection: (i) => i
+          ..name = 'dynamic'
+          ..enabled = true,
       );
       expect(
         fixture.rootElement.allCssClasses,
@@ -548,11 +542,9 @@ void main() {
         ng.createTestDynamicClassWithAttrClassFactory(),
       );
       final fixture = await testBed.create(
-        beforeChangeDetection:
-            (i) =>
-                i
-                  ..name1 = 'dynamic1'
-                  ..name2 = 'dynamic2',
+        beforeChangeDetection: (i) => i
+          ..name1 = 'dynamic1'
+          ..name2 = 'dynamic2',
       );
       expect(
         fixture.rootElement.allCssClasses,
@@ -566,11 +558,9 @@ void main() {
         ng.createTestDynamicClassWithHostClassFactory(),
       );
       final fixture = await testBed.create(
-        beforeChangeDetection:
-            (i) =>
-                i
-                  ..name1 = 'dynamic1'
-                  ..name2 = 'dynamic2',
+        beforeChangeDetection: (i) => i
+          ..name1 = 'dynamic1'
+          ..name2 = 'dynamic2',
       );
       expect(
         fixture.rootElement.allCssClasses,

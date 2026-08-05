@@ -103,20 +103,21 @@ void main() {
       ExpressionParser(),
       compilerFlags ?? CompilerFlags(),
     );
-    _parse = (
-      String template, [
-      List<CompileDirectiveMetadata> directives = const [],
-      List<CompilePipeMetadata> pipes = const [],
-    ]) {
-      return parser.parse(
-        component,
-        template,
-        directives,
-        pipes,
-        'TestComp',
-        'path://to/test-comp',
-      );
-    };
+    _parse =
+        (
+          String template, [
+          List<CompileDirectiveMetadata> directives = const [],
+          List<CompilePipeMetadata> pipes = const [],
+        ]) {
+          return parser.parse(
+            component,
+            template,
+            directives,
+            pipes,
+            'TestComp',
+            'path://to/test-comp',
+          );
+        };
   }
 
   group('TemplateParser', () {
@@ -695,20 +696,18 @@ void main() {
               name: selector,
               diDeps: deps.map(createDep).toList(),
             ),
-            metadataType:
-                isComponent
-                    ? CompileDirectiveMetadataType.Component
-                    : CompileDirectiveMetadataType.Directive,
+            metadataType: isComponent
+                ? CompileDirectiveMetadataType.Component
+                : CompileDirectiveMetadataType.Directive,
             template: CompileTemplateMetadata(ngContentSelectors: []),
             providers: providers,
             viewProviders: viewProviders,
-            queries:
-                queries
-                    .map(
-                      (value) =>
-                          CompileQueryMetadata(selectors: [createToken(value)]),
-                    )
-                    .toList(),
+            queries: queries
+                .map(
+                  (value) =>
+                      CompileQueryMetadata(selectors: [createToken(value)]),
+                )
+                .toList(),
           );
         }
 

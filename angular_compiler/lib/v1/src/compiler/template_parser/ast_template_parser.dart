@@ -505,10 +505,10 @@ class _BindDirectivesVisitor
 
   CssSelector _embeddedContentSelector(ast.EmbeddedContentAst astNode) =>
       astNode.ngProjectAs != null
-          ? CssSelector.parse(astNode.ngProjectAs!)[0]
-          : createElementCssSelector(_ngContentElement, [
-            [_ngContentSelectAttr, astNode.selector],
-          ]);
+      ? CssSelector.parse(astNode.ngProjectAs!)[0]
+      : createElementCssSelector(_ngContentElement, [
+          [_ngContentSelectAttr, astNode.selector],
+        ]);
 
   @override
   ng.TemplateAst? visitEvent(ast.EventAst astNode, [_ParseContext? context]) {
@@ -697,12 +697,11 @@ class _BindDirectivesVisitor
     _ParseContext? context,
   ]) {
     try {
-      var element =
-          context!.templateContext.parser.parseInterpolation(
-            '{{${astNode.value}}}',
-            _location(astNode),
-            context.templateContext.exports,
-          )!;
+      var element = context!.templateContext.parser.parseInterpolation(
+        '{{${astNode.value}}}',
+        _location(astNode),
+        context.templateContext.exports,
+      )!;
       return ng.BoundTextAst(
         element,
         context.findNgContentIndex(_textCssSelector),
@@ -942,14 +941,13 @@ class _ParseContext {
   }
 
   void bindLiteralToDirective(ast.AttributeAst astNode) {
-    final parsedValue =
-        astNode.value == null
-            ? ASTWithSource.missingSource(EmptyExpr())
-            : ASTWithSource(
-              LiteralPrimitive(astNode.value),
-              astNode.value,
-              _location(astNode),
-            );
+    final parsedValue = astNode.value == null
+        ? ASTWithSource.missingSource(EmptyExpr())
+        : ASTWithSource(
+            LiteralPrimitive(astNode.value),
+            astNode.value,
+            _location(astNode),
+          );
     // [boundValue] may be null if it is an invalid i18n literal.
     final boundValue = createBoundValue(
       astNode.name,
@@ -1100,17 +1098,16 @@ class _ParseContext {
     String elementName,
     String location,
     TemplateContext templateContext,
-  ) =>
-      directiveMetas
-          .map(
-            (directive) => ng.DirectiveAst(
-              directive,
-              inputs: [],
-              outputs: [],
-              sourceSpan: sourceSpan,
-            ),
-          )
-          .toList();
+  ) => directiveMetas
+      .map(
+        (directive) => ng.DirectiveAst(
+          directive,
+          inputs: [],
+          outputs: [],
+          sourceSpan: sourceSpan,
+        ),
+      )
+      .toList();
 
   static List<CompileDirectiveMetadata> _matchElementDirectives(
     List<CompileDirectiveMetadata> directives,
@@ -1254,10 +1251,9 @@ class _ParseContext {
     Iterable<ast.AttributeAst> attributes = const [],
     Iterable<ast.PropertyAst> properties = const [],
   }) {
-    final unmatched =
-        i18nMetadata.forAttributes.keys.toSet()
-          ..removeAll(attributes.map((a) => a.name))
-          ..removeAll(properties.map((p) => p.name));
+    final unmatched = i18nMetadata.forAttributes.keys.toSet()
+      ..removeAll(attributes.map((a) => a.name))
+      ..removeAll(properties.map((p) => p.name));
     for (final name in unmatched) {
       CompileContext.current.reportAndRecover(
         BuildError.forSourceSpan(
@@ -1794,10 +1790,9 @@ class _PreserveWhitespaceVisitor extends ast.IdentityTemplateAstVisitor<void> {
     final result = <T>[];
     for (var i = 0; i < astNodes.length; i++) {
       var node = astNodes[i];
-      final visited =
-          node is ast.TextAst
-              ? _stripWhitespace(i, node, astNodes)
-              : node.accept(this);
+      final visited = node is ast.TextAst
+          ? _stripWhitespace(i, node, astNodes)
+          : node.accept(this);
       if (visited != null) result.add(visited as T);
     }
     return result;

@@ -33,11 +33,10 @@ void main() {
       type: CompileTypeMetadata(name: 'A', moduleUrl: 'asset:a/lib/a.dart'),
       template: CompileTemplateMetadata(template: 'a.html'),
     );
-    final logs =
-        await recordLogs(
-          () => normalizer.normalizeDirective(metadata),
-          name: 'test',
-        ).map((r) => '$r').toList();
+    final logs = await recordLogs(
+      () => normalizer.normalizeDirective(metadata),
+      name: 'test',
+    ).map((r) => '$r').toList();
     expect(logs, contains(contains('did you mean "templateUrl"')));
   });
 
@@ -49,11 +48,10 @@ void main() {
       type: CompileTypeMetadata(name: 'A', moduleUrl: 'asset:a/lib/a.dart'),
       template: CompileTemplateMetadata(styles: ['a.css'], template: ''),
     );
-    final logs =
-        await recordLogs(
-          () => normalizer.normalizeDirective(metadata),
-          name: 'test',
-        ).map((r) => '$r').toList();
+    final logs = await recordLogs(
+      () => normalizer.normalizeDirective(metadata),
+      name: 'test',
+    ).map((r) => '$r').toList();
     expect(logs, contains(contains('did you mean "styleUrls"')));
   });
 

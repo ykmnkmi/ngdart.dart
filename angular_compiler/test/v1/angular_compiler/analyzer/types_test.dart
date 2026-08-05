@@ -47,11 +47,12 @@ void main() {
     });
 
     group('injection annotations', () {
-      Element getParameterFrom(String name) =>
-          testLib.definingCompilationUnit.functions
-              .firstWhere((e) => e.name == name)
-              .parameters
-              .first;
+      Element getParameterFrom(String name) => testLib
+          .definingCompilationUnit
+          .functions
+          .firstWhere((e) => e.name == name)
+          .parameters
+          .first;
 
       const {
         'hasHost': $Host,

@@ -29,12 +29,11 @@ String interpolateN(List<Object?> any) {
 /// Interpolate a single expression, [any], that could be any type of value.
 ///
 /// If `null`, [any] is treated as `''`.
-String interpolate0(Object? any) =>
-    any is String
-        ? any
-        : any == null
-        ? ''
-        : '$any';
+String interpolate0(Object? any) => any is String
+    ? any
+    : any == null
+    ? ''
+    : '$any';
 
 /// Interpolate an expression [v1] in between two static text nodes [v0], [v1].
 String interpolate1(String v0, Object? v1, String v2) =>

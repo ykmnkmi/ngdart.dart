@@ -155,10 +155,9 @@ class ReflectableReader {
 
   Iterable<DependencyInvocation<ExecutableElement>> _resolveFunctions(
     Iterable<ExecutableElement> elements,
-  ) =>
-      elements
-          .map(_resolveFunction)
-          .whereType<DependencyInvocation<ExecutableElement>>();
+  ) => elements
+      .map(_resolveFunction)
+      .whereType<DependencyInvocation<ExecutableElement>>();
 
   String _withOutputExtension(String uri) {
     final extensionAt = uri.lastIndexOf('.');

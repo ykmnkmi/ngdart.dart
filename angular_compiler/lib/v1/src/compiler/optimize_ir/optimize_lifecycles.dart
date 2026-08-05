@@ -12,10 +12,9 @@ ir.MatchedDirective optimizeLifecycles(ir.MatchedDirective directive) {
   }
 
   return ir.MatchedDirective(
-    lifecycles:
-        directive.lifecycles
-            .where((lifecycle) => lifecycle != ir.Lifecycle.afterChanges)
-            .toSet(),
+    lifecycles: directive.lifecycles
+        .where((lifecycle) => lifecycle != ir.Lifecycle.afterChanges)
+        .toSet(),
     providerSource: directive.providerSource,
     inputs: directive.inputs,
     outputs: directive.outputs,

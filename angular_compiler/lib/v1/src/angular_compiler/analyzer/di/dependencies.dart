@@ -117,10 +117,9 @@ class DependencyReader {
         positional.add(
           DependencyElement(
             token,
-            type:
-                hasInjectToken || hasOpaqueToken
-                    ? _tokenReader.parseTokenType(parameter)
-                    : null,
+            type: hasInjectToken || hasOpaqueToken
+                ? _tokenReader.parseTokenType(parameter)
+                : null,
             host: $Host.firstAnnotationOfExact(parameter) != null,
             optional: !isRequired,
             self: $Self.firstAnnotationOfExact(parameter) != null,

@@ -41,10 +41,9 @@ class RouterImpl extends Router {
 
     _location.subscribe((_) {
       final url = Url.parse(_location.path());
-      final fragment =
-          Url.isHashStrategy
-              ? url.fragment
-              : Url.normalizeHash(_location.hash());
+      final fragment = Url.isHashStrategy
+          ? url.fragment
+          : Url.normalizeHash(_location.hash());
       final navigationParams = NavigationParams(
         queryParameters: url.queryParameters,
         fragment: fragment,
@@ -73,17 +72,15 @@ class RouterImpl extends Router {
 
   @override
   Stream<String> get onNavigationStart {
-    final controller =
-        _onNavigationStart ??= StreamController<String>.broadcast(sync: true);
+    final controller = _onNavigationStart ??=
+        StreamController<String>.broadcast(sync: true);
     return controller.stream;
   }
 
   @override
   Stream<RouterState> get onRouteResolved {
-    final controller =
-        _onRouteResolved ??= StreamController<RouterState>.broadcast(
-          sync: true,
-        );
+    final controller = _onRouteResolved ??=
+        StreamController<RouterState>.broadcast(sync: true);
     return controller.stream;
   }
 
@@ -100,10 +97,9 @@ class RouterImpl extends Router {
         url.path,
         NavigationParams(
           queryParameters: url.queryParameters,
-          fragment:
-              Url.isHashStrategy
-                  ? url.fragment
-                  : Url.normalizeHash(_location.hash()),
+          fragment: Url.isHashStrategy
+              ? url.fragment
+              : Url.normalizeHash(_location.hash()),
           replace: true,
         ),
       );
@@ -288,12 +284,11 @@ class RouterImpl extends Router {
     NavigationParams navigationParams,
     bool isPopState,
   ) {
-    var state =
-        MutableRouterState()
-          ..path = path
-          ..fragment = navigationParams.fragment
-          ..queryParameters = navigationParams.queryParameters
-          ..fromPopState = isPopState;
+    var state = MutableRouterState()
+      ..path = path
+      ..fragment = navigationParams.fragment
+      ..queryParameters = navigationParams.queryParameters
+      ..fromPopState = isPopState;
     return _resolveStateForOutlet(
       _rootOutlet,
       state,
@@ -387,10 +382,10 @@ class RouterImpl extends Router {
   }
 
   /// Returns the next [RouterOutlet] created by [componentRef], if any.
-  RouterOutlet? _nextOutlet(ComponentRef<Object> componentRef) =>
-      componentRef.injector
-          .provideType<RouterOutletToken>(RouterOutletToken)
-          .routerOutlet;
+  RouterOutlet? _nextOutlet(ComponentRef<Object> componentRef) => componentRef
+      .injector
+      .provideType<RouterOutletToken>(RouterOutletToken)
+      .routerOutlet;
 
   /// Navigates the remaining router tree and adds the default children.
   ///

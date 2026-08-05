@@ -226,8 +226,9 @@ class NgTestBed<T extends Object> {
     required bool watchAngularLifecycle,
   }) : _host = host,
        _providers = const [],
-       _createStabilizer =
-           watchAngularLifecycle ? _defaultStabilizers : _alwaysStable,
+       _createStabilizer = watchAngularLifecycle
+           ? _defaultStabilizers
+           : _alwaysStable,
        _rootInjector = rootInjector,
        _componentFactory = component;
 
@@ -335,10 +336,9 @@ class NgTestBed<T extends Object> {
         // Some internal stabilizers get access to the TimerHookZone.
         // Most (i.e. user-land) stabilizers do not.
         final createStabilizer = _createStabilizer;
-        allStabilizers =
-            createStabilizer is AllowTimerHookZoneAccess
-                ? createStabilizer(injector, timerHookZone)
-                : createStabilizer(injector);
+        allStabilizers = createStabilizer is AllowTimerHookZoneAccess
+            ? createStabilizer(injector, timerHookZone)
+            : createStabilizer(injector);
 
         // If there is no user hook, we are done.
         if (beforeComponentCreated == null) {

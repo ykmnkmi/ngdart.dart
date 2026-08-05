@@ -62,8 +62,9 @@ void main() {
         ng.createTestAnnotatedDerivedComponentFactory(),
       );
       final testFixture = await testBed.create();
-      final hostElement =
-          testFixture.rootElement.querySelector('annotated-derived')!;
+      final hostElement = testFixture.rootElement.querySelector(
+        'annotated-derived',
+      )!;
       expect(hostElement.attributes, containsPair('title', 'inherited'));
       expect(hostElement.attributes, containsPair('id', 'inherited'));
     });
@@ -74,11 +75,10 @@ void main() {
       final testBed = NgTestBed<TestDerivedComponent>(
         ng.createTestDerivedComponentFactory(),
       );
-      final testFixture =
-          await testBed.create()
-            ..rootElement
-                .querySelector('derived')!
-                .dispatchEvent(MouseEvent('click'));
+      final testFixture = await testBed.create()
+        ..rootElement
+            .querySelector('derived')!
+            .dispatchEvent(MouseEvent('click'));
       await testFixture.update((component) {
         expect(component.derivedComponent!.clickMessage, 'Original message');
       });
@@ -88,11 +88,10 @@ void main() {
       final testBed = NgTestBed<TestOverrideComponent>(
         ng.createTestOverrideComponentFactory(),
       );
-      final testFixture =
-          await testBed.create()
-            ..rootElement
-                .querySelector('override')!
-                .dispatchEvent(MouseEvent('click'));
+      final testFixture = await testBed.create()
+        ..rootElement
+            .querySelector('override')!
+            .dispatchEvent(MouseEvent('click'));
       await testFixture.update((component) {
         expect(component.derivedComponent!.clickMessage, 'Overridden message');
       });
@@ -256,8 +255,9 @@ void main() {
             ..baz = '3';
         },
       );
-      final element =
-          testFixture.rootElement.querySelector('multiple-supertypes')!;
+      final element = testFixture.rootElement.querySelector(
+        'multiple-supertypes',
+      )!;
       expect(element.attributes, containsPair('foo', '1'));
       expect(element.attributes, containsPair('bar', '2'));
       expect(element.attributes, containsPair('baz', '3'));

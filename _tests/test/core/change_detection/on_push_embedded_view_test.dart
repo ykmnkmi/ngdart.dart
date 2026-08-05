@@ -10,10 +10,9 @@ void main() {
   late NgTestFixture<TestComponent> fixture;
 
   setUp(() async {
-    fixture =
-        await NgTestBed<TestComponent>(
-          ng.createTestComponentFactory(),
-        ).create();
+    fixture = await NgTestBed<TestComponent>(
+      ng.createTestComponentFactory(),
+    ).create();
   });
 
   tearDown(disposeAnyRunningTest);

@@ -21,10 +21,9 @@ void unwrapAll(Iterator<NgToken?> it) {
   while ((it.moveNext() as NgToken?) != null) {}
 }
 
-String untokenize(Iterable<NgToken> tokens) =>
-    tokens
-        .fold(StringBuffer(), (buffer, token) => buffer..write(token.lexeme))
-        .toString();
+String untokenize(Iterable<NgToken> tokens) => tokens
+    .fold(StringBuffer(), (buffer, token) => buffer..write(token.lexeme))
+    .toString();
 
 void testRecoverySolution(
   String baseHtml,

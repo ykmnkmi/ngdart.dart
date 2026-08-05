@@ -18,27 +18,26 @@ final Builder _testAngularBuilder = MultiplexingBuilder([
 // Here to be configurable.
 //
 // We could use a better PackageAssetReader if necessary in some platforms.
-final Future<PackageAssetReader> _packageAssets =
-    (() async {
-      final runfiles = Platform.environment['RUNFILES'];
-      if (runfiles == null) {
-        return PackageAssetReader.currentIsolate();
-      }
-      final root = Platform.environment['PKG_ANGULAR_ROOT'];
-      final path = '$runfiles/$root';
-      if (!FileSystemEntity.isFileSync('$path/angular/lib/angular.dart')) {
-        throw StateError('Could not find $path/angular/lib/angular.dart');
-      }
-      final pathToMeta = '$path/angular/lib/src/meta.dart';
-      if (!FileSystemEntity.isFileSync(pathToMeta)) {
-        throw StateError('Could not find $pathToMeta');
-      }
-      print('file://$path/angular/lib');
-      return PackageAssetReader.forPackages({
-        ngPackage: '$path/angular/',
-        ngCompiler: '$path/angular_compiler/',
-      });
-    })();
+final Future<PackageAssetReader> _packageAssets = (() async {
+  final runfiles = Platform.environment['RUNFILES'];
+  if (runfiles == null) {
+    return PackageAssetReader.currentIsolate();
+  }
+  final root = Platform.environment['PKG_ANGULAR_ROOT'];
+  final path = '$runfiles/$root';
+  if (!FileSystemEntity.isFileSync('$path/angular/lib/angular.dart')) {
+    throw StateError('Could not find $path/angular/lib/angular.dart');
+  }
+  final pathToMeta = '$path/angular/lib/src/meta.dart';
+  if (!FileSystemEntity.isFileSync(pathToMeta)) {
+    throw StateError('Could not find $pathToMeta');
+  }
+  print('file://$path/angular/lib');
+  return PackageAssetReader.forPackages({
+    ngPackage: '$path/angular/',
+    ngCompiler: '$path/angular_compiler/',
+  });
+})();
 
 // The locations of the import for AngularDart source code.
 //

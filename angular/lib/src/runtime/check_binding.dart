@@ -79,10 +79,9 @@ bool checkBinding(
   Object? newValue, [
   String? expression,
   String? location,
-]) =>
-    isDevMode && _debugThrowIfChanged
-        ? !_debugCheckBinding(oldValue, newValue, expression, location)
-        : !identical(oldValue, newValue);
+]) => isDevMode && _debugThrowIfChanged
+    ? !_debugCheckBinding(oldValue, newValue, expression, location)
+    : !identical(oldValue, newValue);
 
 /// Returns `true` if [oldValue] is identical to [newValue].
 ///
@@ -101,10 +100,9 @@ bool _debugCheckBinding(
   String? expression,
   String? location,
 ]) {
-  final isIdentical =
-      _debugCheckAllExpressionsAndReportExpressionContext
-          ? identical(oldValue, newValue)
-          : const _DevModeEquality().equals(oldValue, newValue);
+  final isIdentical = _debugCheckAllExpressionsAndReportExpressionContext
+      ? identical(oldValue, newValue)
+      : const _DevModeEquality().equals(oldValue, newValue);
 
   if (!isIdentical) {
     _unstableExpressionValues.add(

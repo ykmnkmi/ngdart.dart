@@ -173,7 +173,8 @@ class ModifiersListener {
 }
 
 const CREATE_KEYBOARD_EVENT_NAME = '__dart_createKeyboardEvent';
-const CREATE_KEYBOARD_EVENT_SCRIPT = '''
+const CREATE_KEYBOARD_EVENT_SCRIPT =
+    '''
 window['$CREATE_KEYBOARD_EVENT_NAME'] = function(
     type, keyCode, ctrlKey, altKey, shiftKey, metaKey) {
   var event = document.createEvent('KeyboardEvent');
@@ -206,10 +207,9 @@ Event createKeyboardEvent(
   bool metaKey = false,
 }) {
   if (!context.hasProperty(CREATE_KEYBOARD_EVENT_NAME)) {
-    var script =
-        document.createElement('script')
-          ..setAttribute('type', 'text/javascript')
-          ..text = CREATE_KEYBOARD_EVENT_SCRIPT;
+    var script = document.createElement('script')
+      ..setAttribute('type', 'text/javascript')
+      ..text = CREATE_KEYBOARD_EVENT_SCRIPT;
     document.body!.append(script);
   }
   return context.callMethod(CREATE_KEYBOARD_EVENT_NAME, [

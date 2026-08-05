@@ -22,15 +22,14 @@ void main() {
     final secondCompleter = Completer<void>();
     final thirdCompleter = Completer<void>();
 
-    final testBed = NgTestBed<TestComponent>(
-      ng.createTestComponentFactory(),
-    ).addInjector(
-      (i) => ReflectiveInjector.resolveStaticAndCreate([
-        ValueProvider.forToken(firstToken, firstCompleter.future),
-        ValueProvider.forToken(secondToken, secondCompleter.future),
-        ValueProvider.forToken(thirdToken, thirdCompleter.future),
-      ], i),
-    );
+    final testBed = NgTestBed<TestComponent>(ng.createTestComponentFactory())
+        .addInjector(
+          (i) => ReflectiveInjector.resolveStaticAndCreate([
+            ValueProvider.forToken(firstToken, firstCompleter.future),
+            ValueProvider.forToken(secondToken, secondCompleter.future),
+            ValueProvider.forToken(thirdToken, thirdCompleter.future),
+          ], i),
+        );
 
     final testFixture = await testBed.create();
     final router = testFixture.assertOnlyInstance.router;

@@ -23,15 +23,10 @@ class TimerHookZone {
 
   /// Lazily set by stabilizers that need access to intercept timer creation.
   /// ignore: prefer_function_declarations_over_variables
-  CreatePeriodicTimerHandler createPeriodicTimer = (
-    self,
-    parent,
-    zone,
-    duration,
-    callback,
-  ) {
-    return parent.createPeriodicTimer(zone, duration, callback);
-  };
+  CreatePeriodicTimerHandler createPeriodicTimer =
+      (self, parent, zone, duration, callback) {
+        return parent.createPeriodicTimer(zone, duration, callback);
+      };
 
   /// Runs and returns [context], capturing the timers.
   T run<T>(T Function() context) => _timerZone.run(context);

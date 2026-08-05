@@ -160,13 +160,9 @@ class _RuntimeInjector extends HierarchicalInjector
 
   @override
   dynamic resolveAndInstantiate(Object providerOrType) {
-    final provider =
-        providerOrType is Provider
-            ? providerOrType
-            : Provider(
-              providerOrType,
-              useClass: unsafeCast<Type>(providerOrType),
-            );
+    final provider = providerOrType is Provider
+        ? providerOrType
+        : Provider(providerOrType, useClass: unsafeCast<Type>(providerOrType));
     if (_staticOnlyResolveAndCreate) {
       _assertStaticProviders([provider]);
     }

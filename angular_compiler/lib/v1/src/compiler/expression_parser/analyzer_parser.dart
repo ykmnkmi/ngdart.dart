@@ -355,10 +355,10 @@ class _AngularSubsetVisitor extends GeneralizingAstVisitor<ast.AST> {
       name,
       posArgs.length > 1
           ? posArgs
-              .skip(1)
-              .map((e) => e.accept(this))
-              .whereType<ast.AST>()
-              .toList()
+                .skip(1)
+                .map((e) => e.accept(this))
+                .whereType<ast.AST>()
+                .toList()
           : const [],
     );
   }
@@ -395,15 +395,13 @@ class _AngularSubsetVisitor extends GeneralizingAstVisitor<ast.AST> {
         namedArgs,
       );
     }
-    final callPos =
-        posArgs.map((a) => a.accept(this)).whereType<ast.AST>().toList();
-    final callNamed =
-        namedArgs
-            .map(
-              (a) =>
-                  ast.NamedExpr(a.name.label.name, a.expression.accept(this)),
-            )
-            .toList();
+    final callPos = posArgs
+        .map((a) => a.accept(this))
+        .whereType<ast.AST>()
+        .toList();
+    final callNamed = namedArgs
+        .map((a) => ast.NamedExpr(a.name.label.name, a.expression.accept(this)))
+        .toList();
     if (methodName != null) {
       if (_isNullAwareCall(call)) {
         return ast.SafeMethodCall(receiver, methodName, callPos, callNamed);

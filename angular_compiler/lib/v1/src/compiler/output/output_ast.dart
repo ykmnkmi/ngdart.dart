@@ -45,10 +45,9 @@ class BuiltinType extends OutputType {
       visitor.visitBuiltinType(this, context);
 
   @override
-  BuiltinType asNullable() =>
-      modifiers.contains(TypeModifier.Nullable)
-          ? this
-          : BuiltinType(name, [...modifiers, TypeModifier.Nullable]);
+  BuiltinType asNullable() => modifiers.contains(TypeModifier.Nullable)
+      ? this
+      : BuiltinType(name, [...modifiers, TypeModifier.Nullable]);
 }
 
 class ExternalType extends OutputType {
@@ -65,13 +64,9 @@ class ExternalType extends OutputType {
       visitor.visitExternalType(this, context);
 
   @override
-  ExternalType asNullable() =>
-      modifiers.contains(TypeModifier.Nullable)
-          ? this
-          : ExternalType(value, typeParams, [
-            ...modifiers,
-            TypeModifier.Nullable,
-          ]);
+  ExternalType asNullable() => modifiers.contains(TypeModifier.Nullable)
+      ? this
+      : ExternalType(value, typeParams, [...modifiers, TypeModifier.Nullable]);
 }
 
 class FunctionType extends OutputType {
@@ -89,13 +84,12 @@ class FunctionType extends OutputType {
       visitor.visitFunctionType(this, context);
 
   @override
-  FunctionType asNullable() =>
-      modifiers.contains(TypeModifier.Nullable)
-          ? this
-          : FunctionType(returnType, paramTypes, [
-            ...modifiers,
-            TypeModifier.Nullable,
-          ]);
+  FunctionType asNullable() => modifiers.contains(TypeModifier.Nullable)
+      ? this
+      : FunctionType(returnType, paramTypes, [
+          ...modifiers,
+          TypeModifier.Nullable,
+        ]);
 }
 
 class ArrayType extends OutputType {
@@ -109,10 +103,9 @@ class ArrayType extends OutputType {
       visitor.visitArrayType(this, context);
 
   @override
-  ArrayType asNullable() =>
-      modifiers.contains(TypeModifier.Nullable)
-          ? this
-          : ArrayType(of, [...modifiers, TypeModifier.Nullable]);
+  ArrayType asNullable() => modifiers.contains(TypeModifier.Nullable)
+      ? this
+      : ArrayType(of, [...modifiers, TypeModifier.Nullable]);
 }
 
 class MapType extends OutputType {
@@ -125,10 +118,9 @@ class MapType extends OutputType {
       visitor.visitMapType(this, context);
 
   @override
-  MapType asNullable() =>
-      modifiers.contains(TypeModifier.Nullable)
-          ? this
-          : MapType(valueType, [...modifiers, TypeModifier.Nullable]);
+  MapType asNullable() => modifiers.contains(TypeModifier.Nullable)
+      ? this
+      : MapType(valueType, [...modifiers, TypeModifier.Nullable]);
 }
 
 const DYNAMIC_TYPE = BuiltinType(BuiltinTypeName.Dynamic);

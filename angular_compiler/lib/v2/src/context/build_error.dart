@@ -61,10 +61,9 @@ abstract class BuildError extends Error {
   factory BuildError.forElement(Element context, String message) {
     final source = context.source;
     if (source == null || source.contents.data.isEmpty) {
-      final warning =
-          source == null
-              ? 'No source text available for $context'
-              : 'No source text available for $context (${source.uri})';
+      final warning = source == null
+          ? 'No source text available for $context'
+          : 'No source text available for $context (${source.uri})';
       log.warning('$warning: the next error may be terse');
       return BuildError.withoutContext(message);
     }

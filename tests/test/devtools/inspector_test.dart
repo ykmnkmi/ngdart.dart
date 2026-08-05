@@ -370,8 +370,8 @@ void main() {
       );
       final testFixture = await testBed.create();
       final childContainer = html.DivElement();
-      final parentContainer =
-          testFixture.rootElement.parent!..append(childContainer);
+      final parentContainer = testFixture.rootElement.parent!
+        ..append(childContainer);
       registerContentRoot(childContainer);
       registerContentRoot(parentContainer);
 
@@ -409,24 +409,22 @@ void main() {
       expect(
         rootNode(),
         InspectorNode(
-          (b) =>
-              b
-                ..component.name = '$TestComponentViews'
-                ..children.replace([
-                  InspectorNode(
-                    (b) =>
-                        b
-                          ..component.name = '$TestComponentViews1'
-                          ..children.replace([
-                            InspectorNode(
-                              (b) => b.component.name = '$TestComponentViews2',
-                            ),
-                            InspectorNode(
-                              (b) => b.component.name = '$TestComponentViews3',
-                            ),
-                          ]),
-                  ),
-                ]),
+          (b) => b
+            ..component.name = '$TestComponentViews'
+            ..children.replace([
+              InspectorNode(
+                (b) => b
+                  ..component.name = '$TestComponentViews1'
+                  ..children.replace([
+                    InspectorNode(
+                      (b) => b.component.name = '$TestComponentViews2',
+                    ),
+                    InspectorNode(
+                      (b) => b.component.name = '$TestComponentViews3',
+                    ),
+                  ]),
+              ),
+            ]),
         ),
       );
     });
@@ -442,16 +440,15 @@ void main() {
         expect(
           rootNode(),
           InspectorNode(
-            (b) =>
-                b
-                  ..component.name = '$TestConditionalEmbeddedViews'
-                  ..children.replace([
-                    InspectorNode(
-                      (b) => b.directives.replace([
-                        InspectorDirective((b) => b.name = '$NgIf'),
-                      ]),
-                    ),
+            (b) => b
+              ..component.name = '$TestConditionalEmbeddedViews'
+              ..children.replace([
+                InspectorNode(
+                  (b) => b.directives.replace([
+                    InspectorDirective((b) => b.name = '$NgIf'),
                   ]),
+                ),
+              ]),
           ),
         );
 
@@ -463,20 +460,17 @@ void main() {
         expect(
           rootNode(),
           InspectorNode(
-            (b) =>
-                b
-                  ..component.name = '$TestConditionalEmbeddedViews'
-                  ..children.replace([
-                    InspectorNode(
-                      (b) => b.directives.replace([
-                        InspectorDirective((b) => b.name = '$NgIf'),
-                      ]),
-                    ),
-                    // TODO(b/196106275): should be a child of the NgIf node.
-                    InspectorNode(
-                      (b) => b.component.name = '$TestEmbeddedViews1',
-                    ),
+            (b) => b
+              ..component.name = '$TestConditionalEmbeddedViews'
+              ..children.replace([
+                InspectorNode(
+                  (b) => b.directives.replace([
+                    InspectorDirective((b) => b.name = '$NgIf'),
                   ]),
+                ),
+                // TODO(b/196106275): should be a child of the NgIf node.
+                InspectorNode((b) => b.component.name = '$TestEmbeddedViews1'),
+              ]),
           ),
         );
 
@@ -488,16 +482,15 @@ void main() {
         expect(
           rootNode(),
           InspectorNode(
-            (b) =>
-                b
-                  ..component.name = '$TestConditionalEmbeddedViews'
-                  ..children.replace([
-                    InspectorNode(
-                      (b) => b.directives.replace([
-                        InspectorDirective((b) => b.name = '$NgIf'),
-                      ]),
-                    ),
+            (b) => b
+              ..component.name = '$TestConditionalEmbeddedViews'
+              ..children.replace([
+                InspectorNode(
+                  (b) => b.directives.replace([
+                    InspectorDirective((b) => b.name = '$NgIf'),
                   ]),
+                ),
+              ]),
           ),
         );
       });
@@ -516,21 +509,20 @@ void main() {
         expect(
           rootNode(),
           InspectorNode(
-            (b) =>
-                b
-                  ..component.name = '$TestRepeatedEmbeddedViews'
-                  ..children.replace([
-                    InspectorNode(
-                      (b) => b.directives.replace([
-                        InspectorDirective((b) => b.name = '$NgFor'),
-                      ]),
-                    ),
-                    // TODO(b/196106275): should be children of the NgFor node.
-                    for (var i = 0; i < 3; i++)
-                      InspectorNode(
-                        (b) => b.component.name = '$TestEmbeddedViews1',
-                      ),
+            (b) => b
+              ..component.name = '$TestRepeatedEmbeddedViews'
+              ..children.replace([
+                InspectorNode(
+                  (b) => b.directives.replace([
+                    InspectorDirective((b) => b.name = '$NgFor'),
                   ]),
+                ),
+                // TODO(b/196106275): should be children of the NgFor node.
+                for (var i = 0; i < 3; i++)
+                  InspectorNode(
+                    (b) => b.component.name = '$TestEmbeddedViews1',
+                  ),
+              ]),
           ),
         );
 
@@ -542,21 +534,20 @@ void main() {
         expect(
           rootNode(),
           InspectorNode(
-            (b) =>
-                b
-                  ..component.name = '$TestRepeatedEmbeddedViews'
-                  ..children.replace([
-                    InspectorNode(
-                      (b) => b.directives.replace([
-                        InspectorDirective((b) => b.name = '$NgFor'),
-                      ]),
-                    ),
-                    // TODO(b/196106275): should be children of the NgFor node.
-                    for (var i = 0; i < 4; i++)
-                      InspectorNode(
-                        (b) => b.component.name = '$TestEmbeddedViews1',
-                      ),
+            (b) => b
+              ..component.name = '$TestRepeatedEmbeddedViews'
+              ..children.replace([
+                InspectorNode(
+                  (b) => b.directives.replace([
+                    InspectorDirective((b) => b.name = '$NgFor'),
                   ]),
+                ),
+                // TODO(b/196106275): should be children of the NgFor node.
+                for (var i = 0; i < 4; i++)
+                  InspectorNode(
+                    (b) => b.component.name = '$TestEmbeddedViews1',
+                  ),
+              ]),
           ),
         );
 
@@ -568,21 +559,20 @@ void main() {
         expect(
           rootNode(),
           InspectorNode(
-            (b) =>
-                b
-                  ..component.name = '$TestRepeatedEmbeddedViews'
-                  ..children.replace([
-                    InspectorNode(
-                      (b) => b.directives.replace([
-                        InspectorDirective((b) => b.name = '$NgFor'),
-                      ]),
-                    ),
-                    // TODO(b/196106275): should be children of the NgFor node.
-                    for (var i = 0; i < 2; i++)
-                      InspectorNode(
-                        (b) => b.component.name = '$TestEmbeddedViews1',
-                      ),
+            (b) => b
+              ..component.name = '$TestRepeatedEmbeddedViews'
+              ..children.replace([
+                InspectorNode(
+                  (b) => b.directives.replace([
+                    InspectorDirective((b) => b.name = '$NgFor'),
                   ]),
+                ),
+                // TODO(b/196106275): should be children of the NgFor node.
+                for (var i = 0; i < 2; i++)
+                  InspectorNode(
+                    (b) => b.component.name = '$TestEmbeddedViews1',
+                  ),
+              ]),
           ),
         );
       });
@@ -596,29 +586,27 @@ void main() {
         expect(
           rootNode(),
           InspectorNode(
-            (b) =>
-                b
-                  ..component.name = '$TestTransplantedEmbeddedViews'
-                  ..children.replace([
-                    InspectorNode(
-                      (b) =>
-                          b
-                            ..component.name = '$TestEmbeddedViews2'
-                            ..children.replace([
-                              InspectorNode(
-                                (b) => b.directives.replace([
-                                  InspectorDirective(
-                                    (b) => b.name = '$NgTemplateOutlet',
-                                  ),
-                                ]),
-                              ),
-                              // TODO(b/196106275): should be a child of NgTemplateOutlet.
-                              InspectorNode(
-                                (b) => b.component.name = '$TestEmbeddedViews1',
-                              ),
-                            ]),
-                    ),
-                  ]),
+            (b) => b
+              ..component.name = '$TestTransplantedEmbeddedViews'
+              ..children.replace([
+                InspectorNode(
+                  (b) => b
+                    ..component.name = '$TestEmbeddedViews2'
+                    ..children.replace([
+                      InspectorNode(
+                        (b) => b.directives.replace([
+                          InspectorDirective(
+                            (b) => b.name = '$NgTemplateOutlet',
+                          ),
+                        ]),
+                      ),
+                      // TODO(b/196106275): should be a child of NgTemplateOutlet.
+                      InspectorNode(
+                        (b) => b.component.name = '$TestEmbeddedViews1',
+                      ),
+                    ]),
+                ),
+              ]),
           ),
         );
       });
@@ -642,12 +630,11 @@ void main() {
       expect(
         rootNode(),
         InspectorNode(
-          (b) =>
-              b
-                ..component.name = '$TestHostViews'
-                ..children.replace([
-                  InspectorNode((b) => b.component.name = '$TestHostViews1'),
-                ]),
+          (b) => b
+            ..component.name = '$TestHostViews'
+            ..children.replace([
+              InspectorNode((b) => b.component.name = '$TestHostViews1'),
+            ]),
         ),
       );
 
@@ -671,38 +658,31 @@ void main() {
       expect(
         rootNode(),
         InspectorNode(
-          (b) =>
-              b
-                ..component.name = '$TestProjectedContent'
-                ..children.replace([
-                  InspectorNode(
-                    (b) =>
-                        b
-                          ..component.name = '$TestProjectedContent1'
-                          ..children.replace([
-                            InspectorNode(
-                              (b) =>
-                                  b.component.name = '$TestProjectedContent3',
-                            ),
-                            InspectorNode(
-                              (b) =>
-                                  b.component.name = '$TestProjectedContent2',
-                            ),
-                            InspectorNode(
-                              (b) =>
-                                  b
-                                    ..component.name = '$TestProjectedContent5'
-                                    ..children.replace([
-                                      InspectorNode(
-                                        (b) =>
-                                            b.component.name =
-                                                '$TestProjectedContent4',
-                                      ),
-                                    ]),
-                            ),
-                          ]),
-                  ),
-                ]),
+          (b) => b
+            ..component.name = '$TestProjectedContent'
+            ..children.replace([
+              InspectorNode(
+                (b) => b
+                  ..component.name = '$TestProjectedContent1'
+                  ..children.replace([
+                    InspectorNode(
+                      (b) => b.component.name = '$TestProjectedContent3',
+                    ),
+                    InspectorNode(
+                      (b) => b.component.name = '$TestProjectedContent2',
+                    ),
+                    InspectorNode(
+                      (b) => b
+                        ..component.name = '$TestProjectedContent5'
+                        ..children.replace([
+                          InspectorNode(
+                            (b) => b.component.name = '$TestProjectedContent4',
+                          ),
+                        ]),
+                    ),
+                  ]),
+              ),
+            ]),
         ),
       );
     });
@@ -808,8 +788,8 @@ void main() {
       );
       final testFixture = await testBed.create();
       final childContainer = html.DivElement();
-      final parentContainer =
-          testFixture.rootElement.parent!..append(childContainer);
+      final parentContainer = testFixture.rootElement.parent!
+        ..append(childContainer);
       registerContentRoot(childContainer);
       registerContentRoot(parentContainer);
 

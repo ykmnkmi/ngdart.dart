@@ -143,10 +143,9 @@ class ProviderElementContext implements ElementProviderUsage {
   }
 
   List<DirectiveAst> get transformedDirectiveAsts {
-    final providers =
-        _transformedProviders.values
-            .map((provider) => provider.token.identifier)
-            .toList();
+    final providers = _transformedProviders.values
+        .map((provider) => provider.token.identifier)
+        .toList();
     // Directives must be sorted according to the dependency graph between them.
     // For example, if directive A depends on directive B, then directive B must
     // be instantiated before A so that it's available for injection into A.
@@ -238,12 +237,11 @@ class ProviderElementContext implements ElementProviderUsage {
       var transformedUseExisting = provider.useExisting;
       List<CompileDiDependencyMetadata>? transformedDeps;
       if (provider.useExisting != null) {
-        var existingDiDep =
-            _getDependency(
-              resolvedProvider.providerType,
-              CompileDiDependencyMetadata(token: provider.useExisting),
-              eager,
-            )!;
+        var existingDiDep = _getDependency(
+          resolvedProvider.providerType,
+          CompileDiDependencyMetadata(token: provider.useExisting),
+          eager,
+        )!;
         if (existingDiDep.token != null) {
           transformedUseExisting = existingDiDep.token;
         } else {
@@ -394,13 +392,9 @@ class ProviderElementContext implements ElementProviderUsage {
             _rootProviderContext.viewProviders.get(dep.token!) != null) {
           result = dep;
         } else {
-          result =
-              dep.isOptional
-                  ? result = CompileDiDependencyMetadata(
-                    isValue: true,
-                    value: null,
-                  )
-                  : null;
+          result = dep.isOptional
+              ? result = CompileDiDependencyMetadata(isValue: true, value: null)
+              : null;
         }
       }
     }

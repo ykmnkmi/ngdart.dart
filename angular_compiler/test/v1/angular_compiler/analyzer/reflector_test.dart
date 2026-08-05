@@ -120,16 +120,12 @@ void main() {
     var pleaseThrow = 'please.throw';
     setUp(() {
       reader = ReflectableReader(
-        hasInput:
-            (input) =>
-                input.contains(pleaseThrow)
-                    ? throw Exception('bad input $input')
-                    : false,
-        isLibrary:
-            (lib) async =>
-                lib.contains(pleaseThrow)
-                    ? throw Exception('bad library $lib')
-                    : false,
+        hasInput: (input) => input.contains(pleaseThrow)
+            ? throw Exception('bad input $input')
+            : false,
+        isLibrary: (lib) async => lib.contains(pleaseThrow)
+            ? throw Exception('bad library $lib')
+            : false,
       );
     });
 

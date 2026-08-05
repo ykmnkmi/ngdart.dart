@@ -36,11 +36,11 @@ class Validators {
       final v = control.value as String;
       return v.length < minLength
           ? {
-            'minlength': {
-              'requiredLength': minLength,
-              'actualLength': v.length,
-            },
-          }
+              'minlength': {
+                'requiredLength': minLength,
+                'actualLength': v.length,
+              },
+            }
           : null;
     };
   }
@@ -54,11 +54,11 @@ class Validators {
       final v = control.value as String;
       return v.length > maxLength
           ? {
-            'maxlength': {
-              'requiredLength': maxLength,
-              'actualLength': v.length,
-            },
-          }
+              'maxlength': {
+                'requiredLength': maxLength,
+                'actualLength': v.length,
+              },
+            }
           : null;
     };
   }
@@ -74,8 +74,8 @@ class Validators {
       return regex.hasMatch(v)
           ? null
           : {
-            'pattern': {'requiredPattern': '^$pattern\$', 'actualValue': v},
-          };
+              'pattern': {'requiredPattern': '^$pattern\$', 'actualValue': v},
+            };
     };
   }
 

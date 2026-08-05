@@ -171,7 +171,8 @@ class ContentHost {}
 
 @Component(
   selector: 'test',
-  template: '''
+  template:
+      '''
     <content-host>
       <ng-container *ngIf="visible">$html</ng-container>
     </content-host>

@@ -280,10 +280,9 @@ class _DartEmitterVisitor extends AbstractEmitterVisitor
     _visitParams(method.params, context);
     context.print(')');
     var initializerStmts = method.initializers;
-    var superCtorExpr =
-        initializerStmts.isNotEmpty
-            ? _getSuperConstructorCallExpr(initializerStmts[0])
-            : null;
+    var superCtorExpr = initializerStmts.isNotEmpty
+        ? _getSuperConstructorCallExpr(initializerStmts[0])
+        : null;
     if (superCtorExpr != null) {
       context.print(': ');
       superCtorExpr.visitExpression(this, context);

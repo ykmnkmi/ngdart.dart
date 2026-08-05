@@ -9,8 +9,9 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should use the proper provider bindings in a hierarchy', () async {
-    final fixture =
-        await NgTestBed<TestParent>(ng.createTestParentFactory()).create();
+    final fixture = await NgTestBed<TestParent>(
+      ng.createTestParentFactory(),
+    ).create();
     late final B serviceB;
     late final A serviceA;
     await fixture.update((comp) {
@@ -30,19 +31,17 @@ void main() {
   });
 
   test('should consider Provider(T) as Provider(T, useClass: T)', () async {
-    final fixture =
-        await NgTestBed<SupportsImplicitClass>(
-          ng.createSupportsImplicitClassFactory(),
-        ).create();
+    final fixture = await NgTestBed<SupportsImplicitClass>(
+      ng.createSupportsImplicitClassFactory(),
+    ).create();
     final injector = fixture.assertOnlyInstance.injector;
     expect(injector.get(ExampleService), const TypeMatcher<ExampleService>());
   });
 
   test('should use user-default value on ElementInjector.get', () async {
-    final fixture =
-        await NgTestBed<UsingElementInjector>(
-          ng.createUsingElementInjectorFactory(),
-        ).create();
+    final fixture = await NgTestBed<UsingElementInjector>(
+      ng.createUsingElementInjectorFactory(),
+    ).create();
     await fixture.update((comp) {
       final foo = comp.injector.get(#foo, 'someValue');
       expect(foo, 'someValue');
@@ -50,10 +49,9 @@ void main() {
   });
 
   test('should support MultiToken', () async {
-    final fixture =
-        await NgTestBed<SupportsMultiToken>(
-          ng.createSupportsMultiTokenFactory(),
-        ).create();
+    final fixture = await NgTestBed<SupportsMultiToken>(
+      ng.createSupportsMultiTokenFactory(),
+    ).create();
     expect(
       fixture.assertOnlyInstance.values,
       const TypeMatcher<List<String>>(),
@@ -61,10 +59,9 @@ void main() {
   });
 
   test('should support custom MultiToken', () async {
-    final fixture =
-        await NgTestBed<SupportsCustomMultiToken>(
-          ng.createSupportsCustomMultiTokenFactory(),
-        ).create();
+    final fixture = await NgTestBed<SupportsCustomMultiToken>(
+      ng.createSupportsCustomMultiTokenFactory(),
+    ).create();
     expect(
       fixture.assertOnlyInstance.values,
       const TypeMatcher<List<String>>(),
@@ -72,10 +69,9 @@ void main() {
   });
 
   test('should not consider Opaque/MultiToken the same token', () async {
-    final fixture =
-        await NgTestBed<NoClashTokens>(
-          ng.createNoClashTokensFactory(),
-        ).create();
+    final fixture = await NgTestBed<NoClashTokens>(
+      ng.createNoClashTokensFactory(),
+    ).create();
     expect(
       fixture.assertOnlyInstance.fooTokenFromOpaque,
       isNot(fixture.assertOnlyInstance.fooTokenFromMulti),
@@ -83,10 +79,9 @@ void main() {
   });
 
   test('should not consider tokens with different types the same', () async {
-    final fixture =
-        await NgTestBed<SupportsTypedToken>(
-          ng.createSupportsTypedTokenFactory(),
-        ).create();
+    final fixture = await NgTestBed<SupportsTypedToken>(
+      ng.createSupportsTypedTokenFactory(),
+    ).create();
     final value1 = fixture.assertOnlyInstance.injector.get(barTypedToken1);
     expect(value1, 1);
     final value2 = fixture.assertOnlyInstance.injector.get(barTypedToken2);
@@ -97,10 +92,9 @@ void main() {
     late NgTestBed<UsingInjectAndOptional> testBed;
 
     setUp(
-      () =>
-          testBed = NgTestBed<UsingInjectAndOptional>(
-            ng.createUsingInjectAndOptionalFactory(),
-          ),
+      () => testBed = NgTestBed<UsingInjectAndOptional>(
+        ng.createUsingInjectAndOptionalFactory(),
+      ),
     );
 
     test('when provided', () async {
@@ -121,20 +115,18 @@ void main() {
   });
 
   test('should treat tokens with different names as different', () async {
-    final fixture =
-        await NgTestBed<ProperTokenIdentity>(
-          ng.createProperTokenIdentityFactory(),
-        ).create();
+    final fixture = await NgTestBed<ProperTokenIdentity>(
+      ng.createProperTokenIdentityFactory(),
+    ).create();
     final injector = fixture.assertOnlyInstance.injector;
     expect(injector.get(aDynamicTokenNamedA), 'A');
     expect(injector.get(aDynamicTokenNamedB), 'B');
   });
 
   test('should treat unnamed tokens as acceptable', () async {
-    final fixture =
-        await NgTestBed<SupportsUnnamedToken>(
-          ng.createSupportsUnnamedTokenFactory(),
-        ).create();
+    final fixture = await NgTestBed<SupportsUnnamedToken>(
+      ng.createSupportsUnnamedTokenFactory(),
+    ).create();
     final injector = fixture.assertOnlyInstance.injector;
     expect(injector.get(unnamedTokenOfDynamic), 1);
     expect(injector.get(unnamedTokenOfString), 2);
@@ -270,17 +262,18 @@ void main() {
   });
 
   test('should throw a readable error message on a 2-node/parent failure', () {
-    final testBed = NgTestBed<WillFailInjecting2NodeParent>(
-      ng.createWillFailInjecting2NodeParentFactory(),
-    ).addInjector(
-      (i) => ReflectiveInjector.resolveStaticAndCreate([
-        Provider(
-          InjectsMissingService,
-          useFactory: (Object willNotBeCalled) => null,
-          deps: const [MissingService],
-        ),
-      ], i),
-    );
+    final testBed =
+        NgTestBed<WillFailInjecting2NodeParent>(
+          ng.createWillFailInjecting2NodeParentFactory(),
+        ).addInjector(
+          (i) => ReflectiveInjector.resolveStaticAndCreate([
+            Provider(
+              InjectsMissingService,
+              useFactory: (Object willNotBeCalled) => null,
+              deps: const [MissingService],
+            ),
+          ], i),
+        );
     expect(
       () => testBed.create(),
       throwsA(
@@ -297,28 +290,25 @@ void main() {
   });
 
   test('should treat an OpaqueToken identical to @Inject', () async {
-    final fixture =
-        await NgTestBed<InjectsBaseUrl>(
-          ng.createInjectsBaseUrlFactory(),
-        ).create();
+    final fixture = await NgTestBed<InjectsBaseUrl>(
+      ng.createInjectsBaseUrlFactory(),
+    ).create();
     final service = fixture.assertOnlyInstance;
     expect(service.url, 'https://site.com/api/');
   });
 
   test('should support a custom OpaqueToken', () async {
-    final fixture =
-        await NgTestBed<InjectsXsrfToken>(
-          ng.createInjectsXsrfTokenFactory(),
-        ).create();
+    final fixture = await NgTestBed<InjectsXsrfToken>(
+      ng.createInjectsXsrfTokenFactory(),
+    ).create();
     final service = fixture.assertOnlyInstance;
     expect(service.token, 'ABC123');
   });
 
   test('should support modules in providers: const [ ... ]', () async {
-    final fixture =
-        await NgTestBed<SupportsModules>(
-          ng.createSupportsModulesFactory(),
-        ).create();
+    final fixture = await NgTestBed<SupportsModules>(
+      ng.createSupportsModulesFactory(),
+    ).create();
     final injector = fixture.assertOnlyInstance.injector;
     expect(injector.get(ExampleService), const TypeMatcher<ExampleService>());
     expect(injector.get(C), const C('Hello World'));
@@ -341,10 +331,9 @@ void main() {
 
   group('should support void and Null', () {
     test('in a @Component', () async {
-      final fixture =
-          await NgTestBed<ComponentInjector>(
-            ng.createComponentInjectorFactory(),
-          ).create();
+      final fixture = await NgTestBed<ComponentInjector>(
+        ng.createComponentInjectorFactory(),
+      ).create();
       expect(fixture.assertOnlyInstance.aListOfNull, const [null]);
       expect(fixture.assertOnlyInstance.aListOfVoid, const [1]);
       expect(fixture.assertOnlyInstance.aListOfListOfNull, const [
@@ -430,7 +419,11 @@ class TestParent {
   selector: 'parent',
   template: '<child-1></child-1>',
   directives: [CompChild1],
-  providers: [A, B, Provider(C, useValue: C('oldC'))],
+  providers: [
+    A,
+    B,
+    Provider(C, useValue: C('oldC')),
+  ],
 )
 class CompParent {
   @ViewChild(CompChild1)
@@ -441,7 +434,10 @@ class CompParent {
   selector: 'child-1',
   template: '<child-2></child-2>',
   directives: [CompChild2],
-  providers: [B, Provider(C, useValue: C('newC'))],
+  providers: [
+    B,
+    Provider(C, useValue: C('newC')),
+  ],
 )
 class CompChild1 {
   final B b;

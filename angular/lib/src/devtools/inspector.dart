@@ -90,11 +90,11 @@ invocations. Please contact angulardart-eng@ if you encounter this error.
           postEvent('angular.update', {});
         });
 
-    _applicationRef =
-        applicationRef..registerDisposeListener(() {
-          onTurnStartSubscription.cancel();
-          _dispose();
-        });
+    _applicationRef = applicationRef
+      ..registerDisposeListener(() {
+        onTurnStartSubscription.cancel();
+        _dispose();
+      });
   }
 
   /// Frees all object references held by this service.
@@ -357,10 +357,9 @@ invocations. Please contact angulardart-eng@ if you encounter this error.
         b.directives.replace([
           for (final directive in data.directives)
             InspectorDirective(
-              (b) =>
-                  b
-                    ..name = directive.runtimeType.toString()
-                    ..id = _referenceCounter.toId(directive, groupName),
+              (b) => b
+                ..name = directive.runtimeType.toString()
+                ..id = _referenceCounter.toId(directive, groupName),
             ),
         ]);
       }

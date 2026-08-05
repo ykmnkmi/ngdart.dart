@@ -121,8 +121,9 @@ const List<String> _customEvents = [
 /// attribute isn't native, nor matches a bound directive's selector or inputs.
 /// Some elements and attributes created in ACX are used for CSS styling, and
 /// this validator generates an allowlist for them.
-final Iterable<List<CssSelector>> _selectors =
-    _selectorAllowlist.map((selector) => CssSelector.parse(selector)).toList();
+final Iterable<List<CssSelector>> _selectors = _selectorAllowlist
+    .map((selector) => CssSelector.parse(selector))
+    .toList();
 
 bool hasElementInAllowlist(String name) => _selectors.any(
   (selectors) => selectors.any(

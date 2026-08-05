@@ -132,17 +132,17 @@ class _UpdateStatementsVisitor
       // constructor to skip adding the shim classes.
 
       // Handle [attr.class]="expression" or [className]="expression".
-      final renderMethod =
-          isHtmlElement ? 'updateChildClass' : 'updateChildClassNonHtml';
+      final renderMethod = isHtmlElement
+          ? 'updateChildClass'
+          : 'updateChildClassNonHtml';
       return appViewInstance!.callMethod(renderMethod, [
         renderNode!.toReadExpr(),
         renderValue!,
       ]).toStmt();
     } else {
-      final renderMethod =
-          isHtmlElement
-              ? DomHelpers.updateClassBinding
-              : DomHelpers.updateClassBindingNonHtml;
+      final renderMethod = isHtmlElement
+          ? DomHelpers.updateClassBinding
+          : DomHelpers.updateClassBindingNonHtml;
       return o.importExpr(renderMethod).callFn([
         renderNode!.toReadExpr(),
         o.literal(classBinding.name),
@@ -172,25 +172,23 @@ class _UpdateStatementsVisitor
       //
       //    ctx.width == null ? null : ctx.width.toString() + 'px'
       //
-      final styleString =
-          bindingSource.isString
-              ? currValExpr
-              : currValExpr.callMethod('toString', []);
+      final styleString = bindingSource.isString
+          ? currValExpr
+          : currValExpr.callMethod('toString', []);
       final styleWithUnit = styleString.plus(o.literal(styleBinding.unit));
       styleValueExpr = currValExpr.isBlank().conditional(
         o.NULL_EXPR,
         styleWithUnit,
       );
     } else {
-      styleValueExpr =
-          bindingSource.isString
-              ? currValExpr
-              : currValExpr.callMethod(
-                'toString',
-                [],
-                // Use null check to bind null instead of string "null".
-                checked: bindingSource.isNullable,
-              );
+      styleValueExpr = bindingSource.isString
+          ? currValExpr
+          : currValExpr.callMethod(
+              'toString',
+              [],
+              // Use null check to bind null instead of string "null".
+              checked: bindingSource.isNullable,
+            );
     }
     // Call Element.style.setProperty(propName, value);
     o.Expression updateStyleExpr = renderNode!
@@ -261,11 +259,10 @@ class _UpdateStatementsVisitor
   o.Statement visitInputBinding(
     ir.InputBinding inputBinding, [
     o.Expression? renderValue,
-  ]) =>
-      appViewInstance!
-          .prop(inputBinding.propertyName)
-          .set(renderValue!)
-          .toStmt();
+  ]) => appViewInstance!
+      .prop(inputBinding.propertyName)
+      .set(renderValue!)
+      .toStmt();
 
   @override
   o.Statement visitCustomEvent(
@@ -296,11 +293,10 @@ class _UpdateStatementsVisitor
   o.Statement visitNativeEvent(
     ir.NativeEvent nativeEvent, [
     o.Expression? renderValue,
-  ]) =>
-      (renderNode?.toReadExpr() ?? appViewInstance!).callMethod(
-        'addEventListener',
-        [o.literal(nativeEvent.name), renderValue!],
-      ).toStmt();
+  ]) => (renderNode?.toReadExpr() ?? appViewInstance!).callMethod(
+    'addEventListener',
+    [o.literal(nativeEvent.name), renderValue!],
+  ).toStmt();
 }
 
 o.Expression _sanitizedValue(

@@ -13,11 +13,10 @@ void bindDirectiveOutputs(
   var view = compileElement.view!;
   var converter = BoundValueConverter.forView(view);
   for (var output in outputs) {
-    var handlerExpr =
-        converter.scopeNamespace().convertSourceToExpression(
-          output.source,
-          output.target.type,
-        )!;
+    var handlerExpr = converter.scopeNamespace().convertSourceToExpression(
+      output.source,
+      output.target.type,
+    )!;
     var nodeReference = view.createSubscription();
     view.addEventListener(
       nodeReference,
@@ -34,11 +33,10 @@ void bindRenderOutputs(
 ) {
   var converter = BoundValueConverter.forView(compileElement.view!);
   for (var output in outputs) {
-    var handlerExpr =
-        converter.scopeNamespace().convertSourceToExpression(
-          output.source,
-          output.target.type,
-        )!;
+    var handlerExpr = converter.scopeNamespace().convertSourceToExpression(
+      output.source,
+      output.target.type,
+    )!;
     compileElement.view!.addEventListener(
       compileElement.renderNode,
       output,

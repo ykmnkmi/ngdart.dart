@@ -22,10 +22,9 @@ String _typeArgumentsFor(ClassElement element) {
   if (element.typeParameters.isEmpty) {
     return '';
   }
-  final buffer =
-      StringBuffer('<')
-        ..writeAll(element.typeParameters.map((t) => t.name), ', ')
-        ..write('>');
+  final buffer = StringBuffer('<')
+    ..writeAll(element.typeParameters.map((t) => t.name), ', ')
+    ..write('>');
   return buffer.toString();
 }
 

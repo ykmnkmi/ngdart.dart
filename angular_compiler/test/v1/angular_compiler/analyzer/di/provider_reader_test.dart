@@ -103,8 +103,9 @@ void main() {
       $DependencyB = testLib.getClass('DependencyB')!;
       $createExample = testLib.definingCompilationUnit.functions.first;
       $Example_create = $Example.getMethod('create')!;
-      providers =
-          $Example.metadata.first.computeConstantValue()!.toListValue()!;
+      providers = $Example.metadata.first
+          .computeConstantValue()!
+          .toListValue()!;
     });
 
     test('a type (implicit provider)', () {

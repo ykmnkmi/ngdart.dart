@@ -244,10 +244,9 @@ class CompileElement extends CompileNode implements ProviderResolverHost {
     // For each reference token create CompileTokenMetadata to read query.
     if (referenceTokens.isNotEmpty) {
       referenceTokens.forEach((String varName, token) {
-        var varValue =
-            token != null
-                ? _providers.get(token)!.build()
-                : renderNode.toReadExpr();
+        var varValue = token != null
+            ? _providers.get(token)!.build()
+            : renderNode.toReadExpr();
         view!.nameResolver.addLocal(varName, varValue);
         var varToken = CompileTokenMetadata(value: varName);
         queriesWithReads.addAll(
@@ -273,10 +272,9 @@ class CompileElement extends CompileNode implements ProviderResolverHost {
         }
       } else {
         // Query for a reference.
-        var token =
-            referenceTokens.isNotEmpty
-                ? referenceTokens[queryWithRead.read.value as String]
-                : null;
+        var token = referenceTokens.isNotEmpty
+            ? referenceTokens[queryWithRead.read.value as String]
+            : null;
         if (token != null) {
           var providerSource = _providers.get(token);
           if (providerSource != null) {
@@ -287,10 +285,9 @@ class CompileElement extends CompileNode implements ProviderResolverHost {
           // If we can't find a valid query type, then we fall back to
           // ElementRef. HOWEVER, if specifically typed as Element or
           // HtmlElement, use that.
-          value =
-              queryWithRead.query.metadata.isElementType
-                  ? renderNode.toReadExpr()
-                  : elementRef;
+          value = queryWithRead.query.metadata.isElementType
+              ? renderNode.toReadExpr()
+              : elementRef;
         }
       }
 
@@ -393,8 +390,8 @@ class CompileElement extends CompileNode implements ProviderResolverHost {
 
   ProviderSource? getDirectiveSource(CompileDirectiveMetadata? directive) =>
       directive != null
-          ? _providers.get(identifierToken(directive.type))
-          : null;
+      ? _providers.get(identifierToken(directive.type))
+      : null;
 
   // NodeProvidersHost implementation.
   @override
@@ -406,11 +403,10 @@ class CompileElement extends CompileNode implements ProviderResolverHost {
   ) {
     // Create a new field property for this provider.
     final propName = '_${resolvedProvider.token.name}_${nodeIndex}_$uniqueId';
-    final providerValueExpressions =
-        providerSources
-            .map((s) => s.build())
-            .whereType<o.Expression>()
-            .toList();
+    final providerValueExpressions = providerSources
+        .map((s) => s.build())
+        .whereType<o.Expression>()
+        .toList();
 
     o.Expression? changeDetectorRefExpr;
 

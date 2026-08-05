@@ -121,10 +121,9 @@ class TypedReader {
       // arguments, we parse them from the `typeArguments` field. Otherwise, we
       // use the type arguments of the type itself.
       final typeArgumentsReader = reader.read('typeArguments');
-      final typeArguments =
-          typeArgumentsReader.isList
-              ? typeArgumentsReader.listValue.map(_parse).toList()
-              : type.typeArguments.map(linkTypeOf).toList();
+      final typeArguments = typeArgumentsReader.isList
+          ? typeArgumentsReader.listValue.map(_parse).toList()
+          : type.typeArguments.map(linkTypeOf).toList();
       for (final typeArgument in typeArguments) {
         if (typeArgument.isPrivate) {
           throw BuildError.withoutContext(

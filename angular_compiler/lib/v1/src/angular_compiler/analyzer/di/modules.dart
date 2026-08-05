@@ -104,13 +104,14 @@ class ModuleReader {
 
   ModuleElement _parseList(DartObject o) {
     final items = o.toListValue()!;
-    final include =
-        items.where((item) => isModule(item)).map(parseModule).toList();
-    final provide =
-        items
-            .where((item) => !isModule(item))
-            .map(_providerReader.parseProvider)
-            .toList();
+    final include = items
+        .where((item) => isModule(item))
+        .map(parseModule)
+        .toList();
+    final provide = items
+        .where((item) => !isModule(item))
+        .map(_providerReader.parseProvider)
+        .toList();
 
     return ModuleElement(provide: provide, include: include);
   }
@@ -128,8 +129,9 @@ class ModuleReader {
       var typeStr = reader.objectValue.type!.getDisplayString();
       throw FormatException("Expected list for 'provide' field of $typeStr.");
     }
-    final provide =
-        provideReader.listValue.map(_providerReader.parseProvider).toList();
+    final provide = provideReader.listValue
+        .map(_providerReader.parseProvider)
+        .toList();
     return ModuleElement(provide: provide, include: include);
   }
 }

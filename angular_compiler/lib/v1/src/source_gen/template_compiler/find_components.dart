@@ -135,8 +135,11 @@ class _NormalizedComponentVisitor extends RecursiveElementVisitor<void> {
     ClassElement element,
     String field,
   ) {
-    final annotationInfo =
-        annotationWhere(element, safeMatcher(isComponent), _exceptionHandler)!;
+    final annotationInfo = annotationWhere(
+      element,
+      safeMatcher(isComponent),
+      _exceptionHandler,
+    )!;
     if (annotationInfo.hasErrors) {
       _exceptionHandler.handle(
         AngularAnalysisError(
@@ -481,11 +484,10 @@ class _ComponentVisitor
   /// itself is invalid (e.g. a setter without parameters or a body).
   PropertyAccessorElement? _setterFor(Element element) {
     // Resolves specified generic type parameters.
-    final setter =
-        _directiveClassElement!.thisType.lookUpSetter2(
-          element.displayName,
-          element.library!,
-        )!;
+    final setter = _directiveClassElement!.thisType.lookUpSetter2(
+      element.displayName,
+      element.library!,
+    )!;
     if (setter.parameters.isEmpty) {
       CompileContext.current.reportAndRecover(
         BuildError.forElement(
@@ -565,21 +567,23 @@ class _ComponentVisitor
               _htmlElement.isAssignableFromType(
                 propertyType.typeArguments.first,
               ),
-      read:
-          readType != null
-              ? CompileTokenMetadata(
-                identifier: CompileIdentifierMetadata(
-                  name: readType.getDisplayString(),
-                  moduleUrl: moduleUrl(readType.element!),
-                ),
-              )
-              : null,
+      read: readType != null
+          ? CompileTokenMetadata(
+              identifier: CompileIdentifierMetadata(
+                name: readType.getDisplayString(),
+                moduleUrl: moduleUrl(readType.element!),
+              ),
+            )
+          : null,
     );
   }
 
   void _addHostBinding(Element element, DartObject value) {
-    final property =
-        coerceString(value, 'hostPropertyName', defaultTo: element.name)!;
+    final property = coerceString(
+      value,
+      'hostPropertyName',
+      defaultTo: element.name,
+    )!;
     // Allows using static members for @HostBinding. For example:
     //
     // class Foo {
@@ -633,8 +637,11 @@ class _ComponentVisitor
   }) {
     final value = annotation.computeConstantValue();
     final propertyName = element.displayName;
-    final bindingName =
-        coerceString(value, 'bindingPropertyName', defaultTo: propertyName)!;
+    final bindingName = coerceString(
+      value,
+      'bindingPropertyName',
+      defaultTo: propertyName,
+    )!;
     _prohibitBindingChange(
       element.enclosingElement3 as ClassElement?,
       propertyName,
@@ -703,10 +710,9 @@ class _ComponentVisitor
       CompileTypeMetadataVisitor(_library, directiveInfo, _exceptionHandler),
     );
 
-    final template =
-        isComponent
-            ? _createTemplateMetadata(directiveInfo, componentType)
-            : CompileTemplateMetadata();
+    final template = isComponent
+        ? _createTemplateMetadata(directiveInfo, componentType)
+        : CompileTemplateMetadata();
 
     // _createTemplateMetadata failed to create the metadata.
     if (template == null) return null;
@@ -744,10 +750,9 @@ class _ComponentVisitor
     return CompileDirectiveMetadata(
       type: componentType,
       originType: componentType,
-      metadataType:
-          isComponent
-              ? CompileDirectiveMetadataType.Component
-              : CompileDirectiveMetadataType.Directive,
+      metadataType: isComponent
+          ? CompileDirectiveMetadataType.Component
+          : CompileDirectiveMetadataType.Directive,
       selector: coerceString(annotationValue, 'selector'),
       exportAs: coerceString(annotationValue, 'exportAs'),
       changeDetection: changeDetection,
@@ -1015,8 +1020,9 @@ void _errorOnUnusedDirectiveTypes(
   String key(String? moduleUrl, String name) => '$moduleUrl#$name';
 
   // The set of directives declared for use.
-  var used =
-      directives.map((d) => key(d!.type!.moduleUrl, d.type!.name)).toSet();
+  var used = directives
+      .map((d) => key(d!.type!.moduleUrl, d.type!.name))
+      .toSet();
 
   // Throw if the user attempts to type any directives that aren't used.
   for (var directiveType in directiveTypes) {

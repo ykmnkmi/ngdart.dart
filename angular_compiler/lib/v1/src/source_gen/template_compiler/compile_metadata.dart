@@ -112,13 +112,12 @@ class CompileTypeMetadataVisitor
       return null;
     }
     final providerType = inferProviderType(provider, token);
-    final providerTypeArgument =
-        providerType is InterfaceType
-            ? _getCompileTypeMetadata(
-              providerType.element as ClassElement,
-              typeArguments: providerType.typeArguments,
-            )
-            : null;
+    final providerTypeArgument = providerType is InterfaceType
+        ? _getCompileTypeMetadata(
+            providerType.element as ClassElement,
+            typeArguments: providerType.typeArguments,
+          )
+        : null;
 
     final tokenMetadata = _token(token);
     _preventProvidingGlobalSingletonService(tokenMetadata);
@@ -348,14 +347,13 @@ class CompileTypeMetadataVisitor
     }
   }
 
-  CompileTokenMetadata _getToken(ParameterInfo pI) =>
-      pI.isAttribute
-          ? _tokenForAttribute(pI)
-          : pI.isInject
-          ? _tokenForInject(pI)
-          : pI.isOpaqueToken
-          ? _tokenForOpaqueToken(pI)
-          : _tokenForType(pI.type, libraryIdentifier: pI.libraryIdentifier);
+  CompileTokenMetadata _getToken(ParameterInfo pI) => pI.isAttribute
+      ? _tokenForAttribute(pI)
+      : pI.isInject
+      ? _tokenForInject(pI)
+      : pI.isOpaqueToken
+      ? _tokenForOpaqueToken(pI)
+      : _tokenForType(pI.type, libraryIdentifier: pI.libraryIdentifier);
 
   CompileTokenMetadata _tokenForAttribute(ParameterInfo pI) =>
       CompileTokenMetadata(
@@ -461,8 +459,8 @@ class CompileTypeMetadataVisitor
         // a generic type parameter. Without checking for a built-in we encode
         // as new MyToken<String>(), which is a compile-error.
         token.typeUrl == null || !_isBuiltInToken(token.classUrl)
-            ? null
-            : fromTypeLink(token.typeUrl, _library);
+        ? null
+        : fromTypeLink(token.typeUrl, _library);
     final tokenId = CompileIdentifierMetadata(
       name: token.classUrl.symbol,
       moduleUrl: linkToReference(token.classUrl, _library).url,
@@ -576,8 +574,9 @@ class CompileTypeMetadataVisitor
     final invocation = (token as DartObjectImpl).getInvocation();
     if (invocation == null) return type;
 
-    var params =
-        invocation.positionalArguments.map(_useValueExpression).toList();
+    var params = invocation.positionalArguments
+        .map(_useValueExpression)
+        .toList();
     var namedParams = <o.NamedExpr>[];
     invocation.namedArguments.forEach((name, expr) {
       namedParams.add(o.NamedExpr(name, _useValueExpression(expr)));
@@ -628,10 +627,9 @@ class CompileTypeMetadataVisitor
       moduleUrl: moduleUrl(function),
       prefix: prefix,
       emitPrefix: true,
-      diDeps:
-          typesOrTokens.isNotEmpty
-              ? typesOrTokens.map(_factoryDiDep).toList()
-              : _getCompileDiDependencyMetadata(function.parameters, function),
+      diDeps: typesOrTokens.isNotEmpty
+          ? typesOrTokens.map(_factoryDiDep).toList()
+          : _getCompileDiDependencyMetadata(function.parameters, function),
     );
   }
 

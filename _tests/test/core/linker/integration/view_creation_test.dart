@@ -119,8 +119,9 @@ void main() {
     expect(svg.namespaceUri, 'http://www.w3.org/2000/svg');
     final use = testFixture.rootElement.querySelector('use')!;
     expect(use.namespaceUri, 'http://www.w3.org/2000/svg');
-    final foreignObject =
-        testFixture.rootElement.querySelector('foreignObject')!;
+    final foreignObject = testFixture.rootElement.querySelector(
+      'foreignObject',
+    )!;
     expect(foreignObject.namespaceUri, 'http://www.w3.org/2000/svg');
     final div = testFixture.rootElement.querySelector('div')!;
     expect(div.namespaceUri, 'http://www.w3.org/1999/xhtml');

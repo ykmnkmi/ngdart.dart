@@ -161,8 +161,8 @@ class _AstToExpressionVisitor
   @override
   o.Expression visitEmptyExpr(compiler_ast.EmptyExpr ast, _) =>
       _isBoolType(_boundType)
-          ? o.LiteralExpr(true, o.BOOL_TYPE)
-          : o.LiteralExpr('', o.STRING_TYPE);
+      ? o.LiteralExpr(true, o.BOOL_TYPE)
+      : o.LiteralExpr('', o.STRING_TYPE);
 
   @override
   o.Expression visitPipe(compiler_ast.BindingPipe ast, _) {
@@ -177,11 +177,10 @@ class _AstToExpressionVisitor
     var e = ast.target.visit(this, false /* visitingRoot */);
     return e.callFn(
       _visitAll(ast.args, false /* visitingRoot */),
-      namedParams:
-          _visitAll(
-            ast.namedArgs,
-            false /* visitingRoot */,
-          ).cast<o.NamedExpr>(),
+      namedParams: _visitAll(
+        ast.namedArgs,
+        false /* visitingRoot */,
+      ).cast<o.NamedExpr>(),
     );
   }
 
@@ -223,10 +222,9 @@ class _AstToExpressionVisitor
       (ast) => isString(ast, _metadata.analyzedClass!),
     );
 
-    final interpolateIdentifiers =
-        expressionsAreString
-            ? Interpolation.interpolateString
-            : Interpolation.interpolate;
+    final interpolateIdentifiers = expressionsAreString
+        ? Interpolation.interpolateString
+        : Interpolation.interpolate;
 
     /// Handle most common case where prefix and postfix are empty.
     if (ast.expressions.length == 1) {
@@ -264,10 +262,9 @@ class _AstToExpressionVisitor
     } else {
       var args = <o.Expression>[];
       for (var i = 0; i < ast.strings.length - 1; i++) {
-        var literalText =
-            i == 0
-                ? _compressWhitespacePreceding(ast.strings[i])
-                : replaceNgSpace(ast.strings[i]);
+        var literalText = i == 0
+            ? _compressWhitespacePreceding(ast.strings[i])
+            : replaceNgSpace(ast.strings[i]);
         args.add(o.literal(literalText));
         args.add(ast.expressions[i].visit(this, false /* visitingRoot */));
       }
@@ -308,8 +305,10 @@ class _AstToExpressionVisitor
   @override
   o.Expression visitMethodCall(compiler_ast.MethodCall ast, _) {
     var args = _visitAll(ast.args, false /*visitingRoot */);
-    var namedArgs =
-        _visitAll(ast.namedArgs, false /*visitingRoot */).cast<o.NamedExpr>();
+    var namedArgs = _visitAll(
+      ast.namedArgs,
+      false /*visitingRoot */,
+    ).cast<o.NamedExpr>();
     var receiver = ast.receiver.visit(this, false /*visitingRoot */);
     if (identical(receiver, _implicitReceiverVal)) {
       var varExpr = _nameResolver.getLocal(ast.name);

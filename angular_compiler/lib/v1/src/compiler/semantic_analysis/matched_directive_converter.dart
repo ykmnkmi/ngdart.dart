@@ -84,13 +84,14 @@ ir.MatchedDirective convertMatchedDirective(
   );
 }
 
-Set<ir.Lifecycle> _lifecycles(core.CompileDirectiveMetadata directive) =>
-    ir.Lifecycle.values
-        .where(
-          (lifecycle) =>
-              directive.lifecycleHooks.contains(_lifecyclesAsIr[lifecycle]),
-        )
-        .toSet();
+Set<ir.Lifecycle> _lifecycles(core.CompileDirectiveMetadata directive) => ir
+    .Lifecycle
+    .values
+    .where(
+      (lifecycle) =>
+          directive.lifecycleHooks.contains(_lifecyclesAsIr[lifecycle]),
+    )
+    .toSet();
 
 const _lifecyclesAsIr = {
   ir.Lifecycle.afterChanges: core.LifecycleHooks.afterChanges,

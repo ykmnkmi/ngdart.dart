@@ -159,7 +159,8 @@ class TestI18nNodeWithHtml {}
 
 @Component(
   selector: 'test',
-  template: '''
+  template:
+      '''
     <p @i18n="description">
       Click <a href="$issuesLink">here</a> to file an issue.
     </p>

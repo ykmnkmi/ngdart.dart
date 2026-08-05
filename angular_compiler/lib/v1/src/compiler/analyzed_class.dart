@@ -19,10 +19,9 @@ class AnalyzedClass {
     AnalyzedClass other, {
     Map<String, DartType?> additionalLocals = const {},
   }) : classElement = other.classElement,
-       locals =
-           {}
-             ..addAll(other.locals)
-             ..addAll(additionalLocals);
+       locals = {}
+         ..addAll(other.locals)
+         ..addAll(additionalLocals);
 }
 
 /// Returns the [expression] type evaluated within context of [analyzedClass].
@@ -39,10 +38,9 @@ DartType getExpressionType(ast.AST expression, AnalyzedClass analyzedClass) {
 /// Returns the element type of [dartType], assuming it implements `Iterable`.
 ///
 /// Returns null otherwise.
-DartType? getIterableElementType(DartType dartType) =>
-    dartType is InterfaceType
-        ? dartType.lookUpGetter2('single', dartType.element.library)?.returnType
-        : null;
+DartType? getIterableElementType(DartType dartType) => dartType is InterfaceType
+    ? dartType.lookUpGetter2('single', dartType.element.library)?.returnType
+    : null;
 
 /// Returns an int type using the [analyzedClass]'s context.
 DartType intType(AnalyzedClass analyzedClass) =>
@@ -139,10 +137,9 @@ bool isImmutable(ast.AST expression, AnalyzedClass? analyzedClass) {
     var receiver = expression.receiver;
     if (receiver is ast.ImplicitReceiver ||
         (receiver is ast.StaticRead && receiver.id.analyzedClass != null)) {
-      var clazz =
-          receiver is ast.StaticRead
-              ? receiver.id.analyzedClass!
-              : analyzedClass;
+      var clazz = receiver is ast.StaticRead
+          ? receiver.id.analyzedClass!
+          : analyzedClass;
       var field = _getField(clazz, expression.name);
       if (field != null) {
         return !field.isSynthetic && (field.isFinal || field.isConst);
@@ -354,8 +351,8 @@ class _TypeResolver extends ast.AstVisitor<DartType, dynamic> {
   @override
   DartType visitStaticRead(ast.StaticRead ast, _) =>
       ast.id.analyzedClass == null
-          ? _dynamicType
-          : ast.id.analyzedClass!.classElement.thisType;
+      ? _dynamicType
+      : ast.id.analyzedClass!.classElement.thisType;
 
   @override
   DartType visitVariableRead(ast.VariableRead ast, _) => _dynamicType;

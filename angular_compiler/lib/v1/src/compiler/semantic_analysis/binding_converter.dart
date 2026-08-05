@@ -71,10 +71,9 @@ ir.Binding convertHostListenerToBinding(
     null, // TODO(alorenzen): Add SourceSpan to HostListeners.
     _IrBindingContext(null, null, null),
   ),
-  target:
-      isNativeHtmlEvent(eventName)
-          ? ir.NativeEvent(eventName)
-          : ir.CustomEvent(eventName),
+  target: isNativeHtmlEvent(eventName)
+      ? ir.NativeEvent(eventName)
+      : ir.CustomEvent(eventName),
 );
 
 class _ToBindingVisitor
@@ -247,10 +246,9 @@ class _ToBindingVisitor
   ir.Binding visitEvent(ast.BoundEventAst ast, _IrBindingContext context) =>
       ir.Binding(
         source: _handlerFor(ast.name, ast.handler, ast.sourceSpan, context),
-        target:
-            isNativeHtmlEvent(ast.name)
-                ? ir.NativeEvent(ast.name)
-                : ir.CustomEvent(ast.name),
+        target: isNativeHtmlEvent(ast.name)
+            ? ir.NativeEvent(ast.name)
+            : ir.CustomEvent(ast.name),
       );
 
   @override

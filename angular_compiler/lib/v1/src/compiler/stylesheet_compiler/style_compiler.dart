@@ -109,15 +109,14 @@ class StyleCompiler {
     return StylesCompileResult([statement], stylesVar);
   }
 
-  String _shimIfNeeded(String style, bool shim) =>
-      shim
-          ? shimShadowCss(
-            style,
-            _viewClass,
-            _hostClass,
-            useLegacyEncapsulation: _config.useLegacyStyleEncapsulation,
-          )
-          : style;
+  String _shimIfNeeded(String style, bool shim) => shim
+      ? shimShadowCss(
+          style,
+          _viewClass,
+          _hostClass,
+          useLegacyEncapsulation: _config.useLegacyStyleEncapsulation,
+        )
+      : style;
 }
 
 /// Returns variable name to use to access styles for a particular component

@@ -28,15 +28,14 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should attempt to navigate to the provided link', () async {
-    final fixture = await NgTestBed<TestRouterLink>(
-          ng.createTestRouterLinkFactory(),
-        )
-        .addInjector(addInjector)
-        .create(
-          beforeChangeDetection: (comp) {
-            comp.routerLink = '/users/bob';
-          },
-        );
+    final fixture =
+        await NgTestBed<TestRouterLink>(ng.createTestRouterLinkFactory())
+            .addInjector(addInjector)
+            .create(
+              beforeChangeDetection: (comp) {
+                comp.routerLink = '/users/bob';
+              },
+            );
     final anchor = fixture.rootElement.querySelector('a') as AnchorElement;
     expect(anchor.pathname, '/users/bob');
     expect(fakeRouter.lastNavigatedPath, isNull);
@@ -57,15 +56,14 @@ void main() {
   });
 
   test('should parse out query params and fragment', () async {
-    final fixture = await NgTestBed<TestRouterLink>(
-          ng.createTestRouterLinkFactory(),
-        )
-        .addInjector(addInjector)
-        .create(
-          beforeChangeDetection: (comp) {
-            comp.routerLink = '/users/bob?param1=one&param2=2#frag';
-          },
-        );
+    final fixture =
+        await NgTestBed<TestRouterLink>(ng.createTestRouterLinkFactory())
+            .addInjector(addInjector)
+            .create(
+              beforeChangeDetection: (comp) {
+                comp.routerLink = '/users/bob?param1=one&param2=2#frag';
+              },
+            );
     final anchor = fixture.rootElement.querySelector('a') as AnchorElement;
     expect(anchor.pathname, '/users/bob');
     await fixture.update((_) => anchor.click());
@@ -78,15 +76,16 @@ void main() {
   });
 
   test('should not use the router when the target is not _self', () async {
-    final fixture = await NgTestBed<TestRouterLinkWithTarget>(
-          ng.createTestRouterLinkWithTargetFactory(),
-        )
-        .addInjector(addInjector)
-        .create(
-          beforeChangeDetection: (comp) {
-            comp.routerLink = '/users/bob';
-          },
-        );
+    final fixture =
+        await NgTestBed<TestRouterLinkWithTarget>(
+              ng.createTestRouterLinkWithTargetFactory(),
+            )
+            .addInjector(addInjector)
+            .create(
+              beforeChangeDetection: (comp) {
+                comp.routerLink = '/users/bob';
+              },
+            );
     final anchor = fixture.rootElement.querySelector('a') as AnchorElement;
     expect(anchor.pathname, '/users/bob');
     expect(anchor.target, '_parent');
@@ -150,7 +149,8 @@ class FakeRouter implements Router {
 }
 
 const _createKeyboardEventName = '__dart_createKeyboardEvent';
-const _createKeyboardEventScript = '''
+const _createKeyboardEventScript =
+    '''
 window['$_createKeyboardEventName'] = function(
     type, keyCode, ctrlKey, altKey, shiftKey, metaKey) {
   var event = document.createEvent('KeyboardEvent');
@@ -183,10 +183,9 @@ Event createKeyboardEvent(
   bool metaKey = false,
 }) {
   if (!context.hasProperty(_createKeyboardEventName)) {
-    final script =
-        document.createElement('script')
-          ..setAttribute('type', 'text/javascript')
-          ..text = _createKeyboardEventScript;
+    final script = document.createElement('script')
+      ..setAttribute('type', 'text/javascript')
+      ..text = _createKeyboardEventScript;
     document.body!.append(script);
   }
   return context.callMethod(_createKeyboardEventName, [

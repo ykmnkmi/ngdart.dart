@@ -90,12 +90,11 @@ void main() {
 
       test('should handle asynchronous fn with delayed future', () async {
         final fixture = await testBed.create(
-          beforeComponentCreated:
-              (i) =>
-                  Future.delayed(Duration(milliseconds: 200), () {}).then((_) {
-                    testService = i.provideType(TestService);
-                    testService!.value = 'New value';
-                  }),
+          beforeComponentCreated: (i) =>
+              Future.delayed(Duration(milliseconds: 200), () {}).then((_) {
+                testService = i.provideType(TestService);
+                testService!.value = 'New value';
+              }),
           beforeChangeDetection: (_) {
             expect(testService, isNotNull);
           },
@@ -131,10 +130,8 @@ void main() {
       test('should handle asynchronous fn with delayed future', () async {
         expect(
           testBed.create(
-            beforeComponentCreated:
-                (_) => Future.delayed(Duration(milliseconds: 200), () {}).then((
-                  _,
-                ) {
+            beforeComponentCreated: (_) =>
+                Future.delayed(Duration(milliseconds: 200), () {}).then((_) {
                   throw Error();
                 }),
           ),

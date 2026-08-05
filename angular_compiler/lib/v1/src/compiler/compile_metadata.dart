@@ -180,11 +180,11 @@ class CompileTokenMetadata implements CompileMetadataWithIdentifier {
     if (identifier != null) {
       return identifier.moduleUrl != null
           ? ''
-              '${identifier.name}|'
-              '${identifier.moduleUrl}|'
-              '$identifierIsInstance|'
-              '$value|'
-              '${identifier.typeArguments.map(_typeAssetKey).join(',')}'
+                '${identifier.name}|'
+                '${identifier.moduleUrl}|'
+                '$identifierIsInstance|'
+                '$value|'
+                '${identifier.typeArguments.map(_typeAssetKey).join(',')}'
           : null;
     } else {
       return value;
@@ -193,10 +193,9 @@ class CompileTokenMetadata implements CompileMetadataWithIdentifier {
 
   static String _typeAssetKey(o.OutputType? t) {
     if (t is o.ExternalType) {
-      final generics =
-          t.value.typeArguments.isNotEmpty
-              ? t.value.typeArguments.map(_typeAssetKey).join(',')
-              : '[]';
+      final generics = t.value.typeArguments.isNotEmpty
+          ? t.value.typeArguments.map(_typeAssetKey).join(',')
+          : '[]';
       return 'ExternalType {${t.value.moduleUrl}:${t.value.name}:$generics}';
     }
     return '{notExternalType}';
@@ -614,8 +613,9 @@ CompileDirectiveMetadata createHostComponentMeta(
   AnalyzedClass? analyzedClass,
   bool? preserveWhitespace,
 ) {
-  var template =
-      CssSelector.parse(componentSelector)[0].getMatchingElementTemplate();
+  var template = CssSelector.parse(
+    componentSelector,
+  )[0].getMatchingElementTemplate();
   return CompileDirectiveMetadata(
     originType: componentType,
     type: CompileTypeMetadata(

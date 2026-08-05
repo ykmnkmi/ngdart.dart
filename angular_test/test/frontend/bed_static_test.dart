@@ -15,10 +15,9 @@ void main() {
     final fixture = await testBed.create();
     expect(fixture.text, '0');
     await fixture.update(
-      (comp) =>
-          comp
-            ..a = 1
-            ..b = 2,
+      (comp) => comp
+        ..a = 1
+        ..b = 2,
     );
     expect(fixture.text, '3');
   });

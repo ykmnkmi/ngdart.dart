@@ -94,10 +94,9 @@ void bindRenderInputs(
   List<ir.Binding> bindings,
   CompileElement compileElement,
 ) {
-  var appViewInstance =
-      compileElement.component == null
-          ? o.THIS_EXPR
-          : compileElement.componentView;
+  var appViewInstance = compileElement.component == null
+      ? o.THIS_EXPR
+      : compileElement.componentView;
   var renderNode = compileElement.renderNode;
   var view = compileElement.view!;
   var converter = BoundValueConverter.forView(view);
@@ -166,8 +165,10 @@ void _directBinding(
   NodeReference? renderNode,
   bool isHtmlElement,
 ) {
-  var expression =
-      converter.convertSourceToExpression(binding.source, binding.target.type)!;
+  var expression = converter.convertSourceToExpression(
+    binding.source,
+    binding.target.type,
+  )!;
   var updateStatements = bindingToUpdateStatements(
     binding,
     appViewInstance,
@@ -208,13 +209,12 @@ void _checkBinding(
   // Expression for current value of expression when value is re-read.
   var currValExpr = _createCurrValueExpr(bindingIndex);
 
-  var updatedExpr =
-      _maybeOptimizeInterpolation(
-        binding.source,
-        currValExpr,
-        converter,
-        binding.target.type,
-      )!;
+  var updatedExpr = _maybeOptimizeInterpolation(
+    binding.source,
+    currValExpr,
+    converter,
+    binding.target.type,
+  )!;
 
   var updateStmts = bindingToUpdateStatements(
     binding,

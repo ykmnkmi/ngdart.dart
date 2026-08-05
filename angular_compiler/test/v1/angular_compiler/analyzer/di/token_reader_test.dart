@@ -14,8 +14,7 @@ void main() {
     final reader = const TokenReader();
 
     setUpAll(() async {
-      tokens =
-          (await resolveClass(r'''
+      tokens = (await resolveClass(r'''
       const tokens = const [
         Example,
         const OpaqueToken('exampleToken'),

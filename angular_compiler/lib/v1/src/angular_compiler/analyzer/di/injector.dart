@@ -80,8 +80,8 @@ class InjectorReader {
       context == null
           ? 'Unable to parse @GenerateInjector. You may have analysis errors'
           : 'Unable to parse @GenerateInjector. A provider\'s token ($context) '
-              'was read as "null". This is either invalid configuration or you '
-              'have analysis errors$message',
+                'was read as "null". This is either invalid configuration or you '
+                'have analysis errors$message',
     );
   }
 
@@ -106,8 +106,9 @@ class InjectorReader {
     }
 
     try {
-      final module =
-          moduleReader.parseModule(providersOrModules.objectValue).flatten();
+      final module = moduleReader
+          .parseModule(providersOrModules.objectValue)
+          .flatten();
       for (var item in module) {
         final token = item.token;
         if (token is TypeTokenElement && isGlobalSingletonService(token.link)) {
@@ -307,10 +308,9 @@ class InjectorReader {
   /// Returns a revivable `const` invocation as a code_builder [Expression].
   Expression _revive(UseValueProviderElement provider, Revivable invocation) {
     if (invocation.isPrivate) {
-      final privateReference =
-          invocation.accessor.isNotEmpty
-              ? '${invocation.source}::${invocation.accessor}'
-              : '${invocation.source}';
+      final privateReference = invocation.accessor.isNotEmpty
+          ? '${invocation.source}::${invocation.accessor}'
+          : '${invocation.source}';
       throw BuildError.withoutContext(
         ''
         'While attempting to resolve a constant value for a provider '
@@ -329,10 +329,9 @@ class InjectorReader {
     if (invocation.source.fragment.isNotEmpty) {
       // We can create this invocation by calling `const ...`.
       final name = invocation.source.fragment;
-      final positionalArgs =
-          invocation.positionalArguments
-              .map((a) => _reviveAny(provider, a))
-              .toList();
+      final positionalArgs = invocation.positionalArguments
+          .map((a) => _reviveAny(provider, a))
+          .toList();
       final namedArgs = invocation.namedArguments.map(
         (name, a) => MapEntry(name, _reviveAny(provider, a)),
       );

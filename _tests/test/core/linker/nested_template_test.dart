@@ -8,10 +8,9 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('should render a nested template', () async {
-    final fixture =
-        await NgTestBed<NestedTemplateTest>(
-          ng.createNestedTemplateTestFactory(),
-        ).create();
+    final fixture = await NgTestBed<NestedTemplateTest>(
+      ng.createNestedTemplateTestFactory(),
+    ).create();
 
     Future<void> setInnerCondition(bool value) {
       return fixture.update((c) => c.showInner = value);
@@ -39,10 +38,9 @@ void main() {
   });
 
   test('should render a nested template with a custom directive', () async {
-    final fixture =
-        await NgTestBed<NestedCustomTest>(
-          ng.createNestedCustomTestFactory(),
-        ).create();
+    final fixture = await NgTestBed<NestedCustomTest>(
+      ng.createNestedCustomTestFactory(),
+    ).create();
 
     Future<void> setInnerCondition(bool value) {
       return fixture.update((c) {

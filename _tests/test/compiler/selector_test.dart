@@ -389,8 +389,9 @@ void main() {
       expect(cssSelector.toString(), '[attrname="attrvalue"]');
     });
     test('should detect multiple parts', () {
-      var cssSelector =
-          CssSelector.parse('sometag[attrname=attrvalue].someclass')[0];
+      var cssSelector = CssSelector.parse(
+        'sometag[attrname=attrvalue].someclass',
+      )[0];
       expect(cssSelector.element, 'sometag');
       expect(cssSelector.attrs, hasLength(1));
       expect(cssSelector.attrs[0], TypeMatcher<ExactAttributeMatcher>());
@@ -412,8 +413,9 @@ void main() {
       expect(cssSelector.toString(), 'input[type="text"][control]');
     });
     test('should detect :not', () {
-      var cssSelector =
-          CssSelector.parse('sometag:not([attrname=attrvalue].someclass)')[0];
+      var cssSelector = CssSelector.parse(
+        'sometag:not([attrname=attrvalue].someclass)',
+      )[0];
       expect(cssSelector.element, 'sometag');
       expect(cssSelector.attrs.length, 0);
       expect(cssSelector.classNames.length, 0);
@@ -430,8 +432,9 @@ void main() {
       );
     });
     test('should detect :not without truthy', () {
-      var cssSelector =
-          CssSelector.parse(':not([attrname=attrvalue].someclass)')[0];
+      var cssSelector = CssSelector.parse(
+        ':not([attrname=attrvalue].someclass)',
+      )[0];
       expect(cssSelector.element, '*');
       var notSelector = cssSelector.notSelectors[0];
       expect(notSelector.attrs, hasLength(1));
@@ -443,10 +446,9 @@ void main() {
     });
     test('should throw when nested :not', () {
       expect(
-        () =>
-            CssSelector.parse(
-              'sometag:not(:not([attrname=attrvalue].someclass))',
-            ).first,
+        () => CssSelector.parse(
+          'sometag:not(:not([attrname=attrvalue].someclass))',
+        ).first,
         throwsWith('Nesting :not is not allowed in a selector'),
       );
     });
@@ -536,8 +538,9 @@ void main() {
   group('CssSelector.getMatchingElementTemplate', () {
     test('should create an element with a tagName, classes, '
         'and attributes with the correct casing', () {
-      var selector =
-          CssSelector.parse('Blink.neon.hotpink[Sweet][Dismissable=false]')[0];
+      var selector = CssSelector.parse(
+        'Blink.neon.hotpink[Sweet][Dismissable=false]',
+      )[0];
       var template = selector.getMatchingElementTemplate();
       expect(
         template,

@@ -439,11 +439,10 @@ void main() {
     });
     test('should support try/catch', () {
       var bodyStmt = o.variable('body').callFn([]).toStmt();
-      var catchStmt =
-          o.variable('catchFn').callFn([
-            o.CATCH_ERROR_VAR,
-            o.CATCH_STACK_VAR,
-          ]).toStmt();
+      var catchStmt = o.variable('catchFn').callFn([
+        o.CATCH_ERROR_VAR,
+        o.CATCH_STACK_VAR,
+      ]).toStmt();
       expect(
         emitStmt(o.TryCatchStmt([bodyStmt], [catchStmt])),
         [
